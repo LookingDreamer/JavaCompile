@@ -1,0 +1,20 @@
+任务：http://pm.baoxian.in/zentao/task-view-1199.html
+
+测试可以暂停cm服务器针对cos的链接。然后就可以看到了。或者特意改错cos的账号，重启CM，然后上传，看看是否能看到。如果能看到。那么修改正确的cos账号，再重启CM，然后查看之前的图片是否能看到，如果能看到是否已经换成cos的图片路径
+
+修改cos帐号配置文件路径：config\config.properties
+配置cos帐号的key是：
+cos.APP_ID=10004774
+
+1.cm把上传cos的帐号改错，重启cm。cos上传就失败,前端还是可以正常上传，保存的是本地网络硬盘,查看图片地址是服务器的地址，不是cos地址。
+
+2.再把cos帐号改正确，重启cm。
+
+3.重新启动上传cos，接地址：
+http://[IP]:[端口]/cm/mobile/registered/fileUpLoadBase64ByCosRedo?isInterrupt=false
+参数说明
+isInterrupt=false启动重新上传，isInterrupt=true中断重新上传	
+
+4. cos重新上传完成之后，查看之前上传的影像，由cm服务器地址 改为 cos地址。
+
+5. 测试完成。

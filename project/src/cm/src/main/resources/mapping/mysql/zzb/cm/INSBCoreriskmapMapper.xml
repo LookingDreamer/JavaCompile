@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBCoreriskmap -->
+	<select id="INSBCoreriskmap_insert" parameterType="com.zzb.cm.entity.INSBCoreriskmap" resultType="int">
+		insert into INSBCoreriskmap
+		(id,operator,createtime,modifytime,noti,inscomcode,inscomname,riskcode,riskname,riskkindcode,riskkindname,cmcartype,cmriskcode,cmriskname,cmriskkindcode,cmriskkindname) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{inscomcode},#{inscomname},#{riskcode},#{riskname},#{riskkindcode},#{riskkindname},#{cmcartype},#{cmriskcode},#{cmriskname},#{cmriskkindcode},#{cmriskkindname}) 
+	</select>
+	<select id="INSBCoreriskmap_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBCoreriskmap">
+		select * from INSBCoreriskmap
+		<where>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="inscomname != null">
+				and inscomname = #{inscomname}
+			</if>
+			<if test="riskcode != null">
+				and riskcode = #{riskcode}
+			</if>
+			<if test="riskname != null">
+				and riskname = #{riskname}
+			</if>
+			<if test="riskkindcode != null">
+				and riskkindcode = #{riskkindcode}
+			</if>
+			<if test="riskkindname != null">
+				and riskkindname = #{riskkindname}
+			</if>
+			<if test="cmcartype != null">
+				and cmcartype = #{cmcartype}
+			</if>
+			<if test="cmriskcode != null">
+				and cmriskcode = #{cmriskcode}
+			</if>
+			<if test="cmriskname != null">
+				and cmriskname = #{cmriskname}
+			</if>
+			<if test="cmriskkindcode != null">
+				and cmriskkindcode = #{cmriskkindcode}
+			</if>
+			<if test="cmriskkindname != null">
+				and cmriskkindname = #{cmriskkindname}
+			</if>
+		</where>
+	</select>
+	<select id="INSBCoreriskmap_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBCoreriskmap">
+		select * from INSBCoreriskmap
+		<where>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="inscomname != null">
+				and inscomname = #{inscomname}
+			</if>
+			<if test="riskcode != null">
+				and riskcode = #{riskcode}
+			</if>
+			<if test="riskname != null">
+				and riskname = #{riskname}
+			</if>
+			<if test="riskkindcode != null">
+				and riskkindcode = #{riskkindcode}
+			</if>
+			<if test="riskkindname != null">
+				and riskkindname = #{riskkindname}
+			</if>
+			<if test="cmcartype != null">
+				and cmcartype = #{cmcartype}
+			</if>
+			<if test="cmriskcode != null">
+				and cmriskcode = #{cmriskcode}
+			</if>
+			<if test="cmriskname != null">
+				and cmriskname = #{cmriskname}
+			</if>
+			<if test="cmriskkindcode != null">
+				and cmriskkindcode = #{cmriskkindcode}
+			</if>
+			<if test="cmriskkindname != null">
+				and cmriskkindname = #{cmriskkindname}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBCoreriskmap_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBCoreriskmap">
+		select * from INSBCoreriskmap where id = #{id}
+	</select>
+	<select id="INSBCoreriskmap_deleteById" parameterType="String">
+		delete from INSBCoreriskmap where id = #{id}
+	</select>
+	<select id="INSBCoreriskmap_updateById" parameterType="com.zzb.cm.entity.INSBCoreriskmap">
+		update INSBCoreriskmap  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},inscomcode = #{inscomcode},inscomname = #{inscomname},riskcode = #{riskcode},riskname = #{riskname},riskkindcode = #{riskkindcode},riskkindname = #{riskkindname},cmcartype = #{cmcartype},cmriskcode = #{cmriskcode},cmriskname = #{cmriskname},cmriskkindcode = #{cmriskkindcode},cmriskkindname = #{cmriskkindname} where id = #{id}
+	</select>
+	<select id="INSBCoreriskmap_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBCoreriskmap
+		<where>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="inscomname != null">
+				and inscomname = #{inscomname}
+			</if>
+			<if test="riskcode != null">
+				and riskcode = #{riskcode}
+			</if>
+			<if test="riskname != null">
+				and riskname = #{riskname}
+			</if>
+			<if test="riskkindcode != null">
+				and riskkindcode = #{riskkindcode}
+			</if>
+			<if test="riskkindname != null">
+				and riskkindname = #{riskkindname}
+			</if>
+			<if test="cmcartype != null">
+				and cmcartype = #{cmcartype}
+			</if>
+			<if test="cmriskcode != null">
+				and cmriskcode = #{cmriskcode}
+			</if>
+			<if test="cmriskname != null">
+				and cmriskname = #{cmriskname}
+			</if>
+			<if test="cmriskkindcode != null">
+				and cmriskkindcode = #{cmriskkindcode}
+			</if>
+			<if test="cmriskkindname != null">
+				and cmriskkindname = #{cmriskkindname}
+			</if>
+		</where>
+	</select>
+</mapper>

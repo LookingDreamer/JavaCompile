@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBGroupworktime -->
+	<select id="INSBGroupworktime_insert" parameterType="com.zzb.conf.entity.INSBGroupworktime" resultType="int">
+		insert into INSBGroupworktime
+		(id,operator,createtime,modifytime,noti,businessgroupid,startworkdate,endworkdate,startworktime,endworktime) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{businessgroupid},#{startworkdate},#{endworkdate},#{startworktime},#{endworktime}) 
+	</select>
+	<select id="INSBGroupworktime_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBGroupworktime">
+		select * from INSBGroupworktime
+		<where>
+			<if test="businessgroupid != null">
+				and businessgroupid = #{businessgroupid}
+			</if>
+			<if test="startworkdate != null">
+				and startworkdate = #{startworkdate}
+			</if>
+			<if test="endworkdate != null">
+				and endworkdate = #{endworkdate}
+			</if>
+			<if test="startworktime != null">
+				and startworktime = #{startworktime}
+			</if>
+			<if test="endworktime != null">
+				and endworktime = #{endworktime}
+			</if>
+		</where>
+	</select>
+	<select id="INSBGroupworktime_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBGroupworktime">
+		select * from INSBGroupworktime
+		<where>
+			<if test="businessgroupid != null">
+				and businessgroupid = #{businessgroupid}
+			</if>
+			<if test="startworkdate != null">
+				and startworkdate = #{startworkdate}
+			</if>
+			<if test="endworkdate != null">
+				and endworkdate = #{endworkdate}
+			</if>
+			<if test="startworktime != null">
+				and startworktime = #{startworktime}
+			</if>
+			<if test="endworktime != null">
+				and endworktime = #{endworktime}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+
+	<select id="INSBGroupworktime_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBGroupworktime">
+		select * from INSBGroupworktime where id = #{id}
+	</select>
+	<select id="INSBGroupworktime_deleteById" parameterType="String">
+		delete from INSBGroupworktime where id = #{id}
+	</select>
+	<select id="INSBGroupworktime_updateById" parameterType="com.zzb.conf.entity.INSBGroupworktime">
+		update INSBGroupworktime  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},businessgroupid = #{businessgroupid},startworkdate = #{startworkdate},endworkdate = #{endworkdate},startworktime = #{startworktime},endworktime = #{endworktime} where id = #{id}
+	</select>
+	<select id="INSBGroupworktime_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBGroupworktime
+		<where>
+			<if test="businessgroupid != null">
+				and businessgroupid = #{businessgroupid}
+			</if>
+			<if test="startworkdate != null">
+				and startworkdate = #{startworkdate}
+			</if>
+			<if test="endworkdate != null">
+				and endworkdate = #{endworkdate}
+			</if>
+			<if test="startworktime != null">
+				and startworktime = #{startworktime}
+			</if>
+			<if test="endworktime != null">
+				and endworktime = #{endworktime}
+			</if>
+		</where>
+	</select>
+</mapper>

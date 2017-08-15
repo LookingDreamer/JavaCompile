@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSHInsuredhis -->
+	<select id="INSHInsuredhis_insert" parameterType="com.zzb.cm.entity.INSHInsuredhis" resultType="int">
+		insert into INSHInsuredhis
+		(id,operator,createtime,modifytime,noti,taskid,personid,businessproposalformno,businesspolicyno,inscomcode,relation,fairyoredi,nodecode) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{personid},#{businessproposalformno},#{businesspolicyno},#{inscomcode},#{relation},#{fairyoredi},#{nodecode})
+	</select>
+	<select id="INSHInsuredhis_select" parameterType="Map" resultType="com.zzb.cm.entity.INSHInsuredhis">
+		select * from INSHInsuredhis
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="businessproposalformno != null">
+				and businessproposalformno = #{businessproposalformno}
+			</if>
+			<if test="businesspolicyno != null">
+				and businesspolicyno = #{businesspolicyno}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+	</select>
+	<select id="INSHInsuredhis_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSHInsuredhis">
+		select * from INSHInsuredhis where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHInsuredhis_deleteById" parameterType="String">
+		delete from INSHInsuredhis where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHInsuredhis_updateById" parameterType="com.zzb.cm.entity.INSHInsuredhis">
+		update INSHInsuredhis  set operator = #{operator},modifytime = NOW(),noti = #{noti},taskid = #{taskid},personid = #{personid},businessproposalformno = #{businessproposalformno},businesspolicyno = #{businesspolicyno},inscomcode = #{inscomcode},relation = #{relation},fairyoredi = #{fairyoredi},nodecode = #{nodecode} where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHInsuredhis_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSHInsuredhis
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="businessproposalformno != null">
+				and businessproposalformno = #{businessproposalformno}
+			</if>
+			<if test="businesspolicyno != null">
+				and businesspolicyno = #{businesspolicyno}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+	</select>
+	<select id="INSHInsuredhis_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSHInsuredhis">
+		select * from INSHInsuredhis
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="businessproposalformno != null">
+				and businessproposalformno = #{businessproposalformno}
+			</if>
+			<if test="businesspolicyno != null">
+				and businesspolicyno = #{businesspolicyno}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+</mapper>

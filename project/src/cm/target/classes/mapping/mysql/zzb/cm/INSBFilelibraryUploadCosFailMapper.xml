@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+
+	<!-- INSBFilelibraryUploadCosFail -->
+	<select id="INSBFilelibraryUploadCosFail_insert" parameterType="com.zzb.cm.entity.INSBFilelibraryUploadCosFail" resultType="int">
+		insert into INSBFilelibraryUploadCosFail
+		(id,operator,createtime,modifytime,noti,imagetype,filelibraryid,filephysicalpath)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{imagetype},#{filelibraryid},#{filephysicalpath})
+	</select>
+	<select id="INSBFilelibraryUploadCosFail_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBFilelibraryUploadCosFail">
+		select * from INSBFilelibraryUploadCosFail
+		<where>
+			<if test="imagetype != null">
+				and imagetype = #{imagetype}
+			</if>
+			<if test="filelibraryid != null">
+				and filelibraryid = #{filelibraryid}
+			</if>
+			<if test="filephysicalpath != null">
+				and filephysicalpath = #{filephysicalpath}
+			</if>
+		</where>
+		order by createtime desc
+	</select>
+	<select id="INSBFilelibraryUploadCosFail_oneTimeReUploadCos" parameterType="Map" resultType="com.zzb.cm.entity.INSBFilelibraryUploadCosFail">
+		SELECT * FROM INSBFilelibraryUploadCosFail
+		<!-- WHERE DATE(createtime) >= DATE_SUB(CURDATE(), INTERVAL 2 DAY) -->
+		ORDER BY createtime DESC
+		LIMIT 100
+	</select>
+	<select id="INSBFilelibraryUploadCosFail_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBFilelibraryUploadCosFail">
+		select * from INSBFilelibraryUploadCosFail
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="imagetype != null">
+				and imagetype = #{imagetype}
+			</if>
+			<if test="filelibraryid != null">
+				and filelibraryid = #{filelibraryid}
+			</if>
+			<if test="filephysicalpath != null">
+				and filephysicalpath = #{filephysicalpath}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBFilelibraryUploadCosFail_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBFilelibraryUploadCosFail">
+		select * from INSBFilelibraryUploadCosFail where id = #{id}
+	</select>
+	<select id="INSBFilelibraryUploadCosFail_deleteById" parameterType="String">
+		delete from INSBFilelibraryUploadCosFail where id = #{id}
+	</select>
+	<select id="INSBFilelibraryUploadCosFail_deleteInIds" parameterType="List" resultType="Long">
+		delete from INSBFilelibraryUploadCosFail
+		<where>
+			id IN
+			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</select>
+</mapper>

@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSHPolicyitem -->
+	<select id="INSHPolicyitem_insert" parameterType="com.zzb.cm.entity.INSHPolicyitem" resultType="int">
+		insert into INSHPolicyitem
+		(id,operator,createtime,modifytime,noti,taskid,orderid,applicantid,applicantname,insuredid,insuredname,carownerid,carownername,carinfoid,standardfullname,proposalformno,policyno,premium,insureddate,startdate,enddate,totalepremium,agentnum,agentname,team,closedstatus,policystatus,risktype,paynum,checkcode,discountCharge,discountRate,amount,inscomcode,fairyoredi,nodecode) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{orderid},#{applicantid},#{applicantname},#{insuredid},#{insuredname},#{carownerid},#{carownername},#{carinfoid},#{standardfullname},#{proposalformno},#{policyno},#{premium},#{insureddate},#{startdate},#{enddate},#{totalepremium},#{agentnum},#{agentname},#{team},#{closedstatus},#{policystatus},#{risktype},#{paynum},#{checkcode},#{discountCharge},#{discountRate},#{amount},#{inscomcode},#{fairyoredi},#{nodecode})
+	</select>
+	<select id="INSHPolicyitem_select" parameterType="Map" resultType="com.zzb.cm.entity.INSHPolicyitem">
+		select * from INSHPolicyitem
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="orderid != null">
+				and orderid = #{orderid}
+			</if>
+			<if test="applicantid != null">
+				and applicantid = #{applicantid}
+			</if>
+			<if test="applicantname != null">
+				and applicantname = #{applicantname}
+			</if>
+			<if test="insuredid != null">
+				and insuredid = #{insuredid}
+			</if>
+			<if test="insuredname != null">
+				and insuredname = #{insuredname}
+			</if>
+			<if test="carownerid != null">
+				and carownerid = #{carownerid}
+			</if>
+			<if test="carownername != null">
+				and carownername = #{carownername}
+			</if>
+			<if test="carinfoid != null">
+				and carinfoid = #{carinfoid}
+			</if>
+			<if test="standardfullname != null">
+				and standardfullname = #{standardfullname}
+			</if>
+			<if test="proposalformno != null">
+				and proposalformno = #{proposalformno}
+			</if>
+			<if test="policyno != null">
+				and policyno = #{policyno}
+			</if>
+			<if test="premium != null">
+				and premium = #{premium}
+			</if>
+			<if test="insureddate != null">
+				and insureddate = #{insureddate}
+			</if>
+			<if test="startdate != null">
+				and startdate = #{startdate}
+			</if>
+			<if test="enddate != null">
+				and enddate = #{enddate}
+			</if>
+			<if test="totalepremium != null">
+				and totalepremium = #{totalepremium}
+			</if>
+			<if test="agentnum != null">
+				and agentnum = #{agentnum}
+			</if>
+			<if test="agentname != null">
+				and agentname = #{agentname}
+			</if>
+			<if test="team != null">
+				and team = #{team}
+			</if>
+			<if test="closedstatus != null">
+				and closedstatus = #{closedstatus}
+			</if>
+			<if test="policystatus != null">
+				and policystatus = #{policystatus}
+			</if>
+			<if test="risktype != null">
+				and risktype = #{risktype}
+			</if>
+			<if test="paynum != null">
+				and paynum = #{paynum}
+			</if>
+			<if test="checkcode != null">
+				and checkcode = #{checkcode}
+			</if>
+			<if test="discountCharge != null">
+				and discountCharge = #{discountCharge}
+			</if>
+			<if test="discountRate != null">
+				and discountRate = #{discountRate}
+			</if>
+			<if test="amount != null">
+				and amount = #{amount}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+	</select>
+	<select id="INSHPolicyitem_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSHPolicyitem">
+		select * from INSHPolicyitem where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHPolicyitem_deleteById" parameterType="String">
+		delete from INSHPolicyitem where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHPolicyitem_updateById" parameterType="com.zzb.cm.entity.INSHPolicyitem">
+		update INSHPolicyitem  set operator = #{operator},modifytime = NOW(),noti = #{noti},taskid = #{taskid},orderid = #{orderid},applicantid = #{applicantid},applicantname = #{applicantname},insuredid = #{insuredid},insuredname = #{insuredname},carownerid = #{carownerid},carownername = #{carownername},carinfoid = #{carinfoid},standardfullname = #{standardfullname},proposalformno = #{proposalformno},policyno = #{policyno},premium = #{premium},insureddate = #{insureddate},startdate = #{startdate},enddate = #{enddate},totalepremium = #{totalepremium},agentnum = #{agentnum},agentname = #{agentname},team = #{team},closedstatus = #{closedstatus},policystatus = #{policystatus},risktype = #{risktype},paynum = #{paynum},checkcode = #{checkcode},discountCharge = #{discountCharge},discountRate = #{discountRate},amount = #{amount},inscomcode = #{inscomcode},fairyoredi = #{fairyoredi},nodecode = #{nodecode} where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHPolicyitem_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSHPolicyitem
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="orderid != null">
+				and orderid = #{orderid}
+			</if>
+			<if test="applicantid != null">
+				and applicantid = #{applicantid}
+			</if>
+			<if test="applicantname != null">
+				and applicantname = #{applicantname}
+			</if>
+			<if test="insuredid != null">
+				and insuredid = #{insuredid}
+			</if>
+			<if test="insuredname != null">
+				and insuredname = #{insuredname}
+			</if>
+			<if test="carownerid != null">
+				and carownerid = #{carownerid}
+			</if>
+			<if test="carownername != null">
+				and carownername = #{carownername}
+			</if>
+			<if test="carinfoid != null">
+				and carinfoid = #{carinfoid}
+			</if>
+			<if test="standardfullname != null">
+				and standardfullname = #{standardfullname}
+			</if>
+			<if test="proposalformno != null">
+				and proposalformno = #{proposalformno}
+			</if>
+			<if test="policyno != null">
+				and policyno = #{policyno}
+			</if>
+			<if test="premium != null">
+				and premium = #{premium}
+			</if>
+			<if test="insureddate != null">
+				and insureddate = #{insureddate}
+			</if>
+			<if test="startdate != null">
+				and startdate = #{startdate}
+			</if>
+			<if test="enddate != null">
+				and enddate = #{enddate}
+			</if>
+			<if test="totalepremium != null">
+				and totalepremium = #{totalepremium}
+			</if>
+			<if test="agentnum != null">
+				and agentnum = #{agentnum}
+			</if>
+			<if test="agentname != null">
+				and agentname = #{agentname}
+			</if>
+			<if test="team != null">
+				and team = #{team}
+			</if>
+			<if test="closedstatus != null">
+				and closedstatus = #{closedstatus}
+			</if>
+			<if test="policystatus != null">
+				and policystatus = #{policystatus}
+			</if>
+			<if test="risktype != null">
+				and risktype = #{risktype}
+			</if>
+			<if test="paynum != null">
+				and paynum = #{paynum}
+			</if>
+			<if test="checkcode != null">
+				and checkcode = #{checkcode}
+			</if>
+			<if test="discountCharge != null">
+				and discountCharge = #{discountCharge}
+			</if>
+			<if test="discountRate != null">
+				and discountRate = #{discountRate}
+			</if>
+			<if test="amount != null">
+				and amount = #{amount}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+	</select>
+	<select id="INSHPolicyitem_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSHPolicyitem">
+		select * from INSHPolicyitem
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="orderid != null">
+				and orderid = #{orderid}
+			</if>
+			<if test="applicantid != null">
+				and applicantid = #{applicantid}
+			</if>
+			<if test="applicantname != null">
+				and applicantname = #{applicantname}
+			</if>
+			<if test="insuredid != null">
+				and insuredid = #{insuredid}
+			</if>
+			<if test="insuredname != null">
+				and insuredname = #{insuredname}
+			</if>
+			<if test="carownerid != null">
+				and carownerid = #{carownerid}
+			</if>
+			<if test="carownername != null">
+				and carownername = #{carownername}
+			</if>
+			<if test="carinfoid != null">
+				and carinfoid = #{carinfoid}
+			</if>
+			<if test="standardfullname != null">
+				and standardfullname = #{standardfullname}
+			</if>
+			<if test="proposalformno != null">
+				and proposalformno = #{proposalformno}
+			</if>
+			<if test="policyno != null">
+				and policyno = #{policyno}
+			</if>
+			<if test="premium != null">
+				and premium = #{premium}
+			</if>
+			<if test="insureddate != null">
+				and insureddate = #{insureddate}
+			</if>
+			<if test="startdate != null">
+				and startdate = #{startdate}
+			</if>
+			<if test="enddate != null">
+				and enddate = #{enddate}
+			</if>
+			<if test="totalepremium != null">
+				and totalepremium = #{totalepremium}
+			</if>
+			<if test="agentnum != null">
+				and agentnum = #{agentnum}
+			</if>
+			<if test="agentname != null">
+				and agentname = #{agentname}
+			</if>
+			<if test="team != null">
+				and team = #{team}
+			</if>
+			<if test="closedstatus != null">
+				and closedstatus = #{closedstatus}
+			</if>
+			<if test="policystatus != null">
+				and policystatus = #{policystatus}
+			</if>
+			<if test="risktype != null">
+				and risktype = #{risktype}
+			</if>
+			<if test="paynum != null">
+				and paynum = #{paynum}
+			</if>
+			<if test="checkcode != null">
+				and checkcode = #{checkcode}
+			</if>
+			<if test="discountCharge != null">
+				and discountCharge = #{discountCharge}
+			</if>
+			<if test="discountRate != null">
+				and discountRate = #{discountRate}
+			</if>
+			<if test="amount != null">
+				and amount = #{amount}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSHPolicyitem_delete" parameterType="Map" resultType="Long">
+		delete from INSHPolicyitem
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="orderid != null">
+				and orderid = #{orderid}
+			</if>
+			<if test="applicantid != null">
+				and applicantid = #{applicantid}
+			</if>
+			<if test="applicantname != null">
+				and applicantname = #{applicantname}
+			</if>
+			<if test="insuredid != null">
+				and insuredid = #{insuredid}
+			</if>
+			<if test="insuredname != null">
+				and insuredname = #{insuredname}
+			</if>
+			<if test="carownerid != null">
+				and carownerid = #{carownerid}
+			</if>
+			<if test="carownername != null">
+				and carownername = #{carownername}
+			</if>
+			<if test="carinfoid != null">
+				and carinfoid = #{carinfoid}
+			</if>
+			<if test="standardfullname != null">
+				and standardfullname = #{standardfullname}
+			</if>
+			<if test="proposalformno != null">
+				and proposalformno = #{proposalformno}
+			</if>
+			<if test="policyno != null">
+				and policyno = #{policyno}
+			</if>
+			<if test="premium != null">
+				and premium = #{premium}
+			</if>
+			<if test="insureddate != null">
+				and insureddate = #{insureddate}
+			</if>
+			<if test="startdate != null">
+				and startdate = #{startdate}
+			</if>
+			<if test="enddate != null">
+				and enddate = #{enddate}
+			</if>
+			<if test="totalepremium != null">
+				and totalepremium = #{totalepremium}
+			</if>
+			<if test="agentnum != null">
+				and agentnum = #{agentnum}
+			</if>
+			<if test="agentname != null">
+				and agentname = #{agentname}
+			</if>
+			<if test="team != null">
+				and team = #{team}
+			</if>
+			<if test="closedstatus != null">
+				and closedstatus = #{closedstatus}
+			</if>
+			<if test="policystatus != null">
+				and policystatus = #{policystatus}
+			</if>
+			<if test="risktype != null">
+				and risktype = #{risktype}
+			</if>
+			<if test="paynum != null">
+				and paynum = #{paynum}
+			</if>
+			<if test="checkcode != null">
+				and checkcode = #{checkcode}
+			</if>
+			<if test="discountCharge != null">
+				and discountCharge = #{discountCharge}
+			</if>
+			<if test="discountRate != null">
+				and discountRate = #{discountRate}
+			</if>
+			<if test="amount != null">
+				and amount = #{amount}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+	</select>
+</mapper>

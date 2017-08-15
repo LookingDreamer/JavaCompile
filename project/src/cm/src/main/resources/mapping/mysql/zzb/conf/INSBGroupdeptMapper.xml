@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBGroupdept -->
+	<select id="INSBGroupdept_insert" parameterType="com.zzb.conf.entity.INSBGroupdept" resultType="int">
+		insert into INSBGroupdept
+		(id,operator,createtime,modifytime,noti,groupid,deptid) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{groupid},#{deptid}) 
+	</select>
+	<select id="INSBGroupdept_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBGroupdept">
+		select * from INSBGroupdept
+		<where>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBGroupdept_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBGroupdept">
+		select * from INSBGroupdept
+		<where>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBGroupdept_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBGroupdept">
+		select * from INSBGroupdept where id = #{id}
+	</select>
+	<select id="INSBGroupdept_selectByGroupId" parameterType="String" resultType="com.zzb.conf.entity.INSBGroupdept">
+		select * from INSBGroupdept where groupid = #{groupId}
+	</select>
+	
+	
+	<select id="INSBGroupdept_selectDeptIdsByGroupId" parameterType="String" resultType="String">
+		select deptid from INSBGroupdept where groupid = #{value}
+	</select>
+	
+	
+	<select id="INSBGroupdept_selectGroupIdIdByDeptId4Task" parameterType="String" resultType="String">
+		select distinct(groupid) from INSBGroupdept where deptid = #{deptid}
+	</select>
+
+	<select id="INSBGroupdept_selectNoDeptGroupIdId" resultType="String">
+		select id FROM  insbbusinessmanagegroup g WHERE NOT EXISTS(
+			select 1 FROM INSBGroupdept gd WHERE g.`id` = gd.`groupid`
+		)
+	</select>
+
+	<select id="INSBGroupdept_deleteById" parameterType="String">
+		delete from INSBGroupdept where id = #{id}
+	</select>
+	<select id="INSBGroupdept_selectByParam" parameterType="map" resultType="com.zzb.conf.entity.INSBGroupdept">
+		SELECT d.comname as deptid, c.id FROM  INSBGroupdept c,inscdept d
+  		where c.groupid = #{groupid}  AND d.id=c.deptid order by c.createtime desc limit #{offset},#{limit}
+	</select>
+	
+	<select id="INSBGroupdept_deleteByGroupId" parameterType="String">
+		delete from INSBGroupdept where groupid = #{groupId} 
+	</select>
+	
+	<select id="INSBGroupdept_deleteByDeptId" parameterType="String">
+		delete from INSBGroupdept where deptid = #{deptId}
+	</select>
+	<select id="INSBGroupdept_updateById" parameterType="com.zzb.conf.entity.INSBGroupdept">
+		update INSBGroupdept  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},groupid = #{groupid},deptid = #{deptid} where id = #{id}
+	</select>
+	<select id="INSBGroupdept_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBGroupdept
+		<where>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+		</where>
+	</select>
+	
+	<select id="INSBGroupdept_selectAllGroupProvider" parameterType="String" resultType="com.zzb.conf.entity.INSBProvider">
+		select *
+		from insbprovider prv
+		where char_length(prvcode) = 4
+			AND prv.prvcode not in  (SELECT
+	          s.prvcode 
+	          FROM insbprovider AS s
+	          LEFT JOIN insbgroupprovide AS g ON s.id = g.provideid
+	          WHERE
+	           g.groupid = #{groupId})
+	    GROUP BY
+			prv.prvcode
+		ORDER BY
+			prv.prvcode
+	</select>
+	
+	<select id="INSBGroupdept_selectGroupProviderByDeptId" parameterType="Map" resultType="com.zzb.conf.entity.INSBProvider">
+		SELECT *
+		FROM insbprovider prv
+		INNER JOIN insbagreement agree 
+		WHERE			
+			agree.deptid = #{deptId}
+			AND agree.agreementstatus = 1
+			AND prv.prvcode = LEFT (agree.providerid, 4)
+			AND prv.prvcode not IN (SELECT
+	          s.prvcode 
+	          FROM insbprovider AS s
+	          LEFT JOIN insbgroupprovide AS g ON s.id = g.provideid
+	          WHERE
+	           g.groupid = #{groupId})
+		GROUP BY
+			prv.prvcode
+		ORDER BY
+			prv.prvcode
+	</select>
+</mapper>

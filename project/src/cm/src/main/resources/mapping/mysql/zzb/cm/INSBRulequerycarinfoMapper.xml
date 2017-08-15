@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBRulequerycarinfo -->
+	<select id="INSBRulequerycarinfo_insert" parameterType="com.zzb.cm.entity.INSBRulequerycarinfo" resultType="int">
+		insert into INSBRulequerycarinfo
+		(id,operator,createtime,modifytime,noti,taskid,licenseno,engineno,vinno,enrolldate,carbrandname,price,taxprice,analogyprice,analogytaxprice,carmodeldate,seatcnt,modelload,fullload,displacement,trademodelcode,selfinsurerate,selfchannelrate,ncdrate,vehicletype,basicriskpremium,insureco,modelcode,supplierid) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{licenseno},#{engineno},#{vinno},#{enrolldate},#{carbrandname},#{price},#{taxprice},#{analogyprice},#{analogytaxprice},#{carmodeldate},#{seatcnt},#{modelload},#{fullload},#{displacement},#{trademodelcode},#{selfinsurerate},#{selfchannelrate},#{ncdrate},#{vehicletype},#{basicriskpremium},#{insureco},#{modelcode},#{supplierid}) 
+	</select>
+	<select id="INSBRulequerycarinfo_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBRulequerycarinfo">
+		select * from INSBRulequerycarinfo
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="licenseno != null">
+				and licenseno = #{licenseno}
+			</if>
+			<if test="engineno != null">
+				and engineno = #{engineno}
+			</if>
+			<if test="vinno != null">
+				and vinno = #{vinno}
+			</if>
+			<if test="enrolldate != null">
+				and enrolldate = #{enrolldate}
+			</if>
+			<if test="carbrandname != null">
+				and carbrandname = #{carbrandname}
+			</if>
+			<if test="price != null">
+				and price = #{price}
+			</if>
+			<if test="taxprice != null">
+				and taxprice = #{taxprice}
+			</if>
+			<if test="analogyprice != null">
+				and analogyprice = #{analogyprice}
+			</if>
+			<if test="analogytaxprice != null">
+				and analogytaxprice = #{analogytaxprice}
+			</if>
+			<if test="carmodeldate != null">
+				and carmodeldate = #{carmodeldate}
+			</if>
+			<if test="seatcnt != null">
+				and seatcnt = #{seatcnt}
+			</if>
+			<if test="modelload != null">
+				and modelload = #{modelload}
+			</if>
+			<if test="fullload != null">
+				and fullload = #{fullload}
+			</if>
+			<if test="displacement != null">
+				and displacement = #{displacement}
+			</if>
+			<if test="trademodelcode != null">
+				and trademodelcode = #{trademodelcode}
+			</if>
+			<if test="selfinsurerate != null">
+				and selfinsurerate = #{selfinsurerate}
+			</if>
+			<if test="selfchannelrate != null">
+				and selfchannelrate = #{selfchannelrate}
+			</if>
+			<if test="ncdrate != null">
+				and ncdrate = #{ncdrate}
+			</if>
+			<if test="vehicletype != null">
+				and vehicletype = #{vehicletype}
+			</if>
+			<if test="basicriskpremium != null">
+				and basicriskpremium = #{basicriskpremium}
+			</if>
+			<if test="insureco != null">
+				and insureco = #{insureco}
+			</if>
+			<if test="modelcode != null">
+				and modelcode = #{modelcode}
+			</if>
+			<if test="supplierid != null">
+				and supplierid = #{supplierid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBRulequerycarinfo_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBRulequerycarinfo">
+		select * from INSBRulequerycarinfo where id = #{id}
+	</select>
+	<select id="INSBRulequerycarinfo_deleteById" parameterType="String">
+		delete from INSBRulequerycarinfo where id = #{id}
+	</select>
+	<select id="INSBRulequerycarinfo_updateById" parameterType="com.zzb.cm.entity.INSBRulequerycarinfo">
+		update INSBRulequerycarinfo  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},taskid = #{taskid}
+		<if test="licenseno != null and licenseno != ''">
+		,licenseno = #{licenseno}
+		</if>
+		<if test="engineno != null and engineno != ''">
+		,engineno = #{engineno}
+		</if>
+		<if test="vinno != null and vinno != ''">
+		,vinno = #{vinno}
+		</if>
+		<if test="enrolldate != null and enrolldate != ''">
+		,enrolldate = #{enrolldate}
+		</if>
+		<if test="carbrandname != null and carbrandname != ''">
+		,carbrandname = #{carbrandname}
+		</if>
+		<if test="price != null and price != ''">
+		,price = #{price}
+		</if>
+		<if test="taxprice != null and taxprice != ''">
+		,taxprice = #{taxprice}
+		</if>
+		<if test="analogyprice != null and analogyprice != ''">
+		,analogyprice = #{analogyprice}
+		</if>
+		<if test="analogytaxprice != null and analogytaxprice != ''">
+		,analogytaxprice = #{analogytaxprice}
+		</if>
+		<if test="carmodeldate != null and carmodeldate != ''">
+		,carmodeldate = #{carmodeldate}
+		</if>
+		<if test="seatcnt != null and seatcnt != ''">
+		,seatcnt = #{seatcnt}
+		</if>
+		<if test="modelload != null and modelload != ''">
+		,modelload = #{modelload}
+		</if>
+		<if test="fullload != null and fullload != ''">
+		,fullload = #{fullload}
+		</if>
+		<if test="displacement != null and displacement != ''">
+		,displacement = #{displacement}
+		</if>
+		<if test="trademodelcode != null and trademodelcode != ''">
+		,trademodelcode = #{trademodelcode}
+		</if>
+		<if test="selfinsurerate != null and selfinsurerate != ''">
+		,selfinsurerate = #{selfinsurerate}
+		</if>
+		<if test="selfchannelrate != null and selfchannelrate != ''">
+		,selfchannelrate = #{selfchannelrate}
+		</if>
+		<if test="ncdrate != null and ncdrate != ''">
+		,ncdrate = #{ncdrate}
+		</if>
+		<if test="vehicletype != null and vehicletype != ''">
+		,vehicletype = #{vehicletype}
+		</if>
+		<if test="basicriskpremium != null and basicriskpremium != ''">
+		,basicriskpremium = #{basicriskpremium}
+		</if>
+		<if test="insureco != null and insureco != ''">
+		,insureco = #{insureco}
+		</if>
+		<if test="modelcode != null and modelcode != ''">
+		,modelcode = #{modelcode} 
+		</if>
+		<if test="supplierid != null and supplierid != ''">
+		,supplierid = #{supplierid}
+		</if>
+		 where id = #{id}
+	</select>
+	<select id="INSBRulequerycarinfo_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBRulequerycarinfo
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="licenseno != null">
+				and licenseno = #{licenseno}
+			</if>
+			<if test="engineno != null">
+				and engineno = #{engineno}
+			</if>
+			<if test="vinno != null">
+				and vinno = #{vinno}
+			</if>
+			<if test="enrolldate != null">
+				and enrolldate = #{enrolldate}
+			</if>
+			<if test="carbrandname != null">
+				and carbrandname = #{carbrandname}
+			</if>
+			<if test="price != null">
+				and price = #{price}
+			</if>
+			<if test="taxprice != null">
+				and taxprice = #{taxprice}
+			</if>
+			<if test="analogyprice != null">
+				and analogyprice = #{analogyprice}
+			</if>
+			<if test="analogytaxprice != null">
+				and analogytaxprice = #{analogytaxprice}
+			</if>
+			<if test="carmodeldate != null">
+				and carmodeldate = #{carmodeldate}
+			</if>
+			<if test="seatcnt != null">
+				and seatcnt = #{seatcnt}
+			</if>
+			<if test="modelload != null">
+				and modelload = #{modelload}
+			</if>
+			<if test="fullload != null">
+				and fullload = #{fullload}
+			</if>
+			<if test="displacement != null">
+				and displacement = #{displacement}
+			</if>
+			<if test="trademodelcode != null">
+				and trademodelcode = #{trademodelcode}
+			</if>
+			<if test="selfinsurerate != null">
+				and selfinsurerate = #{selfinsurerate}
+			</if>
+			<if test="selfchannelrate != null">
+				and selfchannelrate = #{selfchannelrate}
+			</if>
+			<if test="ncdrate != null">
+				and ncdrate = #{ncdrate}
+			</if>
+			<if test="vehicletype != null">
+				and vehicletype = #{vehicletype}
+			</if>
+			<if test="basicriskpremium != null">
+				and basicriskpremium = #{basicriskpremium}
+			</if>
+			<if test="insureco != null">
+				and insureco = #{insureco}
+			</if>
+			<if test="modelcode != null">
+				and modelcode = #{modelcode}
+			</if>
+			<if test="supplierid != null">
+				and supplierid = #{supplierid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBRulequerycarinfo_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBRulequerycarinfo">
+		select * from INSBRulequerycarinfo
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="licenseno != null">
+				and licenseno = #{licenseno}
+			</if>
+			<if test="engineno != null">
+				and engineno = #{engineno}
+			</if>
+			<if test="vinno != null">
+				and vinno = #{vinno}
+			</if>
+			<if test="enrolldate != null">
+				and enrolldate = #{enrolldate}
+			</if>
+			<if test="carbrandname != null">
+				and carbrandname = #{carbrandname}
+			</if>
+			<if test="price != null">
+				and price = #{price}
+			</if>
+			<if test="taxprice != null">
+				and taxprice = #{taxprice}
+			</if>
+			<if test="analogyprice != null">
+				and analogyprice = #{analogyprice}
+			</if>
+			<if test="analogytaxprice != null">
+				and analogytaxprice = #{analogytaxprice}
+			</if>
+			<if test="carmodeldate != null">
+				and carmodeldate = #{carmodeldate}
+			</if>
+			<if test="seatcnt != null">
+				and seatcnt = #{seatcnt}
+			</if>
+			<if test="modelload != null">
+				and modelload = #{modelload}
+			</if>
+			<if test="fullload != null">
+				and fullload = #{fullload}
+			</if>
+			<if test="displacement != null">
+				and displacement = #{displacement}
+			</if>
+			<if test="trademodelcode != null">
+				and trademodelcode = #{trademodelcode}
+			</if>
+			<if test="selfinsurerate != null">
+				and selfinsurerate = #{selfinsurerate}
+			</if>
+			<if test="selfchannelrate != null">
+				and selfchannelrate = #{selfchannelrate}
+			</if>
+			<if test="ncdrate != null">
+				and ncdrate = #{ncdrate}
+			</if>
+			<if test="vehicletype != null">
+				and vehicletype = #{vehicletype}
+			</if>
+			<if test="basicriskpremium != null">
+				and basicriskpremium = #{basicriskpremium}
+			</if>
+			<if test="insureco != null">
+				and insureco = #{insureco}
+			</if>
+			<if test="modelcode != null">
+				and modelcode = #{modelcode}
+			</if>
+			<if test="supplierid != null">
+				and supplierid = #{supplierid}
+			</if>
+		</where>
+		 LIMIT 1
+	</select>
+</mapper>

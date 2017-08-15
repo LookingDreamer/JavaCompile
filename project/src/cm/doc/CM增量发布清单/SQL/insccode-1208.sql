@@ -1,0 +1,1 @@
+UPDATE insccode SET codename = '核保查询', prop2 = '核保查询' WHERE  codetype  = 'workflowNodelName' AND codename = '轮询' AND codetype  = 'workflowNodelName';

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBCorecodemap -->
+	<select id="INSBCorecodemap_insert" parameterType="com.zzb.cm.entity.INSBCorecodemap" resultType="int">
+		insert into INSBCorecodemap
+		(id,operator,createtime,modifytime,noti,corecode,corename,cmcode,cmname,type) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{corecode},#{corename},#{cmcode},#{cmname},#{type}) 
+	</select>
+	<select id="INSBCorecodemap_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBCorecodemap">
+		select * from INSBCorecodemap
+		<where>
+			<if test="corecode != null">
+				and corecode = #{corecode}
+			</if>
+			<if test="corename != null">
+				and corename = #{corename}
+			</if>
+			<if test="cmcode != null">
+				and cmcode = #{cmcode}
+			</if>
+			<if test="cmname != null">
+				and cmname = #{cmname}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+		</where>
+	</select>
+	<select id="INSBCorecodemap_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBCorecodemap">
+		select * from INSBCorecodemap
+		<where>
+			<if test="corecode != null">
+				and corecode = #{corecode}
+			</if>
+			<if test="corename != null">
+				and corename = #{corename}
+			</if>
+			<if test="cmcode != null">
+				and cmcode = #{cmcode}
+			</if>
+			<if test="cmname != null">
+				and cmname = #{cmname}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBCorecodemap_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBCorecodemap">
+		select * from INSBCorecodemap where id = #{id}
+	</select>
+	<select id="INSBCorecodemap_deleteById" parameterType="String">
+		delete from INSBCorecodemap where id = #{id}
+	</select>
+	<select id="INSBCorecodemap_updateById" parameterType="com.zzb.cm.entity.INSBCorecodemap">
+		update INSBCorecodemap  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},corecode = #{corecode},corename = #{corename},cmcode = #{cmcode},cmname = #{cmname},type = #{type} where id = #{id}
+	</select>
+	<select id="INSBCorecodemap_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBCorecodemap
+		<where>
+			<if test="corecode != null">
+				and corecode = #{corecode}
+			</if>
+			<if test="corename != null">
+				and corename = #{corename}
+			</if>
+			<if test="cmcode != null">
+				and cmcode = #{cmcode}
+			</if>
+			<if test="cmname != null">
+				and cmname = #{cmname}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+		</where>
+	</select>
+</mapper>

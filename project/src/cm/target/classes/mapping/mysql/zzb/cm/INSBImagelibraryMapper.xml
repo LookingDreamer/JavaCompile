@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBImagelibrary -->
+	<select id="INSBImagelibrary_insert" parameterType="com.zzb.cm.entity.INSBImagelibrary" resultType="int">
+		insert into INSBImagelibrary
+		(id,operator,createtime,modifytime,noti,taskid,agentcode,insuredid,insuredname,filedescribe,fileclassification,filepath) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{agentcode},#{insuredid},#{insuredname},#{filedescribe},#{fileclassification},#{filepath}) 
+	</select>
+	<select id="INSBImagelibrary_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBImagelibrary">
+		select * from INSBImagelibrary
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="agentcode != null">
+				and agentcode = #{agentcode}
+			</if>
+			<if test="insuredid != null">
+				and insuredid = #{insuredid}
+			</if>
+			<if test="insuredname != null">
+				and insuredname = #{insuredname}
+			</if>
+			<if test="filedescribe != null">
+				and filedescribe = #{filedescribe}
+			</if>
+			<if test="fileclassification != null">
+				and fileclassification = #{fileclassification}
+			</if>
+			<if test="filepath != null">
+				and filepath = #{filepath}
+			</if>
+		</where>
+	</select>
+	<select id="INSBImagelibrary_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBImagelibrary">
+		select * from INSBImagelibrary
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="agentcode != null">
+				and agentcode = #{agentcode}
+			</if>
+			<if test="insuredid != null">
+				and insuredid = #{insuredid}
+			</if>
+			<if test="insuredname != null">
+				and insuredname = #{insuredname}
+			</if>
+			<if test="filedescribe != null">
+				and filedescribe = #{filedescribe}
+			</if>
+			<if test="fileclassification != null">
+				and fileclassification = #{fileclassification}
+			</if>
+			<if test="filepath != null">
+				and filepath = #{filepath}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBImagelibrary_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBImagelibrary">
+		select * from INSBImagelibrary where id = #{id}
+	</select>
+	<select id="INSBImagelibrary_deleteById" parameterType="String">
+		delete from INSBImagelibrary where id = #{id}
+	</select>
+	<select id="INSBImagelibrary_updateById" parameterType="com.zzb.cm.entity.INSBImagelibrary">
+		update INSBImagelibrary  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},taskid = #{taskid},agentcode = #{agentcode},insuredid = #{insuredid},insuredname = #{insuredname},filedescribe = #{filedescribe},fileclassification = #{fileclassification},filepath = #{filepath} where id = #{id}
+	</select>
+	<select id="INSBImagelibrary_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBImagelibrary
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="agentcode != null">
+				and agentcode = #{agentcode}
+			</if>
+			<if test="insuredid != null">
+				and insuredid = #{insuredid}
+			</if>
+			<if test="insuredname != null">
+				and insuredname = #{insuredname}
+			</if>
+			<if test="filedescribe != null">
+				and filedescribe = #{filedescribe}
+			</if>
+			<if test="fileclassification != null">
+				and fileclassification = #{fileclassification}
+			</if>
+			<if test="filepath != null">
+				and filepath = #{filepath}
+			</if>
+		</where>
+	</select>
+	<!-- 影像管理查询 -->
+	<select id="INSBImagelibrary_selectImageListPaging" parameterType="Map" resultType="Map">
+		select
+			a.id,
+			'车牌' carlicenseno,
+			a.insuredname,
+			a.filepath,
+			DATE_FORMAT(a.createtime,'%Y-%m-%d %H:%i:%s') createtime
+		from
+			insbimagelibrary a
+		<where>
+			<if test="agentcode != null"> 
+			 	and a.agentcode = #{agentcode}
+			 </if>
+			 <!-- <if test="carlicenseno != null"> 
+			 	and a.carlicenseno like CONCAT('%', #{carlicenseno},'%')
+			 </if> -->
+			 <if test="insuredname != null"> 
+			 	and a.insuredname like CONCAT('%', #{insuredname},'%')
+			 </if>
+		</where>
+		order by 
+			 a.createtime desc 
+		limit #{offset},#{limit}
+	</select>
+	<select id="INSBImagelibrary_selectPageCount" parameterType="Map" resultType="int">
+		select count(1) from insbimagelibrary a
+		<where>
+			<if test="agentcode != null"> 
+			 	and a.agentcode = #{agentcode}
+			 </if>
+			 <!-- <if test="carlicenseno != null"> 
+			 	and a.carlicenseno like CONCAT('%', #{carlicenseno},'%')
+			 </if> -->
+			 <if test="insuredname != null"> 
+			 	and a.insuredname like CONCAT('%', #{insuredname},'%')
+			 </if>
+		</where>
+		order by 
+			 a.createtime desc 
+	</select>
+	<select id="INSBImagelibrary_selectImageInfoListPaging" parameterType="Map" resultType="Map">
+			SELECT
+				a.parentcode,
+				a.codevalue,
+				a.codename,
+				b.filepath,
+				b.filename,
+				b.filedescribe,
+				b.imagelibraryid,
+				c.agentcode,
+				DATE_FORMAT(c.createtime,'%Y-%m-%d %H:%i:%s') createtime
+				c.insuredid,
+				c.insuredname,
+				c.taskid
+			from
+				insccode a
+			LEFT JOIN insbfilelibrary b on a.codevalue = b.fileclassification
+			LEFT JOIN insbimagelibrary c on 1 = 1
+		<where>
+		and a.codename like '%正面%'
+			<if test="code != null"> 
+			 	and a.parentcode = #{code}
+			 </if>
+			 <if test="imageLibraryId != null"> 
+			 	and c.id  = #{imageLibraryId}
+			 </if>
+			 <if test="agentCode != null"> 
+			 	and c.agentcode = #{agentCode}
+			 </if>
+			 <if test="codename != null"> 
+			 	and c.codename = like CONCAT('%',#{imageTypeName},'%')
+			 </if>
+		</where>
+		ORDER BY
+			a.codeorder asc
+		limit #{offset},#{limit}
+	</select>
+	<select id="INSBImagelibrary_selectDetailPageCount" parameterType="Map" resultType="int">
+		select count(1) from insccode a
+			LEFT JOIN insbfilelibrary b on a.codevalue = b.fileclassification
+			LEFT JOIN insbimagelibrary c on 1 = 1
+		<where>
+		and a.codename like '%正面%'
+			<if test="code != null"> 
+			 	and a.parentcode = #{code}
+			 </if>
+			 <if test="imageLibraryId != null"> 
+			 	and c.id  = #{imageLibraryId}
+			 </if>
+			 <if test="agentCode != null"> 
+			 	and c.agentcode = #{agentCode}
+			 </if>
+			 <if test="codename != null"> 
+			 	and c.codename = like CONCAT('%',#{imageTypeName},'%')
+			 </if>
+		</where>
+	</select>
+</mapper>

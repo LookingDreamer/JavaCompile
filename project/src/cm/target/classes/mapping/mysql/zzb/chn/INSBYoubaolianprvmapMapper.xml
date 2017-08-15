@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.chn.entity">
+	<!-- INSBYoubaolianprvmap --> 
+	<select id="INSBYoubaolianprvmap_select" parameterType="Map" resultType="com.zzb.chn.entity.INSBYoubaolianprvmap">
+		select * from INSBYoubaolianprvmap
+		<where>
+			<if test="prvId != null">
+				and prvId = #{prvId}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

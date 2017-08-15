@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBLastyearinsurestatus -->
+	<select id="INSBLastyearinsurestatus_insert" parameterType="com.zzb.cm.entity.INSBLastyearinsurestatus" resultType="int">
+		insert into INSBLastyearinsurestatus
+		(id,operator,createtime,modifytime,noti,taskid,cifstarttime,cifflag,cifendtime,gzptstarttime,gzptendtime,gzptflag) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{cifstarttime},#{cifflag},#{cifendtime},#{gzptstarttime},#{gzptendtime},#{gzptflag}) 
+	</select>
+	<select id="INSBLastyearinsurestatus_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBLastyearinsurestatus">
+		select * from INSBLastyearinsurestatus
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="cifstarttime != null">
+				and cifstarttime = #{cifstarttime}
+			</if>
+			<if test="cifflag != null">
+				and cifflag = #{cifflag}
+			</if>
+			<if test="cifendtime != null">
+				and cifendtime = #{cifendtime}
+			</if>
+			<if test="gzptstarttime != null">
+				and gzptstarttime = #{gzptstarttime}
+			</if>
+			<if test="gzptendtime != null">
+				and gzptendtime = #{gzptendtime}
+			</if>
+			<if test="gzptflag != null">
+				and gzptflag = #{gzptflag}
+			</if>
+		</where>
+	</select>
+	<select id="INSBLastyearinsurestatus_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBLastyearinsurestatus">
+		select * from INSBLastyearinsurestatus where id = #{id}
+	</select>
+	<select id="INSBLastyearinsurestatus_deleteById" parameterType="String">
+		delete from INSBLastyearinsurestatus where id = #{id}
+	</select>
+	<select id="INSBLastyearinsurestatus_updateById" parameterType="com.zzb.cm.entity.INSBLastyearinsurestatus">
+		update INSBLastyearinsurestatus  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},taskid = #{taskid},cifstarttime = #{cifstarttime},cifflag = #{cifflag},cifendtime = #{cifendtime},gzptstarttime = #{gzptstarttime},gzptendtime = #{gzptendtime},gzptflag = #{gzptflag} where id = #{id}
+	</select>
+	<select id="INSBLastyearinsurestatus_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBLastyearinsurestatus
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="cifstarttime != null">
+				and cifstarttime = #{cifstarttime}
+			</if>
+			<if test="cifflag != null">
+				and cifflag = #{cifflag}
+			</if>
+			<if test="cifendtime != null">
+				and cifendtime = #{cifendtime}
+			</if>
+			<if test="gzptstarttime != null">
+				and gzptstarttime = #{gzptstarttime}
+			</if>
+			<if test="gzptendtime != null">
+				and gzptendtime = #{gzptendtime}
+			</if>
+			<if test="gzptflag != null">
+				and gzptflag = #{gzptflag}
+			</if>
+		</where>
+	</select>
+	<select id="INSBLastyearinsurestatus_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBLastyearinsurestatus">
+		select * from INSBLastyearinsurestatus
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="cifstarttime != null">
+				and cifstarttime = #{cifstarttime}
+			</if>
+			<if test="cifflag != null">
+				and cifflag = #{cifflag}
+			</if>
+			<if test="cifendtime != null">
+				and cifendtime = #{cifendtime}
+			</if>
+			<if test="gzptstarttime != null">
+				and gzptstarttime = #{gzptstarttime}
+			</if>
+			<if test="gzptendtime != null">
+				and gzptendtime = #{gzptendtime}
+			</if>
+			<if test="gzptflag != null">
+				and gzptflag = #{gzptflag}
+			</if>
+		</where>
+		LIMIT 1
+	</select>
+	
+	<select id="INSBLastyearinsurestatus_isHaveOneDate" parameterType="String" resultType="com.zzb.cm.entity.INSBLastyearinsurestatus">
+		select * from INSBLastyearinsurestatus where taskid =  #{_parameter} AND gzptflag IS NULL;
+	</select>
+</mapper>

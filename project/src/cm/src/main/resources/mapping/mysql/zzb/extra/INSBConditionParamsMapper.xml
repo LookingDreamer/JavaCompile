@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.extra.entity">
+    <!-- INSBConditionParams -->
+    <select id="INSBConditionParams_insert" parameterType="com.zzb.extra.entity.INSBConditionParams" resultType="int">
+		insert into INSBConditionParams
+		(id,operator,createtime,modifytime,noti,paramname,paramcnname,paramtag,datatype,isdefault,defaultvalue,sqlname,fieldname,status) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{paramname},#{paramcnname},#{paramtag},#{datatype},#{isdefault},#{defaultvalue},#{sqlname},#{fieldname},#{status}) 
+	</select>
+    <select id="queryConditionParamsList" parameterType="Map" resultType="Map">
+       	select id,paramname,paramcnname,paramtag,datatype,isdefault,CASE WHEN isdefault='1' THEN '是' ELSE '否' END AS
+        isdefaultview,defaultvalue,sqlname,fieldname,status,CASE WHEN status='1' THEN '启用' ELSE '关闭' END AS statusview
+        from INSBConditionParams
+        <where>
+            <if test="paramkey != null and paramkey !=''">
+                and (paramname like CONCAT('%',#{paramkey},'%') or paramcnname like CONCAT('%',#{paramkey},'%'))
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        ORDER BY
+        <if test="sort != null and order != null">
+            ${sort} ${order}
+        </if>
+        <if test="sort == null">
+            CONVERT(paramcnname using gbk)
+        </if>
+        <if test="offset != null and limit != null">
+            LIMIT #{offset},#{limit}
+        </if>
+    </select>
+    <select id="queryConditionParamsByTag" parameterType="String"
+            resultType="com.zzb.extra.entity.INSBConditionParams">
+       	select * from INSBConditionParams where status='1' and FIND_IN_SET(#{tag},paramtag)
+        ORDER BY CONVERT(paramcnname using gbk)
+    </select>
+    <select id="INSBConditionParams_containsParam" parameterType="com.zzb.extra.entity.INSBConditionParams"
+            resultType="int">
+       	select count(1) from INSBConditionParams where id !=#{id} and (paramname = #{paramname} or paramcnname=#{paramcnname})
+    </select>
+    <select id="INSBConditionParams_queryById" parameterType="String"
+            resultType="com.zzb.extra.entity.INSBConditionParams">
+		select * from INSBConditionParams where id = #{id}
+	</select>
+    <select id="INSBConditionParams_queryByName" parameterType="String"
+            resultType="com.zzb.extra.entity.INSBConditionParams">
+       	select * from INSBConditionParams where paramname = #{paramname}
+    </select>
+    <select id="INSBConditionParams_deleteById" parameterType="String" resultType="int">
+		delete from INSBConditionParams where id = #{id}
+	</select>
+    <select id="INSBConditionParams_updateById" parameterType="com.zzb.extra.entity.INSBConditionParams"
+            resultType="int">
+		update INSBConditionParams  set operator = #{operator},modifytime = #{modifytime},paramname = #{paramname},paramcnname = #{paramcnname},paramtag = #{paramtag},datatype = #{datatype},isdefault = #{isdefault},defaultvalue = #{defaultvalue},sqlname = #{sqlname},fieldname = #{fieldname},status = #{status} where id = #{id}
+	</select>
+    <select id="queryConditionParamsListCount" parameterType="Map" resultType="Long">
+       	select count(1) from INSBConditionParams
+        <where>
+            <if test="paramkey != null and paramkey !=''">
+                and (paramname like CONCAT('%',#{paramkey},'%') or paramcnname like CONCAT('%',#{paramkey},'%'))
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="INSBConditionParams_selectOne" parameterType="Map"
+            resultType="com.zzb.extra.entity.INSBConditionParams">
+       	select * from INSBConditionParams
+        <where>
+            <if test="paramname != null">
+                and paramname = #{paramname}
+            </if>
+            <if test="paramcnname != null">
+                and paramcnname = #{paramcnname}
+            </if>
+            <if test="paramtag != null">
+                and paramtag = #{paramtag}
+            </if>
+            <if test="datatype != null">
+                and datatype = #{datatype}
+            </if>
+            <if test="isdefault != null">
+                and isdefault = #{isdefault}
+            </if>
+            <if test="defaultvalue != null">
+                and defaultvalue = #{defaultvalue}
+            </if>
+            <if test="sqlname != null">
+                and sqlname = #{sqlname}
+            </if>
+            <if test="fieldname != null">
+                and fieldname = #{fieldname}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        LIMIT 2
+    </select>
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.extra.entity">
+	<!-- INSBActivityprize -->
+	<select id="INSBActivityprize_insert" parameterType="com.zzb.extra.entity.INSBActivityprize" resultType="int">
+		insert into INSBActivityprize
+		(id,activityid,prizeid) 
+		values
+		(#{id},#{activityid},#{prizeid}) 
+	</select>
+	<select id="INSBActivityprize_select" parameterType="Map" resultType="Map">
+		select po.name from  INSBPrizeinfo po where at.prizeid=po.id ) as prizename  from INSBActivityprize at
+		<where>
+			<if test="activityid != null">
+				and at.activityid = #{activityid}
+			</if>
+			<if test="prizeid != null">
+				and  at.prizeid = #{prizeid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBActivityprize_selectById" parameterType="String" resultType="Map">
+		select * from INSBActivityprize where id = #{id}
+	</select>
+	<select id="INSBActivityprize_deleteById" parameterType="String">
+		delete from INSBActivityprize where id = #{id}
+	</select>
+	<select id="INSBActivityprize_updateById" parameterType="com.zzb.extra.entity.INSBActivityprize">
+		update INSBActivityprize  set activityid = #{activityid},prizeid = #{prizeid} where id = #{id}
+	</select>
+	<select id="INSBActivityprize_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBActivityprize
+		<where>
+			<if test="activityid != null">
+				and activityid = #{activityid}
+			</if>
+			<if test="prizeid != null">
+				and prizeid = #{prizeid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBActivityprize_selectOne" parameterType="Map" resultType="com.zzb.extra.entity.INSBActivityprize">
+		select * from INSBActivityprize
+		<where>
+			<if test="activityid != null">
+				and activityid = #{activityid}
+			</if>
+			<if test="prizeid != null">
+				and prizeid = #{prizeid}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	
+	<select id="selectActivit" parameterType="Map" resultType="Map">
+		select id, name from INSBActivityinfo
+	</select>
+	
+	<select id="selectPrize" parameterType="Map" resultType="Map">
+		select id, name from INSBPrizeinfo
+	</select>
+	
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.warranty.model">
+    <!-- INSEOrder  -->
+
+    <select id="INSEPerson_insert" parameterType="com.zzb.warranty.model.INSEPerson" resultType="int">
+        insert into INSEPerson
+		(id,operator,createtime,modifytime,name,ename,gender,birthday,age,idcardtype,idcardno,cellphone,email,province,city,area,address,zip,educateinfo)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{name},#{ename},#{gender},#{birthday},#{age},#{idcardtype},#{idcardno},#{cellphone},#{email},#{province},#{city},#{area},#{address},#{zip},#{educateinfo})
+	</select>
+
+	<select id="INSEPerson_selectById" parameterType="String" resultType="com.zzb.warranty.model.INSEPerson">
+		SELECT * FROM INSEPerson p where id=#{id}
+	</select>
+
+</mapper>

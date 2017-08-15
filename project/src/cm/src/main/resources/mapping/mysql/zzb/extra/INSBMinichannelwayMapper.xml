@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.extra.entity">
+	<!-- INSBMinichannelway -->
+	<select id="INSBMinichannelway_insert" parameterType="com.zzb.extra.entity.INSBMinichannelway" resultType="int">
+		insert into INSBMinichannelway
+		(id,operator,createtime,modifytime,noti,channelcode,waycode,wayname) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{channelcode},#{waycode},#{wayname}) 
+	</select>
+	<select id="INSBMinichannelway_select" parameterType="Map" resultType="com.zzb.extra.entity.INSBMinichannelway">
+		select * from INSBMinichannelway
+		<where>
+			<if test="channelcode != null and channelcode !=''">
+				and channelcode = #{channelcode}
+			</if>
+			<if test="waycode != null  and waycode !=''">
+				and waycode = #{waycode}
+			</if>
+			<if test="wayname != null and wayname !=''">
+				and wayname = #{wayname}
+			</if>
+		</where>
+	</select>
+	<select id="INSBMinichannelway_selectpage" parameterType="Map" resultType="Map">
+		select id,channelcode,waycode,wayname,date_format(createtime,'%Y-%m-%d %H:%i:%s') AS createtime,operator,noti
+		from INSBMinichannelway
+		<where>
+			<if test="channelcode != null and channelcode !=''">
+				and channelcode = #{channelcode}
+			</if>
+			<if test="waycode != null  and waycode !=''">
+				and waycode = #{waycode}
+			</if>
+			<if test="wayname != null and wayname !=''">
+				and wayname = #{wayname}
+			</if>
+		</where>
+		ORDER BY
+		<if test="sort != null and order != null">
+			${sort} ${order}
+		</if>
+		<if test="sort == null">
+			createtime desc
+		</if>
+		<if test="offset != null and limit != null">
+			LIMIT #{offset},#{limit}
+		</if>
+	</select>
+	<select id="INSBMinichannelway_selectMaxWayCode" parameterType="Map" resultType="Long">
+		select ifnull(max(waycode),0) as maxwaycode from INSBMinichannelway  where channelcode =  #{channelcode}
+	</select>
+	<select id="INSBMinichannelway_selectById" parameterType="String" resultType="com.zzb.extra.entity.INSBMinichannelway">
+		select * from INSBMinichannelway where id = #{id}
+	</select>
+	<select id="INSBMinichannelway_deleteById" parameterType="String">
+		delete from INSBMinichannelway where id = #{id}
+	</select>
+	<select id="INSBMinichannelway_updateById" parameterType="com.zzb.extra.entity.INSBMinichannelway">
+		update INSBMinichannelway  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},channelcode = #{channelcode},waycode = #{waycode},wayname = #{wayname} where id = #{id}
+	</select>
+	<select id="INSBMinichannelway_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBMinichannelway
+		<where>
+			<if test="channelcode != null and channelcode !=''">
+				and channelcode = #{channelcode}
+			</if>
+			<if test="waycode != null  and waycode !=''">
+				and waycode = #{waycode}
+			</if>
+			<if test="wayname != null and wayname !=''">
+				and wayname = #{wayname}
+			</if>
+		</where>
+	</select>
+	<select id="INSBMinichannelway_selectOne" parameterType="Map" resultType="com.zzb.extra.entity.INSBMinichannelway">
+		select * from INSBMinichannelway
+		<where>
+			<if test="channelcode != null">
+				and channelcode = #{channelcode}
+			</if>
+			<if test="waycode != null">
+				and waycode = #{waycode}
+			</if>
+			<if test="wayname != null">
+				and wayname = #{wayname}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+</mapper>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBSupplement --> 
+	<select id="INSBSupplement_insert" parameterType="com.zzb.cm.entity.INSBSupplement" resultType="int">
+		insert into INSBSupplement
+		(id,createtime,keyid,providerid,ruleid,metadataName,metadataValueKey,metadataValue,taskid,optime,opuser,ordernum) 
+		values
+		(#{id},#{createtime},#{keyid},#{providerid},#{ruleid},#{metadataName},#{metadataValueKey},#{metadataValue},#{taskid},#{optime},#{opuser},#{ordernum}) 
+	</select>
+	<select id="INSBSupplement_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBSupplement">
+		select * from INSBSupplement
+		<where>
+			<if test="keyid != null">
+				and keyid = #{keyid}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="providerids != null">
+				and providerid in 
+				<foreach collection="providerids" item="item" index="index" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="ruleid != null">
+				and ruleid = #{ruleid}
+			</if>
+			<if test="metadataName != null">
+				and metadataName = #{metadataName}
+			</if>
+			<if test="metadataValue != null">
+				and metadataValue = #{metadataValue}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="optime != null">
+				and optime = #{optime}
+			</if>
+			<if test="opuser != null">
+				and opuser = #{opuser}
+			</if>
+		</where>
+		 ORDER BY  ordernum
+	</select>
+	<select id="INSBSupplement_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBSupplement">
+		select * from INSBSupplement where id = #{id}
+	</select>
+	<select id="INSBSupplement_deleteById" parameterType="String">
+		delete from INSBSupplement where id = #{id}
+	</select>
+	<select id="INSBSupplement_updateById" parameterType="com.zzb.cm.entity.INSBSupplement">
+		update INSBSupplement  set   keyid = #{keyid},providerid = #{providerid},ruleid = #{ruleid},metadataName = #{metadataName},metadataValueKey = #{metadataValueKey},metadataValue = #{metadataValue},taskid = #{taskid},optime = #{optime},opuser = #{opuser} where id = #{id}
+	</select>
+	<select id="INSBSupplement_updateBykeyidandproviderValue" parameterType="com.zzb.cm.entity.INSBSupplement">
+		update INSBSupplement  set   keyid = #{keyid}, providerid = #{providerid}, metadataValueKey = #{metadataValueKey}, taskid = #{taskid},optime = #{optime},opuser = #{opuser}
+		 where keyid = #{keyid} and providerid = #{providerid} and taskid = #{taskid}
+	</select>
+	<select id="INSBSupplement_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBSupplement
+		<where>
+			<if test="keyid != null">
+				and keyid = #{keyid}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="ruleid != null">
+				and ruleid = #{ruleid}
+			</if>
+			<if test="metadataName != null">
+				and metadataName = #{metadataName}
+			</if>
+			<if test="metadataValue != null">
+				and metadataValue = #{metadataValue}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="optime != null">
+				and optime = #{optime}
+			</if>
+			<if test="opuser != null">
+				and opuser = #{opuser}
+			</if>
+		</where>
+	</select>
+	<select id="INSBSupplement_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBSupplement">
+		select * from INSBSupplement
+		<where>
+			<if test="keyid != null">
+				and keyid = #{keyid}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="ruleid != null">
+				and ruleid = #{ruleid}
+			</if>
+			<if test="metadataName != null">
+				and metadataName = #{metadataName}
+			</if>
+			<if test="metadataValue != null">
+				and metadataValue = #{metadataValue}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="optime != null">
+				and optime = #{optime}
+			</if>
+			<if test="opuser != null">
+				and opuser = #{opuser}
+			</if>
+		</where>
+		LIMIT 1
+	</select>
+</mapper>

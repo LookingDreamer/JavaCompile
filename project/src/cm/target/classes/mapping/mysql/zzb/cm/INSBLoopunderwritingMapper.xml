@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBLoopunderwriting -->
+	<select id="INSBLoopunderwriting_insert" parameterType="com.zzb.cm.entity.INSBLoopunderwriting" resultType="int">
+		insert into INSBLoopunderwriting
+		(id,operator,createtime,modifytime,noti,taskid,inscomcode,taskcreatetime,loopstatus,tasktype) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{inscomcode},#{taskcreatetime},#{loopstatus},#{tasktype}) 
+	</select>
+	<select id="INSBLoopunderwriting_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBLoopunderwriting">
+		select * from INSBLoopunderwriting
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="taskcreatetime != null">
+				and taskcreatetime = #{taskcreatetime}
+			</if>
+			<if test="loopstatus != null">
+				and loopstatus = #{loopstatus}
+			</if>
+			<if test="tasktype != null">
+				and tasktype = #{tasktype}
+			</if>
+		</where>
+		ORDER BY createtime DESC
+	</select>
+	<select id="INSBLoopunderwriting_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBLoopunderwriting">
+		select * from INSBLoopunderwriting where id = #{id}
+	</select>
+	<select id="INSBLoopunderwriting_deleteById" parameterType="String">
+		delete from INSBLoopunderwriting where id = #{id}
+	</select>
+	<select id="INSBLoopunderwriting_updateById" parameterType="com.zzb.cm.entity.INSBLoopunderwriting">
+		update INSBLoopunderwriting  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},taskid = #{taskid},inscomcode = #{inscomcode},taskcreatetime = #{taskcreatetime},loopstatus = #{loopstatus},tasktype = #{tasktype} where id = #{id}
+	</select>
+	<select id="INSBLoopunderwriting_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBLoopunderwriting
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="taskcreatetime != null">
+				and taskcreatetime = #{taskcreatetime}
+			</if>
+			<if test="loopstatus != null">
+				and loopstatus = #{loopstatus}
+			</if>
+			<if test="tasktype != null">
+				and tasktype = #{tasktype}
+			</if>
+		</where>
+	</select>
+	<select id="INSBLoopunderwriting_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBLoopunderwriting">
+		select * from INSBLoopunderwriting
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="taskcreatetime != null">
+				and taskcreatetime = #{taskcreatetime}
+			</if>
+			<if test="loopstatus != null">
+				and loopstatus = #{loopstatus}
+			</if>
+			<if test="tasktype != null">
+				and tasktype = #{tasktype}
+			</if>
+		</where>
+		ORDER BY createtime DESC
+		LIMIT 1
+	</select>
+	<select id="INSBLoopunderwriting_queryList" parameterType="Map" resultType="Map">
+		select a.id as loopid, a.taskid, a.inscomcode, DATE_FORMAT(a.taskcreatetime,'%Y-%m-%d %H:%i:%s') as taskcreatetime, c.platenumber, e.`name` as insuredname,
+		CASE WHEN a.loopstatus='start' THEN '轮询中'
+		WHEN a.loopstatus='fail' THEN '轮询失败'
+		ELSE '成功' END AS loopstatus
+		from INSBLoopunderwriting a
+		LEFT JOIN insbquotetotalinfo b on a.taskid=b.taskid
+		LEFT JOIN insbquoteinfo c on b.id=c.quotetotalinfoid and a.inscomcode=c.inscomcode
+		LEFT JOIN inscdept dept ON dept.comcode=c.deptcode
+		LEFT JOIN insbinsuredhis d on a.taskid=d.taskid and a.inscomcode=d.inscomcode
+		LEFT JOIN insbperson e on d.personid=e.id
+		<where>
+			a.loopstatus &lt;&gt; 'success'
+			and dept.deptinnercode LIKE CONCAT(#{userorganization},'%')
+			<if test="taskid != null and taskid != ''">
+				and a.taskid = #{taskid}
+			</if>
+			<if test="insuredname != null and insuredname != ''">
+				and e.`name` = #{insuredname}
+			</if>
+			<if test="platenumber != null and platenumber != ''">
+				and c.platenumber = #{platenumber}
+			</if>
+			<if test="taskcreatetimeup != null">
+				AND a.taskcreatetime &gt;= DATE_FORMAT(#{taskcreatetimeup}, '%Y-%m-%d %H:%i:%S')
+			</if>
+			<if test="taskcreatetimedown != null">
+				AND a.taskcreatetime &lt;= DATE_FORMAT(#{taskcreatetimedown}, '%Y-%m-%d %H:%i:%S')
+			</if>
+		</where>
+		ORDER BY a.createtime DESC
+	</select>
+	<select id="INSBLoopunderwriting_queryListCount" parameterType="Map" resultType="Long">
+		select count(1)
+		from INSBLoopunderwriting a
+		LEFT JOIN insbquotetotalinfo b on a.taskid=b.taskid
+		LEFT JOIN insbquoteinfo c on b.id=c.quotetotalinfoid and a.inscomcode=c.inscomcode
+		LEFT JOIN inscdept dept ON dept.comcode=c.deptcode
+		LEFT JOIN insbinsuredhis d on a.taskid=d.taskid and a.inscomcode=d.inscomcode
+		LEFT JOIN insbperson e on d.personid=e.id
+		<where>
+			a.loopstatus &lt;&gt; 'success'
+			and dept.deptinnercode LIKE CONCAT(#{userorganization},'%')
+			<if test="taskid != null and taskid != ''">
+				and a.taskid = #{taskid}
+			</if>
+			<if test="insuredname != null and insuredname != ''">
+				and e.`name` = #{insuredname}
+			</if>
+			<if test="platenumber != null and platenumber != ''">
+				and c.platenumber = #{platenumber}
+			</if>
+			<if test="taskcreatetimeup != null">
+				AND a.taskcreatetime &gt;= DATE_FORMAT(#{taskcreatetimeup}, '%Y-%m-%d %H:%i:%S')
+			</if>
+			<if test="taskcreatetimedown != null">
+				AND a.taskcreatetime &lt;= DATE_FORMAT(#{taskcreatetimedown}, '%Y-%m-%d %H:%i:%S')
+			</if>
+		</where>
+	</select>
+</mapper>

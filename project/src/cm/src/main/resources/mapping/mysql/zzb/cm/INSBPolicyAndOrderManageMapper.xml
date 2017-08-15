@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="policyandordermanage">
+	<select id="queryPolicyPagingList" parameterType="Map" resultType="Map">
+		/*slave*/select p.taskid,p.id as id,p.policyno,p.orderid,CASE WHEN p.policystatus = '1' THEN '已生效' ELSE '未生效' END policystatus,ag.jobnum as agentnum, ag.name as agentname,
+		DATE_FORMAT(p.startdate,'%Y-%m-%d') startdate,p.insuredname,cd.shortname AS deptname,
+		c.carlicenseno,ag.phone phonenumber,pr.prvshotname AS  prvshotname,p.risktype as risktype
+		FROM insbpolicyitem p  
+		LEFT JOIN insbcarinfo c ON c.id = p.carinfoid
+		LEFT JOIN insborder o ON p.orderid = o.id
+		LEFT JOIN insbprovider pr ON pr.id = o.prvid 
+		LEFT JOIN insbagent ag ON p.agentnum = ag.jobnum 
+		LEFT JOIN inscdept cd ON cd.id = ag.deptid
+		<where>
+			p.orderid is not NULL AND p.orderid  &lt;&gt; '' AND p.policystatus = '1'
+			<if test="policyid != null and policyid != ''">
+				and p.policyno = #{policyid}
+			</if>
+			<if test="orderid != null and orderid != ''">
+				and p.orderid = #{orderid}
+			</if>
+			<if test="providerid != null and providerid != ''">
+				and o.prvid like CONCAT(#{providerid},'%') 
+			</if>
+			<if test="deptid != null and deptid!='' ">
+				AND ag.`deptid` IN (SELECT id FROM inscdept WHERE  deptinnercode LIKE CONCAT(#{deptid},'%'))
+			</if>
+        	<if test="startdate != null and startdate != ''">
+				and p.startdate &gt;= #{startdate}
+			</if>
+			<if test="enddate != null and enddate != ''">
+				and p.enddate &lt;= #{enddate}
+			</if>
+			<if test="carnum != null and carnum != ''">
+				and c.carlicenseno = #{carnum}
+			</if>
+			<if test="custname != null and custname != ''">
+				and p.applicantname like CONCAT(#{custname},'%')
+			</if>
+			<if test="policystatus != null and policystatus != ''">
+				and p.policystatus = #{policystatus}
+			</if>
+			<if test="agentnum != null and agentnum != ''">
+				and ag.jobnum = #{agentnum}
+			</if>
+			<if test="agentname != null and agentname != ''">
+				and ag.name = #{agentname}
+			</if>
+			<if test="parentcodes != null and parentcodes != ''">
+				and cd.deptinnercode like CONCAT(#{parentcodes},'%')
+			</if>
+		</where>
+		order by 
+			<if test="sort != null and order != null">
+				${sort}  ${order}
+			</if>
+			<if test="sort == null">
+				p.startdate desc
+			</if>
+		limit #{offset},#{limit}
+	</select>
+
+	<select id="queryPolicyPagingListCount" parameterType="Map" resultType="Long">
+		/*slave*/select count(1)
+		FROM insbpolicyitem p
+		LEFT JOIN insbcarinfo c ON c.id = p.carinfoid
+		LEFT JOIN insborder o ON p.orderid = o.id
+		<!--LEFT JOIN insbprovider pr ON pr.id = o.prvid-->
+		LEFT JOIN insbagent ag ON p.agentnum = ag.jobnum 
+		LEFT JOIN inscdept cd ON cd.id = ag.deptid 
+		<where>
+			p.orderid is not NULL AND p.orderid  &lt;&gt; ''  AND p.policystatus = '1'
+			<if test="policyid != null and policyid != ''">
+				and p.policyno = #{policyid}
+			</if>
+			<if test="orderid != null and orderid != ''">
+				and p.orderid = #{orderid}
+			</if>
+			<if test="providerid != null and providerid != ''">
+				and o.prvid like CONCAT(#{providerid},'%') 
+			</if>
+			<if test="deptid != null and deptid!='' ">
+				AND ag.`deptid` IN (SELECT id FROM inscdept WHERE  deptinnercode LIKE CONCAT(#{deptid},'%'))
+			</if>
+        	<if test="startdate != null and startdate != ''">
+				and p.startdate &gt;= #{startdate}
+			</if>
+			<if test="enddate != null and enddate != ''">
+				and p.enddate &lt;= #{enddate}
+			</if>
+			<if test="carnum != null and carnum != ''">
+				and c.carlicenseno = #{carnum}
+			</if>
+			<if test="custname != null and custname != ''">
+				and p.applicantname like CONCAT(#{custname},'%')
+			</if>
+			<if test="policystatus != null and policystatus != ''">
+				and p.policystatus = #{policystatus}
+			</if>
+			<if test="agentnum != null and agentnum != ''">
+				and ag.jobnum = #{agentnum}
+			</if>
+			<if test="agentname != null and agentname != ''">
+				and ag.name = #{agentname}
+			</if>
+			<if test="parentcodes != null and parentcodes != ''">
+				and cd.deptinnercode like CONCAT(#{parentcodes},'%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="queryOrderPagingListCount" parameterType="Map" resultType="long">
+		/*slave*/select count(DISTINCT m.instanceid)
+		FROM insbquotetotalinfo q
+		INNER JOIN insbagent ag ON q.agentnum = ag.jobnum
+		INNER JOIN insbquoteinfo q2 ON q2.quotetotalinfoid = q.id
+		INNER JOIN insbworkflowsub m ON m.maininstanceid = q.taskid AND q2.workflowinstanceid = m.instanceid
+		INNER JOIN inscdept cd ON cd.id = q2.deptcode
+		INNER JOIN insbprovider pr ON pr.id = q2.inscomcode
+		LEFT JOIN insborder o ON o.taskid = q.taskid
+		LEFT JOIN insborderpayment pay ON pay.taskid = q.taskid
+		LEFT JOIN insccode co ON co.codetype = "orderstatus" AND co.parentcode = "orderstatus" AND co.codevalue = o.orderstatus
+		LEFT JOIN insbpaychannel chan ON chan.id = pay.paychannelid
+		LEFT JOIN insbworkflowsubtrack subtrack ON subtrack.taskcode='21' and subtrack.taskstate='Completed' and subtrack.maininstanceid = q.taskid
+		LEFT JOIN insbpolicyitem p ON p.risktype = '0' AND p.taskid = q.taskid AND p.inscomcode = q2.inscomcode
+		LEFT JOIN insbchannel l ON q.`purchaserchannel` = l.channelinnercode AND l.childflag='1' AND (l.deleteflag IS NULL OR l.deleteflag !='0')
+		LEFT JOIN insbagenttask t on t.taskid = q.taskid
+		LEFT JOIN insbagent miniag on t.agentid = miniag.id
+			<if test="pid != null and pid != ''">
+			 AND p.id =  #{pid}
+			</if>
+		LEFT JOIN insbpolicyitem p2 ON p2.risktype = '1' AND p2.taskid = q.taskid AND p2.inscomcode = q2.inscomcode
+			<if test="pid != null and pid != ''">
+				 AND p2.id =  #{pid}
+			</if>
+			<if test="insuredname != null and insuredname != ''">
+				LEFT JOIN insbinsured su ON su.taskid = m.maininstanceid
+				LEFT JOIN insbperson per ON per.id = su.personid
+			</if>
+		<where>
+			o.prvid = q2.inscomcode
+			AND o.taskid = q.taskid
+			<!-- 表分区查询 -->
+			<!--<if test="platforminnercode != null and platforminnercode != ''">
+				AND q2.platforminnercode = #{platforminnercode}
+			</if>-->
+			<if test="startdate != null and startdate != ''">
+				AND m.createtime &gt;= #{startdate}
+			</if>
+			<if test="enddate != null and enddate != ''">
+				AND m.createtime &lt;= #{enddate}
+			</if>
+			<if test="insuredname != null and insuredname != ''">
+				AND per.name LIKE CONCAT(#{insuredname},'%')
+			</if>
+			<if test="carnumorcname != null and carnumorcname != ''">
+				AND q2.platenumber = #{carnumorcname}
+			</if>
+			<if test="carnum != null and carnum != ''">
+				AND q2.platenumber = #{carnum}
+			</if>
+			<if test="paymentTransaction != null and paymentTransaction != ''">
+				AND pay.paymentransaction LIKE CONCAT(#{paymentTransaction},'%')
+			</if>
+			<if test="agentcode != null and agentcode != ''">
+				AND ag.agentcode = #{agentcode}
+			</if>
+			<if test="phone != null and phone != ''">
+				AND ag.phone = #{phone}
+			</if>
+			<if test="providerid != null and providerid != ''">
+				AND q2.inscomcode LIKE CONCAT(#{providerid},'%')
+			</if>
+			<if test="orderstatus != null and orderstatus != ''">
+				AND o.orderstatus = #{orderstatus}
+			</if>
+			<if test="usertype != null and usertype != ''">
+				AND ag.jobnumtype = #{usertype}
+			</if>
+			<if test="parentcodes != null and parentcodes != ''">
+				AND cd.deptinnercode LIKE CONCAT(#{parentcodes},'%')
+			</if>
+			<if test="taskid != null and taskid != ''">
+				AND m.maininstanceid = #{taskid}
+			</if>
+			<if test="channelinnercode !=null and channelinnercode != ''">
+				and q.`purchaserchannel`= #{channelinnercode}
+			</if>
+			<if test="miniagentcode !=null and miniagentcode != ''">
+				and miniag.`jobnum`= #{miniagentcode}
+			</if>
+		</where>
+	</select>
+		
+	<select id="queryOrderPagingList" parameterType="Map" resultType="Map">
+		/*slave*/select DISTINCT q2.inscomcode,subtrack.modifytime payTime, chan.paychannelname payname ,m.instanceid ,
+				(select l.channelname from insbchannel l where channelinnercode=q.purchaserchannel and childflag='1' and (deleteflag is NULL OR deleteflag !='0') ) AS purchaserchannel,
+				cd.parentcodes, ag.phone,o.id AS id,m.maininstanceid AS taskid,DATE_FORMAT(m.createtime,'%Y-%m-%d %H:%i:%s') AS createtime,m.taskcode AS taskcode,
+				o.paymentstatus AS paymentstatus,ag.name AS agentname,ag.jobnum AS agentcode,ag.teamname,q2.deptcode AS deptcode,o.orderstatus AS orderstatus,
+				co.codename AS codename,'' as noti,q2.platenumber AS carlicenseno,cd.shortname AS deptname,pr.prvshotname AS  prvshotname,
+			IFNULL(p.insuredname,p2.insuredname) AS insuredname,
+			IFNULL(p.id,p2.id) AS pid,
+			p.proposalformno AS proposalformno,p.policyno AS policyno,p.discountCharge AS premium, p.risktype AS risktype,
+			p2.proposalformno AS jqproposalformno,p2.policyno AS jqpolicyno,p2.discountCharge AS jqpremium,p2.risktype AS jqrisktype
+		FROM insbquotetotalinfo q
+		INNER JOIN insbagent ag ON q.agentnum = ag.jobnum
+		INNER JOIN insbquoteinfo q2 ON q2.quotetotalinfoid = q.id
+		INNER JOIN insbworkflowsub m ON m.maininstanceid = q.taskid AND q2.workflowinstanceid = m.instanceid
+		INNER JOIN inscdept cd ON cd.id = q2.deptcode
+		INNER JOIN insbprovider pr ON pr.id = q2.inscomcode
+		LEFT JOIN insborder o ON o.taskid = q.taskid
+		LEFT JOIN insborderpayment pay ON pay.taskid = q.taskid
+		LEFT JOIN insccode co ON co.codetype = "orderstatus" AND co.parentcode = "orderstatus" AND co.codevalue = o.orderstatus
+		LEFT JOIN insbpaychannel chan ON chan.id = o.paymentmethod
+		LEFT JOIN insbworkflowsubtrack subtrack ON subtrack.taskcode='21' and subtrack.taskstate='Completed' and subtrack.maininstanceid = q.taskid
+		LEFT JOIN insbpolicyitem p ON p.risktype = '0' AND p.taskid = q.taskid AND p.inscomcode = q2.inscomcode
+		LEFT JOIN insbchannel l ON q.`purchaserchannel` = l.channelinnercode AND l.childflag='1' AND (l.deleteflag IS NULL OR l.deleteflag !='0')
+		LEFT JOIN insbagenttask t on t.taskid = q.taskid
+		LEFT JOIN insbagent miniag on t.agentid = miniag.id
+			<if test="pid != null and pid != ''">
+			 AND p.id =  #{pid}
+			</if>
+		LEFT JOIN insbpolicyitem p2 ON p2.risktype = '1' AND p2.taskid = q.taskid AND p2.inscomcode = q2.inscomcode
+			<if test="pid != null and pid != ''">
+				 AND p2.id =  #{pid}
+			</if>
+			<if test="insuredname != null and insuredname != ''">
+				LEFT JOIN insbinsured su ON su.taskid = m.maininstanceid
+				LEFT JOIN insbperson per ON per.id = su.personid
+			</if>
+		<where>
+			o.prvid = q2.inscomcode
+			AND o.taskid = q.taskid
+			<!-- 表分区查询 -->
+			<!--<if test="platforminnercode != null and platforminnercode != ''">
+				AND q2.platforminnercode = #{platforminnercode}
+			</if>-->
+			<if test="startdate != null and startdate != ''">
+				AND m.createtime &gt;= #{startdate}
+			</if>
+			<if test="enddate != null and enddate != ''">
+				AND m.createtime &lt;= #{enddate}
+			</if>
+			<if test="insuredname != null and insuredname != ''">
+				AND per.name LIKE CONCAT(#{insuredname},'%')
+			</if>
+			<if test="carnumorcname != null and carnumorcname != ''">
+				AND q2.platenumber = #{carnumorcname}
+			</if>
+			<if test="carnum != null and carnum != ''">
+				AND q2.platenumber = #{carnum}
+			</if>
+			<if test="paymentTransaction != null and paymentTransaction != ''">
+				AND pay.paymentransaction LIKE CONCAT(#{paymentTransaction},'%')
+			</if>
+			<if test="agentcode != null and agentcode != ''">
+				AND ag.agentcode = #{agentcode}
+			</if>
+			<if test="phone != null and phone != ''">
+				AND ag.phone = #{phone}
+			</if>
+			<if test="providerid != null and providerid != ''">
+				AND q2.inscomcode LIKE CONCAT(#{providerid},'%')
+			</if>
+			<if test="orderstatus != null and orderstatus != ''">
+				AND o.orderstatus = #{orderstatus}
+			</if>
+			<if test="usertype != null and usertype != ''">
+				AND ag.jobnumtype = #{usertype}
+			</if>
+			<if test="parentcodes != null and parentcodes != ''">
+				AND cd.deptinnercode LIKE CONCAT(#{parentcodes},'%')
+			</if>
+			<if test="taskid != null and taskid != ''">
+				AND m.maininstanceid = #{taskid}
+			</if>
+			<if test="channelinnercode !=null and channelinnercode != ''">
+				and q.`purchaserchannel`= #{channelinnercode}
+			</if>
+			<if test="miniagentcode !=null and miniagentcode != ''">
+				and miniag.`jobnum`= #{miniagentcode}
+			</if>
+		</where>
+		ORDER BY m.createtime DESC LIMIT  #{limit},#{pageSize}
+	</select>
+	
+	<select id="queryPolicyInfoByOrderId" parameterType="String" resultType="Map">
+		select p.proposalformno AS proposalformno,p.policyno AS policyno,p.premium AS premium,p.risktype AS risktype 
+		FROM insbpolicyitem p WHERE p.orderid = #{orderid} AND p.risktype = "1" LIMIT 1
+	</select>
+	
+	<select id="selectAgentByNum" parameterType="String" resultType="com.zzb.conf.entity.INSBAgent">
+		select CASE  WHEN a.sex = '0' THEN '男' WHEN a.sex ='1' THEN '女'  END sex, a.* from INSBAgent a where a.jobnum = #{agentNum} limit 1
+	</select>
+	
+	<select id="selectPolicyHolderInfo" parameterType="String" resultType="com.zzb.cm.entity.INSBPerson">
+		select p.* FROM insbapplicant a,insbperson p WHERE a.personid = p.id AND a.taskid = #{taskid} limit 1
+	</select>
+	
+	<select id="selectInsuredInfo" parameterType="String" resultType="com.zzb.cm.entity.INSBPerson">
+		select p.* FROM insbinsured a,insbperson p WHERE a.personid = p.id AND a.taskid = #{taskid} limit 1
+	</select>
+	
+	<select id="selectPolcyByOIdAndType" parameterType="map" resultType="com.zzb.conf.entity.INSBPolicyitem">
+		select p.*,DATE_FORMAT(p.startdate,'%Y-%m-%d %H:%i:%s') startdates,DATE_FORMAT(p.enddate,'%Y-%m-%d %H:%i:%s') enddates FROM insbpolicyitem p WHERE orderid = #{orderid} AND risktype = #{type} limit 1
+	</select>
+	
+	<select id="selectPolcyByOIdAndType2" parameterType="map" resultType="com.zzb.conf.entity.INSBPolicyitem">
+		select i.*,DATE_FORMAT(i.startdate,'%Y-%m-%d %H:%i:%s') startdates,DATE_FORMAT(i.enddate,'%Y-%m-%d %H:%i:%s') enddates,p.name shouyirenname FROM insbpolicyitem i,insblegalrightclaim aim,insbperson p
+		WHERE i.orderid = #{orderid} AND aim.taskid = i.taskid  AND p.id = aim.personid limit 1
+	</select>
+	
+	<select id="selectPolcyByOIdAndType2his" parameterType="map" resultType="com.zzb.conf.entity.INSBPolicyitem">
+		select i.*,DATE_FORMAT(i.startdate,'%Y-%m-%d %H:%i:%s') startdates,DATE_FORMAT(i.enddate,'%Y-%m-%d %H:%i:%s') enddates,p.name shouyirenname FROM insbpolicyitem i,insblegalrightclaimhis aim,insbperson p
+		WHERE i.taskid = #{taskid} AND i.inscomcode = #{proid}
+		AND aim.taskid = i.taskid  AND p.id = aim.personid 
+		AND aim.inscomcode = i.inscomcode limit 1
+	</select>
+	<select id="selectRecognizeeByorderid" parameterType="map" resultType="com.zzb.conf.entity.INSBPolicyitem">
+		select i.*,p.name beibaorenname FROM insbpolicyitem i, insbinsured bei, insbperson p WHERE bei.personid = p.id AND i.taskid = bei.taskid 
+		AND i.orderid = #{orderid}  limit 1
+	</select>
+	<select id="selectRecognizeeByorderidhis" parameterType="map" resultType="com.zzb.conf.entity.INSBPolicyitem">
+				SELECT
+			i.*, p.name beibaorenname
+		FROM
+			insbpolicyitem i
+				LEFT JOIN
+			insbinsuredhis bei ON i.taskid = bei.taskid
+				AND i.inscomcode = bei.inscomcode
+				LEFT JOIN
+			insbperson p ON bei.personid = p.id
+		WHERE
+			i.taskid = #{taskid}
+				AND i.inscomcode = #{proid}
+		LIMIT 1;
+	</select>
+	<select id="selectInsureByorderid" parameterType="map" resultType="com.zzb.conf.entity.INSBPolicyitem">
+		select i.*,p.name toubaorenname,p.idcardno toubaoidcardno FROM insbpolicyitem i, insbapplicant tou, insbperson p WHERE tou.personid = p.id AND i.taskid = tou.taskid 
+		AND i.orderid = #{orderid}  limit 1 
+	</select>
+	<select id="selectInsureByorderidhis" parameterType="map" resultType="com.zzb.conf.entity.INSBPolicyitem">
+		select i.*,p.name toubaorenname,p.idcardno toubaoidcardno FROM insbpolicyitem i, insbapplicanthis tou, insbperson p WHERE tou.personid = p.id AND i.taskid = tou.taskid 
+		AND i.taskid = #{taskid}  AND i.inscomcode = #{proid}
+		AND i.inscomcode = tou.inscomcode limit 1
+	</select>
+	<select id="selectRecognizeeBypoid" parameterType="String" resultType="com.zzb.conf.entity.INSBPolicyitem">
+		select i.*,p.name beibaorenname FROM insbpolicyitem i, insbinsured bei, insbperson p WHERE bei.personid = p.id AND i.taskid = bei.taskid 
+		AND i.id = #{poid} limit 1
+	</select>
+	<select id="selectInsureBypoid" parameterType="String" resultType="com.zzb.conf.entity.INSBPolicyitem">
+		select i.*,p.name toubaorenname FROM insbpolicyitem i, insbapplicant tou, insbperson p WHERE tou.personid = p.id AND i.taskid = tou.taskid 
+		AND i.id = #{poid} limit 1
+	</select>
+	<select id="selectPolcyBypId" parameterType="map" resultType="com.zzb.conf.entity.INSBPolicyitem">
+		select i.*,DATE_FORMAT(i.startdate,'%Y-%m-%d %H:%i:%s') startdates,DATE_FORMAT(i.enddate,'%Y-%m-%d %H:%i:%s') enddates,p.name shouyirenname FROM insbpolicyitem i,insblegalrightclaim aim,insbperson p
+		WHERE i.id = #{poid} AND aim.taskid = i.taskid AND p.id = aim.personid limit 1
+	</select>
+	<select id="selectContactsByTask" parameterType="map" resultType="com.zzb.conf.entity.INSBPolicyitem">
+		select i.*,p.name contactsname,p.idcardno contactsidcardno FROM insbpolicyitem i, insbrelationpersonhis tou, insbperson p WHERE tou.personid = p.id AND i.taskid = tou.taskid
+		AND i.taskid = #{taskid}  AND i.inscomcode = #{proid}
+		AND i.inscomcode = tou.inscomcode limit 1
+	</select>
+	<select id="selectContactsByOrderid" parameterType="map" resultType="com.zzb.conf.entity.INSBPolicyitem">
+		select i.*,p.name contactsname,p.idcardno contactsidcardno FROM insbpolicyitem i, insbrelationperson tou, insbperson p WHERE tou.personid = p.id AND i.taskid = tou.taskid
+		AND i.orderid = #{orderid}  limit 1
+	</select>
+	<select id="selectContactsBypoid" parameterType="String" resultType="com.zzb.conf.entity.INSBPolicyitem">
+		select i.*,p.name contactsname FROM insbpolicyitem i, insbrelationperson tou, insbperson p WHERE tou.personid = p.id AND i.taskid = tou.taskid
+		AND i.id = #{poid} limit 1
+	</select>
+	<select id="selectCarInfoByTaskId" parameterType="String" resultType="com.zzb.cm.entity.INSBCarinfo">
+		select * FROM insbcarinfo WHERE taskid = #{taskid} limit 1
+	</select>
+	
+	<select id="selectCarInfoByhis" parameterType="String" resultType="com.zzb.cm.entity.INSBCarinfohis">
+		select * FROM insbcarinfohis 
+		<where>
+			<if test="taskid != null and taskid != '' ">
+				AND taskid = #{taskid}
+			</if>
+			<if test="proid != null and proid != ''">
+				AND inscomcode = #{proid}
+			</if>
+		</where>
+		 limit 1
+	</select>
+	
+	<select id="queryImgInfo" parameterType="String" resultType="com.zzb.model.PolicyDetailedModel">
+		select f.filepath,IFNULL(f.smallfilepath, f.filepath) AS smallfilepath,e.codename,f.id as pictureId FROM insbfilelibrary f,insbfilebusiness b,insborder o ,insccode e WHERE
+		o.taskid = b.code AND b.filelibraryid = f.id  AND e.codetype = f.filetype AND f.filecodevalue = e.codevalue 
+		and o.id = #{id}
+	</select>
+</mapper>

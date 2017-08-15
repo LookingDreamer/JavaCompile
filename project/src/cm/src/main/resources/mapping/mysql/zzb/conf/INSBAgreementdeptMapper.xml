@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBAgreementdept --> 
+	<select id="INSBAgreementdept_insert" parameterType="com.zzb.conf.entity.INSBAgreementdept" resultType="int">
+		insert into INSBAgreementdept
+		(id,operator,createtime,modifytime,noti,agreementid,deptid1,deptid2,deptid3,deptid4,deptid5,underwrite,scaleflag,permflag,providerid) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{agreementid},#{deptid1},#{deptid2},#{deptid3},#{deptid4},#{deptid5},#{underwrite},#{scaleflag},#{permflag},#{providerid}) 
+	</select>
+	<select id="INSBAgreementdept_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgreementdept">
+		select * from INSBAgreementdept
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="deptid1 != null">
+				and deptid1 = #{deptid1}
+			</if>
+			<if test="deptid2 != null">
+				and deptid2 = #{deptid2}
+			</if>
+			<if test="deptid3 != null">
+				and deptid3 = #{deptid3}
+			</if>
+			<if test="deptid4 != null">
+				and deptid4 = #{deptid4}
+			</if>
+			<if test="deptid5 != null">
+				and deptid5 = #{deptid5}
+			</if>
+			<if test="underwrite != null">
+				and underwrite = #{underwrite}
+			</if>
+			<if test="scaleflag != null">
+				and scaleflag = #{scaleflag}
+			</if>
+			<if test="permflag != null">
+				and permflag = #{permflag}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreementdept_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBAgreementdept">
+		select * from INSBAgreementdept where id = #{id}
+	</select>
+	<select id="INSBAgreementdept_deleteById" parameterType="String">
+		delete from INSBAgreementdept where id = #{id}
+	</select>
+	<select id="INSBAgreementdept_updateById" parameterType="com.zzb.conf.entity.INSBAgreementdept">
+		update INSBAgreementdept  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},agreementid = #{agreementid},deptid1 = #{deptid1},deptid2 = #{deptid2},deptid3 = #{deptid3},deptid4 = #{deptid4},deptid5 = #{deptid5},underwrite = #{underwrite},scaleflag = #{scaleflag},permflag = #{permflag} where id = #{id}
+	</select>
+	<select id="INSBAgreementdept_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBAgreementdept
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="deptid1 != null">
+				and deptid1 = #{deptid1}
+			</if>
+			<if test="deptid2 != null">
+				and deptid2 = #{deptid2}
+			</if>
+			<if test="deptid3 != null">
+				and deptid3 = #{deptid3}
+			</if>
+			<if test="deptid4 != null">
+				and deptid4 = #{deptid4}
+			</if>
+			<if test="deptid5 != null">
+				and deptid5 = #{deptid5}
+			</if>
+			<if test="underwrite != null">
+				and underwrite = #{underwrite}
+			</if>
+			<if test="scaleflag != null">
+				and scaleflag = #{scaleflag}
+			</if>
+			<if test="permflag != null">
+				and permflag = #{permflag}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreementdept_selectPrvid" parameterType="Map" resultType="Map">
+		select p.prvname,p.id,a.id as agreeid,a.agreementname from INSBAgreement a ,INSCDept s ,INSBProvider p 
+		<where>
+		<if test="prvid != null">
+		s.id = #{prvid}
+		and a.deptid = s.id 
+		</if>
+		and agreementstatus=1 and p.id = a.providerid ORDER by p.id;
+		
+		</where>
+	</select>
+	<select id="INSBAgreementdept_getdeptname" parameterType="Map" resultType="Map">
+		SELECT agreementid, id,
+			(SELECT comname FROM inscdept d WHERE c.deptid1=id ) deptid1,
+			(SELECT comname FROM inscdept d WHERE c.deptid2=id ) deptid2,
+			(SELECT comname FROM inscdept d WHERE c.deptid3=id ) deptid3,
+     		(SELECT comname FROM inscdept d WHERE c.deptid4=id ) deptid4,
+		  	(SELECT comname FROM inscdept d WHERE c.deptid5=id ) deptid5
+		from insbagreementdept c  
+		<where>
+			1 = 1
+			<if test="agreementid != null">
+				and c.agreementid = #{agreementid}
+			</if>
+			<if test="providerid != null">
+				and c.providerid = #{providerid}
+			</if>
+		</where>
+	</select>
+	
+	<select id="INSBAgreementdept_delByAgreeid" parameterType="String">
+		delete from INSBAgreementdept where agreementid = #{agreeid}
+	</select>
+	
+	<select id="INSBAgreementdept_queryByTaskIdAndPrvId" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgreementdept">
+		SELECT
+			d.deptid5,
+			d.deptid4,
+			d.deptid3,
+			d.deptid2,
+			d.deptid1
+		FROM
+			insbchannel a,
+			insbchannelagreement b,
+			insbagreementdept d,
+			insbagreementarea aa,
+			insbquotetotalinfo q,			
+			insbagreementprovider f
+			
+		WHERE
+			a.id = b.channelid
+		AND d.agreementid = b.id
+		AND aa.agreementid = b.id
+		AND q.purchaserchannel = a.channelinnercode
+		AND q.inscitycode = aa.city
+		AND f.providerid = d.providerid AND f.agreementid = b.id 
+		
+		AND (
+			a.deleteflag != 0
+			OR a.deleteflag IS NULL
+		)
+		AND q.taskid = #{taskid}
+		AND d.providerid = #{providerid}
+	</select>
+
+	<select id="INSBAgreementdept_getDeptInfoByTaskIdAndPrvId" parameterType="Map" resultType="java.util.HashMap">
+		SELECT
+		d.deptid5,
+		d.deptid4,
+		d.deptid3,
+		d.deptid2,
+		d.deptid1,
+		e.comname,
+		q.taskid,
+		d.providerid
+		FROM
+		insbchannel a,
+		insbchannelagreement b,
+		insbagreementdept d,
+		insbagreementarea aa,
+		insbquotetotalinfo q,
+		inscdept e,
+		insbagreementprovider f
+		
+		WHERE
+		a.id = b.channelid
+		AND d.agreementid = b.id
+		AND aa.agreementid = b.id
+		AND q.purchaserchannel = a.channelinnercode
+		AND q.inscitycode = aa.city
+		AND d.deptid2 = e.id
+		AND f.providerid = d.providerid AND f.agreementid = b.id 
+		
+		AND (
+		a.deleteflag != 0
+		OR a.deleteflag IS NULL
+		)
+		AND q.taskid = #{taskid}
+		AND d.providerid = #{providerid}
+	</select>
+	<select id="INSBAgreementdept_delete" parameterType="com.zzb.conf.entity.INSBAgreementdept" resultType="int">
+		delete from INSBAgreementdept 
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+		</where>
+	</select>
+</mapper>

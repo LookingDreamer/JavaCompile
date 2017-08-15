@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.extra.entity">
+	<!-- INSBMiniDate -->
+	<select id="INSBMiniDate_insert" parameterType="com.zzb.extra.entity.INSBMiniDate" resultType="int">
+		insert into INSBMiniDate
+		(id,year,month,day,date,weekday,datestr,datetype,operator,createtime,modifytime,noti)
+		values
+		(#{id},#{year},#{month},#{day},#{date},#{weekday},#{datestr},#{datetype},#{operator},#{createtime},#{modifytime},#{noti})
+	</select>
+	<select id="INSBMiniDate_select" parameterType="Map" resultType="com.zzb.extra.entity.INSBMiniDate">
+		select * from INSBMiniDate
+		<where>
+			<if test="datestr != null and datestr != ''">
+				and datestr = #{datestr}
+			</if>
+			<if test="date != null and date != ''">
+				and date = #{date}
+			</if>
+			<if test="year != null and year != '' ">
+				and year = #{year}
+			</if>
+			<if test="month != null and month !='' ">
+				and month like CONCAT('%',#{month})
+			</if>
+			<if test="weekday != null and weekday !=''">
+				and weekday = #{weekday}
+			</if>
+			<if test="datetype != null and datetype !=''">
+				and datetype = #{datetype}
+			</if>
+			<if test="id != null and id !=''">
+				and id = #{id}
+			</if>
+			
+		</where>
+		ORDER BY
+        <if test="sort != null and order != null">
+            ${sort} ${order}
+        </if>
+        <if test="sort == null">
+            date
+        </if>
+        <if test="offset != null and limit != null">
+            LIMIT #{offset},#{limit}
+        </if>
+		
+	</select>
+	<select id="INSBMiniDate_existAccountId" parameterType="String" resultType="Long">
+		select count(1) from INSBMiniDate where id = #{id}
+	</select>
+    <select id="INSBMiniDate_selectById" parameterType="String" resultType="com.zzb.extra.entity.INSBMiniDate">
+       	select * from INSBMiniDate where id = #{id}
+    </select>
+    <select id="INSBMiniDate_selectByAgentId" parameterType="String" resultType="com.zzb.extra.entity.INSBMiniDate">
+       	select * from INSBMiniDate where id = #{id}
+    </select>
+	<select id="INSBMiniDate_deleteByYear" parameterType="String">
+		delete from INSBMiniDate where year = #{year}
+	</select>
+	<select id="INSBMiniDate_updateById" parameterType="com.zzb.extra.entity.INSBMiniDate">
+		update INSBMiniDate  set operator = #{operator},modifytime = #{modifytime},datetype = #{datetype},noti=#{noti} where id = #{id}
+	</select>
+	<select id="INSBMiniDate_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBMiniDate
+		<where>
+			
+			<if test="datestr != null and datestr !=''">
+				and datestr = #{datestr}
+			</if>
+			<if test="date != null and date != '' ">
+				and date = #{date}
+			</if>
+			<if test="year != null and year != '' ">
+				and year = #{year}
+			</if>
+			<if test="month != null and month !=''">
+				and month LIKE CONCAT('%',#{month})
+			</if>
+			<if test="weekday != null and weekday != '' ">
+				and weekday = #{weekday}
+			</if>
+			<if test="datetype != null and datetype !=''">
+				and datetype = #{datetype}
+			</if>
+			<if test="id != null and id != ''">
+				and id = #{id}
+			</if>
+		</where>
+		
+	</select>
+	
+
+</mapper>

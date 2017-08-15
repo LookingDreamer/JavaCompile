@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+
+body {background: #eee url(../images/system/login/login_top_bg.png) repeat-x;border: 0;padding: 0;margin: 0;}
+header {height: 70px;background: #fff;}
+.topLogo {background: url(../images/system/logo.png) no-repeat 20px 16px;height: 70px;text-indent: 70px;font: 22px/68px "Microsoft YaHei", SimHei;}
+.topLogo .l1{color: #0066cb;}
+.topLogo .l2{color: #595959;}
+section {width: 722px;margin: auto;margin-top:50px;}
+section h2 {font: 18px/22px "Microsoft YaHei", SimHei;color: #595959;text-align: right;height: 24px;margin-bottom: 15px;}
+
+.login {background: #fff url(../images/system/login/login_desc.png) no-repeat;height: 380px; border: #cfcfcf solid 1px;box-shadow: #ddd 0 0 10px;}
+.login form {margin-left: 378px;padding: 72px 35px 0px 35px;}
+.login span {display: block;font: 14px/24px SimSun;color: #595959;height: 24px;margin-bottom: 10px;}
+.logintext {border: #ccc solid 1px;height: 20px;padding: 10px 40px 10px 10px;font-size: 14px;color: #666;background: url(../images/system/login/login_i1.png) no-repeat 230px 3px;width: 218px;margin-bottom: 20px;outline: 0;line-height: 24px;}
+.logintext.pwd {background: url(../images/system/login/login_i2.png) no-repeat 230px 3px;}
+#loginBtn {border: 0;width: 270px;background: #0066cb;color: #fff;font: 18px/40px "Microsoft YaHei", SimHei;height: 40px;cursor: pointer;outline: 0;}
+#loginBtn:hover {background: #048;}
+
+.updatepassword {background: #fff url(../images/system/login/login_desc.png) no-repeat;height: 380px; border: #cfcfcf solid 1px;box-shadow: #ddd 0 0 10px;}
+.updatepassword form {margin-left: 378px;padding: 10px 0px 0px 30px;}
+.updatepassword span {display: block;font: 14px/18px SimSun;color: #595959;margin-bottom: 10px;height:25px;}
+.uppwdtext {border: #ccc solid 1px;height: 15px;padding: 10px 40px 10px 10px;font-size: 14px;color: #666;background: url(../images/system/login/login_i1.png) no-repeat 230px 3px;width: 158px;margin-bottom: 20px;outline: 0;line-height: 18px;}
+.uppwdtext.pwd {background: url(../images/system/login/login_i2.png) no-repeat 170px 3px;}
+.pwdBtn {border: 0;width: 90px;background: #0066cb;color: #fff;font: 17px/35px "Microsoft YaHei", SimHei;height: 35px;cursor: pointer;outline: 0;border-radius: 5px;margin-left: 25px;}
+
+.err {margin-left: 378px;padding: 10px 35px 0px 35px;}
+.err p {font: 14px/24px SimSun;color: red;}
+
+footer {font: 12px/24px "Microsoft YaHei", SimHei;text-align: center;margin: 50px auto 0px;color: #595959;}
+
+
+
+

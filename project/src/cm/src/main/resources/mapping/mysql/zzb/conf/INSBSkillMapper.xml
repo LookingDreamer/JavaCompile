@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBSkill -->
+	<select id="INSBSkill_insert" parameterType="com.zzb.conf.entity.INSBSkill" resultType="int">
+		insert into INSBSkill
+		(id,operator,createtime,modifytime,noti,elfid,skillname,inputcode,outputcode) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{elfid},#{skillname},#{inputcode},#{outputcode}) 
+	</select>
+	<select id="INSBSkill_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBSkill">
+		select * from INSBSkill
+		<where>
+			<if test="elfid != null">
+				and elfid = #{elfid}
+			</if>
+			<if test="skillname != null">
+				and skillname = #{skillname}
+			</if>
+			<if test="inputcode != null">
+				and inputcode = #{inputcode}
+			</if>
+			<if test="outputcode != null">
+				and outputcode = #{outputcode}
+			</if>
+		</where>
+	</select>
+	<select id="INSBSkill_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBSkill">
+		select * from INSBSkill
+		<where>
+			<if test="elfid != null">
+				and elfid = #{elfid}
+			</if>
+			<if test="skillname != null">
+				and skillname = #{skillname}
+			</if>
+			<if test="inputcode != null">
+				and inputcode = #{inputcode}
+			</if>
+			<if test="outputcode != null">
+				and outputcode = #{outputcode}
+			</if>
+		</where>
+		limit 2
+	</select>
+	<select id="INSBSkill_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBSkill">
+		select * from INSBSkill where id = #{id}
+	</select>
+	<select id="INSBSkill_deleteById" parameterType="String">
+		delete from INSBSkill where id = #{id}
+	</select>
+	<select id="INSBSkill_updateById" parameterType="com.zzb.conf.entity.INSBSkill">
+		update INSBSkill  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},elfid = #{elfid},skillname = #{skillname},inputcode = #{inputcode},outputcode = #{outputcode} where id = #{id}
+	</select>
+	<select id="INSBSkill_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBSkill
+		<where>
+			<if test="elfid != null">
+				and elfid = #{elfid}
+			</if>
+			<if test="skillname != null">
+				and skillname = #{skillname}
+			</if>
+			<if test="inputcode != null">
+				and inputcode = #{inputcode}
+			</if>
+			<if test="outputcode != null">
+				and outputcode = #{outputcode}
+			</if>
+		</where>
+	</select>
+	<select id="INSBSkill_inputlist" parameterType="String" resultType="com.zzb.conf.entity.INSBSkill">
+		select codes.codename skillname,sk.inputcode inputcode FROM insbskill sk ,insccode codes WHERE sk.elfid = #{id} AND sk.inputcode != '' AND sk.inputcode IS NOT NULL
+		AND codes.parentcode = 'inputItem' AND codes.codevalue = sk.inputcode
+	</select>
+	<select id="INSBSkill_outputlist" parameterType="String" resultType="com.zzb.conf.entity.INSBSkill">
+		select codes.codename skillname,sk.outputcode outputcode FROM insbskill sk ,insccode codes WHERE sk.elfid = #{id} AND sk.outputcode != '' AND sk.outputcode IS NOT NULL
+		AND codes.parentcode = 'outputItem' AND codes.codevalue = sk.outputcode
+	</select>
+	
+	<select id="INSBSkill_deletebyelfid" parameterType="String" >
+		DELETE FROM insbskill WHERE elfid = #{elfid}
+	</select>
+	
+	<select id="INSBSkill_filterin" parameterType="String" resultType="String">
+		select GROUP_CONCAT(sk.inputcode) inputcode FROM insbskill sk WHERE sk.inputcode IS not null AND sk.elfid=#{id}
+	</select>
+	
+	<select id="INSBSkill_filterout" parameterType="String" resultType="String">
+		select GROUP_CONCAT(sk.outputcode) outputcode FROM insbskill sk WHERE sk.outputcode IS not null AND sk.elfid=#{id}
+	</select>
+	
+	<select id="INSBSkill_querySkillnameByelfid" parameterType="String" resultType="String">
+		select skillname from insbskill WHERE elfid = #{elfid} LIMIT 0,1
+	</select>
+</mapper>

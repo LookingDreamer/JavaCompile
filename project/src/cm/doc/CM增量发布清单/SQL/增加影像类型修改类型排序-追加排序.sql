@@ -1,0 +1,2 @@
+#×·¼ÓÅÅÐò
+UPDATE insccode SET codeorder=54 WHERE parentcode='insuranceimage' AND codename='¹Øµ¥';

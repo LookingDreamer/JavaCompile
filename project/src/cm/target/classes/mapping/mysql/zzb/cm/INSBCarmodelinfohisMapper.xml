@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBCarmodelinfohis -->
+	<select id="INSBCarmodelinfohis_insert" parameterType="com.zzb.cm.entity.INSBCarmodelinfohis" resultType="int">
+		insert into INSBCarmodelinfohis
+		(id,operator,createtime,modifytime,noti,carinfoid,brandname,standardname,standardfullname,familyname,price,taxprice,analogyprice,analogytaxprice,factoryname,commercetype,carprice,seat,displacement,aliasname,gearbox,loads,unwrtweight,fullweight,airbagnum,absflag,listedyear,cardeploy,policycarprice,isstandardcar,inscomcode,carVehicleOrigin,rbCarModelName,jyCarModelName,bwCode,jyCode,rbCode,isRbMatch,isJyMatch,insuranceCode,glassType,jgVehicleType,ratedPassengerCapacity,vehicleid,syvehicletypename,syvehicletypecode) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{carinfoid},#{brandname},#{standardname},#{standardfullname},#{familyname},#{price},#{taxprice},#{analogyprice},#{analogytaxprice},#{factoryname},#{commercetype},#{carprice},#{seat},#{displacement},#{aliasname},#{gearbox},#{loads},#{unwrtweight},#{fullweight},#{airbagnum},#{absflag},#{listedyear},#{cardeploy},#{policycarprice},#{isstandardcar},#{inscomcode},#{carVehicleOrigin},#{rbCarModelName},#{jyCarModelName},#{bwCode},#{jyCode},#{rbCode},#{isRbMatch},#{isJyMatch},#{insuranceCode},#{glassType},#{jgVehicleType},#{ratedPassengerCapacity},#{vehicleid},#{syvehicletypename},#{syvehicletypecode})
+	</select>
+	<select id="INSBCarmodelinfohis_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBCarmodelinfohis">
+		select * from INSBCarmodelinfohis
+		<where>
+			<if test="carinfoid != null">
+				and carinfoid = #{carinfoid}
+			</if>
+			<if test="brandname != null">
+				and brandname = #{brandname}
+			</if>
+			<if test="standardname != null">
+				and standardname = #{standardname}
+			</if>
+			<if test="standardfullname != null">
+				and standardfullname = #{standardfullname}
+			</if>
+			<if test="familyname != null">
+				and familyname = #{familyname}
+			</if>
+			<if test="price != null">
+				and price = #{price}
+			</if>
+			<if test="taxprice != null">
+				and taxprice = #{taxprice}
+			</if>
+			<if test="analogyprice != null">
+				and analogyprice = #{analogyprice}
+			</if>
+			<if test="analogytaxprice != null">
+				and analogytaxprice = #{analogytaxprice}
+			</if>
+			<if test="factoryname != null">
+				and factoryname = #{factoryname}
+			</if>
+			<if test="commercetype != null">
+				and commercetype = #{commercetype}
+			</if>
+			<if test="carprice != null">
+				and carprice = #{carprice}
+			</if>
+			<if test="seat != null">
+				and seat = #{seat}
+			</if>
+			<if test="displacement != null">
+				and displacement = #{displacement}
+			</if>
+			<if test="aliasname != null">
+				and aliasname = #{aliasname}
+			</if>
+			<if test="gearbox != null">
+				and gearbox = #{gearbox}
+			</if>
+			<if test="loads != null">
+				and loads = #{loads}
+			</if>
+			<if test="unwrtweight != null">
+				and unwrtweight = #{unwrtweight}
+			</if>
+			<if test="fullweight != null">
+				and fullweight = #{fullweight}
+			</if>
+			<if test="airbagnum != null">
+				and airbagnum = #{airbagnum}
+			</if>
+			<if test="absflag != null">
+				and absflag = #{absflag}
+			</if>
+			<if test="listedyear != null">
+				and listedyear = #{listedyear}
+			</if>
+			<if test="cardeploy != null">
+				and cardeploy = #{cardeploy}
+			</if>
+			<if test="policycarprice != null">
+				and policycarprice = #{policycarprice}
+			</if>
+			<if test="isstandardcar != null">
+				and isstandardcar = #{isstandardcar}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="carVehicleOrigin != null">
+				and carVehicleOrigin = #{carVehicleOrigin}
+			</if>
+			<if test="rbCarModelName != null">
+				and rbCarModelName = #{rbCarModelName}
+			</if>
+			<if test="jyCarModelName != null">
+				and jyCarModelName = #{jyCarModelName}
+			</if>
+			<if test="bwCode != null">
+				and bwCode = #{bwCode}
+			</if>
+			<if test="jyCode != null">
+				and jyCode = #{jyCode}
+			</if>
+			<if test="rbCode != null">
+				and rbCode = #{rbCode}
+			</if>
+			<if test="isRbMatch != null">
+				and isRbMatch = #{isRbMatch}
+			</if>
+			<if test="isJyMatch != null">
+				and isJyMatch = #{isJyMatch}
+			</if>
+			<if test="insuranceCode != null">
+				and insuranceCode = #{insuranceCode}
+			</if>
+			<if test="glassType != null">
+				and glassType = #{glassType}
+			</if>
+			<if test="jgVehicleType != null">
+				and jgVehicleType = #{jgVehicleType}
+			</if>
+			<if test="ratedPassengerCapacity != null">
+				and ratedPassengerCapacity = #{ratedPassengerCapacity}
+			</if>
+			<if test="vehicleid != null">
+				and vehicleid = #{vehicleid}
+			</if>
+			<if test="syvehicletypename != null">
+				and syvehicletypename = #{syvehicletypename}
+			</if>
+			<if test="syvehicletypecode != null">
+				and syvehicletypecode = #{syvehicletypecode}
+			</if>
+		</where>
+	</select>
+	<select id="INSBCarmodelinfohis_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBCarmodelinfohis">
+		select * from INSBCarmodelinfohis
+		<where>
+			<if test="carinfoid != null">
+				and carinfoid = #{carinfoid}
+			</if>
+			<if test="brandname != null">
+				and brandname = #{brandname}
+			</if>
+			<if test="standardname != null">
+				and standardname = #{standardname}
+			</if>
+			<if test="standardfullname != null">
+				and standardfullname = #{standardfullname}
+			</if>
+			<if test="familyname != null">
+				and familyname = #{familyname}
+			</if>
+			<if test="price != null">
+				and price = #{price}
+			</if>
+			<if test="taxprice != null">
+				and taxprice = #{taxprice}
+			</if>
+			<if test="analogyprice != null">
+				and analogyprice = #{analogyprice}
+			</if>
+			<if test="analogytaxprice != null">
+				and analogytaxprice = #{analogytaxprice}
+			</if>
+			<if test="factoryname != null">
+				and factoryname = #{factoryname}
+			</if>
+			<if test="commercetype != null">
+				and commercetype = #{commercetype}
+			</if>
+			<if test="carprice != null">
+				and carprice = #{carprice}
+			</if>
+			<if test="seat != null">
+				and seat = #{seat}
+			</if>
+			<if test="displacement != null">
+				and displacement = #{displacement}
+			</if>
+			<if test="aliasname != null">
+				and aliasname = #{aliasname}
+			</if>
+			<if test="gearbox != null">
+				and gearbox = #{gearbox}
+			</if>
+			<if test="loads != null">
+				and loads = #{loads}
+			</if>
+			<if test="unwrtweight != null">
+				and unwrtweight = #{unwrtweight}
+			</if>
+			<if test="fullweight != null">
+				and fullweight = #{fullweight}
+			</if>
+			<if test="airbagnum != null">
+				and airbagnum = #{airbagnum}
+			</if>
+			<if test="absflag != null">
+				and absflag = #{absflag}
+			</if>
+			<if test="listedyear != null">
+				and listedyear = #{listedyear}
+			</if>
+			<if test="cardeploy != null">
+				and cardeploy = #{cardeploy}
+			</if>
+			<if test="policycarprice != null">
+				and policycarprice = #{policycarprice}
+			</if>
+			<if test="isstandardcar != null">
+				and isstandardcar = #{isstandardcar}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="carVehicleOrigin != null">
+				and carVehicleOrigin = #{carVehicleOrigin}
+			</if>
+			<if test="rbCarModelName != null">
+				and rbCarModelName = #{rbCarModelName}
+			</if>
+			<if test="jyCarModelName != null">
+				and jyCarModelName = #{jyCarModelName}
+			</if>
+			<if test="bwCode != null">
+				and bwCode = #{bwCode}
+			</if>
+			<if test="jyCode != null">
+				and jyCode = #{jyCode}
+			</if>
+			<if test="rbCode != null">
+				and rbCode = #{rbCode}
+			</if>
+			<if test="isRbMatch != null">
+				and isRbMatch = #{isRbMatch}
+			</if>
+			<if test="isJyMatch != null">
+				and isJyMatch = #{isJyMatch}
+			</if>
+			<if test="insuranceCode != null">
+				and insuranceCode = #{insuranceCode}
+			</if>
+			<if test="glassType != null">
+				and glassType = #{glassType}
+			</if>
+			<if test="jgVehicleType != null">
+				and jgVehicleType = #{jgVehicleType}
+			</if>
+			<if test="ratedPassengerCapacity != null">
+				and ratedPassengerCapacity = #{ratedPassengerCapacity}
+			</if>
+			<if test="vehicleid != null">
+				and vehicleid = #{vehicleid}
+			</if>
+			<if test="syvehicletypename != null">
+				and syvehicletypename = #{syvehicletypename}
+			</if>
+			<if test="syvehicletypecode != null">
+				and syvehicletypecode = #{syvehicletypecode}
+			</if>
+		</where>
+		ORDER BY createtime DESC LIMIT 1 
+	</select>
+	<select id="INSBCarmodelinfohis_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBCarmodelinfohis">
+		select * from INSBCarmodelinfohis where id = #{id}
+	</select>
+	
+	<select id="INSBCarmodelinfohis_selectByStandardname" parameterType="Map" resultType="com.zzb.cm.entity.INSBCarmodelinfohis">
+		select id,analogyprice,loads,taxPrice,familyName,
+		brandName,aliasName,fullWeight,price,analogyTaxPrice,seat,gearBox,displacement,standardName 
+		from INSBCarmodelinfohis where standardname like CONCAT('%',#{standardname},'%')
+		order by createtime
+		<if test="offset != null and limit != null">
+			limit #{offset},#{limit}
+		</if>
+	</select>
+	
+	<select id="INSBCarmodelinfohis_selectCountByStandardname" parameterType="Map" resultType="long">
+		select count(1) from INSBCarmodelinfohis where standardname like CONCAT('%',#{standardname},'%')
+		order by  createtime
+		<if test="offset != null and limit != null">
+			limit #{offset},#{limit}
+		</if>
+	</select>
+	
+	<select id="INSBCarmodelinfohis_deleteById" parameterType="String">
+		delete from INSBCarmodelinfohis where id = #{id}
+	</select>
+	<select id="INSBCarmodelinfohis_updateById" parameterType="com.zzb.cm.entity.INSBCarmodelinfohis">
+		update INSBCarmodelinfohis  set operator = #{operator},modifytime = NOW(),noti = #{noti},carinfoid = #{carinfoid},brandname = #{brandname},standardname = #{standardname},standardfullname = #{standardfullname},familyname = #{familyname},price = #{price},taxprice = #{taxprice},analogyprice = #{analogyprice},analogytaxprice = #{analogytaxprice},factoryname = #{factoryname},commercetype = #{commercetype},carprice = #{carprice},seat = #{seat},displacement = #{displacement},aliasname = #{aliasname},gearbox = #{gearbox},loads = #{loads},unwrtweight = #{unwrtweight},fullweight = #{fullweight},airbagnum = #{airbagnum},absflag = #{absflag},listedyear = #{listedyear},cardeploy = #{cardeploy},policycarprice = #{policycarprice},isstandardcar = #{isstandardcar},inscomcode = #{inscomcode},carVehicleOrigin = #{carVehicleOrigin},rbCarModelName = #{rbCarModelName},jyCarModelName = #{jyCarModelName},bwCode = #{bwCode},jyCode = #{jyCode},rbCode = #{rbCode},isRbMatch = #{isRbMatch},isJyMatch = #{isJyMatch},insuranceCode = #{insuranceCode},glassType = #{glassType},jgVehicleType = #{jgVehicleType},ratedPassengerCapacity = #{ratedPassengerCapacity},vehicleid = #{vehicleid},syvehicletypename = #{syvehicletypename},syvehicletypecode = #{syvehicletypecode} where id = #{id}
+	</select>
+	<select id="INSBCarmodelinfohis_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBCarmodelinfohis
+		<where>
+			<if test="carinfoid != null">
+				and carinfoid = #{carinfoid}
+			</if>
+			<if test="brandname != null">
+				and brandname = #{brandname}
+			</if>
+			<if test="standardname != null">
+				and standardname = #{standardname}
+			</if>
+			<if test="standardfullname != null">
+				and standardfullname = #{standardfullname}
+			</if>
+			<if test="familyname != null">
+				and familyname = #{familyname}
+			</if>
+			<if test="price != null">
+				and price = #{price}
+			</if>
+			<if test="taxprice != null">
+				and taxprice = #{taxprice}
+			</if>
+			<if test="analogyprice != null">
+				and analogyprice = #{analogyprice}
+			</if>
+			<if test="analogytaxprice != null">
+				and analogytaxprice = #{analogytaxprice}
+			</if>
+			<if test="factoryname != null">
+				and factoryname = #{factoryname}
+			</if>
+			<if test="commercetype != null">
+				and commercetype = #{commercetype}
+			</if>
+			<if test="carprice != null">
+				and carprice = #{carprice}
+			</if>
+			<if test="seat != null">
+				and seat = #{seat}
+			</if>
+			<if test="displacement != null">
+				and displacement = #{displacement}
+			</if>
+			<if test="aliasname != null">
+				and aliasname = #{aliasname}
+			</if>
+			<if test="gearbox != null">
+				and gearbox = #{gearbox}
+			</if>
+			<if test="loads != null">
+				and loads = #{loads}
+			</if>
+			<if test="unwrtweight != null">
+				and unwrtweight = #{unwrtweight}
+			</if>
+			<if test="fullweight != null">
+				and fullweight = #{fullweight}
+			</if>
+			<if test="airbagnum != null">
+				and airbagnum = #{airbagnum}
+			</if>
+			<if test="absflag != null">
+				and absflag = #{absflag}
+			</if>
+			<if test="listedyear != null">
+				and listedyear = #{listedyear}
+			</if>
+			<if test="cardeploy != null">
+				and cardeploy = #{cardeploy}
+			</if>
+			<if test="policycarprice != null">
+				and policycarprice = #{policycarprice}
+			</if>
+			<if test="isstandardcar != null">
+				and isstandardcar = #{isstandardcar}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="carVehicleOrigin != null">
+				and carVehicleOrigin = #{carVehicleOrigin}
+			</if>
+			<if test="rbCarModelName != null">
+				and rbCarModelName = #{rbCarModelName}
+			</if>
+			<if test="jyCarModelName != null">
+				and jyCarModelName = #{jyCarModelName}
+			</if>
+			<if test="bwCode != null">
+				and bwCode = #{bwCode}
+			</if>
+			<if test="jyCode != null">
+				and jyCode = #{jyCode}
+			</if>
+			<if test="rbCode != null">
+				and rbCode = #{rbCode}
+			</if>
+			<if test="isRbMatch != null">
+				and isRbMatch = #{isRbMatch}
+			</if>
+			<if test="isJyMatch != null">
+				and isJyMatch = #{isJyMatch}
+			</if>
+			<if test="insuranceCode != null">
+				and insuranceCode = #{insuranceCode}
+			</if>
+			<if test="glassType != null">
+				and glassType = #{glassType}
+			</if>
+			<if test="jgVehicleType != null">
+				and jgVehicleType = #{jgVehicleType}
+			</if>
+			<if test="ratedPassengerCapacity != null">
+				and ratedPassengerCapacity = #{ratedPassengerCapacity}
+			</if>
+			<if test="vehicleid != null">
+				and vehicleid = #{vehicleid}
+			</if>
+			<if test="syvehicletypename != null">
+				and syvehicletypename = #{syvehicletypename}
+			</if>
+			<if test="syvehicletypecode != null">
+				and syvehicletypecode = #{syvehicletypecode}
+			</if>
+		</where>
+	</select>
+
+	<select id="INSBCarmodelinfohis_selectModelInfoByTaskIdAndPrvId" parameterType="Map" resultType="com.zzb.cm.entity.INSBCarmodelinfohis">
+        SELECT a.*  FROM insbcarmodelinfohis a , insbcarinfo b WHERE a.carinfoid = b.id AND  b.taskid = #{taskid} AND a.inscomcode = #{inscomcode} limit 1;
+	</select>
+
+</mapper>

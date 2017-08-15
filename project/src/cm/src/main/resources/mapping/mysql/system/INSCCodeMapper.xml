@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cninsure.system.entity">
+	<!-- INSCCode  -->
+	<select id="INSCCode_insert" parameterType="com.cninsure.system.entity.INSCCode">
+		insert into INSCCode
+		(id,operator,createtime,modifytime,noti,codetype,parentcode,codevalue,codename,codeorder,prop1,prop2,prop3,prop4) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{codetype},#{parentcode},#{codevalue},#{codename},#{codeorder},#{prop1},#{prop2},#{prop3},#{prop4}) 
+	</select>
+	<select id="INSCCode_select" parameterType="Map" resultType="com.cninsure.system.entity.INSCCode">
+		select * from INSCCode
+		<where>
+			<if test="codetype != null">
+				and codetype = #{codetype}
+			</if>
+			<if test="parentcode != null">
+				and parentcode = #{parentcode}
+			</if>
+			<if test="codevalue != null">
+				and codevalue = #{codevalue}
+			</if>
+			<if test="codename != null">
+				and codename = #{codename}
+			</if>
+			<if test="codeorder != null">
+				and codeorder = #{codeorder}
+			</if>
+			<if test="prop1 != null">
+				and prop1 = #{prop1}
+			</if>
+			<if test="prop2 != null">
+				and prop2 = #{prop2}
+			</if>
+			<if test="prop3 != null">
+				and prop3 = #{prop3}
+			</if>
+			<if test="prop4 != null">
+				and prop4 = #{prop4}
+			</if>
+		</where>
+		<if test="order != null">
+			order by ${order}
+		</if>
+        <if test="order == null">
+            order by codeorder
+        </if>
+	</select>
+	<select id="INSCCode_selectOne" parameterType="Map" resultType="com.cninsure.system.entity.INSCCode">
+		select * from INSCCode
+		<where>
+			<if test="codetype != null">
+				and codetype = #{codetype}
+			</if>
+			<if test="parentcode != null">
+				and parentcode = #{parentcode}
+			</if>
+			<if test="codevalue != null">
+				and codevalue = #{codevalue}
+			</if>
+			<if test="codename != null">
+				and codename = #{codename}
+			</if>
+			<if test="codeorder != null">
+				and codeorder = #{codeorder}
+			</if>
+			<if test="prop1 != null">
+				and prop1 = #{prop1}
+			</if>
+			<if test="prop2 != null">
+				and prop2 = #{prop2}
+			</if>
+			<if test="prop3 != null">
+				and prop3 = #{prop3}
+			</if>
+			<if test="prop4 != null">
+				and prop4 = #{prop4}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	
+	<select id="INSCCode_selectById" parameterType="String" resultType="com.cninsure.system.entity.INSCCode">
+		select * from INSCCode where id = #{id}
+	</select>
+	
+	<select id="INSCCode_seelctByOrderStatus" parameterType="Map" resultType="String">
+		select prop2 from INSCCode where parentcode='workflowNodelName' and codetype='orderStatus' and codevalue=#{orderStatus}
+	</select>
+
+	<!--开户行 -->
+	<select id="INSCCode_selectBank" parameterType="Map" resultType="com.cninsure.system.entity.INSCCode">
+		select * from INSCCode where parentcode='corebankcard' and codetype='corebankcard'
+		<if test="codename != null and codename != ''">
+			and codename LIKE CONCAT('%', #{codename},'%')
+		</if>
+		order by codeorder asc
+	</select>
+	
+	<select id="INSCCode_selectWorkflowNodeNameByValue" parameterType="String" resultType="Map">
+		select codename from INSCCode where codetype='workflowNodelName' and parentcode='workflowNodelName' and  codevalue = #{codevalue} 
+	</select>
+	<select id="INSCCode_selectMyTaskCode" parameterType="String" resultType="Map">
+		select codevalue,codename from INSCCode 
+			<where>
+			<if test="codetype != null">
+				and codetype = #{codetype}
+			</if>
+			<if test="parentcode != null">
+				and parentcode = #{parentcode}
+			</if>
+			<if test="codetype == 'workflowNodelName'">
+				 and  codevalue  in(24,23,21,18,8,12,7,6,20,25,26,27)
+			</if>
+		</where>
+		order by codeorder asc
+	</select>
+	
+	<select id="INSCCode_selectByCodeName" parameterType="Map" resultType="String">
+		select codevalue from INSCCode where codetype=#{codetype}  and  codename = #{codename} 
+	</select>
+	
+	
+	<select id="INSCCode_getCodenameByLogisticscompany" parameterType="String" resultType="String">
+		select codename from INSCCode where parentcode='logisticscompany' AND codetype='logisticscompany' AND codevalue=#{logisticscompany}
+	</select>
+	
+	<select id="INSCCode_selectByTypes" parameterType="String" resultType="com.zzb.model.AppCodeModel">
+	select codename as codeName,codevalue as codeValue,codetype as codeType
+		from INSCCode where codetype in  
+		 <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		  #{item}  
+		 </foreach> 
+		 order by codeorder
+	</select>
+	
+	<select id="INSCCode_selectByType" parameterType="String" resultType="Map">
+	select id,codevalue,codename from INSCCode where codetype =#{codetype}  order by codeorder
+	</select>
+	
+	<select id="INSCCode_deleteById" parameterType="String">
+		delete from INSCCode where id = #{id}
+	</select>
+	<select id="INSCCode_updateById" parameterType="com.cninsure.system.entity.INSCCode">
+		update INSCCode  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},codetype = #{codetype},parentcode = #{parentcode},codevalue = #{codevalue},codename = #{codename},codeorder = #{codeorder},prop1 = #{prop1},prop2 = #{prop2},prop3 = #{prop3},prop4 = #{prop4} where id = #{id}
+	</select>
+	<select id="INSCCode_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSCCode
+		<where>
+			<if test="codetype != null">
+				and codetype = #{codetype}
+			</if>
+			<if test="parentcode != null">
+				and parentcode = #{parentcode}
+			</if>
+			<if test="codevalue != null">
+				and codevalue = #{codevalue}
+			</if>
+			<if test="codename != null">
+				and codename = #{codename}
+			</if>
+			<if test="codeorder != null">
+				and codeorder = #{codeorder}
+			</if>
+			<if test="prop1 != null">
+				and prop1 = #{prop1}
+			</if>
+			<if test="prop2 != null">
+				and prop2 = #{prop2}
+			</if>
+			<if test="prop3 != null">
+				and prop3 = #{prop3}
+			</if>
+			<if test="prop4 != null">
+				and prop4 = #{prop4}
+			</if>
+		</where>
+	</select>
+	<!-- 车险任务管理页面任务类型下拉框选项  liuchao -->
+	<select id="INSCCode_getWorkFlowNodesForCarTaskQuert" resultType="Map">
+		/*slave*/select codevalue, codename FROM insccode 
+		WHERE codetype='workflowNodelName' AND parentcode='workflowNodelName' AND prop4='1' 
+		ORDER BY codeorder
+	</select>
+	<!-- 根据codevalue查询codename  xiao -->
+	<select id="INSCCode_getcodeNameBycodeValue" resultType="String" parameterType="String">
+		select codename from insccode  where codetype='workflowNodelName' and codevalue=#{forname};
+	</select>
+	
+	<!-- 错误信息配置 -->
+	<select id="INSCCode_queryAllErrorCode" parameterType="Map" resultType="Map">
+		select id,operator,createtime,modifytime,noti,codetype,parentcode,codevalue,codename,codeorder,prop1,prop2,prop3,prop4 
+		from INSCCode 
+		<where>
+			codetype in ('commentcontenttype','flowerrorcode','fronterrorinfo')
+		</where> 
+		 <if test="offset != null and limit != null">
+            LIMIT #{offset},#{limit}
+        </if>
+	</select>
+	<select id="INSCCode_queryAllErrorCodeCount" resultType="Integer">
+		select count(1) from INSCCode 
+		<where>
+			codetype in ('commentcontenttype','flowerrorcode','fronterrorinfo')
+		</where> 
+	</select>
+</mapper>

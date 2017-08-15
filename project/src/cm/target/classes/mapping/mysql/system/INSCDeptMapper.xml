@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cninsure.system.entity">
+	<!-- INSCDept  -->
+	<select id="INSCDept_insert" parameterType="com.cninsure.system.entity.INSCDept" resultType="int">
+		insert into INSCDept
+		(id,operator,createtime,modifytime,noti,deptinnercode,trydept,comcode,upcomcode,treedept,comname,shortname,comkind,comtype,comgrade,type,rearcomcode,province,city,county,address,zipcode,phone,fax,email,webaddress,satrapname,satrapcode,satrapphone,childflag,orderflag,treelevel,status,parentcodes,combustype)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{deptinnercode},#{trydept},#{comcode},#{upcomcode},#{treedept},#{comname},#{shortname},#{comkind},#{comtype},#{comgrade},#{type},#{rearcomcode},#{province},#{city},#{county},#{address},#{zipcode},#{phone},#{fax},#{email},#{webaddress},#{satrapname},#{satrapcode},#{satrapphone},#{childflag},#{orderflag},#{treelevel},#{status},#{parentcodes},#{combustype})
+	</select>
+	<select id="INSCDept_selectByParentDeptCode" parameterType="String"
+		resultType="com.cninsure.system.entity.INSCDept">
+		select * from INSCDept WHERE upcomcode = #{value}  ORDER BY comgrade ASC
+	</select>
+	<select id="INSCDept_selectWdByCity" parameterType="Map"
+		resultType="com.cninsure.system.entity.INSCDept">
+		select * from INSCDept
+		<where>
+				comtype ='05'
+			<if test="comtype!=null ">
+				and upcomcode != #{upcomcode}
+			</if>
+			<if test="city!=null ">
+				and city = #{city}
+			</if>
+		</where>
+	</select>
+	<select id="INSCDept_selectByParentDeptCodeAgr" parameterType="Map"
+		resultType="com.cninsure.system.entity.INSCDept">
+		select * from INSCDept
+		<where>
+				upcomcode = #{upcomcode}
+			<if test="comtype!=null and comtype != '' ">
+				and comtype = #{comtype}
+			</if>
+		</where>
+		ORDER BY comgrade ASC
+	</select>
+
+	<select id="INSCDept_selectByParentDeptCode4group" parameterType="String"
+		resultType="Map">
+		select comcode,comname,id from INSCDept WHERE upcomcode = #{value}  ORDER BY comgrade ASC
+	</select>
+
+	<select id="INSCDept_seleDeptIdByInnerCode" parameterType="String"
+		resultType="String">
+		select id from INSCDept WHERE deptinnercode = #{value}
+	</select>
+
+	<select id="INSCDept_selectByParentDeptCode4groups" parameterType="String"
+		resultType="String">
+		select id from INSCDept where comgrade = '04' and parentcodes like CONCAT('%+',#{parentcode},'%') 
+	</select>
+
+	<select id="INSCDept_selectCodesByParentCodesIsNull" resultType="Map">
+		select comcode,upcomcode from INSCDept WHERE parentcodes  is null
+	</select>
+
+
+	<select id="INSCDept_selectComCodeByComtypeAndParentCodes4EDI" parameterType="String" resultType="String">
+		select comcode from INSCDept WHERE comtype='05' and  parentcodes like CONCAT('%',#{value},'%')
+	</select>
+
+
+	<select id="INSCDept_selectParentCodesByComcode" resultType="String" parameterType="String">
+		select parentcodes from INSCDept WHERE comcode=#{value}
+	</select>
+
+	<select id="INSCDept_selectByCode" parameterType="String"
+		resultType="com.cninsure.system.entity.INSCDept">
+		select address,comname  from INSCDept WHERE comcode = #{value}
+	</select>
+
+	<select id="INSCDept_selectParentCodeByCode" parameterType="String"
+		resultType="com.cninsure.system.entity.INSCDept">
+		select comcode,comname,upcomcode,comtype,parentcodes from INSCDept WHERE comcode = #{value}
+	</select>
+
+
+	<select id="INSCDept_updateParentCodesByComcode" parameterType="Map">
+		update  INSCDept set parentcodes=#{parentcodes}  WHERE comcode = #{comcode}
+	</select>
+
+
+	<select id="INSCDept_selectCodeByParentCode" parameterType="String"
+		resultType="String">
+		select comcode from INSCDept WHERE upcomcode = #{upcomcode} 
+	</select>
+
+	<select id="INSCDept_selectByDeptCode" parameterType="String"
+		resultType="com.cninsure.system.entity.INSCDept">
+		select * from INSCDept WHERE comcode = #{comcode}  
+	</select>
+
+	<select id="INSCDept_selectAllByDeptCodes" parameterType="List" resultType="com.cninsure.system.entity.INSCDept">
+		select id,deptinnercode,comcode,upcomcode,parentcodes from INSCDept
+		<where>
+			id IN
+			<if test="list !=null">
+				<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+	<select id="INSCDept_selectByDept" parameterType="String" resultType="com.cninsure.system.entity.INSCDept">
+		select * from INSCDept order by #{fieldName},orderflag  
+	</select>
+
+	<select id="INSCDept_selectAllChildrenBycode" parameterType="String" resultType="String">
+		select comcode from INSCDept where parentcodes like CONCAT('%',#{comcode},'%')  
+	</select>
+
+	<select id="INSCDept_queryPid" parameterType="String" resultType="com.cninsure.system.entity.INSCDept">
+		select id from INSCDept where noti = #{noti} 
+	</select>
+
+	<select id="INSCDept_select" parameterType="Map" resultType="com.cninsure.system.entity.INSCDept">
+		select * from INSCDept
+		<where>
+			<if test="deptinnercode != null">
+				and deptinnercode = #{deptinnercode}
+			</if>
+			<if test="trydept != null">
+				and trydept = #{trydept}
+			</if>
+			<if test="comcode != null">
+				and comcode = #{comcode}
+			</if>
+			<if test="upcomcode != null">
+				and upcomcode = #{upcomcode}
+			</if>
+			<if test="treedept != null">
+				and treedept = #{treedept}
+			</if>
+			<if test="comname != null">
+				and comname = #{comname}
+			</if>
+			<if test="shortname != null">
+				and shortname = #{shortname}
+			</if>
+			<if test="comkind != null">
+				and comkind = #{comkind}
+			</if>
+			<if test="comtype != null">
+				and comtype = #{comtype}
+			</if>
+			<if test="comgrade != null">
+				and comgrade = #{comgrade}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="rearcomcode != null">
+				and rearcomcode = #{rearcomcode}
+			</if>
+			<if test="province != null">
+				and province = #{province}
+			</if>
+			<if test="city != null">
+				and city = #{city}
+			</if>
+			<if test="county != null">
+				and county = #{county}
+			</if>
+			<if test="address != null">
+				and address = #{address}
+			</if>
+			<if test="zipcode != null">
+				and zipcode = #{zipcode}
+			</if>
+			<if test="phone != null">
+				and phone = #{phone}
+			</if>
+			<if test="fax != null">
+				and fax = #{fax}
+			</if>
+			<if test="email != null">
+				and email = #{email}
+			</if>
+			<if test="webaddress != null">
+				and webaddress = #{webaddress}
+			</if>
+			<if test="satrapname != null">
+				and satrapname = #{satrapname}
+			</if>
+			<if test="satrapcode != null">
+				and satrapcode = #{satrapcode}
+			</if>
+			<if test="satrapphone != null">
+				and satrapphone = #{satrapphone}
+			</if>
+			<if test="childflag != null">
+				and childflag = #{childflag}
+			</if>
+			<if test="orderflag != null">
+				and orderflag = #{orderflag}
+			</if>
+			<if test="treelevel != null">
+				and treelevel = #{treelevel}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+	</select>
+	<select id="INSCDept_selectOne" parameterType="Map" resultType="com.cninsure.system.entity.INSCDept">
+		select * from INSCDept
+		<where>
+			<if test="deptinnercode != null">
+				and deptinnercode = #{deptinnercode}
+			</if>
+			<if test="trydept != null">
+				and trydept = #{trydept}
+			</if>
+			<if test="comcode != null">
+				and comcode = #{comcode}
+			</if>
+			<if test="upcomcode != null">
+				and upcomcode = #{upcomcode}
+			</if>
+			<if test="treedept != null">
+				and treedept = #{treedept}
+			</if>
+			<if test="comname != null">
+				and comname = #{comname}
+			</if>
+			<if test="shortname != null">
+				and shortname = #{shortname}
+			</if>
+			<if test="comkind != null">
+				and comkind = #{comkind}
+			</if>
+			<if test="comtype != null">
+				and comtype = #{comtype}
+			</if>
+			<if test="comgrade != null">
+				and comgrade = #{comgrade}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="rearcomcode != null">
+				and rearcomcode = #{rearcomcode}
+			</if>
+			<if test="province != null">
+				and province = #{province}
+			</if>
+			<if test="city != null">
+				and city = #{city}
+			</if>
+			<if test="county != null">
+				and county = #{county}
+			</if>
+			<if test="address != null">
+				and address = #{address}
+			</if>
+			<if test="zipcode != null">
+				and zipcode = #{zipcode}
+			</if>
+			<if test="phone != null">
+				and phone = #{phone}
+			</if>
+			<if test="fax != null">
+				and fax = #{fax}
+			</if>
+			<if test="email != null">
+				and email = #{email}
+			</if>
+			<if test="webaddress != null">
+				and webaddress = #{webaddress}
+			</if>
+			<if test="satrapname != null">
+				and satrapname = #{satrapname}
+			</if>
+			<if test="satrapcode != null">
+				and satrapcode = #{satrapcode}
+			</if>
+			<if test="satrapphone != null">
+				and satrapphone = #{satrapphone}
+			</if>
+			<if test="childflag != null">
+				and childflag = #{childflag}
+			</if>
+			<if test="orderflag != null">
+				and orderflag = #{orderflag}
+			</if>
+			<if test="treelevel != null">
+				and treelevel = #{treelevel}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSCDept_selectById" parameterType="String" resultType="com.cninsure.system.entity.INSCDept">
+		select * from INSCDept where id = #{id}
+	</select>
+	<select id="INSCDept_deleteById" parameterType="String">
+		delete from INSCDept where id = #{id}
+	</select>
+	<select id="INSCDept_updateById" parameterType="com.cninsure.system.entity.INSCDept">
+		update INSCDept  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},deptinnercode = #{deptinnercode},comcode = #{comcode},upcomcode = #{upcomcode},
+		treedept = #{treedept},comname = #{comname},shortname = #{shortname},comkind = #{comkind},comtype = #{comtype},comgrade = #{comgrade},type = #{type},
+		rearcomcode = #{rearcomcode},province = #{province},city = #{city},county = #{county},
+		address = #{address},zipcode = #{zipcode},phone = #{phone},fax = #{fax},email = #{email},
+		webaddress = #{webaddress},satrapname = #{satrapname},satrapcode = #{satrapcode},satrapphone = #{satrapphone},
+		orderflag = #{orderflag},treelevel = #{treelevel},status = #{status},parentcodes=#{parentcodes},childflag=#{childflag},combustype=#{combustype}
+		where id = #{id}
+	</select>
+
+	<update id="INSCDept_updateDeptByid" parameterType="com.cninsure.system.entity.INSCDept">
+		update INSCDept  set childflag = '1' where id = #{id}
+	</update>
+
+	<update id="INSCDept_updateDeptByiddel" parameterType="com.cninsure.system.entity.INSCDept">
+		update INSCDept  set childflag = '0' where id = #{id}
+	</update>
+
+
+	<select id="INSCDept_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSCDept
+		<where>
+			<if test="deptinnercode != null">
+				and deptinnercode = #{deptinnercode}
+			</if>
+			<if test="comcode != null">
+				and comcode = #{comcode}
+			</if>
+			<if test="upcomcode != null">
+				and upcomcode = #{upcomcode}
+			</if>
+			<if test="treedept != null">
+				and treedept = #{treedept}
+			</if>
+			<if test="comname != null">
+				and comname = #{comname}
+			</if>
+			<if test="shortname != null">
+				and shortname = #{shortname}
+			</if>
+			<if test="comkind != null">
+				and comkind = #{comkind}
+			</if>
+			<if test="comtype != null">
+				and comtype = #{comtype}
+			</if>
+			<if test="comgrade != null">
+				and comgrade = #{comgrade}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="rearcomcode != null">
+				and rearcomcode = #{rearcomcode}
+			</if>
+			<if test="province != null">
+				and province = #{province}
+			</if>
+			<if test="city != null">
+				and city = #{city}
+			</if>
+			<if test="county != null">
+				and county = #{county}
+			</if>
+			<if test="address != null">
+				and address = #{address}
+			</if>
+			<if test="zipcode != null">
+				and zipcode = #{zipcode}
+			</if>
+			<if test="phone != null">
+				and phone = #{phone}
+			</if>
+			<if test="fax != null">
+				and fax = #{fax}
+			</if>
+			<if test="email != null">
+				and email = #{email}
+			</if>
+			<if test="webaddress != null">
+				and webaddress = #{webaddress}
+			</if>
+			<if test="satrapname != null">
+				and satrapname = #{satrapname}
+			</if>
+			<if test="satrapcode != null">
+				and satrapcode = #{satrapcode}
+			</if>
+			<if test="satrapphone != null">
+				and satrapphone = #{satrapphone}
+			</if>
+			<if test="childflag != null">
+				and childflag = #{childflag}
+			</if>
+			<if test="orderflag != null">
+				and orderflag = #{orderflag}
+			</if>
+			<if test="treelevel != null">
+				and treelevel = #{treelevel}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+	</select>
+	<select id="INSCDept_selectCom" parameterType="Map" resultType="com.cninsure.system.entity.INSCDept">
+       	select i.comname from inscdept i LEFT JOIN insboutorderdept s ON i.deptid=s.deptid1 LEFT JOIN insborderdelivery b ON b.deptcode=s.id
+            WHERE b.deptcode=#{deptcode}
+	</select>
+	<select id="INSCDept_selectWDidsByPatId" parameterType="Map" resultType="String">
+       	select id FROM inscdept
+          <where>
+              parentcodes like CONCAT('%',#{id},'%')
+              <if test="comtype != null and comtype != ''">
+                and comtype = #{comtype}
+              </if>
+          </where>
+	</select>
+	<select id="INSCDept_selectDeptlikeparentcodes" parameterType="Map" resultType="com.cninsure.system.entity.INSCDept">
+		select * FROM inscdept WHERE (parentcodes LIKE CONCAT (#{parentcodes},'%') OR id =#{deptid} ) AND comtype = '05' 
+	</select>
+	<select id="INSCDept_selectDeptlikeparentcodes2" parameterType="Map" resultType="com.cninsure.system.entity.INSCDept">
+		select * FROM inscdept WHERE (parentcodes LIKE CONCAT (#{parentcodes},'%') OR id =#{deptid} )  AND comtype in ('01','02','03','04','05')
+	</select>
+	<select id="INSCDept_selectAgreedDeptByRegionCode" parameterType="Map" resultType="com.cninsure.system.entity.INSCDept">
+		select
+		  d1.*
+		FROM
+		  inscdept d1,insboutorderdept ad
+		<where>
+			ad.deptid5 = d1.comcode AND d1.type = '1'
+			<if test="province != null and province != ''">
+				AND d1.province = #{province}
+			</if>
+			<if test="city != null and city != ''">
+				AND d1.city = #{city}
+			</if>
+			<if test="county != null and county != ''">
+				AND d1.county = #{county}
+			</if>
+			<if test="comtype != null and comtype != ''">
+				AND d1.comtype = #{comtype}
+			</if>
+			<if test="status != null and status != ''">
+				AND d1.status != #{status}
+			</if>
+		</where>
+			ORDER BY ad.scaleflag desc
+	</select>
+	<!-- 生成机构树使用  liuchao -->
+	<select id="INSCDept_selectDeptTreeByParentCode" parameterType="String" resultType="Map">
+			select id, comcode, upcomcode, comname AS 'name', shortname, 
+			CASE WHEN childflag='1' THEN 'true' WHEN childflag='0' THEN 'false' ELSE 'false' END AS isParent
+			FROM inscdept WHERE `status`='0' AND upcomcode = #{value} 
+	</select>
+	<select id="INSCDept_selectPartTreeByParentCode" parameterType="Map" resultType="Map">
+		select id, comcode, upcomcode, comname AS 'name', shortname,comgrade,deptinnercode,
+		CASE WHEN childflag='1' THEN 'true' WHEN childflag='0' THEN 'false' ELSE 'false' END AS isParent
+		FROM inscdept
+		<where>
+			`status`='0'
+			<if test="parentcode !=null and parentcode !=''">
+				AND upcomcode = #{parentcode}
+			</if>
+			<if test="userorganization !=null and userorganization !=''">
+				AND comcode=#{userorganization}
+			</if>
+		</where>
+	</select>
+
+	<select id="INSCDept_selectWdByCityAndPlatform" parameterType="Map" resultType="Map">
+		SELECT
+		DISTINCT c.id,
+		c.comname name,
+		c.city,
+    c.upcomcode pId,
+    c.comtype comtype,
+    (
+       CASE
+			WHEN c.childflag=1  THEN
+				'true'
+			ELSE
+				'false'
+			END
+      ) isParent,
+		(
+			CASE
+			WHEN #{city} = c.city THEN
+				0
+			ELSE
+				1
+			END
+		) dq,
+		(
+			CASE
+			WHEN #{deptid} = c.id THEN
+				0
+			ELSE
+				1
+			END
+		) my
+	FROM
+		insboutorderdept b,
+		inscdept c
+	WHERE
+		EXISTS (
+			SELECT
+				1
+			FROM
+				insbagreement a
+			WHERE
+				a.deptid = #{platformcode}
+			AND a.id = b.agreementid
+			AND a.`agreementstatus`='1'
+		)
+	AND b.deptid5 = c.id AND c.`city`=#{city} order by my,c.`comcode`
+	</select>
+
+	<select id="INSCDept_selectList4Tree" parameterType="Map" resultType="Map">
+		select id, upcomcode AS pId, comname AS name, shortname AS sName, 'true' AS isParent, 'true' AS open FROM inscdept
+		WHERE id = '1200000000'
+		UNION ALL
+		select id, upcomcode as pId, comname as name, shortname as sName,
+		CASE
+			<if test="comgrade !=null and comgrade !=''">
+				WHEN comgrade = #{comgrade} THEN 'false'
+			</if>
+			WHEN childflag='1' THEN 'true'
+			ELSE 'false' END AS isParent,
+			'false' AS open
+		FROM inscdept
+		<where>
+			deptinnercode like CONCAT(#{userorganization},'%')
+			AND id != '1200000000'
+			<if test="comgrade !=null and comgrade !=''">
+				AND comgrade &lt;= #{comgrade}
+			</if>
+			<if test="comtype !=null and comtype !=''">
+				AND type = #{comtype}
+			</if>
+		</where>
+	</select>
+</mapper>

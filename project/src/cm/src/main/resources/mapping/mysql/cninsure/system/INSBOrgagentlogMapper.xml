@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cninsure.system.entity">
+	<!-- INSBOrgagentlog -->
+	<select id="INSBOrgagentlog_insert" parameterType="com.cninsure.system.entity.INSBOrgagentlog"
+		resultType="int">
+		insert into INSBOrgagentlog 
+		(id,operator,createtime,modifytime,noti,type,issuccess,syncdate,logcontent)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{type},#{issuccess},#{syncdate},#{logcontent})
+	</select>
+	<select id="INSBOrgagentlog_select" parameterType="Map"
+		resultType="com.cninsure.system.entity.INSBOrgagentlog">
+		select * from INSBOrgagentlog
+		<where>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+			<if test="issuccess != null">
+				and issuccess = #{issuccess}
+			</if>
+			<if test="syncdate != null">
+				and syncdate = #{syncdate}
+			</if>
+			<if test="logcontent != null">
+				and logcontent = #{logcontent}
+			</if>
+		</where>
+	</select>
+	<select id="INSBOrgagentlog_selectById" parameterType="String"
+		resultType="com.cninsure.system.entity.INSBOrgagentlog">
+		select * from INSBOrgagentlog where id = #{id}
+	</select>
+	<select id="INSBOrgagentlog_deleteById" parameterType="String">
+		delete
+		from INSBOrgagentlog where id = #{id}
+	</select>
+	<select id="INSBOrgagentlog_updateById" parameterType="com.cninsure.system.entity.INSBOrgagentlog">
+		update
+		INSBOrgagentlog set operator = #{operator},modifytime =
+		#{modifytime},noti = #{noti},type = #{type},issuccess =
+		#{issuccess},syncdate = #{syncdate},logcontent = #{logcontent} where
+		id = #{id}
+	</select>
+	<select id="INSBOrgagentlog_selectCount" parameterType="Map"
+		resultType="Long">
+		select count(1) from INSBOrgagentlog
+		<where>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+			<if test="issuccess != null">
+				and issuccess = #{issuccess}
+			</if>
+			<if test="syncdate != null">
+				and syncdate = #{syncdate}
+			</if>
+			<if test="logcontent != null">
+				and logcontent = #{logcontent}
+			</if>
+		</where>
+	</select>
+	<select id="INSBOrgagentlog_selectOne" parameterType="Map"
+		resultType="com.cninsure.system.entity.INSBOrgagentlog">
+		select * from INSBOrgagentlog
+		<where>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+			<if test="issuccess != null">
+				and issuccess = #{issuccess}
+			</if>
+			<if test="syncdate != null">
+				and syncdate = #{syncdate}
+			</if>
+			<if test="logcontent != null">
+				and logcontent = #{logcontent}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+
+	<select id="INSBOrgagentlog_getMaxSyncdate" parameterType="Integer"
+		resultType="java.util.Date">
+		select MAX(SYNCDATE) SYNCDATE FROM INSBORGAGENTLOG WHERE
+		TYPE=#{type} AND ISSUCCESS='1'
+	</select>
+</mapper>

@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+
+	<!-- INSBCertification -->
+	<select id="INSBCertification_insert" parameterType="com.zzb.conf.entity.INSBCertification"
+		resultType="int">
+		insert into INSBCertification
+		(id,operator,createtime,modifytime,noti,agentnum,mainbiz,idcardpositive,idcardopposite,bankname,depositbank,accountname,accountnum,bankcardpositive,qualificationpositive,qualificationpage,deptid,agree,designatedoperator,designatedgroup,rank,belongs2bank,bankcard)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{agentnum},#{mainbiz},#{idcardpositive},#{idcardopposite},#{bankname},#{depositbank},#{accountname},#{accountnum},#{bankcardpositive},#{qualificationpositive},#{qualificationpage},#{deptid},#{agree},#{designatedoperator},#{designatedgroup},#{rank},#{belongs2bank},#{bankcard})
+	</select>
+
+	<select id="INSBCertification_select" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBCertification">
+		select * from INSBCertification 
+		<where>
+			<if test="operator != null">
+				and operator = #{operator} 
+			</if>
+			<if test="createtime != null">
+				and createtime = #{createtime} 
+			</if>
+			<if test="modifytime != null">
+				and modifytime = #{modifytime} 
+			</if>
+			<if test="noti != null">
+				and noti = #{noti} 
+			</if>
+			<if test="agentnum != null">
+				and agentnum = #{agentnum} 
+			</if>
+			<if test="idcardpositive != null">
+				and idcardpositive = #{idcardpositive} 
+			</if>
+			<if test="idcardopposite != null">
+				and idcardopposite = #{idcardopposite} 
+			</if>
+			<if test="mainbiz != null">
+				and mainbiz = #{mainbiz} 
+			</if>
+			<if test="bankname != null">
+				and bankname = #{bankname} 
+			</if> 
+			<if test="depositbank != null">
+				and depositbank = #{depositbank} 
+			</if>
+			<if test="accountname != null">
+				and accountname = #{accountname} 
+			</if>
+			<if test="accountnum != null">
+				and accountnum = #{accountnum} 
+			</if>
+			<if test="bankcardpositive != null">
+				and bankcardpositive = #{bankcardpositive} 
+			</if>
+			<if test="qualificationpositive != null">
+				and qualificationpositive = #{qualificationpositive} 
+			</if>
+			<if test="qualificationpage != null">
+				and qualificationpage = #{qualificationpage} 
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid} 
+			</if>
+			<if test="agree != null">
+				and agree = #{agree} 
+			</if>
+			<if test="status != null">
+				and status = #{status} 
+			</if>
+			<if test="designatedoperator != null">
+				and designatedoperator = #{designatedoperator} 
+			</if>
+			<if test="designatedgroup != null">
+				and designatedgroup = #{designatedgroup} 
+			</if>
+		</where>
+	</select>
+	<select id="INSBCertification_selectOne" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBCertification">
+		select * from INSBCertification 
+		<where>
+			<if test="operator != null">
+				and operator = #{operator} 
+			</if>
+			<if test="createtime != null">
+				and createtime = #{createtime} 
+			</if>
+			<if test="modifytime != null">
+				and modifytime = #{modifytime} 
+			</if>
+			<if test="noti != null">
+				and noti = #{noti} 
+			</if>
+			<if test="agentnum != null">
+				and agentnum = #{agentnum} 
+			</if>
+			<if test="idcardpositive != null">
+				and idcardpositive = #{idcardpositive} 
+			</if>
+			<if test="idcardopposite != null">
+				and idcardopposite = #{idcardopposite} 
+			</if>
+			<if test="mainbiz != null">
+				and mainbiz = #{mainbiz} 
+			</if>
+			<if test="bankname != null">
+				and bankname = #{bankname} 
+			</if> 
+			<if test="depositbank != null">
+				and depositbank = #{depositbank} 
+			</if>
+			<if test="accountname != null">
+				and accountname = #{accountname} 
+			</if>
+			<if test="accountnum != null">
+				and accountnum = #{accountnum} 
+			</if>
+			<if test="bankcardpositive != null">
+				and bankcardpositive = #{bankcardpositive} 
+			</if>
+			<if test="qualificationpositive != null">
+				and qualificationpositive = #{qualificationpositive} 
+			</if>
+			<if test="qualificationpage != null">
+				and qualificationpage = #{qualificationpage} 
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid} 
+			</if>
+			<if test="agree != null">
+				and agree = #{agree} 
+			</if>
+			<if test="status != null">
+				and status = #{status} 
+			</if>
+			<if test="designatedoperator != null">
+				and designatedoperator = #{designatedoperator} 
+			</if>
+			<if test="designatedgroup != null">
+				and designatedgroup = #{designatedgroup} 
+			</if>
+		</where>
+		ORDER  BY createtime DESC
+		LIMIT 1
+	</select>
+		
+	<select id="INSBCertification_selectById" parameterType="String"
+		resultType="com.zzb.conf.entity.INSBCertification">
+		select * from INSBCertification  where id = #{id}
+	</select>
+	
+	<select id="INSBCertification_deleteById" parameterType="String">
+		delete from
+		INSBCertification where id = #{id}
+	</select>
+	
+	<select id="INSBCertification_updateById" parameterType="com.zzb.conf.entity.INSBCertification">
+		update INSBCertification
+		<set>
+			<if test="operator != null">
+				operator = #{operator},
+			</if>
+			<if test="createtime != null">
+				createtime = #{createtime},
+			</if>
+			<if test="modifytime != null">
+				modifytime = #{modifytime},
+			</if>
+			<if test="noti != null">
+				noti = #{noti},
+			</if>
+			<if test="agentnum != null">
+				agentnum = #{agentnum},
+			</if>
+			<if test="idcardpositive != null">
+				idcardpositive = #{idcardpositive},
+			</if>
+			<if test="idcardopposite != null">
+				idcardopposite = #{idcardopposite},
+			</if>
+			<if test="mainbiz != null">
+				mainbiz = #{mainbiz},
+			</if>
+			<if test="bankname != null">
+				bankname = #{bankname},
+			</if>
+			<if test="depositbank != null">
+				depositbank = #{depositbank},
+			</if>
+			<if test="accountname != null">
+				accountname = #{accountname},
+			</if>
+			<if test="accountnum != null">
+				accountnum = #{accountnum},
+			</if>
+			<if test="bankcardpositive != null">
+				bankcardpositive = #{bankcardpositive},
+			</if>
+			<if test="qualificationpositive != null">
+				qualificationpositive = #{qualificationpositive},
+			</if>
+			<if test="qualificationpage != null">
+				qualificationpage = #{qualificationpage},
+			</if>
+			<if test="deptid != null">
+				deptid = #{deptid},
+			</if>
+			<if test="agree != null">
+				agree = #{agree},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="designatedoperator != null">
+				designatedoperator = #{designatedoperator},
+			</if>
+			<if test="designatedgroup != null">
+				designatedgroup = #{designatedgroup},
+			</if>
+			<if test="rank != null">
+				rank = #{rank},
+			</if>
+			<if test="belongs2bank != null and belongs2bank!='' ">
+				belongs2bank = #{belongs2bank},
+			</if>
+			<if test="bankcard != null and bankcard != ''">
+				bankcard = #{bankcard},
+			</if>
+		</set>
+		 where id = #{id}
+	</select>
+	<select id="INSBCertification_updateByCertificationID" parameterType="com.zzb.conf.entity.INSBCertification">
+		update INSBCertification
+		<set>
+			designatedoperator = #{designatedoperator}
+		</set>
+			where id = #{id}
+	</select>
+	<select id="INSBCertification_selectCount" parameterType="Map"
+		resultType="Long">
+		select count(1) from INSBCertification
+		<where>
+			<if test="operator != null">
+				and operator = #{operator}
+			</if>
+			<if test="createtime != null">
+				and createtime = #{createtime}
+			</if>
+			<if test="modifytime != null">
+				and modifytime = #{modifytime}
+			</if>
+			<if test="noti != null">
+				and noti = #{noti}
+			</if>
+			<if test="agentnum != null">
+				and agentnum = #{agentnum}
+			</if>
+			<if test="idcardpositive != null">
+				and idcardpositive = #{idcardpositive}
+			</if>
+			<if test="idcardopposite != null">
+				and idcardopposite = #{idcardopposite}
+			</if>
+			<if test="mainbiz != null">
+				and mainbiz = #{mainbiz}
+			</if>
+			<if test="bankname != null">
+				and bankname = #{bankname}
+			</if>
+			<if test="depositbank != null">
+				and depositbank = #{depositbank}
+			</if>
+			<if test="accountname != null">
+				and accountname = #{accountname}
+			</if>
+			<if test="accountnum != null">
+				and accountnum = #{accountnum}
+			</if>
+			<if test="bankcardpositive != null">
+				and bankcardpositive = #{bankcardpositive}
+			</if>
+			<if test="qualificationpositive != null">
+				and qualificationpositive = #{qualificationpositive}
+			</if>
+			<if test="qualificationpage != null">
+				and qualificationpage = #{qualificationpage}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="agree != null">
+				and agree = #{agree}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="designatedoperator != null">
+				and designatedoperator = #{designatedoperator}
+			</if>
+		</where>
+	</select>
+	<!-- cm认证任务 start -->
+	<select id="INSBCertification_getCertificationInfo" parameterType="com.zzb.cm.controller.vo.CertificationVo" resultType="com.zzb.cm.controller.vo.CertificationVo">
+		select c.id,c.agentnum,c.noti,a.referrer,c.mainbiz,r.comcodename AS region,a.id AS agentid,a.deptid,a.jobnum,a.jobnumtype,a.channelid,a.name,a.mobile,a.idno AS idcard,a.bankcard,a.cgfns
+		,d.province,d.city,c.belongs2bank,d.shortname AS deptname,ch.channelname AS channelname,c.`designatedoperator`,c.status,c.rank
+		 from INSBCertification c 
+		LEFT JOIN insbagent a ON c.agentnum = a.tempjobnum
+		LEFT JOIN inscdept d ON d.id = c.deptid
+		LEFT JOIN insbregion r ON a.livingcityid = r.id
+		LEFT JOIN insbchannel ch ON a.channelid = ch.id
+		<where>
+			a.agentstatus!=3
+			<if test="id != null">
+				and c.id = #{id}
+			</if>
+		</where>
+	</select>
+	<!-- cm认证任务 end -->
+	<select id="INSBCertification_getOneCertificationInfo" parameterType="com.zzb.cm.controller.vo.CertificationVo" resultType="com.zzb.cm.controller.vo.CertificationVo">
+		select c.id,c.agentnum,c.mainbiz,r.comcodename AS region,a.id AS agentid,a.deptid,a.jobnum,a.jobnumtype,a.channelid,a.name,a.mobile,a.idno AS idcard,a.bankcard,a.cgfns
+		,d.province,d.city,a.belongs2bank,d.shortname AS deptname,ch.channelname AS channelname
+		from INSBCertification c
+		LEFT JOIN insbagent a ON c.agentnum = a.tempjobnum
+		LEFT JOIN inscdept d ON d.id = c.deptid
+		LEFT JOIN insbregion r ON a.livingcityid = r.id
+		LEFT JOIN insbchannel ch ON a.channelid = ch.id
+		<where>
+			a.agentstatus!=3
+			<if test="id != null">
+				and c.id = #{id}
+			</if>
+			<if test="agentnum != null">
+				and c.agentnum = #{agentnum}
+			</if>
+		</where>
+		LIMIT 1
+	</select>
+
+	<select id="INSBCertification_getCertificationPage" parameterType="Map" resultType="Map">
+		SELECT rc.`status`,rc.id AS mInstanceid, rc.id AS sInstanceid,  DATE_FORMAT( rc.createtime, '%Y-%m-%d %H:%i:%S') AS taskcreatetime,rc.designatedoperator,
+		ra.`name` AS agentname, ra.jobnum AS agentnum,
+		rd.comname AS deptname, rc.`status` AS orderstatus, rcbus.codename AS buychannel,
+		rcc.comcodename AS busproposalformno, rcx.comcodename AS buspolicyno,
+		rcp.comcodename AS strproposalformno,  ra.jobnumtype AS jobnumtype, ra.phone AS phone,ra.`referrer`,
+		CONCAT(rcp.comcodename,rcc.comcodename) AS district,
+		<!--CASE WHEN rc.designatedoperator='' OR rc.designatedoperator IS NULL THEN '分配中'
+		ELSE '已分配到人' END AS taskstatus-->
+		CASE rc.`status` WHEN 0  THEN '认证中'
+		WHEN 1  THEN '认证成功'
+		WHEN 3  THEN '认证失败'
+		ELSE '退回修改' END AS taskstatus
+		FROM insbcertification rc
+		LEFT JOIN insccode rcbus ON rcbus.codetype='mainbusiness' AND rcbus.parentcode='mainbusiness' AND rcbus.codevalue=rc.mainbiz
+		INNER JOIN insbagent ra ON ra.tempjobnum=rc.agentnum
+		LEFT JOIN inscdept rd ON rd.id=rc.deptid
+		LEFT JOIN insbregion rcp ON rcp.comcode=rd.province
+		LEFT JOIN insbregion rcc ON rcc.comcode=rd.city
+		LEFT JOIN insbregion rcx ON rcx.comcode=rd.county
+		<where>
+			<if test="status != null">
+				AND rc.`status` = #{status}
+			</if>
+			<if test="idno != null">
+				AND ra.`idno` = #{idno}
+			</if>
+			AND EXISTS(SELECT * FROM insbgroupmembers qxgm LEFT JOIN insbbusinessmanagegroup qxmg ON qxgm.groupid=qxmg.id
+			WHERE qxgm.userid=#{loginUserId} AND qxmg.tasktype LIKE CONCAT('%',"h",'%'))
+			AND (rd.parentcodes LIKE CONCAT('%', #{userorganization},'%') OR rd.comcode=#{userorganization})
+			<if test="agentName != null">
+				AND ra.`name` = #{agentName}
+			</if>
+			<if test="agentNum != null">
+				AND ra.jobnum = #{agentNum}
+			</if>
+			<if test="agentphone != null">
+				AND ra.phone = #{agentphone}
+			</if>
+			<if test="taskcreatetimeup != null">
+				AND rc.createtime &gt;= #{taskcreatetimeup}
+			</if>
+			<if test="taskcreatetimedown != null">
+				AND rc.createtime &lt;= #{taskcreatetimedown}
+			</if>
+			<if test="province != null">
+				AND rcp.comcode = #{province}
+			</if>
+			<if test="city != null">
+				AND rcc.comcode = #{city}
+			</if>
+		</where>
+		ORDER BY rc.createtime DESC
+		limit #{offset},#{limit}
+	</select>
+	<select id="INSBCertification_getCertificationCount" parameterType="Map" resultType="int">
+		SELECT count(1)
+		FROM insbcertification rc
+		INNER JOIN insbagent ra ON ra.tempjobnum=rc.agentnum
+		LEFT JOIN inscdept rd ON rd.id=rc.deptid
+		LEFT JOIN insbregion rcp ON rcp.comcode=rd.province
+		LEFT JOIN insbregion rcc ON rcc.comcode=rd.city
+		<where>
+			<if test="status != null">
+				AND rc.`status` = #{status}
+			</if>
+			<if test="idno != null">
+				AND ra.`idno` = #{idno}
+			</if>
+			AND EXISTS(SELECT * FROM insbgroupmembers qxgm LEFT JOIN insbbusinessmanagegroup qxmg ON qxgm.groupid=qxmg.id
+			WHERE qxgm.userid=#{loginUserId} AND qxmg.tasktype LIKE CONCAT('%',"h",'%'))
+			AND (rd.parentcodes LIKE CONCAT('%', #{userorganization},'%') OR rd.comcode=#{userorganization})
+			<if test="agentName != null">
+				AND ra.`name`= #{agentName}
+			</if>
+			<if test="agentNum != null">
+				AND ra.jobnum = #{agentNum}
+			</if>
+			<if test="agentphone != null">
+				AND ra.phone = #{agentphone}
+			</if>
+			<if test="taskcreatetimeup != null">
+				AND rc.createtime &gt;= #{taskcreatetimeup}
+			</if>
+			<if test="taskcreatetimedown != null">
+				AND rc.createtime &lt;= #{taskcreatetimedown}
+			</if>
+			<if test="province != null">
+				AND rcp.comcode = #{province}
+			</if>
+			<if test="city != null">
+				AND rcc.comcode = #{city}
+			</if>
+		</where>
+	</select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+
+	<select id="INSBRuleEngine_selectById" parameterType="String"
+		resultType="Map">
+		select id, rule_name as ruleName,rule_postil as rulePostil,
+		rule_activation as ruleActivation,rule_group as ruleGroup
+		from insbrulebase where id = #{id}
+	</select>
+	<select id="INSBRuleEngine_selectByParam" parameterType="Map"
+		resultType="Map">
+		select rule_engine_id, rule_base_postil
+		from rule_engine 
+		<where>
+		<if test="rule_base_type!=null">
+			and rule_base_type=#{rule_base_type}
+		</if>
+		<if test="city_id!=null">
+			and city_id=#{city_id}
+		</if>
+		<if test="company_id!=null">
+			and company_id=#{company_id}
+		</if>	
+		</where>
+	</select>
+	<select id="INSBRuleEngine_queryTruleByCity" parameterType="Map"
+		resultType="Map">
+		select rule_engine_id, rule_base_postil
+		from rule_engine 
+		 where rule_base_type=#{rule_base_type} 
+		  and rule_base_postil like CONCAT('%',#{trulename},'%') 
+		  and city_id in 
+		     <foreach item="cityid" index="index" collection="cityids" open="(" separator="," close=")">  
+	           #{cityid}
+		     </foreach>
+	</select>
+	<select id="INSBRuleEngine_getagreementrulename" parameterType="String"
+		resultType="String">
+		select rule_base_postil
+		from rule_engine 
+		 where rule_engine_id=#{agreementrule} 
+	</select>
+</mapper>

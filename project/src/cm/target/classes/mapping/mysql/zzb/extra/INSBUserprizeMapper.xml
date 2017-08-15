@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.extra.entity">
+	<!-- INSBUserprize -->
+	<select id="INSBUserprize_insert" parameterType="com.zzb.extra.entity.INSBUserprize" resultType="int">
+		insert into INSBUserprize
+		(id ,uid,activityid,gettime,usetime,status,counts,prizeid) 
+		values
+		(#{id},#{uid},#{activityid},#{gettime},#{usetime},#{status},#{counts},#{prizeid}) 
+	</select>
+	<select id="INSBUserprize_select" parameterType="Map" resultType="Map">
+		select u.*,p.effectivetime,p.invalidtime,p.counts
+			from INSBUserprize u,insbprizeinfo p,insbactivityinfo a  
+			where u.prizeid =p.id and a.id =u.activityid
+			<if test="uid != null">
+				and u.uid = #{uid}
+			</if>
+			<if test="activityid != null">
+				and u.activityid = #{activityid}
+			</if>
+			<if test="gettime != null">
+				and u.gettime = #{gettime}
+			</if>
+			<if test="usetime != null">
+				and u.usetime = #{usetime}
+			</if>
+			<if test="status != null">
+				and u.status = #{status}
+			</if>
+			<if test="counts != null">
+				and u.counts = #{counts}
+			</if>
+			
+			<if test="type != null">
+				and p.type = #{type}
+			</if>
+	</select>
+	<select id="INSBUserprize_selectById" parameterType="String" resultType="com.zzb.extra.entity.INSBUserprize">
+		select * from INSBUserprize where id = #{id}
+	</select>
+	<select id="INSBUserprize_deleteById" parameterType="String">
+		delete from INSBUserprize where id = #{id}
+	</select>
+	<select id="INSBUserprize_updateById" parameterType="com.zzb.extra.entity.INSBUserprize">
+		update INSBUserprize  set prizeid=#{prizeid}, uid = #{uid},activityid = #{activityid},gettime = #{gettime},usetime = #{usetime},status = #{status},counts = #{counts} where id = #{id}
+	</select>
+	<select id="INSBUserprize_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBUserprize
+		<where>
+			<if test="uid != null">
+				and uid = #{uid}
+			</if>
+			<if test="activityid != null">
+				and activityid = #{activityid}
+			</if>
+			<if test="gettime != null">
+				and gettime = #{gettime}
+			</if>
+			<if test="usetime != null">
+				and usetime = #{usetime}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="counts != null">
+				and counts = #{counts}
+			</if>
+		</where>
+	</select>
+	<select id="INSBUserprize_selectOne" parameterType="Map" resultType="com.zzb.extra.entity.INSBUserprize">
+		select * from INSBUserprize
+		<where>
+			<if test="uid != null">
+				and uid = #{uid}
+			</if>
+			<if test="activityid != null">
+				and activityid = #{activityid}
+			</if>
+			<if test="gettime != null">
+				and gettime = #{gettime}
+			</if>
+			<if test="usetime != null">
+				and usetime = #{usetime}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="counts != null">
+				and counts = #{counts}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+</mapper>

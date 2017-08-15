@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBLegalrightclaim -->
+	<select id="INSBLegalrightclaim_insert" parameterType="com.zzb.cm.entity.INSBLegalrightclaim" resultType="int">
+		insert into INSBLegalrightclaim
+		(id,operator,createtime,modifytime,noti,taskid,personid,isLegal,orderNum,ratio,relation) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{personid},#{isLegal},#{orderNum},#{ratio},#{relation})
+	</select>
+	<select id="INSBLegalrightclaim_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBLegalrightclaim">
+		select * from INSBLegalrightclaim
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="isLegal != null">
+				and isLegal = #{isLegal}
+			</if>
+			<if test="orderNum != null">
+				and orderNum = #{orderNum}
+			</if>
+			<if test="ratio != null">
+				and ratio = #{ratio}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+		</where>
+	</select>
+	<select id="INSBLegalrightclaim_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBLegalrightclaim">
+		select * from INSBLegalrightclaim
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="isLegal != null">
+				and isLegal = #{isLegal}
+			</if>
+			<if test="orderNum != null">
+				and orderNum = #{orderNum}
+			</if>
+			<if test="ratio != null">
+				and ratio = #{ratio}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+		</where>
+		 ORDER BY createtime DESC LIMIT 1  
+	</select>
+	<select id="INSBLegalrightclaim_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBLegalrightclaim">
+		select * from INSBLegalrightclaim where id = #{id}
+	</select>
+	<select id="INSBLegalrightclaim_deleteById" parameterType="String">
+		delete from INSBLegalrightclaim where id = #{id}
+	</select>
+	<select id="INSBLegalrightclaim_updateById" parameterType="com.zzb.cm.entity.INSBLegalrightclaim">
+		update INSBLegalrightclaim  set operator = #{operator},modifytime = NOW(),noti = #{noti},taskid = #{taskid},personid = #{personid},isLegal = #{isLegal},orderNum = #{orderNum},ratio = #{ratio},relation = #{relation} where id = #{id}
+	</select>
+	<!--依据taskID来修改personID -->
+	<select id="INSBLegalrightclaim_updateByTaskId" parameterType="com.zzb.cm.entity.INSBLegalrightclaim">
+		update INSBLegalrightclaim  set personid = #{personid}, modifytime = NOW() where taskid = #{taskid}
+	</select>
+	
+	<select id="INSBLegalrightclaim_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBLegalrightclaim 
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="isLegal != null">
+				and isLegal = #{isLegal}
+			</if>
+			<if test="orderNum != null">
+				and orderNum = #{orderNum}
+			</if>
+			<if test="ratio != null">
+				and ratio = #{ratio}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+		</where>
+	</select>
+	<select id="INSBLegalrightclaim_selectByTaskID" parameterType="String" resultType="com.zzb.cm.entity.INSBLegalrightclaim">
+		select * from INSBLegalrightclaim where taskid = #{taskid}
+	</select>
+</mapper>

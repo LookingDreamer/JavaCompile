@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSHLegalrightclaimhis -->
+	<select id="INSHLegalrightclaimhis_insert" parameterType="com.zzb.cm.entity.INSHLegalrightclaimhis" resultType="int">
+		insert into INSHLegalrightclaimhis
+		(id,operator,createtime,modifytime,noti,taskid,personid,inscomcode,isLegal,orderNum,ratio,relation,fairyoredi,nodecode) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{personid},#{inscomcode},#{isLegal},#{orderNum},#{ratio},#{relation},#{fairyoredi},#{nodecode})
+	</select>
+	<select id="INSHLegalrightclaimhis_select" parameterType="Map" resultType="com.zzb.cm.entity.INSHLegalrightclaimhis">
+		select * from INSHLegalrightclaimhis
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="isLegal != null">
+				and isLegal = #{isLegal}
+			</if>
+			<if test="orderNum != null">
+				and orderNum = #{orderNum}
+			</if>
+			<if test="ratio != null">
+				and ratio = #{ratio}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+	</select>
+	<select id="INSHLegalrightclaimhis_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSHLegalrightclaimhis">
+		select * from INSHLegalrightclaimhis where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHLegalrightclaimhis_deleteById" parameterType="String">
+		delete from INSHLegalrightclaimhis where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHLegalrightclaimhis_updateById" parameterType="com.zzb.cm.entity.INSHLegalrightclaimhis">
+		update INSHLegalrightclaimhis  set operator = #{operator},modifytime = NOW(),noti = #{noti},taskid = #{taskid},personid = #{personid},inscomcode = #{inscomcode},isLegal = #{isLegal},orderNum = #{orderNum},ratio = #{ratio},relation = #{relation},fairyoredi = #{fairyoredi},nodecode = #{nodecode} where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHLegalrightclaimhis_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSHLegalrightclaimhis
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="isLegal != null">
+				and isLegal = #{isLegal}
+			</if>
+			<if test="orderNum != null">
+				and orderNum = #{orderNum}
+			</if>
+			<if test="ratio != null">
+				and ratio = #{ratio}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+	</select>
+	<select id="INSHLegalrightclaimhis_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSHLegalrightclaimhis">
+		select * from INSHLegalrightclaimhis
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="isLegal != null">
+				and isLegal = #{isLegal}
+			</if>
+			<if test="orderNum != null">
+				and orderNum = #{orderNum}
+			</if>
+			<if test="ratio != null">
+				and ratio = #{ratio}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+</mapper>

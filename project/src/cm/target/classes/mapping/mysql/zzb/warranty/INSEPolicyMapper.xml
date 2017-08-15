@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.warranty.model">
+    <!-- INSEOrder  -->
+
+    <select id="INSEPolicy_insert" parameterType="com.zzb.warranty.model.INSEPolicy" resultType="int">
+        insert into INSEPolicy
+		(id,operator,createtime,modifytime,orderid,applicantid,applicantname,insuredid,insuredname,legalrightclaimid,legalrightclaimname,carownerid,carownername,carinfoid,standardfullname,proposalformno,premium,insureddate,startdate,enddate,totalepremium,agentnum,agentname,team,policystatus,risktype,paynum,checkcode,discountCharge,discountRate,amount,inscomcode,closedstatus,biztype, extendwarrantytype)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{orderid},#{applicant.id},#{applicant.name},#{insured.id},#{insured.name},#{legalrightclaim.id},#{legalrightclaim.name},#{carowner.id},#{carowner.name},#{carinfo.id},#{carinfo.standardfullname},#{proposalformno},#{premium},#{insureddate},#{startdate},#{enddate},#{totalepremium},#{agent.jobnum},#{agent.name},#{team},#{policystatus},#{risktype},#{paynum},#{checkcode},#{discountCharge},#{discountRate},#{amount},#{inscomcode},#{closedstatus},#{biztype},#{extendwarrantytype})
+	</select>
+
+	<select id="INSEPolicy_selectOne" parameterType="com.zzb.warranty.model.INSEPolicy" resultType="com.zzb.warranty.model.INSEPolicy">
+		select * from INSEPolicy p where p.orderid=#{orderid}
+
+	</select>
+</mapper>

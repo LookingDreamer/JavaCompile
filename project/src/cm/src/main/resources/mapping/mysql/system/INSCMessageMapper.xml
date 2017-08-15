@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cninsure.system.entity">
+	<!-- INSCMessage -->
+	<select id="INSCMessage_insert" parameterType="com.cninsure.system.entity.INSCMessage" resultType="int">
+		insert into INSCMessage
+		(id,operator,createtime,modifytime,noti,sender,receiver,msgtitle,msgcontent,sendtime,readtime,status,linkurl,state) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{sender},#{receiver},#{msgtitle},#{msgcontent},#{sendtime},#{readtime},#{status},#{linkurl},#{state}) 
+	</select>
+	<select id="INSCMessage_getAllByReceiver" parameterType="String"
+		resultType="com.cninsure.system.entity.INSCMessage">
+		select * from INSCMessage WHERE receiver = #{value} and state = 1  ORDER BY sendtime DESC
+	</select>
+	<select id="INSCMessage_getAllByReceiverMap" parameterType="String"
+		resultType="Map">
+		select * from INSCMessage WHERE receiver = #{value} and state = 1  ORDER BY sendtime DESC
+	</select>
+	
+	<select id="INSCMessage_getAllBySender" parameterType="String"
+		resultType="com.cninsure.system.entity.INSCMessage">
+		select * from INSCMessage WHERE sender = #{value} and state = 1  ORDER BY sendtime ASC
+	</select>
+	<select id="INSCMessage_getNotReadMsgByReveiver" parameterType="String"
+		resultType="com.cninsure.system.entity.INSCMessage">
+		select * from INSCMessage WHERE receiver = #{value} and state = 1  ORDER BY sendtime DESC
+	</select>	
+	<select id="INSCMessage_selectOne" parameterType="String"
+		resultType="com.cninsure.system.entity.INSCMessage">
+		select * from INSCMessage 
+		<where>
+			<if test="sender != null">
+				and sender = #{sender}
+			</if>
+			<if test="receiver != null">
+				and receiver = #{receiver}
+			</if>
+			<if test="sendtime != null">
+				and sendtime = #{sendtime}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="state != null">
+				and state = #{state}
+			</if>
+			<if test="operator != null">
+				and operator = #{operator}
+			</if>
+			<if test="createtime != null">
+				and createtime = #{createtime}
+			</if>
+			<if test="modifytime != null">
+				and modifytime = #{modifytime}
+			</if>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+		</where>
+		limit 2
+	</select>
+	<select id="INSCMessage_findByCondition" parameterType="String"
+		resultType="com.cninsure.system.entity.INSCMessage">
+		select * from INSCMessage 
+		<where>
+			<if test="sender != null">
+				and sender = #{sender}
+			</if>
+			<if test="receiver != null">
+				and receiver = #{receiver}
+			</if>
+			<if test="sendtime != null">
+				and sendtime = #{sendtime}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="state != null">
+				and state = #{state}
+			</if>
+			<if test="operator != null">
+				and operator = #{operator}
+			</if>
+			<if test="createtime != null">
+				and createtime = #{createtime}
+			</if>
+			<if test="modifytime != null">
+				and modifytime = #{modifytime}
+			</if>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+		</where>
+	</select>
+	<select id="INSCMessage_getNotReadMsgCount" parameterType="String"
+		resultType="int">
+		select count(1) from INSCMessage WHERE receiver = #{value} and status = 0 and state = 1
+	</select>
+    <select id="INSCMessage_getNotReadMsgCountPush" parameterType="String"
+            resultType="int">
+        select count(1) from INSCMessage WHERE receiver = #{value} and status = 0 and state = 1
+        and (linkurl LIKE '/insuredInfo/%' OR linkurl LIKE '/moreOffer/%')
+    </select>
+	<select id="INSCMessage_getMsgCount" parameterType="String"
+		resultType="int">
+		select count(1) from INSCMessage WHERE receiver = #{value} and state = 1
+	</select>
+	<select id="INSCMessage_getMsgCountByReceiver" parameterType="String" resultType="int">
+		select count(1) from INSCMessage  WHERE state = 1 and receiver=#{receiver}
+		
+	</select>
+    <select id="INSCMessage_getMsgCountByReceiverPush" parameterType="String" resultType="int">
+        select count(1) from INSCMessage
+        WHERE state = 1 and receiver=#{receiver}
+        and (linkurl LIKE '/insuredInfo/%' OR linkurl LIKE '/moreOffer/%')
+    </select>
+	<select id="INSCMessage_selectById" parameterType="String" resultType="com.cninsure.system.entity.INSCMessage">
+		select * from INSCMessage where id = #{id}
+	</select>
+	<select id="INSCMessage_deleteById" parameterType="String">
+		delete from INSCMessage where id = #{id}
+	</select>
+	<select id="INSCMessage_updateById" parameterType="com.cninsure.system.entity.INSCMessage">
+		update INSCMessage  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},status = #{status},msgtitle = #{msgtitle},msgcontent = #{msgcontent},sendtime = #{sendtime},readtime = #{readtime}  where id = #{id}
+	</select>
+	
+	<update id="INSCMessage_updateReadedById" parameterType="Map">
+		update INSCMessage  set status = '1',readtime = #{readtime} where id = #{id}
+	</update>
+	
+	<update id="INSCMessage_updateNotReadById" parameterType="String">
+		update INSCMessage  set status = '0' where id = #{value}
+	</update>
+	
+	<select id="INSCMessage_getByReceiverPaging" parameterType="Map"
+		resultType="Map">
+		select
+		im.id,iu.name sender,im.msgtitle,im.msgcontent,iu.name,  im.linkurl,
+		DATE_FORMAT(sendtime,'%Y-%m-%d %H:%i:%s') sendtime,
+		case im.status  when '1' then "已读"
+	  	when '0' then "未读"   end as status 
+		from
+		INSCMessage im
+		LEFT JOIN inscuser iu on iu.usercode = im.sender
+		<where>
+			 im.state = 1 
+			 <if test="status != null">
+				and im.status = #{status}
+			</if>
+			<if test="receiver != null">
+				and im.receiver = #{receiver}
+			</if>
+            <if test="pushFlag != null">
+                and (linkurl LIKE '/insuredInfo/%' OR linkurl LIKE '/moreOffer/%')
+            </if>
+			<if test="sender != null">
+				and im.sender = #{sender}
+			</if>
+		</where>
+		GROUP BY sendtime,msgcontent 
+		order by
+		<if test="sort != null and order != null">
+			${sort} ${order}
+		</if>
+		<if test="sort == null">
+			sendtime desc
+		</if>
+		
+		limit #{offset},#{limit}
+	</select>
+
+	<select id="INSCMessage_getInsbpersonName" parameterType="Map" resultType="String">
+		select a.name
+		from insbperson a left join insbinsuredhis b on a.id=b.personid
+		where  b.taskid = #{taskid} and b.inscomcode = #{inscomcode}
+	</select>
+
+	<select id="INSCMessage_getTotalepremium" parameterType="Map" resultType="Double">
+		select totalepremium
+		from insbpolicyitem
+		where taskid = #{taskid}
+			and inscomcode = #{inscomcode}
+			and risktype in ('0','1') LIMIT 1
+	</select>
+
+	<select id="INSCMessage_getOpenId" parameterType="String" resultType="String">
+		select openid
+		from insbagent
+		where jobnum = #{account}
+	</select>
+</mapper>

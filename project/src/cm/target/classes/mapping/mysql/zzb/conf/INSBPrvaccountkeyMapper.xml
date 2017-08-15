@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBPrvaccountkey -->
+	<select id="INSBPrvaccountkey_insert" parameterType="com.zzb.conf.entity.INSBPrvaccountkey" resultType="int">
+		insert into INSBPrvaccountkey
+		(id,operator,createtime,modifytime,noti,managerid,paramname,paramvalue) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{managerid},#{paramname},#{paramvalue}) 
+	</select>
+	<select id="INSBPrvaccountkey_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBPrvaccountkey">
+		select * from INSBPrvaccountkey
+		<where>
+			
+			<if test="managerid != null">
+				and managerid = #{managerid}
+			</if>
+			<if test="paramname != null">
+				and paramname = #{paramname}
+			</if>
+			<if test="paramvalue != null">
+				and paramvalue = #{paramvalue}
+			</if>
+		</where>
+	</select>
+	<select id="INSBPrvaccountkey_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBPrvaccountkey">
+		select * from INSBPrvaccountkey where id = #{id}
+	</select>
+	<select id="INSBPrvaccountkey_selectListPage" parameterType="Map" resultType="com.zzb.conf.entity.INSBPrvaccountkey">
+		select * from INSBPrvaccountkey where managerid = #{managerid} order by 
+		<if test="sort != null and order != null">
+			  ${sort}  ${order}  
+		</if>
+		<if test="sort == null">
+			 createtime desc 
+		</if>
+		limit #{offset},#{limit}
+	</select>
+	<select id="INSBPrvaccountkey_selectPageCountByMap" parameterType="Map" resultType="int">
+		select count(1) from INSBPrvaccountkey where managerid = #{managerid} 
+		
+	</select>
+	
+	<select id="INSBPrvaccountkey_deleteById" parameterType="String">
+		delete from INSBPrvaccountkey where id = #{id}
+	</select>
+	<select id="INSBPrvaccountkey_updateById" parameterType="com.zzb.conf.entity.INSBPrvaccountkey">
+		update INSBPrvaccountkey  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},managerid = #{managerid},paramname = #{paramname},paramvalue = #{paramvalue} where id = #{id}
+	</select>
+	<select id="INSBPrvaccountkey_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBPrvaccountkey
+		<where>
+			
+			<if test="managerid != null">
+				and managerid = #{managerid}
+			</if>
+			<if test="paramname != null">
+				and paramname = #{paramname}
+			</if>
+			<if test="paramvalue != null">
+				and paramvalue = #{paramvalue}
+			</if>
+		</where>
+	</select>
+	<select id="INSBPrvaccountkey_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBPrvaccountkey">
+		select * from INSBPrvaccountkey
+		<where>
+			
+			<if test="managerid != null">
+				and managerid = #{managerid}
+			</if>
+			<if test="paramname != null">
+				and paramname = #{paramname}
+			</if>
+			<if test="paramvalue != null">
+				and paramvalue = #{paramvalue}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	
+	
+	<select id="INSBPrvaccountkey_extendscount" parameterType="Map" resultType="int">
+		select count(1)
+		FROM INSBPrvaccountkey k,
+		  INSBPrvaccountmanager c,inscdept hc
+		<where>
+		     k.managerid = c.id 
+		    AND EXISTS(select 1
+			FROM inscdept ds,
+			  inscdept f
+			WHERE (ds.parentcodes LIKE CONCAT('%',f.id,'%')
+				OR f.id = ds.id)
+			    AND f.comgrade &lt;&gt; '00'
+			    AND f.id = c.deptid
+			    AND ds.id =  #{deptId})
+		    AND hc.id  = c.deptid
+		    AND c.providerid =#{providerid}
+		    AND c.usetype =#{usetype}
+		    GROUP BY BINARY paramname
+		</where>
+	</select>
+	<select id="INSBPrvaccountkey_extendsPage" parameterType="Map" resultType="com.zzb.conf.entity.INSBPrvaccountkey">
+	  	select SUBSTRING_INDEX(MAX(CONCAT(hc.comtype,c.deptid,',',k.id)),',',-1) id,
+		SUBSTRING_INDEX(MAX(CONCAT(hc.comtype,c.deptid,',',k.paramname)),',',-1) paramname,
+		SUBSTRING_INDEX(MAX(CONCAT(hc.comtype,c.deptid,',',k.paramvalue)),',',-1) paramvalue,
+		SUBSTRING_INDEX(MAX(CONCAT(hc.comtype,c.deptid,',', c.deptid)),',' ,- 1) deptid,
+		SUBSTRING_INDEX(MAX(CONCAT(hc.comtype,c.deptid,',',hc.shortname)),',',-1)  deptname,
+		SUBSTRING_INDEX(MAX(k.noti),',',-1) noti 
+				FROM INSBPrvaccountkey k,
+		  INSBPrvaccountmanager c,
+		  inscdept hc
+		  
+		  
+		<where>
+		     k.managerid = c.id 
+		    AND EXISTS(select 1
+			FROM inscdept ds,
+			  inscdept f
+			WHERE (ds.parentcodes LIKE CONCAT('%',f.id,'%')
+				OR f.id = ds.id)
+			    AND f.comgrade &lt;&gt; '00'
+			    AND f.id = c.deptid
+			    AND ds.id =  #{deptId})
+		    AND hc.id  = c.deptid
+		    AND c.providerid =#{providerid}
+		    AND c.usetype =#{usetype}
+		    GROUP BY BINARY paramname
+		</where>
+		limit #{offset},#{limit}
+	</select>
+	
+	
+	<select id="INSBPrvaccountkey_selectConfigInfo" parameterType="Map" resultType="Map">
+		select k.paramname,k.paramvalue from inscdept d5
+		left join inscdept d4 on d4.comcode = d5.upcomcode
+		left join inscdept d3 on d3.comcode = d4.upcomcode
+		left join inscdept d2 on d2.comcode = d3.upcomcode
+		left join insbprvaccountmanager m on m.deptid = d2.id
+		inner join insbprvaccountkey k on k.managerid = m.id
+		where d5.comcode=#{deptId} and m.providerid = #{providerid} and m.usetype = #{usetype} 
+		union all
+		select k.paramname,k.paramvalue from inscdept d5
+		left join inscdept d4 on d4.comcode = d5.upcomcode
+		left join inscdept d3 on d3.comcode = d4.upcomcode
+		left join insbprvaccountmanager m on m.deptid = d3.id
+		inner join insbprvaccountkey k on k.managerid = m.id
+		where d5.comcode=#{deptId} and m.providerid = #{providerid} and m.usetype = #{usetype}
+		union all
+		select k.paramname,k.paramvalue from inscdept d5
+		left join inscdept d4 on d4.comcode = d5.upcomcode
+		left join insbprvaccountmanager m on m.deptid = d4.id
+		inner join insbprvaccountkey k on k.managerid = m.id
+		where d5.comcode=#{deptId} and m.providerid = #{providerid} and m.usetype = #{usetype}
+		union all
+		select k.paramname,k.paramvalue from inscdept d5
+		left join insbprvaccountmanager m on m.deptid = d5.id
+		inner join insbprvaccountkey k on k.managerid = m.id
+		where d5.comcode=#{deptId} and m.providerid = #{providerid} and m.usetype = #{usetype}
+	</select>
+	
+</mapper>

@@ -1,0 +1,40 @@
+CREATE TABLE `insbminiordertrace` (
+  `id` varchar(32) NOT NULL COMMENT '主键',
+  `taskid` varchar(32) NOT NULL COMMENT '任务号',
+  `agentid` varchar(32) NOT NULL COMMENT '用户ID',
+  `insuredname` varchar(16) DEFAULT NULL COMMENT '被保人姓名',
+  `carowner` varchar(32) DEFAULT NULL COMMENT '车主',
+  `carlicenseno` varchar(32) DEFAULT NULL COMMENT '车牌号',
+  `prvname` varchar(128) DEFAULT NULL COMMENT '投保公司',
+  `premium` varchar(20) DEFAULT NULL COMMENT '保费',
+  `paytime` varchar(32) DEFAULT NULL COMMENT '支付时间',
+  `starttime` varchar(32) DEFAULT NULL COMMENT '起保时间',
+  `taskstate` varchar(4) DEFAULT NULL COMMENT '订单状态',
+  `operatestate` varchar(4) DEFAULT NULL COMMENT '处理状态',
+  `msg` varchar(255) DEFAULT NULL COMMENT '核保失败原因',
+  `reason` varchar(255) DEFAULT NULL COMMENT '退款理由',
+  `operator` varchar(20) DEFAULT NULL COMMENT '操作员',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  `modifytime` datetime DEFAULT NULL COMMENT '修改时间',
+  `noti` varchar(100) DEFAULT NULL COMMENT '渠道描述',
+  `providercode` varchar(32) DEFAULT NULL,
+  `agentoperate` varchar(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_insbminiordertrace_taskid` (`taskid`),
+  KEY `idx_insbminiordertrace_agentid` (`agentid`),
+  KEY `idx_insbminiordertrace_carlicenseno` (`carlicenseno`),
+  KEY `idx_insbminiordertrace_carowner` (`carowner`),
+  KEY `idx_insbminiordertrace_createtime` (`createtime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='mini跟单';
+
+
+INSERT INTO `insccode` (`id`, `operator`, `createtime`, `modifytime`, `noti`, `codetype`, `parentcode`, `codevalue`, `codename`, `codeorder`, `prop1`, `prop2`, `prop3`, `prop4`) VALUES ('miniOperateStatus001', 'heweicheng', '2016-12-09 19:11:48', NULL, 'mini订单处理状态', 'operateStatus', 'minizzbOrder', '0', '待处理', '0', '0', NULL, NULL, NULL);
+INSERT INTO `insccode` (`id`, `operator`, `createtime`, `modifytime`, `noti`, `codetype`, `parentcode`, `codevalue`, `codename`, `codeorder`, `prop1`, `prop2`, `prop3`, `prop4`) VALUES ('miniOperateStatus002', 'heweicheng', '2016-12-09 19:11:48', NULL, 'mini订单处理状态', 'operateStatus', 'minizzbOrder', '1', '待用户上传', '0', '0', NULL, NULL, NULL);
+INSERT INTO `insccode` (`id`, `operator`, `createtime`, `modifytime`, `noti`, `codetype`, `parentcode`, `codevalue`, `codename`, `codeorder`, `prop1`, `prop2`, `prop3`, `prop4`) VALUES ('miniOperateStatus003', 'heweicheng', '2016-12-09 19:11:48', NULL, 'mini订单处理状态', 'operateStatus', 'minizzbOrder', '2', '待用户申请退款', '0', '0', NULL, NULL, NULL);
+INSERT INTO `insccode` (`id`, `operator`, `createtime`, `modifytime`, `noti`, `codetype`, `parentcode`, `codevalue`, `codename`, `codeorder`, `prop1`, `prop2`, `prop3`, `prop4`) VALUES ('miniOperateStatus004', 'heweicheng', '2016-12-09 19:11:48', NULL, 'mini订单处理状态', 'operateStatus', 'minizzbOrder', '3', '已发起退款', '0', '0', NULL, NULL, NULL);
+
+INSERT INTO `insccode` (`id`, `operator`, `createtime`, `modifytime`, `noti`, `codetype`, `parentcode`, `codevalue`, `codename`, `codeorder`, `prop1`, `prop2`, `prop3`, `prop4`) VALUES ('miniRefundReason001', 'heweicheng', '2016-12-09 19:11:48', NULL, 'mini订单退款理由', 'refundReason', 'minizzbOrder', '0', '客户觉得太麻烦，不想投保了', '0', '0', NULL, NULL, NULL);
+INSERT INTO `insccode` (`id`, `operator`, `createtime`, `modifytime`, `noti`, `codetype`, `parentcode`, `codevalue`, `codename`, `codeorder`, `prop1`, `prop2`, `prop3`, `prop4`) VALUES ('miniRefundReason002', 'heweicheng', '2016-12-09 19:11:48', NULL, 'mini订单退款理由', 'refundReason', 'minizzbOrder', '1', '客户觉得贵了，不想投保了', '0', '0', NULL, NULL, NULL);
+INSERT INTO `insccode` (`id`, `operator`, `createtime`, `modifytime`, `noti`, `codetype`, `parentcode`, `codevalue`, `codename`, `codeorder`, `prop1`, `prop2`, `prop3`, `prop4`) VALUES ('miniRefundReason003', 'heweicheng', '2016-12-09 19:11:48', NULL, 'mini订单退款理由', 'refundReason', 'minizzbOrder', '2', '联系不到客户，已过起保时间', '0', '0', NULL, NULL, NULL);
+INSERT INTO `insccode` (`id`, `operator`, `createtime`, `modifytime`, `noti`, `codetype`, `parentcode`, `codevalue`, `codename`, `codeorder`, `prop1`, `prop2`, `prop3`, `prop4`) VALUES ('miniRefundReason004', 'heweicheng', '2016-12-09 19:11:48', NULL, 'mini订单退款理由', 'refundReason', 'minizzbOrder', '3', '客户不想投保该公司了', '0', '0', NULL, NULL, NULL);
+INSERT INTO `insccode` (`id`, `operator`, `createtime`, `modifytime`, `noti`, `codetype`, `parentcode`, `codevalue`, `codename`, `codeorder`, `prop1`, `prop2`, `prop3`, `prop4`) VALUES ('miniRefundReason005', 'heweicheng', '2016-12-09 19:11:48', NULL, 'mini订单退款理由', 'refundReason', 'minizzbOrder', '4', '客户不想在mini上投保了', '0', '0', NULL, NULL, NULL);

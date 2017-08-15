@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<baseSetting>
+        <basePayUrl>http://pay.org.52zzb.com:8080/PMService/restful/</basePayUrl>
+		<payUrl>paymentService/pay</payUrl>
+		<refundUrl>paymentService/refund</refundUrl>
+		<!-- 精灵支付回调地址 -->
+		<robotCallbackUrl>paymentCallback/robot</robotCallbackUrl>
+		<secondPayCallbackUrl>paymentService/secondPay/zhongan/callback</secondPayCallbackUrl>
+		<payNoticeUrl>http://morg.52zzb.com/chn/channel/payReturn</payNoticeUrl>
+		<signkey>3A04F09282BB11E5AA85D4AE528C2144</signkey>
+		<keyAttributes>channelId,channelName,payType,payTypeDesc,bizId,paySource,amount,notifyUrl,notifyType,areaCode,agentOrg,insOrg</keyAttributes>
+		<paySource>zzb.system.core</paySource>
+		<queryResult>paymentService/${bizId}/paymentResult</queryResult>
+		<flowUrl>http://203.195.141.57:8080/workflow/process/completeSubTask</flowUrl>
+		<channelPayUrl>http://203.195.141.57:8080/workflow/process/completeSubTask</channelPayUrl>
+	</baseSetting>
+	<confMapping>
+	<!-- 证件类型 -->
+		<certificateTypeMapping>
+			<map cmvalue="0" typename="身份证">01</map> <!-- 身份证 -->
+			<map cmvalue="1" typename="户口本">02</map> <!-- 户口本 -->
+			<map cmvalue="2" typename="驾照">03</map> <!-- 驾照 -->
+			<map cmvalue="3" typename="军官证/士兵证">04</map> <!-- 军官证/士兵证 -->
+			<map cmvalue="4" typename="护照">05</map> <!-- 护照 -->
+			<map cmvalue="5" typename="港澳回乡证/台胞证">06</map> <!-- 港澳回乡证/台胞证 -->
+			<map cmvalue="6" typename="组织代码证">21</map> <!-- 组织代码证 -->
+			<map cmvalue="7" typename="其他证件">99</map> <!-- 其他证件 -->
+		</certificateTypeMapping>
+		<!-- 银行卡类型 -->
+		<bankCardMapping>
+			<map cmvalue="cashcardflag" typename="借记卡/储蓄卡">01</map> <!-- 借记卡号/储蓄卡 -->
+			<map cmvalue="creditcardflag" typename="信用卡" >02</map> <!-- 信用卡号 -->
+			<map cmvalue="other" typename="预付卡">03</map> <!--  -->
+		</bankCardMapping>
+		<!-- 支付渠道 typecode:该渠道对应的支付类型 -->
+		<payChannelMapping>
+			<map cmvalue="3" typename="易联" typecode="voice">payeco</map> <!-- 易联 -->
+			<map cmvalue="AliPay" typename="支付宝">alipay</map><!-- 支付宝 -->
+			<map cmvalue="TenPay" typename="财付通">tenpay</map> <!-- 财付通 -->
+			<map cmvalue="1" typename="快钱" typecode="quickpos">99bill</map><!-- 快钱 -->
+			<map cmvalue="2" typename="翼支付" typecode="signed">bestpay</map><!-- 翼支付 -->
+			<map cmvalue="Yeepay" typename="易宝">yeepay</map><!-- 易宝 -->
+			<map cmvalue="7" typename="支付测试通道" typecode="web">testPay</map><!-- 支付测试通道 -->
+			<map cmvalue="8" typename="华安" typecode="web">huaan</map><!-- 华安 -->
+			<map cmvalue="9" typename="安盛天平快速" typecode="quickpay">axatp</map><!-- 安盛天平快速 -->
+			<map cmvalue="10" typename="人保快刷" typecode="quickpos">picc</map><!-- 人保快刷 -->
+			<map cmvalue="11" typename="太平快刷" typecode="quickpos">taiping</map><!-- 太平快刷 -->
+			<map cmvalue="12" typename="鼎和快刷" typecode="quickpos">dinghe</map><!-- 鼎和快刷 -->
+			<map cmvalue="13" typename="众诚快刷" typecode="quickpos">urtrust</map><!-- 众诚快刷 -->
+			<map cmvalue="14" typename="永诚链接" typecode="web">alltrust</map><!-- 永诚链接 -->
+			<map cmvalue="15" typename="富德链接" typecode="web">fund</map>
+			<map cmvalue="16" typename="太平链接" typecode="web">taiping</map>
+			<map cmvalue="17" typename="快钱" typecode="mobile">99bill</map><!-- 快钱(渠道) -->
+			<map cmvalue="18" typename="大地移动支付" typecode="mobile">ccic</map>
+			<map cmvalue="19" typename="大地Web支付" typecode="web">ccic</map>
+			<map cmvalue="20" typename="微信支付" typecode="mobile">wxpay</map>
+			<map cmvalue="21" typename="微信扫码支付">wxpay</map>
+			<map cmvalue="22" typename="微信移动支付">wxpay</map>
+			<map cmvalue="23" typename="翼支付移动支付" typecode="mobile">bestpay</map>
+			<map cmvalue="24" typename="微信公众号支付">wxpay</map>
+			<map cmvalue="25" typename="永安一次支付" typecode="web">yongan</map>
+			<map cmvalue="28" typename="分期保" typecode="credit">zhongan</map>
+			<map cmvalue="29" typename="众诚一次支付" typecode="web">urtrust</map>
+			<map cmvalue="30" typename="银联支付" typecode="web">unionpay</map>
+			<map cmvalue="31" typename="锦泰微信支付" typecode="qrcode">jintai</map>
+			<map cmvalue="32" typename="锦泰银联支付" typecode="web">jintai</map>
+			<map cmvalue="33" typename="宝付网页支付" typecode="mobile">baofu</map>
+			<map cmvalue="34" typename="利宝网页支付" typecode="web">liberty</map>
+			<map cmvalue="35" typename="宝付微信支付" typecode="wqrcode">baofu</map>
+			<map cmvalue="36" typename="宝付支付宝支付" typecode="aqrcode">baofu</map>
+			<map cmvalue="37" typename="珠峰一次支付" typecode="web">zhufeng</map>
+			<map cmvalue="38" typename="英大移动支付" typecode="mobile">yingda</map>
+			<map cmvalue="39" typename="英大web支付" typecode="web">yingda</map>
+			<map cmvalue="40" typename="通联微信扫码支付" typecode="wqrcodeb64">allinpay</map>
+			<map cmvalue="41" typename="通联支付宝扫码支付" typecode="aqrcodeb64">allinpay</map>
+			<map cmvalue="42" typename="天安移动支付" typecode="mobile">tianan</map>
+			<map cmvalue="43" typename="天安Web支付" typecode="web">tianan</map>
+			<map cmvalue="44" typename="诚泰支付宝支付" typecode="aqrcode">chengtai</map>
+			<map cmvalue="45" typename="诚泰易宝支付" typecode="yeepay">chengtai</map>
+			<map cmvalue="46" typename="诚泰易宝PC端支付" typecode="yeepcpay">chengtai</map>
+			<map cmvalue="47" typename="诚泰微信支付" typecode="wqrcode">chengtai</map>
+			<map cmvalue="48" typename="鼎和支付宝支付" typecode="aqrcode">dinghe</map>
+			<map cmvalue="49" typename="鼎和快钱支付" typecode="quickpay">dinghe</map>
+			<map cmvalue="50" typename="鼎和微信支付" typecode="wqrcode">dinghe</map>
+			<!-- 平安二维码支付 -->
+			<map cmvalue="51" typename="平安二维码支付" typecode="qrcode">robot</map>
+			<map cmvalue="52" typename="安盛天平银联" typecode="web">axatp</map><!-- 安盛天平快速 -->
+			<map cmvalue="53" typename="安心支付宝" typecode="aqrcode">anxin</map><!-- 安心支付宝 -->
+			<map cmvalue="54" typename="安心微信" typecode="wqrcode">anxin</map><!-- 安心微信 -->
+			<map cmvalue="55" typename="阳光网页支付" typecode="web">yangguang</map>
+			<map cmvalue="56" typename="阳光移动支付" typecode="mobile">yangguang</map>
+			<map cmvalue="57" typename="宝付企业网银支付" typecode="gateway">baofu</map>
+			<map cmvalue="58" typename="亚太快钱PC端支付" typecode="web">asiapacific</map>
+			<map cmvalue="59" typename="亚太快钱手机端支付" typecode="mobile">asiapacific</map>
+			<map cmvalue="60" typename="亚太支付宝支付" typecode="alipay">asiapacific</map>
+			<map cmvalue="61" typename="亚太微信支付" typecode="weixin">asiapacific</map>
+			<map cmvalue="62" typename="亚太微信扫码支付" typecode="wqrcode">asiapacific</map>
+			<map cmvalue="63" typename="永诚PC端第三方快钱支付" typecode="pcthirdpay">yongcheng</map>
+			<map cmvalue="64" typename="永诚手机端第三方快钱支付" typecode="thirdpay">yongcheng</map>
+			<map cmvalue="65" typename="永诚PC端支付宝支付" typecode="pcalipay">yongcheng</map>
+			<map cmvalue="66" typename="永诚手机端支付宝支付" typecode="alipay">yongcheng</map>
+			<map cmvalue="67" typename="永诚PC端银联支付" typecode="pcunionpay">yongcheng</map>
+			<map cmvalue="68" typename="永诚手机端银联支付" typecode="unionpay">yongcheng</map>
+			<map cmvalue="69" typename="中煤Web支付" typecode="web">zhongmei</map>
+		</payChannelMapping>
+
+		<!-- 支付类型 -->
+		<payTypeMapping>
+			<map cmvalue="01" typename="移动支付">mobile</map> <!-- 移动支付 -->
+			<map cmvalue="02" typename="Web支付">web</map><!-- Web支付 -->
+			<map cmvalue="03" typename="线下支付">offline</map><!-- 线下支付 -->
+			<map cmvalue="04" typename="虚拟支付">visual</map><!-- 虚拟支付 -->
+	        <map cmvalue="05" typename="语音支付">voice</map>
+	        <map cmvalue="06" typename="扫码支付">qrcode</map>
+	        <map cmvalue="07" typename="签约支付">signed</map>
+	        <map cmvalue="08" typename="快刷支付">quickpos</map>
+	        <map cmvalue="09" typename="快速支付">quickpay</map>
+	        <map cmvalue="10" typename="APP支付">apppay</map>
+	        <map cmvalue="11" typename="公众号支付">jspay</map>
+			<map cmvalue="12" typename="分期支付">credit</map>
+			<!-- 微信（支付宝）扫码支付两种方式：1）直接返回链接URL(wqrcode || aqrcode),进入第三方公司的支付页面； -->
+			<map cmvalue="13" typename="微信扫码支付">wqrcode</map>
+			<map cmvalue="14" typename="支付宝扫码支付">aqrcode</map>
+			<map cmvalue="15" typename="易宝支付">yeepay</map>
+			<map cmvalue="16" typename="易宝pc端支付">yeepcpay</map>
+			<!-- 微信（支付宝）扫码支·付两种方式 2）返回二维码图片的base64编码信息（wqrcodeb64 || aqrcodeb64 ）,直接在微信支付-->
+			<map cmvalue="17" typename="微信扫码支付2">wqrcodeb64</map>
+			<map cmvalue="18" typename="支付宝扫码支付2">aqrcodeb64</map>
+			<!-- 只对渠道的支付方式 -->
+			<map cmvalue="19" typename="企业网关支付">gateway</map>
+			<map cmvalue="20" typecode="支付宝支付">alipay</map>
+			<map cmvalue="21" typecode="微信支付">weixin</map>
+			<map cmvalue="22" typecode="PC端第三方快钱支付">pcthirdpay</map>
+			<map cmvalue="23" typecode="PC端银联支付">pcunionpay</map>
+			<map cmvalue="24" typecode="PC端支付宝支付">pcalipay</map>
+			<map cmvalue="25" typecode="手机端第三方快钱支付">thirdpay</map>
+			<map cmvalue="26" typecode="手机端银联支付">unionpay</map>
+			<map cmvalue="27" typecode="手机端支付宝支付">alipay</map>
+		</payTypeMapping>
+		<!-- 银行卡 -->
+		<bankCodeMapping>
+			<map cmvalue="002" typename="中国银行">BOC</map>
+			<map cmvalue="003" typename="中国人民银行">PBC</map>
+			<map cmvalue="004" typename="工商银行">ICBC</map>
+			<map cmvalue="005" typename="农业银行">ABC</map>
+			<map cmvalue="006" typename="建设银行">CCB</map>
+			<map cmvalue="007" typename="招商银行">CMB</map>
+			<map cmvalue="008" typename="光大银行">CEB</map>
+			<map cmvalue="009" typename="民生银行">CMBC</map>
+			<map cmvalue="010" typename="中信银行">CITIC</map>
+			<map cmvalue="011" typename="兴业银行">CIB</map>
+			<map cmvalue="012" typename="汇丰银行">HSBC</map>
+			<map cmvalue="013" typename="交通银行">BCOM</map>
+			<map cmvalue="014" typename="华夏银行">HXB</map>
+			<map cmvalue="015" typename="中国邮政储蓄银行">PSBC</map>
+			<map cmvalue="016" typename="上海浦东发展银行">SPDB</map>
+			<map cmvalue="017" typename="广东发展银行">GDB</map>
+			<map cmvalue="018" typename="平安银行">PAB</map>
+			<map cmvalue="020" typename="中国进出口银行">EXIM</map>
+			<map cmvalue="021" typename="国家开发银行">CDB</map>
+			<map cmvalue="022" typename="中国人民银行">PBC</map>
+			<map cmvalue="023" typename="北京银行">BOB</map>
+			<map cmvalue="024" typename="东莞银行">BOD</map>
+			<map cmvalue="025" typename="上海银行">SHB</map>
+			<map cmvalue="026" typename="江苏银行">JSB</map>
+			<map cmvalue="027" typename="南京银行">NJCB</map>
+			<map cmvalue="028" typename="天津银行">TCCB</map>
+			<map cmvalue="029" typename="恒丰银行">HFB</map>
+			<map cmvalue="030" typename="浙商银行">CZB</map>
+			<map cmvalue="031" typename="渤海银行">CBHB</map>
+			<map cmvalue="032" typename="宁夏银行">YCCCB</map>
+			<map cmvalue="033" typename="乌鲁木齐市商业银行">UCCB</map>
+			<map cmvalue="034" typename="兰州银行">LZB</map>
+			<map cmvalue="035" typename="富滇银行">FDB</map>
+			<map cmvalue="036" typename="汉口银行">HKBC</map>
+			<map cmvalue="037" typename="莱商银行">LSBC</map>
+			<map cmvalue="038" typename="青岛银行">QDCCB</map>
+			<map cmvalue="039" typename="南昌银行">JXB</map>
+			<map cmvalue="040" typename="微商银行">HSB</map>
+			<map cmvalue="041" typename="宁波银行">NBCB</map>
+			<map cmvalue="042" typename="温州银行">WZCB</map>
+			<map cmvalue="043" typename="杭州银行">HZB</map>
+			<map cmvalue="044" typename="大连银行">BODL</map>
+			<map cmvalue="045" typename="盛京银行">SJB</map>
+			<map cmvalue="046" typename="营口银行">BOYK</map>
+			<map cmvalue="047" typename="锦州银行">JZB</map>
+			<map cmvalue="048" typename="包商银行">BSB</map>
+			<map cmvalue="049" typename="重庆银行">CQB</map>
+			<map cmvalue="050" typename="上海农商银行">SRCB</map>
+			<map cmvalue="051" typename="九江银行">JJCCB</map>
+			<map cmvalue="052" typename="内蒙古银行">BOIMC</map>
+			<map cmvalue="053" typename="鄂尔多斯银行">ORDOS</map>
+			<map cmvalue="054" typename="齐鲁银行">QLB</map>
+			<map cmvalue="055" typename="威海市商业银行">WHCCB</map>
+			<map cmvalue="056" typename="潍坊银行">WFCCB</map>
+			<map cmvalue="057" typename="湖北银行">HBB</map>
+			<map cmvalue="058" typename="承德银行">CDEB</map>
+			<map cmvalue="059" typename="台州银行">TZB</map>
+			<map cmvalue="060" typename="上饶银行">SRB</map>
+			<map cmvalue="061" typename="龙江银行">LJB</map>
+			<map cmvalue="062" typename="广州银行">GZCB</map>
+			<map cmvalue="065" typename="华润银行">ICBC</map>
+			<map cmvalue="066" typename="南粤银行">GDNYB</map>
+			<map cmvalue="068" typename="东营银行">DYCCB</map>
+			<map cmvalue="069" typename="贵阳银行">GYCCB</map>
+			<map cmvalue="070" typename="青海银行">BQH</map>
+			<map cmvalue="071" typename="鄞州银行">BEEB</map>
+			<map cmvalue="072" typename="长沙银行">CSCB</map>
+			<map cmvalue="073" typename="河北银行">HEBB</map>
+			<map cmvalue="074" typename="成都银行">BOCD</map>
+			<map cmvalue="075" typename="成都农商银行">CDRCB</map>
+			<map cmvalue="076" typename="泰隆银行">ZJTLCB</map>
+			<map cmvalue="077" typename="绍兴银行">SXCCB</map>
+			<map cmvalue="078" typename="稠州银行">CZCB</map>
+			<map cmvalue="082" typename="金华银行">JHCCB</map>
+			<map cmvalue="083" typename="赣州银行">GZCCB</map>
+			<map cmvalue="084" typename="石嘴山银行">SZSCCB</map>
+			<map cmvalue="085" typename="临商银行">LSBC</map>
+			<map cmvalue="086" typename="德州银行">DZBC</map>
+			<map cmvalue="087" typename="日照银行">BORZ</map>
+			<map cmvalue="088" typename="齐商银行">QSB</map>
+			<map cmvalue="099" typename="商丘银行">ZYB</map>
+			<map cmvalue="100" typename="吉林银行">JLB</map>
+		</bankCodeMapping>
+
+		<payChargeMapping>
+			<map cmvalue="20" typename="">0.9935</map>
+		</payChargeMapping>
+
+	</confMapping>
+
+
+</configuration>

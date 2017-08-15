@@ -1,0 +1,21 @@
+CREATE TABLE `insbfeecommission` (
+  `id` varchar(32) NOT NULL COMMENT '主键',
+  `operator` varchar(20) NOT NULL COMMENT '操作员',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  `modifytime` datetime DEFAULT NULL COMMENT '修改时间',
+  `noti` text COMMENT '备注',
+  `taskid` varchar(32) NOT NULL COMMENT '任务id',
+  `inscomcode` varchar(50) NOT NULL COMMENT '保险公司代码',
+  `precommissionrate` decimal(16,4) DEFAULT NULL COMMENT '初步佣金比例',
+  `precommissionamount` decimal(16,4) DEFAULT NULL COMMENT '初步佣金金额',
+  `commissionrate` decimal(16,4) DEFAULT NULL COMMENT '最终佣金比例',
+  `commissionamount` decimal(16,4) DEFAULT NULL COMMENT '最终佣金金额',
+  `servicefeesrate` decimal(16,4) DEFAULT NULL COMMENT '服务费比例',
+  `servicefeesamount` decimal(16,4) DEFAULT NULL COMMENT '服务费金额',
+  `netpremium` decimal(16,4) DEFAULT NULL COMMENT '净费金额',
+  `feesrate` decimal(16,4) DEFAULT NULL COMMENT '手续费比例',
+  `feesamount` decimal(16,4) DEFAULT NULL COMMENT '手续费金额',
+  PRIMARY KEY (`id`),
+  KEY `idx_insbfeecommission_taskid` (`taskid`) USING BTREE,
+  KEY `idx_insbfeecommission_inscomcode` (`inscomcode`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='佣金手续费数据表';

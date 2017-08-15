@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+
+@IMPORT url("lib/bootstrap.min.css");
+@IMPORT url("lib/bootstrap-table.css");
+@IMPORT url("lib/fuelux.min.css");
+@IMPORT url("lib/zTree/css/zTreeStyle/zTreeStyle.css");
+@IMPORT url("lib/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css");
+
+@IMPORT url("core/module.css");
+@IMPORT url("appreset.css");

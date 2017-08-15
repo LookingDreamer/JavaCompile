@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.extra.entity">
+	<!-- INSBProducediscountrl -->
+	<select id="INSBProducediscountrl_insert" parameterType="com.zzb.extra.entity.INSBProducediscountrl" resultType="int">
+		insert into INSBProducediscountrl
+		(id,companyno,discountid) 
+		values
+		(#{id},#{companyno},#{discountid}) 
+	</select>
+	<select id="INSBProducediscountrl_select" parameterType="Map" resultType="Map">
+		select tr.*,p.prvname as pname ,pd.name as name ,pd.note as note ,pd.type as type from INSBProducediscountrl tr, insbprovider p ,insbproducediscount pd
+         where tr.companyno=p.prvcode and tr.discountid=pd.id
+	</select>
+	<select id="INSBProducediscountrl_selectById" parameterType="String" resultType="Map">
+		select * from INSBProducediscountrl where id = #{id}
+	</select>
+	<select id="INSBProducediscountrl_deleteById" parameterType="String">
+		delete from INSBProducediscountrl where id = #{id}
+	</select>
+	<select id="INSBProducediscountrl_updateById" parameterType="com.zzb.extra.entity.INSBProducediscountrl">
+		update INSBProducediscountrl  set companyno = #{companyno},discountid = #{discountid} where id = #{id}
+	</select>
+	<select id="INSBProducediscountrl_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBProducediscountrl
+		<where>
+			<if test="companyno != null">
+				and companyno = #{companyno}
+			</if>
+			<if test="discountid != null">
+				and discountid = #{discountid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBProducediscountrl_selectOne" parameterType="Map" resultType="com.zzb.extra.entity.INSBProducediscountrl">
+		select * from INSBProducediscountrl
+		<where>
+			<if test="companyno != null">
+				and companyno = #{companyno}
+			</if>
+			<if test="discountid != null">
+				and discountid = #{discountid}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+</mapper>

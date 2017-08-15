@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBUserremark -->
+	<select id="INSBUserremark_insert" parameterType="com.zzb.cm.entity.INSBUserremark" resultType="int">
+		insert into INSBUserremark
+		(id,operator,createtime,modifytime,noti,taskid,remarktype,remarkcontent,remark,remarkattr) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{remarktype},#{remarkcontent},#{remark},#{remarkattr})
+	</select>
+	<select id="INSBUserremark_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBUserremark">
+		select * from INSBUserremark
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="remarktype != null">
+				and remarktype = #{remarktype}
+			</if>
+			<if test="remarkcontent != null">
+				and remarkcontent = #{remarkcontent}
+			</if>
+			<if test="remark != null">
+				and remark = #{remark}
+			</if>
+			<if test="remarkattr != null">
+				and remarkattr = #{remarkattr}
+			</if>
+		</where>
+	</select>
+	<select id="INSBUserremark_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBUserremark">
+		select * from INSBUserremark
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="remarktype != null">
+				and remarktype = #{remarktype}
+			</if>
+			<if test="remarkcontent != null">
+				and remarkcontent = #{remarkcontent}
+			</if>
+			<if test="remark != null">
+				and remark = #{remark}
+			</if>
+			<if test="remarkattr != null">
+				and remarkattr = #{remarkattr}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBUserremark_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBUserremark">
+		select * from INSBUserremark where id = #{id}
+	</select>
+	<select id="INSBUserremark_selectByTaskId" parameterType="String" resultType="com.zzb.cm.entity.INSBUserremark">
+		select * from INSBUserremark where taskid = #{taskid}
+	</select>
+	<select id="INSBUserremark_deleteById" parameterType="String">
+		delete from INSBUserremark where id = #{id}
+	</select>
+	<select id="INSBUserremark_updateById" parameterType="com.zzb.cm.entity.INSBUserremark">
+		update INSBUserremark  set operator = #{operator},modifytime = NOW(),noti = #{noti},taskid = #{taskid},remarktype = #{remarktype},remarkcontent = #{remarkcontent},remark = #{remark},remarkattr = #{remarkattr} where id = #{id}
+	</select>
+	<select id="INSBUserremark_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBUserremark
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="remarktype != null">
+				and remarktype = #{remarktype}
+			</if>
+			<if test="remarkcontent != null">
+				and remarkcontent = #{remarkcontent}
+			</if>
+			<if test="remark != null">
+				and remark = #{remark}
+			</if>
+			<if test="remarkattr != null">
+				and remarkattr = #{remarkattr}
+			</if>
+		</where>
+	</select>
+</mapper>

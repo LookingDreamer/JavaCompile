@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBInsured -->
+	<select id="INSBInsured_insert" parameterType="com.zzb.cm.entity.INSBInsured" resultType="int">
+		insert into INSBInsured
+		(id,operator,createtime,modifytime,noti,taskid,personid,businessproposalformno,businesspolicyno,relation) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{personid},#{businessproposalformno},#{businesspolicyno},#{relation})
+	</select>
+	<select id="INSBInsured_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBInsured">
+		select * from INSBInsured
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="businessproposalformno != null">
+				and businessproposalformno = #{businessproposalformno}
+			</if>
+			<if test="businesspolicyno != null">
+				and businesspolicyno = #{businesspolicyno}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+		</where>
+	</select>
+	<select id="INSBInsured_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBInsured">
+		select * from INSBInsured
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="businessproposalformno != null">
+				and businessproposalformno = #{businessproposalformno}
+			</if>
+			<if test="businesspolicyno != null">
+				and businesspolicyno = #{businesspolicyno}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+		</where>
+		 ORDER BY createtime DESC LIMIT 1  
+	</select>
+	<select id="INSBInsured_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBInsured">
+		select * from INSBInsured where id = #{id}
+	</select>
+	<select id="INSBInsured_selectByTaskId" parameterType="String" resultType="com.zzb.cm.entity.INSBInsured">
+		select * from INSBInsured where taskid = #{taskid}
+	</select>
+	<select id="INSBInsured_deleteById" parameterType="String">
+		delete from INSBInsured where id = #{id}
+	</select>
+	<select id="INSBInsured_updateById" parameterType="com.zzb.cm.entity.INSBInsured">
+		update INSBInsured  set operator = #{operator},modifytime = NOW(),noti = #{noti},taskid = #{taskid},personid = #{personid},businessproposalformno = #{businessproposalformno},businesspolicyno = #{businesspolicyno},relation = #{relation} where id = #{id}
+	</select>
+	<select id="INSBInsured_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBInsured
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="businessproposalformno != null">
+				and businessproposalformno = #{businessproposalformno}
+			</if>
+			<if test="businesspolicyno != null">
+				and businesspolicyno = #{businesspolicyno}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+		</where>
+	</select>
+</mapper>

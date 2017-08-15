@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBChannelcarinfo -->
+	<select id="INSBChannelcarinfo_insert" parameterType="com.zzb.conf.entity.INSBChannelcarinfo" resultType="int">
+		insert into INSBChannelcarinfo
+		(id,operator,createtime,modifytime,noti,drivingarea,carlicenseno,customername,address,phonenumber,vehiclebrand,vehicletype,registdate,engineno,chassiso,batchcode,channelcode) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{drivingarea},#{carlicenseno},#{customername},#{address},#{phonenumber},#{vehiclebrand},#{vehicletype},#{registdate},#{engineno},#{chassiso},#{batchcode},#{channelcode}) 
+	</select>
+	<select id="INSBChannelcarinfo_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBChannelcarinfo">
+		select * from INSBChannelcarinfo
+		<where>
+			<if test="drivingarea != null">
+				and drivingarea = #{drivingarea}
+			</if>
+			<if test="carlicenseno != null">
+				and carlicenseno = #{carlicenseno}
+			</if>
+			<if test="customername != null">
+				and customername = #{customername}
+			</if>
+			<if test="address != null">
+				and address = #{address}
+			</if>
+			<if test="phonenumber != null">
+				and phonenumber = #{phonenumber}
+			</if>
+			<if test="vehiclebrand != null">
+				and vehiclebrand = #{vehiclebrand}
+			</if>
+			<if test="vehicletype != null">
+				and vehicletype = #{vehicletype}
+			</if>
+			<if test="registdate != null">
+				and registdate = #{registdate}
+			</if>
+			<if test="engineno != null">
+				and engineno = #{engineno}
+			</if>
+			<if test="chassiso != null">
+				and chassiso = #{chassiso}
+			</if>
+			<if test="batchcode != null">
+				and batchcode = #{batchcode}
+			</if>
+			<if test="channelcode != null">
+				and channelcode = #{channelcode}
+			</if>
+		</where>
+	</select>
+		<select id="INSBChannelcarinfo_getChannelcarinfoByMap" parameterType="Map" resultType="com.zzb.conf.entity.INSBChannelcarinfo">
+		select * from INSBChannelcarinfo
+		<where>
+			<if test="drivingarea != null">
+				and drivingarea = #{drivingarea}
+			</if>
+			<if test="carlicenseno != null">
+				and carlicenseno = #{carlicenseno}
+			</if>
+			<if test="customername != null">
+				and customername = #{customername}
+			</if>
+			<if test="address != null">
+				and address = #{address}
+			</if>
+			<if test="phonenumber != null">
+				and phonenumber = #{phonenumber}
+			</if>
+			<if test="vehiclebrand != null">
+				and vehiclebrand = #{vehiclebrand}
+			</if>
+			<if test="vehicletype != null">
+				and vehicletype = #{vehicletype}
+			</if>
+			<if test="registdate != null">
+				and registdate = #{registdate}
+			</if>
+			<if test="engineno != null">
+				and engineno = #{engineno}
+			</if>
+			<if test="chassiso != null">
+				and chassiso = #{chassiso}
+			</if>
+			<if test="batchcode != null">
+				and batchcode = #{batchcode}
+			</if>
+			<if test="channelcode != null">
+				and channelcode = #{channelcode}
+			</if>
+		</where>
+		order by  
+		<if test="sort != null and order != null">
+			  ${sort}  ${order}  
+		</if>
+		<if test="sort == null">
+			 createtime desc 
+		</if>
+		limit #{offset},#{limit}
+	</select>
+	<select id="INSBChannelcarinfo_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBChannelcarinfo">
+		select * from INSBChannelcarinfo
+		<where>
+			<if test="drivingarea != null">
+				and drivingarea = #{drivingarea}
+			</if>
+			<if test="carlicenseno != null">
+				and carlicenseno = #{carlicenseno}
+			</if>
+			<if test="customername != null">
+				and customername = #{customername}
+			</if>
+			<if test="address != null">
+				and address = #{address}
+			</if>
+			<if test="phonenumber != null">
+				and phonenumber = #{phonenumber}
+			</if>
+			<if test="vehiclebrand != null">
+				and vehiclebrand = #{vehiclebrand}
+			</if>
+			<if test="vehicletype != null">
+				and vehicletype = #{vehicletype}
+			</if>
+			<if test="registdate != null">
+				and registdate = #{registdate}
+			</if>
+			<if test="engineno != null">
+				and engineno = #{engineno}
+			</if>
+			<if test="chassiso != null">
+				and chassiso = #{chassiso}
+			</if>
+			<if test="batchcode != null">
+				and batchcode = #{batchcode}
+			</if>
+			<if test="channelcode != null">
+				and channelcode = #{channelcode}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+
+	<select id="INSBChannelcarinfo_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBChannelcarinfo">
+		select * from INSBChannelcarinfo where id = #{id}
+	</select>
+	<select id="INSBChannelcarinfo_deleteById" parameterType="String">
+		delete from INSBChannelcarinfo where id = #{id}
+	</select>
+	<select id="INSBChannelcarinfo_updateById" parameterType="com.zzb.conf.entity.INSBChannelcarinfo">
+		update INSBChannelcarinfo  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},drivingarea = #{drivingarea},carlicenseno = #{carlicenseno},customername = #{customername},address = #{address},phonenumber = #{phonenumber},vehiclebrand = #{vehiclebrand},vehicletype = #{vehicletype},registdate = #{registdate},engineno = #{engineno},chassiso = #{chassiso},batchcode = #{batchcode},channelcode = {channelcode} where id = #{id}
+	</select>
+	<select id="INSBChannelcarinfo_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBChannelcarinfo
+		<where>
+			<if test="drivingarea != null">
+				and drivingarea = #{drivingarea}
+			</if>
+			<if test="carlicenseno != null">
+				and carlicenseno = #{carlicenseno}
+			</if>
+			<if test="customername != null">
+				and customername = #{customername}
+			</if>
+			<if test="address != null">
+				and address = #{address}
+			</if>
+			<if test="phonenumber != null">
+				and phonenumber = #{phonenumber}
+			</if>
+			<if test="vehiclebrand != null">
+				and vehiclebrand = #{vehiclebrand}
+			</if>
+			<if test="vehicletype != null">
+				and vehicletype = #{vehicletype}
+			</if>
+			<if test="registdate != null">
+				and registdate = #{registdate}
+			</if>
+			<if test="engineno != null">
+				and engineno = #{engineno}
+			</if>
+			<if test="chassiso != null">
+				and chassiso = #{chassiso}
+			</if>
+			<if test="batchcode != null">
+				and batchcode = #{batchcode}
+			</if>
+			<if test="channelcode != null">
+				and channelcode = #{channelcode}
+			</if>
+		</where>
+	</select>
+</mapper>

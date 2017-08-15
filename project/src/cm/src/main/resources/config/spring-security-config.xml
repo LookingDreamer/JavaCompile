@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+               http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+               http://www.springframework.org/schema/security   
+               http://www.springframework.org/schema/security/spring-security-4.0.xsd
+               ">
+
+	<security:http security="none" pattern="/static/**" />
+	<security:http security="none" pattern="/upload/**" />
+	<security:http security="none" pattern="/other/*" />
+	<security:http security="none" pattern="/app/**" />
+	<security:http security="none" pattern="/validateCodeImg/**" />
+	<security:http security="none" pattern="/favicon.ico" />
+	<security:http security="none" pattern="/webzzb/**" />
+	<security:http security="none" pattern="/webzzbtest/**" />
+	<security:http security="none" pattern="/cpmap/**" />
+	<security:http security="none" pattern="/online/**" />
+	<security:http security="none" pattern="/imageApI/**" />
+	<security:http security="none" pattern="/quoteway/**" />
+	<security:http security="none" pattern="/flowNodeApi/**" />
+	<security:http security="none" pattern="/risk/*4Cif" />
+	<security:http security="none" pattern="/provider/*4Cif" />
+	<security:http security="none" pattern="/cloudquery/*" />
+	<security:http security="none" pattern="/workflow/*" />
+	<security:http security="none" pattern="/task/dispatched" />
+	<security:http security="none" pattern="/task/recly" />
+	<security:http security="none" pattern="/task/overtimeRedisTimerDeal" />
+	<security:http security="none" pattern="/interface/**" />
+	<security:http security="none" pattern="/policyInterface/**" />
+	<security:http security="none" pattern="/quotation/**" />
+	<security:http security="none" pattern="/supplementItem/**" />
+	<security:http security="none" pattern="/ocr/**" />
+	<security:http security="none" pattern="/channel/**" />
+	<security:http security="none" pattern="/reportServlet/**" />
+	<security:http security="none" pattern="/userValidate/**" />
+	<security:http security="none" pattern="/registerAgent/**" />
+	<security:http security="none" pattern="/cm4lzg/**" />
+	<security:http security="none" pattern="/lzgapi/**" />
+	<security:http security="none" pattern="/carmodel/**" />
+	<security:http security="none" pattern="/chn/**" />
+	<security:http security="none" pattern="/payService/**" />
+	 <security:http security="none" pattern="/systemdata/ruleengine" />
+	
+	<!-- 用户模块 -->
+	<security:http security="none" pattern="/agentuser/**" />
+	<security:http security="none" pattern="/agentdeliveryaddress/**" />
+	<security:http security="none" pattern="/agentbankcard/**" />
+	<security:http security="none" pattern="/activityinfo/**" />
+	<security:http security="none" pattern="/userprize/**" />
+	<security:http security="none" pattern="/commissionrate/**" />
+	<security:http security="none" pattern="/account/api/**" />
+	<security:http security="none" pattern="/msgtemplate/api/**" />
+	<security:http security="none" pattern="/market/api/**" />
+	<security:http security="none" pattern="/miniCallBack/api/**" />
+   
+	<!-- 核保回写轮询时http请求本系统接口放开验证 -->
+	<security:http security="none" pattern="/business/ordermanage/goToFairyOrEdiQuote"/>
+	<security:http security="none" pattern="/business/ordermanage/toLoopUnderwriting"/>
+	<security:http security="none" pattern="/business/ordermanage/logLoopunderwritingdetail"/>
+	<security:http security="none" pattern="/business/ordermanage/updateLoopunderwritingdetail"/>
+	<security:http security="none" pattern="/business/ordermanage/loopWorkFlowToNext"/>
+
+	<!-- 广告系统-->
+	<security:http security="none" pattern="/ads/**"/>
+
+
+	<security:http pattern="/warranty/**" create-session="never">
+		<security:http-basic/>
+		<security:csrf disabled="true"/>
+		<security:headers>
+			<security:frame-options policy="SAMEORIGIN"/>
+		</security:headers>
+	</security:http>
+
+	<!--<security:http security="none" pattern="/mobile/**" create-session="stateless"/>-->
+
+	<security:http>
+		<security:intercept-url pattern="/**"
+			access="hasRole('ROLE_USER')" />
+
+		<security:form-login login-page="/auth/sign"
+			authentication-failure-url="/auth/sign?error"
+			authentication-success-handler-ref="authSuccess" />
+		<security:logout logout-url="/auth/logout"
+			invalidate-session="true" logout-success-url="/auth/sign?logout" />
+		<security:access-denied-handler
+			error-page="/auth/denied" />
+
+		<security:session-management
+			invalid-session-url="/auth/login?same" session-fixation-protection="changeSessionId">
+			<security:concurrency-control
+				max-sessions="1" expired-url="/auth/same" />
+		</security:session-management>
+
+		<security:custom-filter ref="defaultFilter"
+			before="FILTER_SECURITY_INTERCEPTOR" />
+
+		<security:csrf disabled="true" />
+
+		<security:headers>
+			<security:frame-options policy="SAMEORIGIN" />
+		</security:headers>
+	</security:http> 
+	<bean id="authSuccess"
+		class="com.cninsure.system.security.SecurityAuthenticationSuccessHandlerImpl"></bean>
+
+	<!-- 认证管理器，使用自定义的UserDetailsService，并对密码采用md5加密-->
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider
+			user-service-ref="userService">
+			<security:password-encoder ref="passwordEncoder" />
+		</security:authentication-provider>
+	</security:authentication-manager> 
+	<bean id="userService" class="com.cninsure.system.security.SecurityValidationService" />
+	<bean id="passwordEncoder" class="com.cninsure.system.security.SecurityPasswordEncoder" />
+
+	<!-- 请求认证过滤器 -->
+	<bean id="defaultFilter" class="com.cninsure.system.security.SecurityDefaultInterceptor">
+		<constructor-arg name="loginPath" value="/auth/sign" />
+		<!--过期时间5小时-->
+		<property name="failureTime" value="18000000"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager" />
+		<property name="securityMetadataSource" ref="securityMetadataSource" />
+		<property name="redisClient" ref="redisClient" />
+	</bean>
+	<bean class="com.cninsure.system.security.SecurityAccessDecisionManager"
+		id="accessDecisionManager" />
+
+	<bean id="inscResourceRoleService"
+		class="com.cninsure.system.service.impl.INSCResourceRoleServiceImpl" />
+	<bean class="com.cninsure.system.security.SecurityMetadataSource"
+		id="securityMetadataSource">
+		<constructor-arg name="inscResourceRoleService" ref="inscResourceRoleService"></constructor-arg>
+	</bean>
+
+</beans>
+ 

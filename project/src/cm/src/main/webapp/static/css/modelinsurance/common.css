@@ -1,0 +1,240 @@
+﻿@charset "utf-8";
+/* CSS Document */
+*{-webkit-tap-highlight-color:rgba(255,0,0,0);-webkit-tap-highlight-color:transparent;-webkit-touch-callout: none;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,    
+form,fieldset,input,textarea,p,blockquote,th,td{padding:0;margin:0;font-family:Helvetica,"Microsoft Yahei","微软雅黑",Arial,sans-serif;} 
+body {
+	 background-color:#fff;
+	-webkit-text-size-adjust: 100%;/*解决Iphone下橱窗字体变大问题*/
+	font-size:16px;
+    
+}
+
+nav, footer, section, header, article, figure {padding: 0;margin: 0;display: block;}
+ul,li {list-style: none;}
+h1,h2,h3,h4,div,li,p,menu,dl,dt,dd{ font-size:100%; text-align:left;}
+h1,h2,h3,h4{ font-weight:normal;}
+a{ text-decoration:none;}
+a:link {
+	-webkit-tap-highlight-color: rgba(0,0,0,0);	/*禁止链接高亮*/
+	/*-webkit-touch-callout: none;					禁止链接长按弹出选项菜单*/
+}
+a:link, a:visited, a:hover, a:active { text-decoration:none;}
+img{border:0; height:auto; width:100%; max-width:100%;}
+
+
+button{border-radius:0;}
+select{ appearance:none; border:none;background-color:transparent; outline:none;}
+::-webkit-input-placeholder {color:#ccc;}
+:-moz-placeholder {     color:#ccc;}
+::-moz-placeholder {    color:#ccc;}
+:-ms-input-placeholder {    color:#ccc;}
+
+
+textarea{ outline:none; border:0;outline-style: none;
+    border:none;border:0;}
+textarea.t1{width:100%; padding:10px;height:200px;-webkit-overflow-scrolling : touch;}
+
+label{font-weight: normal;}
+
+.clearfix:after { content:"."; display:block; height:0; clear:both; visibility:hidden;}
+/** html .clearfix { height:1%;}
+.clearfix { display:block;}*/
+
+/*触按效果*/
+.icon-wrap{}
+.icon-wrap.touch{ background-color:#e5e5e5;}
+
+
+.zzb-icon{width:22px;height:22px; display:inline-block; border-radius: 100%; vertical-align: -5px; margin-right:5px;font-weight: normal; background:url(../img/sprite.png) no-repeat; background-size:300px auto;}
+.zzb-icon.jian{ background-position: -273px -19px; background-color: #ff0000;}
+.zzb-icon.add{ background-position: -273px 2px; background-color: #006fff;}
+.zzb-icon.message{ border-radius:0; background-position: -196px -116px;}
+.zzb-icon.tel{ border-radius:0; background-position: -231px -116px; }
+
+
+.f-left{float:left;}
+.f-right{float:right;}
+.f-none{ float:none;}
+
+.f0{ font-size:10px;}
+.f1{ font-size:12px;}
+.f2{ font-size:14px;}
+.f3{ font-size:16px;}
+.f4{ font-size:18px;}
+.f5{ font-size:20px;}
+.f6{ font-size:22px;}
+.f7{ font-size:24px;}
+.f8{ font-size:26px;}
+.f9{ font-size:28px;}
+
+.dblock{ display:inline-block;}
+.dblock2{ display:block;}
+.dblock3{ display:inline;}
+
+.t-left{ text-align:left;}
+.t-center{ text-align:center;}
+.t-right{ text-align:right;}
+.noborder{border:none;}
+.nobg{ background-color:transparent;}
+
+
+.border0{border:0;}
+.border{border:1px solid #eeeeee;}
+.border2{border:1px solid #878787;}
+.border3{border:1px solid #eeeeee;}
+
+.border-t{border-top:1px solid #eeeeee;}
+
+.border-t2{border-top:2px solid #eeeeee;}
+.border-b{border-bottom:1px solid #ddd;}
+.border-b2{border-bottom:2px solid #eeeeee;}
+
+
+
+.border-r{border-right:1px solid #eeeeee;}
+
+
+.border-r2{border-right:2px solid #eeeeee;}
+
+.border-l{border-left:1px solid #eeeeee;}
+.border-nb{border-bottom:none}
+.border-b-d{border-bottom:1px dotted #eeeeee;}
+.border-t-d{border-top:1px dotted #eeeeee;}
+
+.border-t1{border-top:1px solid #4c4c4c;}
+.border-r1{border-right:1px solid #4c4c4c;}
+.border-t3{border-top:2px solid #4c4c4c;}
+.border-r3{border-right:2px solid #4c4c4c;}
+
+.border-b-fx{border-bottom:30px solid #eee;}
+
+.mess{overflow: hidden;text-overflow:ellipsis; white-space: nowrap;}
+.mess1{overflow: hidden;text-overflow:ellipsis; white-space: nowrap;width:75%; display: inline-block;}
+
+.pad0{ padding:0;}
+.pad1{ padding:0 5px;}
+.pad2{ padding:0 10px;}
+.pad3{ padding:2px 0;}
+.pad4{ padding:10px 0;}
+.pad5{ padding:15px 10px;}
+.pad55{ padding:10px;}
+.pad6{ padding-top:4px;}
+.pad7{ padding-top:14px;}
+.pad8{ padding:0 10px; line-height: 44px;}
+.pad88{ padding:0px; line-height: 44px;}
+.pad9{ padding:0 5px; line-height: 34px;}
+
+.pad10{ padding:6px 0;}
+.pad11{ padding:4px 10px 0;}
+.pad12{ padding:0 10px; line-height: 30px;}
+.pad13{ padding:5px 10px; line-height: 18px;}
+.pad133{ padding:10px; line-height: 18px;}
+
+.pad14{ padding:0 10px; line-height: 34px;}
+.pad15{ padding-left:50px;}
+.pad16{ padding:10px 0; line-height:24px;}
+.pad17{ padding:5px;}
+.pad18{ padding:1px;}
+
+.mar0{margin:0 auto;}
+.mar1{margin-top:7px;}
+.mar2{margin-top:44px;}
+.mar3{margin-top:89px;}
+.mar4{margin-top:5px;}
+.mar5{margin-top:25px;}
+.mar6{margin-bottom:55px;}
+.mar7{margin-bottom:6px;}
+.mar8{margin-top:10px;}
+.marl-1{margin-left:5px;}
+.marl-2{margin-left:15px;}
+.mar9{margin-bottom:25px;}
+.mar10{margin-top:86px;}
+.mar11{margin:10px;}
+.mar12{margin:0 10px;}
+
+.w1{width:50%;}
+.w2{width:90%; margin:0 auto;height:44px;}
+.w3{width:90%; margin:0 auto;}
+.w0{width:100%;}
+.w4{width:75%; margin:0 auto;}
+.w5{width:135px;}
+.w6{;height:44px;}
+.he1{height:80px;}
+
+/*公共背景*/
+.bg1{ background-color:#006fff;}/*蓝色*/
+.bg2{ background-color:#878787;}/*灰色-btn*/
+.bg3{ background-color:#ffb11b;}/*橙色*/
+.bg4{ background-color:#f9f9f9;}/*浅灰色 条状*/
+.bg5{ background-color:#eef3f6;}/*浅蓝色 最浅色*/
+.bg6{ background-color:#eeeeee;}/*浅灰色 背景*/
+.bg7{ background-color:#fff;}/*白色*/
+.bg8{ background-color:#a0d1ff;}/*天蓝色*/
+.bg9{ background-color:#ffb11b;}/*橙色*/
+.bg10{ background-color:#ff0000;}/*红色*/
+.bg11{ background-color:#d2b772;}/*棕色*/
+.bg12{ background-color:#d2b772;}/*棕色*/
+
+/*字体颜色*/
+.c1{ color:#006fff;}/*蓝色*/
+.c2{ color:#9e9e9e;}/*灰色*/
+.c22{ color:#878787;}/*深灰色*/
+.c3{ color:#ffb11b;}/*橙色*/
+.c4{ color:#353f48;}/*黑色*/
+.c5{ color:#fff;}/*白色*/
+.c6{ color:#ff0000;}/*红色*/
+
+ img.encoder{width:230px;}
+
+.posi1{position:fixed;bottom:10px;left:0;right:0;}
+
+/*顶部面板*/
+.zzb-top-panel{ position:fixed; top:0; left:0; height:44px; width:100%; z-index: 9;}
+.zzb-top-panel.reg-top{ position: static;}
+.zzb-top-panel .title{padding-left: 22px; line-height: 44px;}
+.zzb-top-panel .title.t1{line-height: 22px; height:44px; }
+.zzb-top-panel .title.t2{padding-left:0; }
+
+
+.zzb-top-panel .panel-btn{display: inline-block;width:21px;height:22px;background:url(../img/sprite.png) no-repeat;background-size:300px auto; margin-top:10px; margin-left: 15px;}
+.zzb-top-panel .panel-btn.message{ background-position:-113px 5px;}
+.zzb-top-panel .panel-btn.home{ background-position:-136px 0;}
+.zzb-top-panel .panel-btn.search{ background-position:-162px 0;}
+.zzb-top-panel .panel-btn.func{ background-position:-172px -25px;}
+.zzb-top-panel .panel-btn.setting{ background-position:-210px -49px;}
+.zzb-top-panel .panel-btn.mail{ background-position:-239px -49px; position:relative;}
+.zzb-top-panel .panel-btn.add{ background-position:-275px 0px; position:relative;}
+.zzb-top-panel .flag{position: absolute; top:1px;right:-3px;width:8px;height:8px;border-radius: 8px;}
+
+.zzb-top-panel .panel-back{position:absolute;left:11px;top:14px;width:18px;height:18px; color:#fff;border-left:1px solid #fff; border-top:1px solid #fff; -webkit-transform:rotate(-45deg);-moz-transform:rotate(-45deg);transform:rotate(-45deg); cursor: pointer;}
+
+/*底部面板*/
+.zzb-index-bot{height: 44px;width:100%; line-height: 44px;}
+
+/*底部面板--我*/
+.main-panel{  position:fixed; bottom:0;  background-color:#fff; border-top:1px solid #ccc; width:100%; z-index: 2}
+.main-panel .icon{ margin:8px auto; margin-bottom:4px;width:22px;height:20px; display:block; background:url(../img/sprite.png) no-repeat; background-size:300px auto;}
+.main-panel .icon.index{ background-position:0 -114px; }
+.main-panel .icon.insured{ background-position:-32px -114px;}
+.main-panel .icon.faxian{ background-position:-68px -114px; }
+.main-panel .icon.my{ background-position:-102px -114px;}
+.main-panel .title{ display:block; font-size:12px; margin-bottom:3px;}
+.main-panel a{ display:block; color:#353f48; cursor:pointer; position:relative;}
+.main-panel a:hover,.main-panel a.active{ color:#008be6; text-decoration: none;}
+.main-panel a:hover .icon.index,.main-panel a.active .icon.index{ background-position:0 -142px; }
+.main-panel a:hover .icon.insured,.main-panel a.active .icon.insured{ background-position:-32px -142px;}
+.main-panel a:hover .icon.faxian,.main-panel a.active .icon.faxian{ background-position:-68px -142px; }
+.main-panel a:hover .icon.my,.main-panel a.active .icon.my{ background-position:-102px -142px;}
+.main-panel a .flag{position: absolute; top:6px;right:20px;width:8px;height:8px;border-radius: 8px;}
+
+
+
+
+.main-container{padding-bottom:65px;}
+.main-container.no-bot{padding-bottom:0}
+
+
+
+
+

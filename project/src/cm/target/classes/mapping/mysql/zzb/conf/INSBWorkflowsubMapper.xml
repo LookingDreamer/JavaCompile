@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBWorkflowsub  -->
+	
+	<select id="INSBWorkflowsub_insert" parameterType="com.zzb.conf.entity.INSBWorkflowsub" resultType="int">
+		insert into INSBWorkflowsub
+		(id,operator,createtime,modifytime,noti,maininstanceid,starttaskid,taskid,taskcode,taskstate,instanceid,groupid,operatorstate,wfsubtrackid)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{maininstanceid},#{starttaskid},#{taskid},#{taskcode},#{taskstate},#{instanceid},#{groupid},#{operatorstate},#{wfsubtrackid})
+	</select>
+	<select id="INSBWorkflowsub_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowsub">
+		select * from INSBWorkflowsub
+		<where>
+			<if test="maininstanceid != null">
+				and maininstanceid = #{maininstanceid}
+			</if>
+			<if test="operatorstate != null">
+				and operatorstate = #{operatorstate}
+			</if>
+			<if test="starttaskid != null">
+				and starttaskid = #{starttaskid}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="taskcode != null">
+				and taskcode = #{taskcode}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+			<if test="instanceid != null">
+				and instanceid = #{instanceid}
+			</if>
+			<if test="operator != null">
+				and operator = #{operator}
+			</if>
+			<if test="reclystate != null">
+				and taskstate != 'Completed' and taskstate != 'Closed' and taskstate != 'end'
+			</if>
+			<if test="startTime !=null and endTime !=null">
+				and createtime between STR_TO_DATE(#{startTime},'%Y-%m-%d %H:%i:%s') and STR_TO_DATE(#{endTime},'%Y-%m-%d %H:%i:%s')
+			</if>
+		</where>
+	</select>
+	<select id="INSBWorkflowsub_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowsub">
+		select * from INSBWorkflowsub
+		<where>
+			<if test="maininstanceid != null">
+				and maininstanceid = #{maininstanceid}
+			</if>
+			<if test="operatorstate != null">
+				and operatorstate = #{operatorstate}
+			</if>
+			<if test="starttaskid != null">
+				and starttaskid = #{starttaskid}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="taskcode != null">
+				and taskcode = #{taskcode}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+			<if test="instanceid != null">
+				and instanceid = #{instanceid}
+			</if>
+			<if test="operator != null">
+				and operator = #{operator}
+			</if>
+		</where>
+		limit 2
+	</select>
+	<select id="INSBWorkflowsub_getMediumPayInfo" parameterType="Map" resultType="Map" resultMap="MediumPayInfo">
+		/*slave*/SELECT s.*,po.proposalformno,po.risktype,po.discountCharge premium,po.paynum from
+			(select s.maininstanceid,pc.paychannelname,o.orderno,c.codename AS delivetype,d.comname AS deptname from insbworkflowsub s
+				LEFT JOIN insborder o ON o.taskid = s.maininstanceid AND o.prvid = #{inscomcode} AND o.paymentstatus='02'
+				LEFT JOIN insborderdelivery de ON de.orderid = o.id
+				LEFT JOIN insbpaychannel pc ON pc.id=o.paymentmethod
+				LEFT JOIN insccode c ON c.codevalue = de.delivetype AND c.codetype='DeliveType'
+				LEFT JOIN inscdept d ON d.id = de.deptcode
+			where s.maininstanceid = #{maininstanceid}
+            <if test="taskcode != null">
+                and taskcode = #{taskcode}
+            </if>
+			) s
+		LEFT JOIN insbpolicyitem po on po.taskid=s.maininstanceid AND po.inscomcode = #{inscomcode}
+	</select>
+	 <resultMap id="MediumPayInfo" type="Map">
+	 	<result property="paychannelname" column="paychannelname"/> 
+	 	<result property="orderno" column="orderno"/> 
+	 	<result property="delivetype" column="delivetype"/> 
+	 	<result property="deptname" column="deptname"/> 
+	 	<collection property="policyInfo"  ofType="Map" javaType="List">
+            <result property="risktype" column="risktype"/>
+            <result property="premium" column="premium"/>
+            <result property="paynum" column="paynum"/>
+            <result property="proposalformno" column="proposalformno"/>
+	 	</collection>
+	 </resultMap>
+	 
+	<select id="INSBWorkflowsub_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBWorkflowsub">
+		select * from INSBWorkflowsub where id = #{id}
+	</select>
+	
+	<select id="INSBWorkflowsub_selectSubModelByMainInstanceId" parameterType="String" resultType="com.zzb.conf.entity.INSBWorkflowsub">
+		select * from INSBWorkflowsub where maininstanceid = #{maininstanceid}
+	</select>
+
+	<select id="INSBWorkflowsub_selectSubModelInfoByMainInstanceId" parameterType="String" resultType="Map">
+		SELECT a.*, b.inscomcode from insbworkflowsub a LEFT JOIN insbquoteinfo b on a.instanceid=b.workflowinstanceid WHERE a.maininstanceid = #{maininstanceid}
+	</select>
+	
+	<select id="INSBWorkflowsub_selectModelByInstanceId" parameterType="String" resultType="com.zzb.conf.entity.INSBWorkflowsub">
+		select * from INSBWorkflowsub where instanceid = #{instanceid}
+	</select>
+
+	<select id="INSBWorkflowsub_selectModelInfoByInstanceId" parameterType="String" resultType="Map">
+		SELECT a.*, b.inscomcode from insbworkflowsub a LEFT JOIN insbquoteinfo b on a.instanceid=b.workflowinstanceid WHERE a.instanceid = #{instanceid}
+	</select>
+	
+	<!-- 通过群组id得到当前未分配的任务信息 -->
+	<select id="INSBWorkflowsub_getDataByGroupId4UserLogin"  resultType="com.zzb.conf.entity.INSBWorkflowsub">
+		select * from INSBWorkflowsub where taskcode in('7','8','18','21','27') and operator is null
+		and groupid in
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	
+	<select id="INSBWorkflowsub_selectMainInstanceIdBySubInstanceId" parameterType="String" resultType="String">
+		select maininstanceid from INSBWorkflowsub where instanceid = #{value} limit 1
+	</select>
+	
+	<select id="INSBWorkflowsub_selectOperatorCount"  resultType="Map">
+		select operator ,count(1) count from INSBWorkflowsub where operator in
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		group by operator order by count
+	</select>
+	<select id="INSBWorkflowsub_selectInstanceIdByMainInstanceId" parameterType="String" resultType="String">
+		select instanceid from INSBWorkflowsub where maininstanceid = #{maininstanceid}
+	</select>
+	<select id="INSBWorkflowsub_selectSubInsIdExc" parameterType="String" resultType="com.zzb.conf.entity.INSBWorkflowsub">
+		select * from INSBWorkflowsub where maininstanceid = #{maininstanceid} and taskcode not in('30','33','34')
+	</select>
+	
+	<select id="INSBWorkflowsub_selectSubInstanceIdByEnd" parameterType="String" resultType="String">
+		select instanceid from INSBWorkflowsub where maininstanceid = #{maininstanceid} and taskcode ='30'
+	</select>
+	
+	<select id="INSBWorkflowsub_selectIdByInstanceId" parameterType="String" resultType="com.zzb.conf.entity.INSBWorkflowsub">
+		select  * from INSBWorkflowsub where instanceid = #{instanceid}
+	</select>
+	
+	<select id="INSBWorkflowsub_selectByInstanceId4Task" parameterType="String" resultType="Map">
+		select id,groupid,operator,taskcode,taskstate from INSBWorkflowsub where instanceid = #{instanceid}
+	</select>
+	
+	<select id="INSBWorkflowsub_getQuoteInfoByTaskId" parameterType="String" resultType="Map">
+		/*slave*/SELECT s.taskcode,p.prvshotname,CONVERT(ROUND(q.quotediscountamount,2),CHAR) as quoteamount,q.inscomcode,s.taskstate,s.operator,q.workflowinstanceid
+		from insbworkflowmain m
+		LEFT JOIN insbworkflowsub s ON m.instanceid = s.maininstanceid 
+		LEFT JOIN insbquoteinfo q ON q.workflowinstanceid = s.instanceid
+		LEFT JOIN insbprovider p ON p.prvcode = LEFT(q.inscomcode,4) where m.instanceid= #{processInstanceId}
+	</select>
+	
+	<select id="INSBWorkflowsub_getQuoteInfoByTaskIdForChn" parameterType="String" resultType="Map">
+		SELECT s.taskcode,p.prvshotname,CONVERT(ROUND(q.quotediscountamount,2),CHAR) as quoteamount,q.inscomcode,s.taskstate,s.operator,q.workflowinstanceid
+		from insbworkflowmain m
+		LEFT JOIN insbworkflowsub s ON m.instanceid = s.maininstanceid 
+		LEFT JOIN insbquoteinfo q ON q.workflowinstanceid = s.instanceid
+		LEFT JOIN insbprovider p ON p.prvcode = LEFT(q.inscomcode,4) where m.instanceid= #{processInstanceId}
+	</select>
+	
+	<select id="INSBWorkflowsub_deleteById" parameterType="String">
+		delete from INSBWorkflowsub where id = #{id}
+	</select>
+	<select id="INSBWorkflowsub_deleteByInstanceId" parameterType="String">
+		delete from INSBWorkflowsub where instanceid = #{instanceid}
+	</select>
+	<select id="INSBWorkflowsub_updateById" parameterType="com.zzb.conf.entity.INSBWorkflowsub">
+		update INSBWorkflowsub set groupid=#{groupid}, operator = #{operator},modifytime = NOW(),
+		noti = #{noti},maininstanceid = #{maininstanceid},starttaskid = #{starttaskid},taskid = #{taskid},
+		taskcode = #{taskcode},taskstate = #{taskstate},instanceid=#{instanceid},operatorstate=#{operatorstate}
+        <if test="wfsubtrackid != null and wfsubtrackid != ''">
+            ,wfsubtrackid = #{wfsubtrackid}
+        </if>
+		<if test="firstunderwritingtime != null">
+			,firstunderwritingtime = #{firstunderwritingtime}
+		</if>
+		<if test="lastunderwritingovertime != null">
+			,lastunderwritingovertime = #{lastunderwritingovertime}
+		</if>
+		where id = #{id}
+	</select>
+	<select id="INSBWorkflowsub_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBWorkflowsub
+		<where>
+			<if test="maininstanceid != null">
+				and maininstanceid = #{maininstanceid}
+			</if>
+			<if test="starttaskid != null">
+				and starttaskid = #{starttaskid}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="taskcode != null">
+				and taskcode = #{taskcode}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+			<if test="instanceid != null">
+				and instanceid = #{instanceid}
+			</if>
+			<if test="operator != null">
+				and operator = #{operator}
+			</if>
+		</where>
+	</select>
+	<!-- 车险任务管理页面查看任务流程 -->
+	<select id="INSBWorkflowsub_showWorkflowTrack" parameterType="Map" resultType="Map">
+		SELECT cc.codename AS taskName, zw.taskcode AS taskcode, zw.createtime AS createtime,cc.prop3 AS prop3,
+		CASE WHEN zw.taskcode='1' THEN CONCAT(za.jobnum,'-',za.`name`) 
+		WHEN cu.`name` IS NULL THEN '未知操作员' ELSE cu.`name` END AS opPerson, uco.commentcontent
+		FROM insbworkflowmaintrack zw 
+		LEFT JOIN insbquotetotalinfo zq ON zq.taskid = zw.instanceid 
+		LEFT JOIN insbagent za ON za.jobnum = zq.agentnum 
+		LEFT JOIN insccode cc ON cc.codetype='workflowNodelName' AND cc.parentcode='workflowNodelName' AND cc.codevalue=zw.taskcode 
+		LEFT JOIN inscuser cu ON cu.usercode=zw.operator 
+		LEFT JOIN insbusercomment uco ON uco.trackid=zw.id AND uco.tracktype='1' 
+		WHERE zw.instanceid = #{instanceId} AND zw.taskcode != '2' AND zw.taskcode!='33' 
+		UNION (
+			SELECT cc.codename AS taskName, sw.taskcode AS taskcode, sw.createtime AS createtime,cc.prop3 AS prop3, 
+			CASE WHEN cu.`name` IS NULL THEN '未知操作员' ELSE cu.`name` END AS opPerson, uco.commentcontent
+			FROM insbworkflowsubtrack sw 
+			LEFT JOIN insccode cc ON cc.codetype='workflowNodelName' AND cc.parentcode='workflowNodelName' AND cc.codevalue=sw.taskcode 
+			LEFT JOIN inscuser cu ON cu.usercode=sw.operator 
+			LEFT JOIN insbusercomment uco ON uco.trackid=sw.id AND uco.tracktype='2' 
+			WHERE sw.maininstanceid = #{instanceId} AND sw.taskcode!='33' AND instanceid = 
+			(SELECT workflowinstanceid FROM insbquoteinfo 
+			WHERE inscomcode = #{inscomcode} 
+			AND quotetotalinfoid = (SELECT id FROM insbquotetotalinfo 
+			WHERE taskid = #{instanceId}) )
+		) ORDER BY createtime ASC,prop3 ASC
+	</select>
+	<!-- 车险任务管理页面查看任务流程最新版 -->
+	<select id="INSBWorkflowsub_showWorkflowTrack1" parameterType="Map" resultType="Map">
+		SELECT re.noti,re.taskName, re.taskcode, re.createtime, CONCAT(re.operatorstate, re.opPerson, re.fopPerson) AS opPerson FROM
+			(SELECT zw.noti,cc.codename AS taskName, zw.taskcode AS taskcode, zw.createtime AS createtime,CONVERT(cc.prop3,DECIMAL) AS prop3,
+			CASE WHEN zw.taskcode='1' THEN CONCAT('代理人：',za.`name`,'-',za.jobnum) 
+			WHEN cu.`name` IS NULL THEN '目标人：未知' ELSE CONCAT('目标人：',cu.`name`) END AS opPerson, 
+			CASE WHEN zw.taskcode='1' THEN '' 
+			WHEN cuf.`name` IS NULL THEN '-操作人：系统' ELSE CONCAT('-操作人：',cuf.`name`) END AS fopPerson, 
+			CASE WHEN zw.operatorstate='reassignment' THEN '任务改派-' WHEN zw.operatorstate='refuseTask' THEN '拒绝任务-' 
+			WHEN zw.operatorstate='restartTask' THEN '重启调度-' WHEN zw.operatorstate='getTask' THEN '认领任务-' 
+			WHEN zw.operatorstate='pauseTask' THEN '暂停任务-'
+			WHEN zw.operatorstate='Proccessing' THEN '处理任务-' ELSE '' END AS operatorstate 
+			FROM insbworkflowmaintrackdetail zw 
+			LEFT JOIN insbquotetotalinfo zq ON zq.taskid = zw.instanceid 
+			LEFT JOIN insbagent za ON za.jobnum = zq.agentnum 
+			LEFT JOIN insccode cc ON cc.codetype='workflowNodelName' AND cc.parentcode='workflowNodelName' AND cc.codevalue=zw.taskcode 
+			LEFT JOIN inscuser cu ON cu.usercode=zw.operator 
+			LEFT JOIN inscuser cuf ON cuf.usercode=zw.fromoperator 
+			WHERE zw.instanceid = #{instanceId} AND zw.taskcode != '2'  AND zw.taskstate!='Completed'   <!-- and (cu.`name` IS NOT NULL or zw.noti IS NOT NULL or zw.taskcode='37' or zw.taskcode='30' )  -->
+			UNION (
+				SELECT sw.noti,cc.codename AS taskName, sw.taskcode AS taskcode, sw.createtime AS createtime,CONVERT(cc.prop3,DECIMAL) AS prop3, 
+				CASE WHEN sw.taskcode = '20' AND  sw.operator = 'admin' AND sw.fromoperator = 'admin' THEN CONCAT('代理人：',sza.`name`,'-',sza.jobnum) 
+				WHEN cu.`name` IS NULL THEN '目标人：未知' ELSE CONCAT('目标人：',cu.`name`) END AS opPerson, 
+				CASE WHEN sw.taskcode = '20' AND  sw.operator = 'admin' AND sw.fromoperator = 'admin' THEN '' 
+				WHEN cuf.`name` IS NULL THEN '-操作人：系统' ELSE CONCAT('-操作人：',cuf.`name`) END AS fopPerson, 
+				CASE WHEN sw.operatorstate='reassignment' THEN '任务改派-' WHEN sw.operatorstate='refuseTask' THEN '拒绝任务-' 
+				WHEN sw.operatorstate='restartTask' THEN '重启调度-' WHEN sw.operatorstate='getTask' THEN '认领任务-' 
+				WHEN sw.operatorstate='pauseTask' THEN '暂停任务-'
+				WHEN sw.operatorstate='Proccessing' THEN '处理任务-'  ELSE '' END AS operatorstate 
+				FROM insbworkflowsubtrackdetail sw 
+				LEFT JOIN insbquotetotalinfo szq ON szq.taskid = sw.maininstanceid 
+				LEFT JOIN insbagent sza ON sza.jobnum = szq.agentnum 
+				LEFT JOIN insccode cc ON cc.codetype='workflowNodelName' AND cc.parentcode='workflowNodelName' AND cc.codevalue=sw.taskcode 
+				LEFT JOIN inscuser cu ON cu.usercode=sw.operator 
+				LEFT JOIN inscuser cuf ON cuf.usercode=sw.fromoperator 
+				WHERE sw.maininstanceid = #{instanceId} AND sw.taskcode!='33' AND sw.taskstate!='Completed' AND instanceid = 
+				(SELECT workflowinstanceid FROM insbquoteinfo 
+				WHERE inscomcode = #{inscomcode}  <!-- and (cu.`name` IS NOT NULL or  sw.noti IS NOT NULL or sw.taskcode='37' or sw.taskcode='30' ) --> 
+				AND quotetotalinfoid = (SELECT id FROM insbquotetotalinfo 
+				WHERE taskid = #{instanceId})))) re ORDER BY re.createtime,taskcode ASC, re.prop3 ASC 
+	</select>
+	<!-- 得到流程示意图中子流程信息 -->
+	<select id="INSBWorkflowsub_getSubWorkflowViewInfo" parameterType="Map" resultType="Map">
+		SELECT re.prvshotname AS inscomname, GROUP_CONCAT(re.codename, re.opPerson) AS quoteway 
+		FROM (SELECT pro.prvshotname, qi.inscomcode, cc.codename, sw.createtime, 
+		CASE WHEN cu.`name` IS NULL THEN '-未知操作员' ELSE CONCAT('-',DATE_FORMAT(IFNULL(sw.modifytime,sw.createtime), '%Y-%m-%d %H:%i:%S'),'-',cu.`name`,'-',cu.usercode) END AS opPerson 
+		FROM insbworkflowsubtrack sw 
+		LEFT JOIN insccode cc ON cc.codetype='workflowNodelName' AND cc.parentcode='workflowNodelName' AND cc.codevalue=sw.taskcode 
+		LEFT JOIN inscuser cu ON cu.usercode=sw.operator 
+		LEFT JOIN insbquoteinfo qi ON qi.workflowinstanceid=sw.instanceid 
+		LEFT JOIN insbprovider pro ON qi.inscomcode=pro.prvcode 
+		WHERE sw.maininstanceid = #{instanceId} 
+		AND sw.taskcode IN 
+		<foreach collection="tasktype" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+		) re
+		GROUP BY re.inscomcode 
+		ORDER BY re.createtime ASC
+	</select>
+	<!-- 得到子流程中进入各节点的时间 -->
+	<select id="INSBWorkflowsub_getInTaskcodeDate" parameterType="Map" resultType="String">
+		SELECT DATE_FORMAT(createtime,'%Y-%m-%d %H:%i:%S') AS createtime FROM insbworkflowsubtrack 
+		WHERE maininstanceid = #{instanceId} AND taskcode IN 
+		<foreach collection="tasktype" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach> 
+		ORDER BY createtime ASC
+	</select>
+	<!-- 精灵报价成功后回写数据前核对子流程节点状态 liu,解决精灵报价超时问题-->
+	<select id="INSBWorkflowsub_getCurrentTaskcodeOfSubFlow" parameterType="Map" resultType="Map">
+		SELECT ws.taskcode AS taskcode, cc.codename AS codename FROM insbworkflowsub ws
+		LEFT JOIN insbquoteinfo qi ON qi.workflowinstanceid=ws.instanceid 
+		LEFT JOIN insbquotetotalinfo qt ON qt.id=qi.quotetotalinfoid 
+		LEFT JOIN insccode cc ON cc.codevalue=ws.taskcode AND cc.codetype='workflowNodelName' 
+		<where>
+			<if test="maininstanceid != null">
+				AND ws.maininstanceid = #{maininstanceid}
+			</if>
+			<if test="inscomcode != null">
+				AND qi.inscomcode = #{inscomcode}
+			</if>
+		</where>
+	</select>
+	<select id="INSBWorkflowsub_getInstanceidByMaininstanceId" parameterType="String" resultType="String">
+		SELECT s.instanceid FROM insbworkflowsub s WHERE s.maininstanceid = #{maininstanceid} AND taskstate != 'Closed'
+	</select>
+	<select id="INSBWorkflowsub_getTransformTaskInstanceid" parameterType="Map" resultType="String">
+		select s.instanceid from insbworkflowsub s LEFT JOIN insbquoteinfo q ON q.workflowinstanceid = s.instanceid
+		where s.maininstanceid = #{maintaskid} AND s.operator = #{operator} AND q.inscomcode = #{inscomcode}
+	</select>
+	<!-- 通过主流程id的到主流程当前节点的名称 liuchao-->
+	<select id="INSBWorkflowsub_getTaskNameByMainInstanceId" parameterType="String" resultType="String">
+		SELECT c.codename FROM insbworkflowmain wm 
+		LEFT JOIN insccode c ON wm.taskcode=c.codevalue AND c.codetype='workflowNodelName' AND c.parentcode='workflowNodelName' 
+		WHERE wm.instanceid = #{mainInstanceId}
+	</select>
+	<!-- 通过子流程id的到子流程当前节点的名称 liuchao-->
+	<select id="INSBWorkflowsub_getTaskNameBySubInstanceId" parameterType="String" resultType="String">
+		SELECT c.codename FROM insbworkflowsub ws 
+		LEFT JOIN insccode c ON ws.taskcode=c.codevalue AND c.codetype='workflowNodelName' AND c.parentcode='workflowNodelName' 
+		WHERE ws.instanceid = #{subInstanceId}
+	</select>
+
+	<!-- 查询超期关闭流程-->
+	<select id="INSBWorkflowsub_selectExpiredClose" resultType="Map">
+		SELECT  sub.* FROM insbquoteinfo f, insbpolicyitem a, insbworkflowsub sub
+		WHERE EXISTS(SELECT 1 FROM insbquotetotalinfo c WHERE taskid =a.`taskid` AND f.`quotetotalinfoid` = c.`id` )
+		AND f.`inscomcode` =a.`inscomcode`
+		AND a.`startdate` &lt;  SYSDATE()
+		AND a.`startdate` >'2016-05-06'
+		AND sub.`instanceid` = f.`workflowinstanceid`
+		AND sub.`taskcode` IN ('6','7','8','18')
+
+	</select>
+
+	<select id="INSBWorkflowsub_updateBatch"  parameterType="java.util.List">
+
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+			update INSBWorkflowsub
+			set taskcode = #{item.taskcode, jdbcType=VARCHAR}
+			where id = #{item.id, jdbcType=VARCHAR}
+		</foreach>
+
+	</select>
+	
+	<select id="INSBWorkflowsub_selectbymaininstanceid" parameterType="String" resultType="com.zzb.conf.entity.INSBWorkflowsub">
+		SELECT * FROM insbworkflowsub WHERE maininstanceid=#{maininstanceid}AND (taskcode='20' OR taskcode='21') ORDER BY
+		createtime DESC LIMIT 1
+	</select>
+
+	<select id="INSBWorkflowsub_updateUnderwritingsuccesstype" parameterType="Map" resultType="int">
+		update INSBWorkflowsub set underwritingsuccesstype = #{underwritingsuccesstype} where id = #{id}
+	</select>
+</mapper>

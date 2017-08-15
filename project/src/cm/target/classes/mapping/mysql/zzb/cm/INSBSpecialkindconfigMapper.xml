@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBSpecialkindconfig -->
+	<select id="INSBSpecialkindconfig_insert" parameterType="com.zzb.cm.entity.INSBSpecialkindconfig" resultType="int">
+		insert into INSBSpecialkindconfig
+		(id,operator,createtime,modifytime,noti,taskid,typecode,inscomcode,kindcode,codekey,codevalue,prop1,prop2) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{typecode},#{inscomcode},#{kindcode},#{codekey},#{codevalue},#{prop1},#{prop2})
+	</select>
+	<select id="INSBSpecialkindconfig_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBSpecialkindconfig">
+		select * from INSBSpecialkindconfig
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="typecode != null">
+				and typecode = #{typecode}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="kindcode != null">
+				and kindcode = #{kindcode}
+			</if>
+			<if test="codekey != null">
+				and codekey = #{codekey}
+			</if>
+			<if test="codevalue != null">
+				and codevalue = #{codevalue}
+			</if>
+			<if test="prop1 != null">
+				and prop1 = #{prop1}
+			</if>
+			<if test="prop2 != null">
+				and prop2 = #{prop2}
+			</if>
+		</where>
+	</select>
+	<select id="INSBSpecialkindconfig_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBSpecialkindconfig">
+		select * from INSBSpecialkindconfig where id = #{id}
+	</select>
+	<select id="INSBSpecialkindconfig_deleteById" parameterType="String">
+		delete from INSBSpecialkindconfig where id = #{id}
+	</select>
+	<select id="INSBSpecialkindconfig_updateById" parameterType="com.zzb.cm.entity.INSBSpecialkindconfig">
+		update INSBSpecialkindconfig  set operator = #{operator},modifytime = NOW(),noti = #{noti},taskid = #{taskid},typecode = #{typecode},inscomcode = #{inscomcode},kindcode = #{kindcode},codekey = #{codekey},codevalue = #{codevalue},prop1 = #{prop1},prop2 = #{prop2} where id = #{id}
+	</select>
+	<select id="INSBSpecialkindconfig_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBSpecialkindconfig
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="typecode != null">
+				and typecode = #{typecode}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="kindcode != null">
+				and kindcode = #{kindcode}
+			</if>
+			<if test="codekey != null">
+				and codekey = #{codekey}
+			</if>
+			<if test="codevalue != null">
+				and codevalue = #{codevalue}
+			</if>
+			<if test="prop1 != null">
+				and prop1 = #{prop1}
+			</if>
+			<if test="prop2 != null">
+				and prop2 = #{prop2}
+			</if>
+		</where>
+	</select>
+	<select id="INSBSpecialkindconfig_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBSpecialkindconfig">
+		select * from INSBSpecialkindconfig
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="typecode != null">
+				and typecode = #{typecode}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="kindcode != null">
+				and kindcode = #{kindcode}
+			</if>
+			<if test="codekey != null">
+				and codekey = #{codekey}
+			</if>
+			<if test="codevalue != null">
+				and codevalue = #{codevalue}
+			</if>
+			<if test="prop1 != null">
+				and prop1 = #{prop1}
+			</if>
+			<if test="prop2 != null">
+				and prop2 = #{prop2}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBSpecialkindconfig_selectByTaskIdAndInscomcode" parameterType="Map" resultType="com.zzb.cm.entity.INSBSpecialkindconfig">
+		select * from INSBSpecialkindconfig where taskid = #{taskid} and inscomcode = #{inscomcode}
+	</select>
+</mapper>

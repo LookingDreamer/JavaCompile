@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.ads.entity">
+	<!-- INSBAds -->
+	<select id="INSBAds_insert" parameterType="com.zzb.ads.entity.INSBAds" resultType="int">
+		insert into INSBAds
+		(id,operator,createtime,modifytime,noti,taskid,agreementid,name,title,description,adscreateTime,startTime,endTime,status) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{agreementid},#{name},#{title},#{description},#{adscreateTime},#{startTime},#{endTime},#{status}) 
+	</select>
+	<select id="INSBAds_select" parameterType="Map" resultType="com.zzb.ads.entity.INSBAds">
+		select * from INSBAds
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="name != null">
+				and name = #{name}
+			</if>
+			<if test="title != null">
+				and title = #{title}
+			</if>
+			<if test="description != null">
+				and description = #{description}
+			</if>
+			<if test="adscreateTime != null">
+				and adscreateTime = #{adscreateTime}
+			</if>
+			<if test="startTime != null">
+				and startTime = #{startTime}
+			</if>
+			<if test="endTime != null">
+				and endTime = #{endTime}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAds_selectById" parameterType="String" resultType="com.zzb.ads.entity.INSBAds">
+		select * from INSBAds where id = #{id}
+	</select>
+	<select id="INSBAds_deleteById" parameterType="String">
+		delete from INSBAds where id = #{id}
+	</select>
+	<select id="INSBAds_updateById" parameterType="com.zzb.ads.entity.INSBAds">
+		update INSBAds  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},taskid = #{taskid},agreementid = #{agreementid},name = #{name},title = #{title},description = #{description},adscreateTime = #{adscreateTime},startTime = #{startTime},endTime = #{endTime},status = #{status} where id = #{id}
+	</select>
+	<select id="INSBAds_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBAds
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="name != null">
+				and name = #{name}
+			</if>
+			<if test="title != null">
+				and title = #{title}
+			</if>
+			<if test="description != null">
+				and description = #{description}
+			</if>
+			<if test="adscreateTime != null">
+				and adscreateTime = #{adscreateTime}
+			</if>
+			<if test="startTime != null">
+				and startTime = #{startTime}
+			</if>
+			<if test="endTime != null">
+				and endTime = #{endTime}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAds_selectOne" parameterType="Map" resultType="com.zzb.ads.entity.INSBAds">
+		select * from INSBAds
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="name != null">
+				and name = #{name}
+			</if>
+			<if test="title != null">
+				and title = #{title}
+			</if>
+			<if test="description != null">
+				and description = #{description}
+			</if>
+			<if test="adscreateTime != null">
+				and adscreateTime = #{adscreateTime}
+			</if>
+			<if test="startTime != null">
+				and startTime = #{startTime}
+			</if>
+			<if test="endTime != null">
+				and endTime = #{endTime}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+		LIMIT 1
+	</select>
+
+	<select id="INSBAds_getAds" parameterType="String" resultType="map">
+		 SELECT `id`,
+				`operator`,
+				`taskid`,
+				`agreementid`,
+				`name`,
+				`title`,
+				`description`,
+				DATE_FORMAT(`adscreateTime`, '%Y-%m-%d %H:%i:%s') as createTime,
+				DATE_FORMAT(`startTime`, '%Y-%m-%d') as startTime,
+				DATE_FORMAT(`endTime`, '%Y-%m-%d') as endTime,
+				`status`
+			from insbads a where a.taskid=#{taskid}
+			order by a.agreementid, a.adscreateTime desc;
+	</select>
+
+	<select id="INSBAds_deleteAds" parameterType="Map">
+		delete from INSBAds where taskid = #{taskid} and agreementid = #{agreementid}
+	</select>
+
+</mapper>

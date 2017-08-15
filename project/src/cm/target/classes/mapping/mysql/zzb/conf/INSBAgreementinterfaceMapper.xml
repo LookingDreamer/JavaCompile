@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBAgreementinterface -->
+	<select id="INSBAgreementinterface_insert" parameterType="com.zzb.conf.entity.INSBAgreementinterface" resultType="int">
+		insert into INSBAgreementinterface
+		(id,operator,createtime,modifytime,noti,agreementid,interfaceid,isfree,monthfree,perfee,channelinnercode,extendspattern,pv1,pv2,pv3,pv4)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{agreementid},#{interfaceid},#{isfree},#{monthfree},#{perfee},#{channelinnercode},#{extendspattern},#{pv1},#{pv2},#{pv3},#{pv4})
+	</select>
+	<select id="INSBAgreementinterface_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgreementinterface">
+		select * from INSBAgreementinterface
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="interfaceid != null">
+				and interfaceid = #{interfaceid}
+			</if>
+			<if test="isfree != null">
+				and isfree = #{isfree}
+			</if>
+			<if test="monthfree != null">
+				and monthfree = #{monthfree}
+			</if>
+			<if test="perfee != null">
+				and perfee = #{perfee}
+			</if>
+			<if test="channelinnercode != null">
+				and channelinnercode = #{channelinnercode}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreementinterface_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBAgreementinterface">
+		select * from INSBAgreementinterface where id = #{id}
+	</select>
+	<select id="INSBAgreementinterface_deleteById" parameterType="String">
+		delete from INSBAgreementinterface where id = #{id}
+	</select>
+	<select id="INSBAgreementinterface_updateById" parameterType="com.zzb.conf.entity.INSBAgreementinterface">
+		update INSBAgreementinterface  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},agreementid = #{agreementid},interfaceid = #{interfaceid},isfree = #{isfree},monthfree = #{monthfree},perfee = #{perfee},extendspattern = #{extendspattern},pv1 = #{pv1},pv2 = #{pv2},pv3 = #{pv3},pv4 = #{pv4} where id = #{id}
+	</select>
+	<select id="INSBAgreementinterface_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBAgreementinterface
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="interfaceid != null">
+				and interfaceid = #{interfaceid}
+			</if>
+			<if test="isfree != null">
+				and isfree = #{isfree}
+			</if>
+			<if test="monthfree != null">
+				and monthfree = #{monthfree}
+			</if>
+			<if test="perfee != null">
+				and perfee = #{perfee}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="channelinnercode != null">
+				and channelinnercode = #{channelinnercode}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreementinterface_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgreementinterface">
+		select * from INSBAgreementinterface
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="interfaceid != null">
+				and interfaceid = #{interfaceid}
+			</if>
+			<if test="isfree != null">
+				and isfree = #{isfree}
+			</if>
+			<if test="monthfree != null">
+				and monthfree = #{monthfree}
+			</if>
+			<if test="perfee != null">
+				and perfee = #{perfee}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="channelinnercode != null">
+				and channelinnercode = #{channelinnercode}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBAgreementinterface_getInterfaceInfo" parameterType="String" resultType="Map">
+		select * from insbagreementinterface where agreementid = #{agreementid}
+	</select>
+
+	<select id="INSBAgreementinterface_getByChannelinnercode" parameterType="Map" resultType="Map">
+		SELECT
+		b.id,
+		b.`name`,
+		c.agreementstatus,
+		a.monthfree,
+		a.isfree,
+		a.extendspattern
+		
+		FROM
+		insbagreementinterface a,
+		insbinterface b,
+		insbchannelagreement c,
+		insbchannel d,
+		insbagreementarea e
+		WHERE
+		(
+		d.deleteflag != 0
+		OR d.deleteflag IS NULL
+		)
+		AND a.interfaceid = b.id
+		AND c.channelid = d.id
+		AND e.agreementid = c.id
+		AND a.channelinnercode = d.channelinnercode
+		AND d.channelinnercode = #{channelinnercode}
+
+		<if test="city != null">
+			AND e.city = #{city}
+		</if>
+		<if test="agreementstatus != null">
+			AND c.agreementstatus = #{agreementstatus}
+		</if>
+		<if test="id != null">
+			AND b.id =  #{id}
+		</if>
+	</select>
+	<select id="INSBAgreementinterface_getIdByChannelinnercode" parameterType="Map" resultType="String">
+		SELECT
+		id
+		
+		FROM
+		insbagreementinterface 
+		
+		WHERE
+		
+		
+		channelinnercode = #{channelinnercode}
+		and
+		interfaceid = #{interfaceid}
+
+	</select>
+</mapper>

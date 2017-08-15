@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSHCarkindprice -->
+	<select id="INSHCarkindprice_insert" parameterType="com.zzb.cm.entity.INSHCarkindprice" resultType="int">
+		insert into INSHCarkindprice
+		(id,operator,createtime,modifytime,noti,taskid,inscomcode,riskcode,inskindcode,inskindtype,amount,notdeductible,amountprice,selecteditem,preriskkind,riskname,amountDesc,discountCharge,discountRate,bjmpCode,bjmpOrgCharge,bjmpDiscountCharge,bjmpDiscountRate,plankey,noTaxPremium,tax,fairyoredi,nodecode) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{inscomcode},#{riskcode},#{inskindcode},#{inskindtype},#{amount},#{notdeductible},#{amountprice},#{selecteditem},#{preriskkind},#{riskname},#{amountDesc},#{discountCharge},#{discountRate},#{bjmpCode},#{bjmpOrgCharge},#{bjmpDiscountCharge},#{bjmpDiscountRate},#{plankey},#{noTaxPremium},#{tax},#{fairyoredi},#{nodecode})
+	</select>
+	<select id="INSHCarkindprice_select" parameterType="Map" resultType="com.zzb.cm.entity.INSHCarkindprice">
+		select * from INSHCarkindprice
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="riskcode != null">
+				and riskcode = #{riskcode}
+			</if>
+			<if test="inskindcode != null">
+				and inskindcode = #{inskindcode}
+			</if>
+			<if test="inskindtype != null">
+				and inskindtype = #{inskindtype}
+			</if>
+			<if test="amount != null">
+				and amount = #{amount}
+			</if>
+			<if test="notdeductible != null">
+				and notdeductible = #{notdeductible}
+			</if>
+			<if test="amountprice != null">
+				and amountprice = #{amountprice}
+			</if>
+			<if test="selecteditem != null">
+				and selecteditem = #{selecteditem}
+			</if>
+			<if test="preriskkind != null">
+				and preriskkind = #{preriskkind}
+			</if>
+			<if test="riskname != null">
+				and riskname = #{riskname}
+			</if>
+			<if test="amountDesc != null">
+				and amountDesc = #{amountDesc}
+			</if>
+			<if test="discountCharge != null">
+				and discountCharge = #{discountCharge}
+			</if>
+			<if test="discountRate != null">
+				and discountRate = #{discountRate}
+			</if>
+			<if test="bjmpCode != null">
+				and bjmpCode = #{bjmpCode}
+			</if>
+			<if test="bjmpOrgCharge != null">
+				and bjmpOrgCharge = #{bjmpOrgCharge}
+			</if>
+			<if test="bjmpDiscountCharge != null">
+				and bjmpDiscountCharge = #{bjmpDiscountCharge}
+			</if>
+			<if test="bjmpDiscountRate != null">
+				and bjmpDiscountRate = #{bjmpDiscountRate}
+			</if>
+			<if test="plankey != null">
+				and plankey = #{plankey}
+			</if>
+			<if test="noTaxPremium != null">
+				and noTaxPremium = #{noTaxPremium}
+			</if>
+			<if test="tax != null">
+				and tax = #{tax}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+	</select>
+	<select id="INSHCarkindprice_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSHCarkindprice">
+		select * from INSHCarkindprice where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHCarkindprice_deleteById" parameterType="String">
+		delete from INSHCarkindprice where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHCarkindprice_updateById" parameterType="com.zzb.cm.entity.INSHCarkindprice">
+		update INSHCarkindprice  set operator = #{operator},modifytime = NOW(),noti = #{noti},taskid = #{taskid},inscomcode = #{inscomcode},riskcode = #{riskcode},inskindcode = #{inskindcode},inskindtype = #{inskindtype},amount = #{amount},notdeductible = #{notdeductible},amountprice = #{amountprice},selecteditem = #{selecteditem},preriskkind = #{preriskkind},riskname = #{riskname},amountDesc = #{amountDesc},discountCharge = #{discountCharge},discountRate = #{discountRate},bjmpCode = #{bjmpCode},bjmpOrgCharge = #{bjmpOrgCharge},bjmpDiscountCharge = #{bjmpDiscountCharge},bjmpDiscountRate = #{bjmpDiscountRate},plankey = #{plankey},fairyoredi = #{fairyoredi},nodecode = #{nodecode},noTaxPremium = #{noTaxPremium},tax = #{tax} where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHCarkindprice_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSHCarkindprice
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="riskcode != null">
+				and riskcode = #{riskcode}
+			</if>
+			<if test="inskindcode != null">
+				and inskindcode = #{inskindcode}
+			</if>
+			<if test="inskindtype != null">
+				and inskindtype = #{inskindtype}
+			</if>
+			<if test="amount != null">
+				and amount = #{amount}
+			</if>
+			<if test="notdeductible != null">
+				and notdeductible = #{notdeductible}
+			</if>
+			<if test="amountprice != null">
+				and amountprice = #{amountprice}
+			</if>
+			<if test="selecteditem != null">
+				and selecteditem = #{selecteditem}
+			</if>
+			<if test="preriskkind != null">
+				and preriskkind = #{preriskkind}
+			</if>
+			<if test="riskname != null">
+				and riskname = #{riskname}
+			</if>
+			<if test="amountDesc != null">
+				and amountDesc = #{amountDesc}
+			</if>
+			<if test="discountCharge != null">
+				and discountCharge = #{discountCharge}
+			</if>
+			<if test="discountRate != null">
+				and discountRate = #{discountRate}
+			</if>
+			<if test="bjmpCode != null">
+				and bjmpCode = #{bjmpCode}
+			</if>
+			<if test="bjmpOrgCharge != null">
+				and bjmpOrgCharge = #{bjmpOrgCharge}
+			</if>
+			<if test="bjmpDiscountCharge != null">
+				and bjmpDiscountCharge = #{bjmpDiscountCharge}
+			</if>
+			<if test="bjmpDiscountRate != null">
+				and bjmpDiscountRate = #{bjmpDiscountRate}
+			</if>
+			<if test="plankey != null">
+				and plankey = #{plankey}
+			</if>
+			<if test="noTaxPremium != null">
+				and noTaxPremium = #{noTaxPremium}
+			</if>
+			<if test="tax != null">
+				and tax = #{tax}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+	</select>
+	<select id="INSHCarkindprice_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSHCarkindprice">
+		select * from INSHCarkindprice
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="riskcode != null">
+				and riskcode = #{riskcode}
+			</if>
+			<if test="inskindcode != null">
+				and inskindcode = #{inskindcode}
+			</if>
+			<if test="inskindtype != null">
+				and inskindtype = #{inskindtype}
+			</if>
+			<if test="amount != null">
+				and amount = #{amount}
+			</if>
+			<if test="notdeductible != null">
+				and notdeductible = #{notdeductible}
+			</if>
+			<if test="amountprice != null">
+				and amountprice = #{amountprice}
+			</if>
+			<if test="selecteditem != null">
+				and selecteditem = #{selecteditem}
+			</if>
+			<if test="preriskkind != null">
+				and preriskkind = #{preriskkind}
+			</if>
+			<if test="riskname != null">
+				and riskname = #{riskname}
+			</if>
+			<if test="amountDesc != null">
+				and amountDesc = #{amountDesc}
+			</if>
+			<if test="discountCharge != null">
+				and discountCharge = #{discountCharge}
+			</if>
+			<if test="discountRate != null">
+				and discountRate = #{discountRate}
+			</if>
+			<if test="bjmpCode != null">
+				and bjmpCode = #{bjmpCode}
+			</if>
+			<if test="bjmpOrgCharge != null">
+				and bjmpOrgCharge = #{bjmpOrgCharge}
+			</if>
+			<if test="bjmpDiscountCharge != null">
+				and bjmpDiscountCharge = #{bjmpDiscountCharge}
+			</if>
+			<if test="bjmpDiscountRate != null">
+				and bjmpDiscountRate = #{bjmpDiscountRate}
+			</if>
+			<if test="plankey != null">
+				and plankey = #{plankey}
+			</if>
+			<if test="noTaxPremium != null">
+				and noTaxPremium = #{noTaxPremium}
+			</if>
+			<if test="tax != null">
+				and tax = #{tax}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSHCarkindprice_delete" parameterType="Map" resultType="Long">
+		delete from INSHCarkindprice
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="riskcode != null">
+				and riskcode = #{riskcode}
+			</if>
+			<if test="inskindcode != null">
+				and inskindcode = #{inskindcode}
+			</if>
+			<if test="inskindtype != null">
+				and inskindtype = #{inskindtype}
+			</if>
+			<if test="amount != null">
+				and amount = #{amount}
+			</if>
+			<if test="notdeductible != null">
+				and notdeductible = #{notdeductible}
+			</if>
+			<if test="amountprice != null">
+				and amountprice = #{amountprice}
+			</if>
+			<if test="selecteditem != null">
+				and selecteditem = #{selecteditem}
+			</if>
+			<if test="preriskkind != null">
+				and preriskkind = #{preriskkind}
+			</if>
+			<if test="riskname != null">
+				and riskname = #{riskname}
+			</if>
+			<if test="amountDesc != null">
+				and amountDesc = #{amountDesc}
+			</if>
+			<if test="discountCharge != null">
+				and discountCharge = #{discountCharge}
+			</if>
+			<if test="discountRate != null">
+				and discountRate = #{discountRate}
+			</if>
+			<if test="bjmpCode != null">
+				and bjmpCode = #{bjmpCode}
+			</if>
+			<if test="bjmpOrgCharge != null">
+				and bjmpOrgCharge = #{bjmpOrgCharge}
+			</if>
+			<if test="bjmpDiscountCharge != null">
+				and bjmpDiscountCharge = #{bjmpDiscountCharge}
+			</if>
+			<if test="bjmpDiscountRate != null">
+				and bjmpDiscountRate = #{bjmpDiscountRate}
+			</if>
+			<if test="plankey != null">
+				and plankey = #{plankey}
+			</if>
+			<if test="noTaxPremium != null">
+				and noTaxPremium = #{noTaxPremium}
+			</if>
+			<if test="tax != null">
+				and tax = #{tax}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+	</select>
+	<select id="INSHCarkindprice_selectByInscomcode" parameterType="Map" resultType="com.zzb.cm.entity.INSHCarkindprice">
+		   	select * from inshcarkindprice  where taskid = #{taskid} and  inscomcode = #{inscomcode} and nodecode='A' ORDER BY createtime DESC, modifytime DESC
+	</select>
+</mapper>

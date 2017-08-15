@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBPaychannelmanager --> 
+	<select id="INSBPaychannelmanager_insert" parameterType="com.zzb.conf.entity.INSBPaychannelmanager" resultType="int">
+		insert into INSBPaychannelmanager
+		(id,operator,createtime,modifytime,noti,paychannelid,agreementid,collectiontype,collectionname,deptcode,settlementno,terraceno,paytarget,transferdesc,sort,favorabledescribe,deptid,providerid,settlementnoname,terracenoname) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{paychannelid},#{agreementid},#{collectiontype},#{collectionname},#{deptcode},#{settlementno},#{terraceno},#{paytarget},#{transferdesc},#{sort},#{favorabledescribe},#{deptid},#{providerid},#{settlementnoname},#{terracenoname}) 
+	</select>
+	<select id="INSBPaychannelmanager_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBPaychannelmanager">
+		select * from INSBPaychannelmanager
+		<where>
+			<if test="paychannelid != null">
+				and paychannelid = #{paychannelid}
+			</if>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="collectiontype != null">
+				and collectiontype = #{collectiontype}
+			</if>
+			<if test="collectionname != null">
+				and collectionname = #{collectionname}
+			</if>
+			<if test="deptcode != null">
+				and deptcode = #{deptcode}
+			</if>
+			<if test="settlementno != null">
+				and settlementno = #{settlementno}
+			</if>
+			<if test="terraceno != null">
+				and terraceno = #{terraceno}
+			</if>
+			<if test="paytarget != null">
+				and paytarget = #{paytarget}
+			</if>
+			<if test="transferdesc != null">
+				and transferdesc = #{transferdesc}
+			</if>
+			<if test="sort != null">
+				and sort = #{sort}
+			</if>
+			<if test="favorabledescribe != null">
+				and favorabledescribe = #{favorabledescribe}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="settlementnoname != null">
+				and settlementnoname = #{settlementnoname}
+			</if>
+			<if test="terracenoname != null">
+				and terracenoname = #{terracenoname}
+			</if>
+		</where>
+	</select>
+	<select id="INSBPaychannelmanager_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBPaychannelmanager">
+		select * from INSBPaychannelmanager
+		<where>
+			<if test="paychannelid != null">
+				and paychannelid = #{paychannelid}
+			</if>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="collectiontype != null">
+				and collectiontype = #{collectiontype}
+			</if>
+			<if test="collectionname != null">
+				and collectionname = #{collectionname}
+			</if>
+			<if test="deptcode != null">
+				and deptcode = #{deptcode}
+			</if>
+			<if test="settlementno != null">
+				and settlementno = #{settlementno}
+			</if>
+			<if test="terraceno != null">
+				and terraceno = #{terraceno}
+			</if>
+			<if test="paytarget != null">
+				and paytarget = #{paytarget}
+			</if>
+			<if test="transferdesc != null">
+				and transferdesc = #{transferdesc}
+			</if>
+			<if test="sort != null">
+				and sort = #{sort}
+			</if>
+			<if test="favorabledescribe != null">
+				and favorabledescribe = #{favorabledescribe}
+			</if>
+			<if test="settlementnoname != null">
+				and settlementnoname = #{settlementnoname}
+			</if>
+			<if test="terracenoname != null">
+				and terracenoname = #{terracenoname}
+			</if>
+		</where>
+		limit 2
+	</select>
+	<select id="INSBPaychannelmanager_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBPaychannelmanager">
+		select * from INSBPaychannelmanager where id = #{id}
+	</select>
+	<select id="INSBPaychannelmanager_deleteById" parameterType="String">
+		delete from INSBPaychannelmanager where id = #{id}
+	</select>
+	
+	
+	<select id="INSBPaychannelmanager_deleteByLogicId" parameterType="Map">
+		delete from INSBPaychannelmanager where deptid = #{deptid} and providerid=#{providerid} and paychannelid=#{channelid}
+	</select>
+	<select id="INSBPaychannelmanager_updateById" parameterType="com.zzb.conf.entity.INSBPaychannelmanager">
+		update INSBPaychannelmanager  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},paychannelid = #{paychannelid},agreementid = #{agreementid},
+		collectiontype = #{collectiontype},collectionname = #{collectionname},deptcode = #{deptcode},settlementno = #{settlementno},terraceno = #{terraceno},
+		settlementnoname=#{settlementnoname},terracenoname=#{terracenoname},paytarget = #{paytarget},transferdesc = #{transferdesc},
+		sort = #{sort},favorabledescribe = #{favorabledescribe},deptid = #{deptid},providerid = #{providerid} where id = #{id}
+	</select>
+	<select id="INSBPaychannelmanager_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBPaychannelmanager pcm
+		<where>
+			<if test="userDept != null and userDept != ''">
+				and EXISTS (
+				select 1 FROM inscdept t WHERE pcm.`deptid` = t.`id` AND t.`deptinnercode` LIKE
+				(select CONCAT (deptinnercode,'%') FROM  inscdept WHERE id = #{userDept})
+				)
+			</if>
+
+			<if test="paychannelid != null">
+				and paychannelid = #{paychannelid}
+			</if>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="collectiontype != null">
+				and collectiontype = #{collectiontype}
+			</if>
+			<if test="collectionname != null">
+				and collectionname = #{collectionname}
+			</if>
+			<if test="deptcode != null">
+				and deptcode = #{deptcode}
+			</if>
+			<if test="settlementno != null">
+				and settlementno = #{settlementno}
+			</if>
+			<if test="terraceno != null">
+				and terraceno = #{terraceno}
+			</if>
+			<if test="paytarget != null">
+				and paytarget = #{paytarget}
+			</if>
+			<if test="transferdesc != null">
+				and transferdesc = #{transferdesc}
+			</if>
+			<if test="sort != null">
+				and sort = #{sort}
+			</if>
+			<if test="favorabledescribe != null">
+				and favorabledescribe = #{favorabledescribe}
+			</if>
+			<if test="settlementnoname != null">
+				and settlementnoname = #{settlementnoname}
+			</if>
+			<if test="terracenoname != null">
+				and terracenoname = #{terracenoname}
+			</if>
+		</where>
+	</select>
+	
+	<!--删除未选择的 -->
+	<select id="INSBPaychannelmanager_deleteByExceptIds" resultType="Long" parameterType="Map" >
+		delete from INSBPaychannelmanager 
+			where 
+			<if test="ids != null and ids.size!=0">
+				id not in
+				<foreach index="index" item="item" collection="ids" open="(" separator="," close=")">
+				#{item}
+				</foreach>
+				and
+			</if>
+			 agreementid = #{agreementid}
+	</select>
+	<select id="INSBPaychannelmanager_selectPaychannelIdByAgreementId" parameterType="Map" resultType="String">
+		select DISTINCT paychannelid FROM insbpaychannelmanager 
+		<where> 
+			 deptid IN(#{ptdeptcode},#{deptcode}) AND providerid=#{providerid}
+		</where>
+	</select>
+	<!-- 渠道协议配置 获取支付方式 -->
+	<select id="INSBPaychannelmanager_getDeptPayType" parameterType="Map" resultType="com.zzb.conf.controller.vo.DeptPayTypeVo">
+		select m.agreementid,m.providerid,m.deptid,p.id,p.paychannelname,c.codename AS paytypename,m.modifytime 
+			FROM insbpaychannelmanager m 
+			LEFT JOIN insbpaychannel p ON p.id = m.paychannelid
+			LEFT JOIN insccode c ON c.codetype = 'paytype' AND c.codevalue = p.paytype
+		<where> 
+			 m.agreementid = #{agreeid} AND
+			 m.deptid = #{deptid} AND
+			 m.providerid =#{providerid}
+		</where>
+	</select>
+	<select id="INSBPaychannelmanager_selectPagePaywayList" parameterType="Map" resultType="com.zzb.conf.entity.INSBPaychannelmanager">
+		select * from INSBPaychannelmanager pcm
+		<where>
+			<if test="userDept != null and userDept != ''">
+			and EXISTS (
+			select 1 FROM inscdept t WHERE pcm.`deptid` = t.`id` AND t.`deptinnercode` LIKE
+			(select CONCAT (deptinnercode,'%') FROM  inscdept WHERE id = #{userDept})
+			)
+			</if>
+			<if test="paychannelid != null">
+				and pcm.paychannelid = #{paychannelid}
+			</if>
+		</where>
+			limit #{offset},#{limit}
+	</select>
+	<select id="INSBPaychannelmanager_queryManager" parameterType="Map" resultType="com.zzb.conf.entity.INSBPaychannelmanager">
+		select * FROM insbpaychannelmanager WHERE paychannelid = '1' AND deptid = #{deptid} and providerid = #{providerid}
+	</select>
+	<select id="INSBPaychannelmanager_queryListByParam" parameterType="Map" resultType="com.zzb.conf.entity.INSBPaychannelmanager">
+		select * FROM insbpaychannelmanager m 
+		<where>
+			<if test="userDept != null and userDept != ''">
+			and EXISTS (
+			select 1 FROM inscdept t WHERE m.`deptid` = t.`id` AND t.`deptinnercode` LIKE
+			(select CONCAT (deptinnercode,'%') FROM  inscdept WHERE id = #{userDept})
+			)
+			</if>
+			<if test="paychannelid != null">
+				AND m.paychannelid = #{paychannelid}
+			</if>
+			<if test="providerid != null">
+				AND m.providerid like CONCAT (#{providerid},'%')
+			</if>
+			<if test="parentcodes != null">
+
+				AND EXISTS(
+				select 1 FROM inscdept t WHERE m.`deptid` = t.`id` AND t.`deptinnercode` LIKE CONCAT (#{parentcodes},'%')
+
+				)
+
+			</if>
+			<if test="deptid != null and deptid != ''">
+				AND m.deptid = #{deptid}
+			</if>
+		</where>
+		   limit #{offset},#{limit}
+	</select>
+	
+	<select id="INSBPaychannelmanager_selectDataSize" parameterType="Map" resultType="long">
+		select COUNT(m.id) FROM insbpaychannelmanager m 
+		<where>
+			<if test="userDept != null and userDept != ''">
+				and EXISTS (
+				select 1 FROM inscdept t WHERE m.`deptid` = t.`id` AND t.`deptinnercode` LIKE
+				(select CONCAT (deptinnercode,'%') FROM  inscdept WHERE id = #{userDept})
+				)
+			</if>
+			<if test="paychannelid != null">
+				AND m.paychannelid = #{paychannelid}
+			</if>
+			<if test="providerid != null">
+				AND m.providerid = #{providerid}
+			</if>
+			<if test="parentcodes != null">
+				AND EXISTS(
+				select 1 FROM inscdept t WHERE m.`deptid` = t.`id` AND t.`deptinnercode` LIKE CONCAT (#{parentcodes},'%')
+
+				)
+			</if>
+			<if test="deptid != null and deptid != ''">
+				AND m.deptid = #{deptid}
+			</if>
+		</where>
+	</select>
+</mapper>

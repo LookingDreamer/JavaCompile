@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+               http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+               http://www.springframework.org/schema/context
+               http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+    <context:component-scan base-package="com.common.redis" />
+
+	<bean id="keyMaps" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^typeid$" />
+                    <constructor-arg name="targetKey" value="cm:file_upload:typeid"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^id$" />
+                    <constructor-arg name="targetKey" value="cm:file_upload:id"/>
+                </bean>
+				<bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^flow_(.*)$" />
+                    <constructor-arg name="targetKey" value="cm:job_pool:flow:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^TimerJob$"/>
+                    <constructor-arg name="targetKey" value="cm:job_pool:timer_job"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^(\d+)@(\d+)@((quotequery)|(insurequery)|(approvedquery)|(quote)|(insure)|(approved))$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:$1@$2@$3"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^Zmonitor:((edi)|(robot)):send::link(\d+)@(\d+)@((quotequery)|(insurequery)|(approvedquery)|(quote)|(insure)|(approved))$"/>
+                    <constructor-arg name="targetKey" value="cm:monitor:$1:send:link$4@$5@$6"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^Zmonitor:(((edi)|(robot)):((feebacksuc)|(feebackfail)|(send)):([0-9a-f]{32})@([0-9]{4}-[0-9]{2}-[0-9]{2})@((quotequery)|(insurequery)|(approvedquery)|(quote)|(insure)|(approved)|(total)))$"/>
+                    <constructor-arg name="targetKey" value="cm:monitor:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^Zmonitor:(((edi)|(robot)):((feebacksuc)|(feebackfail)|(send)):([0-9a-f]{32})@((quotequery)|(insurequery)|(approvedquery)|(quote)|(insure)|(approved)|(total)))$"/>
+                    <constructor-arg name="targetKey" value="cm:monitor:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^Zmonitor:(((edi)|(robot)):((feebacksuc)|(feebackfail)|(send)):total)$"/>
+                    <constructor-arg name="targetKey" value="cm:monitor:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^supplementInfoVO_(\d+)_(\d+)$="/>
+                    <constructor-arg name="targetKey" value="cm:zzb:manual_price:supplement_info_vo:$1_$2"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^temp_agent_job_no$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:temp_agent_job_no"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^onlineUsers$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:online_users"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^epay$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:epay:epay"/>
+                </bean>
+
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^claim_(\d+)$"/>
+                    <constructor-arg name="targetKey" value="cm:cloud_query:claim:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^hotKeyList$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:hot_key_list"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^agentuserid:(.+)$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:register:agent_user_id:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^tokenid:(.+)$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:register:token_id:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^validateCode:(.+)$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:validate_code:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^ZZB_SPPLEMENT_ITEM_RULEID_(.+)$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:supplement:rule_id:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^channel:payment:ChannelPayment_([0-9a-zA-Z]{32})$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:channel:payment:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^channel:token:AccessToken_(.+)$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:channel:access_token:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^channel:innerToken_(.+)$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:channel:inner_token:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^dadikey:(\d+)@(\d+)$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:interface:dadikey:$1@$2"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^userLoginKey_(\d+)$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:login:user_login_key:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^ChannelPayment_(.+)$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:payment:channel_payment:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^([0-9]+@[0-9]+@((INSBApplicant)|(INSBInsured)|(INSBCarowneinfo))@.+)$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:interface:default_value_util:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^(.+)_online$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:online_user:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^m(\d+)m(\d+)"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:interface:m$1m$2"/>
+                </bean>
+
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^(\d)+_((quotequery)|(insurequery)|(approvedquery)|(quote)|(insure)|(approved))_((edi)|(robot))$"/>
+                    <constructor-arg name="targetKey" value="cm:global:$1_$2_$9"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$"/>
+                    <constructor-arg name="targetKey" value="cm:security:session:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^(\d{1,7})$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:task:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^(\d{11})$"/>
+                    <constructor-arg name="targetKey" value="cm:zzb:phone:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^([0-9a-f]{32})$"/>
+                    <constructor-arg name="targetKey" value="cm:security:token:$1"/>
+                </bean>
+                <bean class="com.common.redis.MigrationTool">
+                    <constructor-arg name="originalKey" value="^(.{1,20})$"/>
+                    <constructor-arg name="targetKey" value="cm:security:user:$1"/>
+                </bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
+    <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath*:config/redis.properties</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreResourceNotFound" value="false" />
+        <property name="properties" ref="configProperties" />
+    </bean>
+</beans>

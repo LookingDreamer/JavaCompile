@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- RULE_engine -->
+	<select id="RULE_engine_insert" parameterType="com.zzb.cm.entity.RULE_engine" resultType="int">
+		insert into RULE_engine
+		(id,rule_engine_id,rule_base_type,city_id,company_id,rule_base_name,rule_base_content,rule_base_postil,status,last_updated,metadata_item) 
+		values
+		(#{id},#{rule_engine_id},#{rule_base_type},#{city_id},#{company_id},#{rule_base_name},#{rule_base_content},#{rule_base_postil},#{status},#{last_updated},#{metadata_item}) 
+	</select>
+	<select id="RULE_engine_select" parameterType="Map" resultType="com.zzb.cm.entity.RULE_engine">
+		select * from RULE_engine
+		<where>
+			<if test="rule_engine_id != null">
+				and rule_engine_id = #{rule_engine_id}
+			</if>
+			<if test="rule_base_type != null">
+				and rule_base_type = #{rule_base_type}
+			</if>
+			<if test="city_id != null">
+				and city_id = #{city_id}
+			</if>
+			<if test="company_id != null">
+				and company_id = #{company_id}
+			</if>
+			<if test="rule_base_name != null">
+				and rule_base_name = #{rule_base_name}
+			</if>
+			<if test="rule_base_content != null">
+				and rule_base_content = #{rule_base_content}
+			</if>
+			<if test="rule_base_postil != null">
+				and rule_base_postil = #{rule_base_postil}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="last_updated != null">
+				and last_updated = #{last_updated}
+			</if>
+			<if test="metadata_item != null">
+				and metadata_item = #{metadata_item}
+			</if>
+		</where>
+	</select>
+	<select id="RULE_engine_selectById" parameterType="String" resultType="com.zzb.cm.entity.RULE_engine">
+		select * from RULE_engine where id = #{id}
+	</select>
+	<select id="RULE_engine_deleteById" parameterType="String">
+		delete from RULE_engine where id = #{id}
+	</select>
+	<select id="RULE_engine_updateById" parameterType="com.zzb.cm.entity.RULE_engine">
+		update RULE_engine  set rule_engine_id = #{rule_engine_id},rule_base_type = #{rule_base_type},city_id = #{city_id},company_id = #{company_id},rule_base_name = #{rule_base_name},rule_base_content = #{rule_base_content},rule_base_postil = #{rule_base_postil},status = #{status},last_updated = #{last_updated},metadata_item = #{metadata_item} where id = #{id}
+	</select>
+	<select id="RULE_engine_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from RULE_engine
+		<where>
+			<if test="rule_engine_id != null">
+				and rule_engine_id = #{rule_engine_id}
+			</if>
+			<if test="rule_base_type != null">
+				and rule_base_type = #{rule_base_type}
+			</if>
+			<if test="city_id != null">
+				and city_id = #{city_id}
+			</if>
+			<if test="company_id != null">
+				and company_id = #{company_id}
+			</if>
+			<if test="rule_base_name != null">
+				and rule_base_name = #{rule_base_name}
+			</if>
+			<if test="rule_base_content != null">
+				and rule_base_content = #{rule_base_content}
+			</if>
+			<if test="rule_base_postil != null">
+				and rule_base_postil = #{rule_base_postil}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="last_updated != null">
+				and last_updated = #{last_updated}
+			</if>
+			<if test="metadata_item != null">
+				and metadata_item = #{metadata_item}
+			</if>
+		</where>
+	</select>
+</mapper>

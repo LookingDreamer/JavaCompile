@@ -1,0 +1,65 @@
+@CHARSET "UTF-8";
+.m-top-10{margin-top:10px;}
+.m-bottom-5{margin-bottom:5px;}
+.padding-5-5{padding:5px 5px;}
+.m-left-5{margin-left:13px;}
+.m-left-2{margin-left:30px;}
+.m-left-3{margin-left:45px;}
+.m-left-4{margin-left:58px;}
+
+
+
+@media ( min-width : 768px) {
+	
+}
+
+@media ( max-width :767px) {
+	.tasks, .tasks .panel-body {padding: 0;margin: 0;}
+	.tasksview .row .title {border-bottom-right-radius: 0px;}
+}
+
+#simplequery {border-width: 0 0 1px 0;border-color: #ddd;background: transparent}
+#taskViewList {font-size: 14px;}
+
+.tasksview .row {width: 100%; border: 1px solid #2980b9; margin: 0px 0px 10px 0px;border-radius: 5px;}
+.tasksview .row .title {background: #2980b9;color: #fff; font-weight: bold; border-bottom-right-radius: 5px;}
+.tasksview .row .taskbtnbar {text-align: right; line-height: 40px;}
+.tasksview .row .taskbtnbar .taskworkflow {text-align: left; padding: 0;}
+
+.tasksview .row:HOVER {border: 1px solid #d35400;}
+.tasksview .row:HOVER .title {background: #d35400;}
+
+.tasksview .bg {display: none;position: absolute;top: 0%;left: 0%;width: 100px;height: 100px;background-color: black;z-index: 1001;-moz-opacity: 0.7;opacity: .70;filter: alpha(opacity = 70);}
+
+.manualtask {}
+
+.taskworkflow .moreInfo span {z-index: 9999;}
+
+.task_fixtop {margin-bottom: 0px;position: fixed;top: 0px;z-index: 99999;width: 100%;padding: 5px 15px;}
+.taskworkflow {vertical-align: top;}
+.taskworkflow h4 {font-weight: bold;text-align: center;}
+.taskworkflow h4, .taskworkflow h5 {font-size: 12px;margin: 0;padding: 0;line-height: 18px;}
+.taskworkflow .flowCompleted {margin: 10px 0px;display: inline-block;width: 140px;height: 60px;border-radius: 4px; border: 1px solid; border-color: #BCE8F1;background: #D9EDF7;padding: 3px 5px;}
+.taskworkflow .flowCompleted h4, .taskworkflow .flowCompleted h5 {color: #31708F;}
+.taskworkflow .flowProcessing {margin: 10px 0px;display: inline-block;width: 140px;height: 60px;border-radius: 4px; border: 1px solid; border-color: #EBCCD1;background: #F2DEDE;padding: 3px 5px;}
+.taskworkflow .flowProcessing h4, .taskworkflow .flowProcessing h5 {color: #A94442;}
+.taskworkflow .flowEstimate {margin: 10px 0px;display: inline-block;width: 140px;height: 60px;border-radius: 4px; border: 1px dashed; border-color: #E1E1E8;background: #F7F7F9;padding: 3px 5px;}
+.taskworkflow .flowEstimate h4, .taskworkflow .flowEstimate h5 {color: #8A6D3B;}	
+.taskworkflow .fArrow {width: 28px;line-height: 60px;border-color: transparent;background-color: transparent;}
+.taskworkflow .moreInfo {width: 128px;height: 18px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+.taskworkflow .moreInfo:hover span {position: absolute;display: block;width: 305px;background: #FCF8E3;white-space: normal;}
+.taskworkflow .fArrow .moreInfo {width: 10px;}
+
+.manualtask .remark .remarkMoreInfo div {z-index: 9999;}
+.manualtask .nav-pills>li>a {border-radius: 4px 4px 0px 0px;padding: 5px 10px;}
+.manualtask .myTabdiv {height: 69px;margin: 0px -15px;}
+.manualtask .myTabdivfix {z-index: 99990;padding: 0px 15px;width: 100%;}
+.manualtask #myTab {background: #FFF;border-bottom: 3px solid #337ab7;}
+.manualtask #myTab h4 {margin: 0;}
+.manualtask #myTabContent {border:1px solid #337ab7;padding:6px;position: relative;margin-bottom: 76px;}
+.manualtask .remark {margin: 0px 0px 10px 0px;border: 1px solid #faebcc;padding: 2px 0px;}
+.manualtask .remark .remarklabel {margin: 0px 4px 0px 4px;padding: 0px;width: 23%;float: left;}
+.manualtask .remark .remarkMoreInfo {margin: 0px 4px 0px 0px;padding: 0px;width: 73%;float: left;}
+.manualtask .remark .remarkMoreInfo div {width: 70%;height: 20px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;word-break: break-all;word-wrap: break-word;}
+.manualtask .remark .remarkMoreInfo:hover div {width: 70%;height: 60px;position: absolute;background: #FCF8E3;white-space: normal;text-overflow: inherit;overflow-y: auto;}
+.task_fixbottom {border-top: 3px solid #337ab7;position: fixed;bottom: 0px;z-index: 99991;width: 100%;padding: 5px 15px;background: #fff;margin-left: -22px;}

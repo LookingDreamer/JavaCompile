@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+               http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+               http://www.springframework.org/schema/context
+               http://www.springframework.org/schema/context/spring-context-4.0.xsd
+               http://www.springframework.org/schema/tx
+               http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+               http://www.springframework.org/schema/aop
+               http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+               ">
+
+
+    <bean class="com.com.baoxian.push.model.WxTemplateInitUtil">
+        <property name="templateParams">
+            <map>
+                <entry key="insureSuccess" value-ref="insureSuccess"/>
+                <entry key="insureReturn" value-ref="insureReturn"/>
+                <entry key="paySuccess" value-ref="paySuccess"/>
+                <entry key="approvedSuccess" value-ref="approvedSuccess"/>
+            </map>
+        </property>
+    </bean>
+
+    <!--核保成功-->
+    <bean id="insureSuccess" class="com.com.baoxian.push.model.WxTemplateInitUtil.WxTemplate">
+        <property name="template">
+            <map>
+                <entry key="templateId" value="6OiAaujrDY0LKbFaWp-UYZ2YYyYMf71RzwCTtZ9keaU"/>
+                <entry key="first" value="尊敬的#insPerson#用户您好，车牌号为#platNum#的订单已经#status#。"/>
+                <entry key="keyword1" value="车险"/>
+                <entry key="keyword2" value="车牌号：#platNum#;被保险人名称：#insPerson#;保险公司：#insComName#;保费：#totalepremium#"/>
+                <entry key="keyword3" value="#status#"/>
+                <entry key="remark" value="请及时关注订单情况。"/>
+
+            </map>
+        </property>
+    </bean>
+
+    <!--核保退回-->
+    <bean id="insureReturn" class="com.com.baoxian.push.model.WxTemplateInitUtil.WxTemplate">
+        <property name="template">
+            <map>
+                <entry key="templateId" value="6OiAaujrDY0LKbFaWp-UYZ2YYyYMf71RzwCTtZ9keaU"/>
+                <entry key="first" value="尊敬的#insPerson#用户您好，车牌号为#platNum#的订单已经#status#。"/>
+                <entry key="keyword1" value="车险"/>
+                <entry key="keyword2" value="车牌号：#platNum#;被保险人名称：#insPerson#;保险公司：#insComName#;保费：#totalepremium#"/>
+                <entry key="keyword3" value="#status#"/>
+                <entry key="remark" value="请及时关注订单情况。"/>
+            </map>
+        </property>
+    </bean>
+
+    <!--支付成功-->
+    <bean id="paySuccess" class="com.com.baoxian.push.model.WxTemplateInitUtil.WxTemplate">
+        <property name="template">
+            <map>
+                <entry key="templateId" value="6OiAaujrDY0LKbFaWp-UYZ2YYyYMf71RzwCTtZ9keaU"/>
+                <entry key="first" value="尊敬的#insPerson#用户您好，车牌号为#platNum#的订单已经#status#。"/>
+                <entry key="keyword1" value="车险"/>
+                <entry key="keyword2" value="车牌号：#platNum#;被保险人名称：#insPerson#;保险公司：#insComName#;保费：#totalepremium#"/>
+                <entry key="keyword3" value="#status#"/>
+                <entry key="remark" value="请及时关注订单情况。"/>
+            </map>
+        </property>
+    </bean>
+
+    <!--承保打单-->
+    <bean id="approvedSuccess" class="com.com.baoxian.push.model.WxTemplateInitUtil.WxTemplate">
+        <property name="template">
+            <map>
+                <entry key="templateId" value="6OiAaujrDY0LKbFaWp-UYZ2YYyYMf71RzwCTtZ9keaU"/>
+                <entry key="first" value="尊敬的#insPerson#用户您好，车牌号为#platNum#的订单已经#status#。"/>
+                <entry key="keyword1" value="车险"/>
+                <entry key="keyword2" value="车牌号：#platNum#;被保险人名称：#insPerson#;保险公司：#insComName#;保费：#totalepremium#"/>
+                <entry key="keyword3" value="#status#"/>
+                <entry key="remark" value="请及时关注订单情况。"/>
+            </map>
+        </property>
+    </bean>
+</beans>

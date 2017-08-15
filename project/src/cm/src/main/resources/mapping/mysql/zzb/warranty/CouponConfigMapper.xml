@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.warranty.model">
+    <!-- INSEOrder  -->
+
+    <select id="CouponConfig_get" resultType="com.zzb.warranty.model.CouponConfig">
+        SELECT * FROM couponconfig WHERE `key`=#{key}
+    </select>
+
+    <insert id="CouponConfig_insert" parameterType="com.zzb.warranty.model.CouponConfig">
+        INSERT couponconfig (`id`, `key`, `value`) VALUES (#{id}, #{key}, #{value})
+    </insert>
+
+    <update id="CouponConfig_update" parameterType="com.zzb.warranty.model.CouponConfig">
+        UPDATE couponconfig SET `value`=#{value} WHERE `key`=#{key}
+    </update>
+
+    <delete id="CouponConfig_delete" parameterType="string">
+        DELETE FROm couponconfig WHERE `key`=#{key}
+    </delete>
+</mapper>

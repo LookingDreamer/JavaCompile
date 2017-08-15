@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+
+	<!-- INSBWorkflowsubtrackdetail -->
+	<select id="INSBWorkflowsubtrackdetail_insert" parameterType="com.zzb.conf.entity.INSBWorkflowsubtrackdetail" resultType="int">
+		insert into INSBWorkflowsubtrackdetail
+		(id,operator,fromoperator,createtime,modifytime,noti,instanceid,maininstanceid,starttaskid,taskid,taskcode,taskstate,createby,groupid,operatorstate,taskfeedback,wfsubtrackid)
+		values
+		(#{id},#{operator},#{fromoperator},#{createtime},#{modifytime},#{noti},#{instanceid},#{maininstanceid},#{starttaskid},#{taskid},#{taskcode},#{taskstate},#{createby},#{groupid},#{operatorstate},#{taskfeedback},#{wfsubtrackid})
+	</select>
+	<select id="INSBWorkflowsubtrackdetail_myInsert" parameterType="com.zzb.conf.entity.INSBWorkflowsub" resultType="int">
+		insert into INSBWorkflowsubtrackdetail
+		(id,operator,fromoperator,createtime,modifytime,noti,instanceid,maininstanceid,starttaskid,taskid,taskcode,taskstate,createby,groupid,operatorstate,taskfeedback,wfsubtrackid)
+		values
+		(#{id},#{operator},#{fromoperator},#{createtime},#{modifytime},#{noti},#{instanceid},#{maininstanceid},#{starttaskid},#{taskid},#{taskcode},#{taskstate},#{createby},#{groupid},#{operatorstate},#{taskfeedback},#{wfsubtrackid})
+	</select>
+	<select id="INSBWorkflowsubtrackdetail_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowsubtrackdetail">
+		select * from INSBWorkflowsubtrackdetail
+		<where>
+			<if test="instanceid != null">
+				and instanceid = #{instanceid}
+			</if>
+			<if test="maininstanceid != null">
+				and maininstanceid = #{maininstanceid}
+			</if>
+			<if test="starttaskid != null">
+				and starttaskid = #{starttaskid}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="taskcode != null">
+				and taskcode = #{taskcode}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+			<if test="createby != null">
+				and createby = #{createby}
+			</if>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="operatorstate != null">
+				and operatorstate = #{operatorstate}
+			</if>
+			<if test="taskfeedback != null">
+				and taskfeedback = #{taskfeedback}
+			</if>
+		</where>
+        <if test="sort != null">
+            order by ${sort}
+			<if test="order != null">
+				${order}
+			</if>
+        </if>
+	</select>
+	<select id="INSBWorkflowsubtrackdetail_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBWorkflowsubtrackdetail">
+		select * from INSBWorkflowsubtrackdetail where id = #{id}
+	</select>
+    <select id="INSBWorkflowsubtrackdetail_selectUpdatableData4RunQian" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowsubtrackdetail">
+        select * from INSBWorkflowsubtrackdetail where instanceid=#{instanceid} and taskcode=#{taskcode}
+        and (
+            ((taskstate='Ready' or taskstate='Reserved')
+            <if test="operator != null">
+                and operator=#{operator}
+            </if>
+            )
+            OR (taskstate='Completed')
+        )
+        ORDER BY createtime DESC
+    </select>
+	<select id="INSBWorkflowsubtrackdetail_selectData4RunQian" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowsubtrackdetail">
+		select * from INSBWorkflowsubtrackdetail  where instanceid=#{instanceid}  <if test="operator != null"> and operator=#{operator} </if> 
+		and taskcode=#{taskcode} and (taskstate='Ready'  or taskstate='Reserved' ) ORDER BY createtime DESC 
+	</select>
+	<select id="INSBWorkflowsubtrackdetail_selectData4RunCompleted" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowsubtrackdetail">
+		select * from INSBWorkflowsubtrackdetail  where instanceid=#{instanceid} 
+		and taskcode=#{taskcode} and taskstate='Completed' ORDER BY createtime DESC 
+	</select>
+	<select id="INSBWorkflowsubtrackdetail_copyTaskFeed4CompletedState" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowsubtrackdetail">
+		select * from INSBWorkflowsubtrackdetail  where instanceid=#{value} ORDER BY createtime DESC 
+	</select>
+	
+	<select id="INSBWorkflowsubtrackdetail_selectLastModelBySubInstanceId" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowsubtrackdetail">
+		select * from INSBWorkflowsubtrackdetail where instanceid = #{subTaskId} order by createtime desc limit 1
+	</select>
+	
+	<select id="INSBWorkflowsubtrackdetail_deleteById" parameterType="String">
+		delete from INSBWorkflowsubtrackdetail where id = #{id}
+	</select>
+	<select id="INSBWorkflowsubtrackdetail_updateById" parameterType="com.zzb.conf.entity.INSBWorkflowsubtrackdetail">
+		update INSBWorkflowsubtrackdetail set fromoperator=#{fromoperator}, operator = #{operator},modifytime = #{modifytime},noti = #{noti},instanceid = #{instanceid},maininstanceid = #{maininstanceid},starttaskid = #{starttaskid},taskid = #{taskid},taskcode = #{taskcode},taskstate = #{taskstate},createby = #{createby},groupid = #{groupid},operatorstate = #{operatorstate},taskfeedback=#{taskfeedback}
+		<if test="wfsubtrackid != null and wfsubtrackid != ''">
+			,wfsubtrackid = #{wfsubtrackid}
+		</if>
+		where id = #{id}
+	</select>
+	<select id="INSBWorkflowsubtrackdetail_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBWorkflowsubtrackdetail
+		<where>
+			<if test="instanceid != null">
+				and instanceid = #{instanceid}
+			</if>
+			<if test="maininstanceid != null">
+				and maininstanceid = #{maininstanceid}
+			</if>
+			<if test="starttaskid != null">
+				and starttaskid = #{starttaskid}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="taskcode != null">
+				and taskcode = #{taskcode}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+			<if test="createby != null">
+				and createby = #{createby}
+			</if>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="operatorstate != null">
+				and operatorstate = #{operatorstate}
+			</if>
+			<if test="taskfeedback != null">
+				and taskfeedback = #{taskfeedback}
+			</if>
+		</where>
+	</select>
+	<select id="INSBWorkflowsubtrackdetail_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowsubtrackdetail">
+		select * from INSBWorkflowsubtrackdetail
+		<where>
+			<if test="instanceid != null">
+				and instanceid = #{instanceid}
+			</if>
+			<if test="maininstanceid != null">
+				and maininstanceid = #{maininstanceid}
+			</if>
+			<if test="starttaskid != null">
+				and starttaskid = #{starttaskid}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="taskcode != null">
+				and taskcode = #{taskcode}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+			<if test="createby != null">
+				and createby = #{createby}
+			</if>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="operatorstate != null">
+				and operatorstate = #{operatorstate}
+			</if>
+			<if test="taskfeedback != null">
+				and taskfeedback = #{taskfeedback}
+			</if>
+		</where>
+        ORDER BY createtime DESC LIMIT 1
+	</select>
+    <select id="INSBWorkflowsubtrackdetail_selectLockConf" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowsubtrackdetail">
+        SELECT std.*
+        FROM `insbworkflowsubtrackdetail` std
+        LEFT JOIN INSBQuoteinfo q ON std.`instanceid` = q.`workflowinstanceid`
+        LEFT JOIN INSBQuotetotalinfo qt ON qt.`id` = q.`quotetotalinfoid`
+        <where>
+            std.`taskstate` IN ('Ready', 'Reserved')
+            <if test="taskid != null">
+                and qt.taskid = #{taskid}
+            </if>
+            <if test="inscomcode != null">
+                and q.inscomcode = #{inscomcode}
+            </if>
+        </where>
+        ORDER BY std.`createtime` DESC
+    </select>
+    <select id="INSBWorkflowsubtrackdetail_findPrevWorkFlow" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowsubtrackdetail">
+        SELECT std.*
+        FROM `insbworkflowsubtrackdetail` std
+        <where>
+            std.`taskstate` IN ('Ready', 'Reserved')
+            <if test="instanceid != null">
+                and std.`instanceid` = #{instanceid}
+            </if>
+            <if test="taskcode != null">
+                and std.`taskcode` != #{taskcode}
+            </if>
+        </where>
+        ORDER BY std.`createtime` DESC
+    </select>
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.chn.entity">
+	<!-- INSBChncarqrycount --> 
+	<select id="INSBChncarqrycount_insert" parameterType="com.zzb.chn.entity.INSBChncarqrycount" resultType="int">
+		insert into INSBChncarqrycount
+		(id,createtime,modifytime,channelinnercode,callcount,idcardno,carowner,carlicenseno) 
+		values
+		(#{id},#{createtime},#{modifytime},#{channelinnercode},#{callcount},#{idcardno},#{carowner},#{carlicenseno}) 
+	</select> 
+	
+	<select id="INSBChncarqrycount_selectCount" parameterType="Map" resultType="com.zzb.chn.entity.INSBChncarqrycount"> 
+		SELECT
+			*
+		FROM
+			INSBChncarqrycount
+		WHERE
+			channelinnercode = #{channelinnercode} 
+		AND carlicenseno = #{carlicenseno} 
+		
+		<!-- <if test="datenow != null">
+			AND #{datenow} &gt;= createtime
+			AND #{datenow} &lt;= CONCAT(
+				DATE_FORMAT(
+					DATE_ADD(createtime, INTERVAL 1 YEAR),
+					'%Y-%m-%d'
+				),
+				' 00:00:00'
+			)
+		</if> --> 
+		<if test="betweentime != null">
+			AND createtime &lt;= #{betweentime} AND modifytime &gt;= #{betweentime}
+		</if>
+		
+		ORDER BY
+			createtime DESC 
+		LIMIT 1
+	</select>
+	
+	<select id="INSBChncarqrycount_countData" parameterType="Map" resultType="Long"> 
+		SELECT
+			count(1)
+		FROM
+			INSBChncarqrycount
+		WHERE
+			channelinnercode = #{channelinnercode}
+		
+		<if test="createtimeend != null">
+			AND createtime &lt;= #{createtimeend} 
+		</if>
+		<if test="modifytimeend != null">
+			AND modifytime &lt;= #{modifytimeend} 
+		</if>
+		<if test="createtimeendex != null">
+			AND createtime &lt; #{createtimeendex} 
+		</if>
+	</select>
+	
+	<update id="INSBChncarqrycount_addCount" parameterType="com.zzb.chn.entity.INSBChncarqrycount"> 
+		update INSBChncarqrycount set callcount = callcount + 1, modifytime = #{modifytime} where id = #{id}
+	</update>  
+	
+	<select id="INSBChncarqrycount_delete" parameterType="com.zzb.chn.entity.INSBChncarqrycount" resultType="int">
+		delete from INSBChncarqrycount 
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="channelinnercode != null">
+				and channelinnercode = #{channelinnercode}
+			</if>
+		</where>
+	</select>
+</mapper>

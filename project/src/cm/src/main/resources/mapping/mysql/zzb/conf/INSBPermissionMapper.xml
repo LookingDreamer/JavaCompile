@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBPermission -->
+	<select id="INSBPermission_insert" parameterType="com.zzb.conf.entity.INSBPermission" resultType="int">
+		insert into INSBPermission
+		(id,operator,createtime,modifytime,noti,permissionname,permissionpath,istry,percode) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{permissionname},#{permissionpath},#{istry},#{percode}) 
+	</select>
+	<select id="INSBPermission_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBPermission">
+		select * from INSBPermission
+		<where>
+			<if test="permissionname != null">
+				and permissionname = #{permissionname}
+			</if>
+			<if test="permissionpath != null">
+				and permissionpath = #{permissionpath}
+			</if>
+			<if test="istry != null">
+				and istry = #{istry}
+			</if>
+			<if test="percode != null">
+				and percode = #{percode}
+			</if>
+		</where>
+	</select>
+	<!-- 只取一份权限，不要重复取 -->
+	<select id="INSBPermission_selectpermissionByIstry" resultType="com.zzb.conf.entity.INSBPermission">
+		select * from INSBPermission  where istry='1'
+	</select>
+	<select id="INSBPermission_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBPermission">
+		select * from INSBPermission
+		<where>
+			<if test="permissionname != null">
+				and permissionname = #{permissionname}
+			</if>
+			<if test="permissionpath != null">
+				and permissionpath = #{permissionpath}
+			</if>
+			<if test="istry != null">
+				and istry = #{istry}
+			</if>
+			<if test="percode != null">
+				and percode = #{percode}
+			</if>
+		</where>
+		limit 2
+	</select>
+	
+	<!-- 分页 --><!-- OR a.num='' -->
+	<select id="INSBPermission_selectPage4allotupdate" parameterType="Map" resultType="Map">
+		select a.id as allotid,
+		date_format(
+				a.validtimestart,
+				'%Y-%m-%d %h:%i:%s'
+			) validtimestartstr,
+		CASE WHEN a.validtimeend IS NULL THEN '2099-12-30 12:00:00'  ELSE  date_format(a.validtimeend,	'%Y-%m-%d %h:%i:%s')  END validtimeendstr,
+		b.permissionname,
+		b.istry,
+		a.frontstate,
+		CASE  WHEN a.num is NULL  OR a.num &lt; '0' THEN  '无限制' ELSE a.num END num,
+		a.warningtimes,
+		a.functionstate,
+		a.noti,
+		a.abort,b.id  from INSBPermission b left join insbpermissionallot a on b.id=a.permissionid 
+		<if test="permissionsetId!=null">
+		and a.setid=#{permissionsetId} 
+		</if>
+		<if test="istry!=null and istry!='' ">
+		where b.istry=#{istry} 
+		</if>
+		order by b.createtime desc
+		limit #{offset},#{limit}
+	</select>
+
+	<!-- 查询权限包 对应的权限 -->
+	<select id="INSBPermission_selectSetPermission" parameterType="Map" resultType="Map">
+		select b.`permissionpath`,a.id as allotid,
+		a.validtimestart,
+		a.validtimeend,
+		b.permissionname,
+		b.istry,
+		a.frontstate,
+		a.num,
+		a.functionstate,
+		a.noti,
+		a.abort,b.id  from INSBPermission b left join insbpermissionallot a on b.id=a.permissionid
+		<where>
+			<if test="permissionsetId!=null">
+				and a.setid=#{permissionsetId}
+			</if>
+		</where>
+		order by b.createtime desc
+
+	</select>
+	
+	<!-- 分页 -->
+	<select id="INSBPermission_selectPage4update" parameterType="Map" resultType="Map">
+		select id,
+		date_format(
+				validtimestart,
+				'%Y-%m-%d %h:%i:%s'
+			) validtimestartstr,
+		CASE WHEN validtimeend IS NULL THEN '2099-12-30 12:00:00'  ELSE  date_format(validtimeend,	'%Y-%m-%d %h:%i:%s')  END validtimeendstr,
+		permissionname,
+		frontstate,
+		CASE  WHEN num is NULL OR num='' THEN  '无限制' ELSE num END num,
+		noti,
+		functionstate,
+		abort
+		from insbagentpermission 
+		<where>
+			<if test="agentId!=null">
+				agentid=#{agentId} 
+			</if>
+		</where>
+		order by createtime desc
+		limit #{offset},#{limit}
+	</select>
+	
+	<!-- 分页 -->
+	<select id="INSBPermission_selectPage4add" parameterType="Map" resultType="Map">
+		select id ,permissionname  from INSBPermission 
+		<if test="istry!=null and istry!='' ">
+			where istry=#{istry} 
+		</if>
+		order by createtime desc
+		limit #{offset},#{limit}
+	</select>
+	
+	
+	<select id="INSBPermission_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBPermission">
+		select * from INSBPermission where id = #{id}
+	</select>
+	<select id="INSBPermission_deleteById" parameterType="String">
+		delete from INSBPermission where id = #{id}
+	</select>
+	<select id="INSBPermission_updateById" parameterType="com.zzb.conf.entity.INSBPermission">
+		update INSBPermission  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},permissionname = #{permissionname},permissionpath = #{permissionpath},istry=#{istry} where id = #{id}
+	</select>
+	<select id="INSBPermission_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBPermission
+		<where>
+			<if test="permissionname != null">
+				and permissionname = #{permissionname}
+			</if>
+			<if test="permissionpath != null">
+				and permissionpath = #{permissionpath}
+			</if>
+			<if test="istry != null">
+				and istry = #{istry}
+			</if>
+		</where>
+	</select>
+	<select id="INSBPermission_selectCountByIstry" parameterType="Map" resultType="Long">
+		select count(1) from INSBPermission
+		<where>
+			<if test="permissionname != null">
+				and permissionname = #{permissionname}
+			</if>
+			<if test="permissionpath != null">
+				and permissionpath = #{permissionpath}
+			</if>
+			<if test="istry != null">
+				and istry = #{istry}
+			</if>
+		</where>
+	</select>
+</mapper>

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBRulequeryotherinfo -->
+	<select id="INSBRulequeryotherinfo_insert" parameterType="com.zzb.cm.entity.INSBRulequeryotherinfo" resultType="int">
+		insert into INSBRulequeryotherinfo
+		(id,operator,createtime,modifytime,noti,taskid,noclaimdiscountcoefficient,noclaimdiscountcoefficientreasons,loyaltyreasons,trafficoffencediscount,compulsoryclaimrate,compulsoryclaimratereasons,firstinsuretype,bwcommercialclaimtimes,bwlastclaimsum,bwcompulsoryclaimtimes,bwlastcompulsoryclaimsum,claimtimes,compulsoryclaimtimes,lastclaimsum,syendmark,errormsgsy,jqendmark,errormsgjq,efcdiscount,vehicletaxoverduefine,riskclass,pureesale,bwcommercialclaimrate,lwarrearstax,platformcarprice,drunkdrivingrate) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{noclaimdiscountcoefficient},#{noclaimdiscountcoefficientreasons},#{loyaltyreasons},#{trafficoffencediscount},#{compulsoryclaimrate},#{compulsoryclaimratereasons},#{firstinsuretype},#{bwcommercialclaimtimes},#{bwlastclaimsum},#{bwcompulsoryclaimtimes},#{bwlastcompulsoryclaimsum},#{claimtimes},#{compulsoryclaimtimes},#{lastclaimsum},#{syendmark},#{errormsgsy},#{jqendmark},#{errormsgjq},#{efcdiscount},#{vehicletaxoverduefine},#{riskclass},#{pureesale},#{bwcommercialclaimrate},#{lwarrearstax},#{platformcarprice},#{drunkdrivingrate}) 
+	</select>
+	<select id="INSBRulequeryotherinfo_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBRulequeryotherinfo">
+		select * from INSBRulequeryotherinfo
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="noclaimdiscountcoefficient != null">
+				and noclaimdiscountcoefficient = #{noclaimdiscountcoefficient}
+			</if>
+			<if test="noclaimdiscountcoefficientreasons != null">
+				and noclaimdiscountcoefficientreasons = #{noclaimdiscountcoefficientreasons}
+			</if>
+			<if test="loyaltyreasons != null">
+				and loyaltyreasons = #{loyaltyreasons}
+			</if>
+			<if test="trafficoffencediscount != null">
+				and trafficoffencediscount = #{trafficoffencediscount}
+			</if>
+			<if test="compulsoryclaimrate != null">
+				and compulsoryclaimrate = #{compulsoryclaimrate}
+			</if>
+			<if test="compulsoryclaimratereasons != null">
+				and compulsoryclaimratereasons = #{compulsoryclaimratereasons}
+			</if>
+			<if test="firstinsuretype != null">
+				and firstinsuretype = #{firstinsuretype}
+			</if>
+			<if test="bwcommercialclaimtimes != null">
+				and bwcommercialclaimtimes = #{bwcommercialclaimtimes}
+			</if>
+			<if test="bwlastclaimsum != null">
+				and bwlastclaimsum = #{bwlastclaimsum}
+			</if>
+			<if test="bwcompulsoryclaimtimes != null">
+				and bwcompulsoryclaimtimes = #{bwcompulsoryclaimtimes}
+			</if>
+			<if test="bwlastcompulsoryclaimsum != null">
+				and bwlastcompulsoryclaimsum = #{bwlastcompulsoryclaimsum}
+			</if>
+			<if test="claimtimes != null">
+				and claimtimes = #{claimtimes}
+			</if>
+			<if test="compulsoryclaimtimes != null">
+				and compulsoryclaimtimes = #{compulsoryclaimtimes}
+			</if>
+			<if test="lastclaimsum != null">
+				and lastclaimsum = #{lastclaimsum}
+			</if>
+			<if test="syendmark != null">
+				and syendmark = #{syendmark}
+			</if>
+			<if test="errormsgsy != null">
+				and errormsgsy = #{errormsgsy}
+			</if>
+			<if test="jqendmark != null">
+				and jqendmark = #{jqendmark}
+			</if>
+			<if test="errormsgjq != null">
+				and errormsgjq = #{errormsgjq}
+			</if>
+			<if test="efcdiscount != null">
+				and efcdiscount = #{efcdiscount}
+			</if>
+			<if test="vehicletaxoverduefine != null">
+				and vehicletaxoverduefine = #{vehicletaxoverduefine}
+			</if>
+			<if test="riskclass != null">
+				and riskclass = #{riskclass}
+			</if>
+			<if test="pureesale != null">
+				and pureesale = #{pureesale}
+			</if>
+			<if test="bwcommercialclaimrate != null">
+				and bwcommercialclaimrate = #{bwcommercialclaimrate}
+			</if>
+			<if test="lwarrearstax != null">
+				and lwarrearstax = #{lwarrearstax}
+			</if>
+			<if test="platformcarprice != null">
+				and platformcarprice = #{platformcarprice}
+			</if>
+			<if test="drunkdrivingrate != null">
+				and drunkdrivingrate = #{drunkdrivingrate}
+			</if>
+		</where>
+	</select>
+	<select id="INSBRulequeryotherinfo_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBRulequeryotherinfo">
+		select * from INSBRulequeryotherinfo where id = #{id}
+	</select>
+	<select id="INSBRulequeryotherinfo_deleteById" parameterType="String">
+		delete from INSBRulequeryotherinfo where id = #{id}
+	</select>
+	<select id="INSBRulequeryotherinfo_updateById" parameterType="com.zzb.cm.entity.INSBRulequeryotherinfo">
+		update INSBRulequeryotherinfo  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},taskid = #{taskid}
+		<if test="noclaimdiscountcoefficient != null and noclaimdiscountcoefficient != ''">
+		,noclaimdiscountcoefficient = #{noclaimdiscountcoefficient}
+		</if>
+		<if test="noclaimdiscountcoefficientreasons != null and noclaimdiscountcoefficientreasons != ''">
+		,noclaimdiscountcoefficientreasons = #{noclaimdiscountcoefficientreasons}
+		</if>
+		<if test="loyaltyreasons != null and loyaltyreasons != ''">
+		,loyaltyreasons = #{loyaltyreasons}
+		</if>
+		<if test="trafficoffencediscount != null and trafficoffencediscount != ''">
+		,trafficoffencediscount = #{trafficoffencediscount}
+		</if>
+		<if test="compulsoryclaimrate != null and compulsoryclaimrate != ''">
+		,compulsoryclaimrate = #{compulsoryclaimrate}
+		</if>
+		<if test="compulsoryclaimratereasons != null and compulsoryclaimratereasons != ''">
+		,compulsoryclaimratereasons = #{compulsoryclaimratereasons}
+		</if>
+		<if test="firstinsuretype != null and firstinsuretype != ''">
+		,firstinsuretype = #{firstinsuretype}
+		</if>
+		<if test="bwcommercialclaimtimes != null and bwcommercialclaimtimes != ''">
+		,bwcommercialclaimtimes = #{bwcommercialclaimtimes}
+		</if>
+		<if test="bwlastclaimsum != null and bwlastclaimsum != ''">
+		,bwlastclaimsum = #{bwlastclaimsum}
+		</if>
+		<if test="bwcompulsoryclaimtimes != null and bwcompulsoryclaimtimes != ''">
+		,bwcompulsoryclaimtimes = #{bwcompulsoryclaimtimes}
+		</if>
+		<if test="bwlastcompulsoryclaimsum != null and bwlastcompulsoryclaimsum != ''">
+		,bwlastcompulsoryclaimsum = #{bwlastcompulsoryclaimsum}
+		</if>
+		<if test="claimtimes != null and claimtimes != ''">
+		,claimtimes = #{claimtimes}
+		</if>
+		<if test="compulsoryclaimtimes != null and compulsoryclaimtimes != ''">
+		,compulsoryclaimtimes = #{compulsoryclaimtimes}
+		</if>
+		<if test="lastclaimsum != null and lastclaimsum != ''">
+		,lastclaimsum = #{lastclaimsum}
+		</if>
+		<if test="syendmark != null and syendmark != ''">
+		,syendmark = #{syendmark}
+		</if>
+		<if test="errormsgsy != null and errormsgsy != ''">
+		,errormsgsy = #{errormsgsy}
+		</if>
+		<if test="jqendmark != null and jqendmark != ''">
+		,jqendmark = #{jqendmark}
+		</if>
+		<if test="errormsgjq != null and errormsgjq != ''">
+		,errormsgjq = #{errormsgjq}
+		</if>
+		<if test="efcdiscount != null and efcdiscount != ''">
+		,efcdiscount = #{efcdiscount}
+		</if>
+		<if test="vehicletaxoverduefine != null and vehicletaxoverduefine != ''">
+		,vehicletaxoverduefine = #{vehicletaxoverduefine}
+		</if>
+		<if test="riskclass != null and riskclass != ''">
+		,riskclass = #{riskclass}
+		</if>
+		<if test="pureesale != null and pureesale != ''">
+		,pureesale = #{pureesale}
+		</if>
+		<if test="bwcommercialclaimrate != null and bwcommercialclaimrate != ''">
+		,bwcommercialclaimrate = #{bwcommercialclaimrate}
+		</if>
+		<if test="lwarrearstax != null and lwarrearstax != ''">
+		,lwarrearstax = #{lwarrearstax}
+		</if>
+		<if test="platformcarprice != null and platformcarprice != ''">
+		,platformcarprice = #{platformcarprice}
+		</if>
+		<if test="drunkdrivingrate != null and drunkdrivingrate != ''">
+		,drunkdrivingrate = #{drunkdrivingrate}
+		</if>
+		  where id = #{id}
+	</select>
+	<select id="INSBRulequeryotherinfo_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBRulequeryotherinfo
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="noclaimdiscountcoefficient != null">
+				and noclaimdiscountcoefficient = #{noclaimdiscountcoefficient}
+			</if>
+			<if test="noclaimdiscountcoefficientreasons != null">
+				and noclaimdiscountcoefficientreasons = #{noclaimdiscountcoefficientreasons}
+			</if>
+			<if test="loyaltyreasons != null">
+				and loyaltyreasons = #{loyaltyreasons}
+			</if>
+			<if test="trafficoffencediscount != null">
+				and trafficoffencediscount = #{trafficoffencediscount}
+			</if>
+			<if test="compulsoryclaimrate != null">
+				and compulsoryclaimrate = #{compulsoryclaimrate}
+			</if>
+			<if test="compulsoryclaimratereasons != null">
+				and compulsoryclaimratereasons = #{compulsoryclaimratereasons}
+			</if>
+			<if test="firstinsuretype != null">
+				and firstinsuretype = #{firstinsuretype}
+			</if>
+			<if test="bwcommercialclaimtimes != null">
+				and bwcommercialclaimtimes = #{bwcommercialclaimtimes}
+			</if>
+			<if test="bwlastclaimsum != null">
+				and bwlastclaimsum = #{bwlastclaimsum}
+			</if>
+			<if test="bwcompulsoryclaimtimes != null">
+				and bwcompulsoryclaimtimes = #{bwcompulsoryclaimtimes}
+			</if>
+			<if test="bwlastcompulsoryclaimsum != null">
+				and bwlastcompulsoryclaimsum = #{bwlastcompulsoryclaimsum}
+			</if>
+			<if test="claimtimes != null">
+				and claimtimes = #{claimtimes}
+			</if>
+			<if test="compulsoryclaimtimes != null">
+				and compulsoryclaimtimes = #{compulsoryclaimtimes}
+			</if>
+			<if test="lastclaimsum != null">
+				and lastclaimsum = #{lastclaimsum}
+			</if>
+			<if test="syendmark != null">
+				and syendmark = #{syendmark}
+			</if>
+			<if test="errormsgsy != null">
+				and errormsgsy = #{errormsgsy}
+			</if>
+			<if test="jqendmark != null">
+				and jqendmark = #{jqendmark}
+			</if>
+			<if test="errormsgjq != null">
+				and errormsgjq = #{errormsgjq}
+			</if>
+			<if test="efcdiscount != null">
+				and efcdiscount = #{efcdiscount}
+			</if>
+			<if test="vehicletaxoverduefine != null">
+				and vehicletaxoverduefine = #{vehicletaxoverduefine}
+			</if>
+			<if test="riskclass != null">
+				and riskclass = #{riskclass}
+			</if>
+			<if test="pureesale != null">
+				and pureesale = #{pureesale}
+			</if>
+			<if test="bwcommercialclaimrate != null">
+				and bwcommercialclaimrate = #{bwcommercialclaimrate}
+			</if>
+			<if test="lwarrearstax != null">
+				and lwarrearstax = #{lwarrearstax}
+			</if>
+			<if test="platformcarprice != null">
+				and platformcarprice = #{platformcarprice}
+			</if>
+			<if test="drunkdrivingrate != null">
+				and drunkdrivingrate = #{drunkdrivingrate}
+			</if>
+		</where>
+	</select>
+	<select id="INSBRulequeryotherinfo_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBRulequeryotherinfo">
+		select * from INSBRulequeryotherinfo
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="noclaimdiscountcoefficient != null">
+				and noclaimdiscountcoefficient = #{noclaimdiscountcoefficient}
+			</if>
+			<if test="noclaimdiscountcoefficientreasons != null">
+				and noclaimdiscountcoefficientreasons = #{noclaimdiscountcoefficientreasons}
+			</if>
+			<if test="loyaltyreasons != null">
+				and loyaltyreasons = #{loyaltyreasons}
+			</if>
+			<if test="trafficoffencediscount != null">
+				and trafficoffencediscount = #{trafficoffencediscount}
+			</if>
+			<if test="compulsoryclaimrate != null">
+				and compulsoryclaimrate = #{compulsoryclaimrate}
+			</if>
+			<if test="compulsoryclaimratereasons != null">
+				and compulsoryclaimratereasons = #{compulsoryclaimratereasons}
+			</if>
+			<if test="firstinsuretype != null">
+				and firstinsuretype = #{firstinsuretype}
+			</if>
+			<if test="bwcommercialclaimtimes != null">
+				and bwcommercialclaimtimes = #{bwcommercialclaimtimes}
+			</if>
+			<if test="bwlastclaimsum != null">
+				and bwlastclaimsum = #{bwlastclaimsum}
+			</if>
+			<if test="bwcompulsoryclaimtimes != null">
+				and bwcompulsoryclaimtimes = #{bwcompulsoryclaimtimes}
+			</if>
+			<if test="bwlastcompulsoryclaimsum != null">
+				and bwlastcompulsoryclaimsum = #{bwlastcompulsoryclaimsum}
+			</if>
+			<if test="claimtimes != null">
+				and claimtimes = #{claimtimes}
+			</if>
+			<if test="compulsoryclaimtimes != null">
+				and compulsoryclaimtimes = #{compulsoryclaimtimes}
+			</if>
+			<if test="lastclaimsum != null">
+				and lastclaimsum = #{lastclaimsum}
+			</if>
+			<if test="syendmark != null">
+				and syendmark = #{syendmark}
+			</if>
+			<if test="errormsgsy != null">
+				and errormsgsy = #{errormsgsy}
+			</if>
+			<if test="jqendmark != null">
+				and jqendmark = #{jqendmark}
+			</if>
+			<if test="errormsgjq != null">
+				and errormsgjq = #{errormsgjq}
+			</if>
+			<if test="efcdiscount != null">
+				and efcdiscount = #{efcdiscount}
+			</if>
+			<if test="vehicletaxoverduefine != null">
+				and vehicletaxoverduefine = #{vehicletaxoverduefine}
+			</if>
+			<if test="riskclass != null">
+				and riskclass = #{riskclass}
+			</if>
+			<if test="pureesale != null">
+				and pureesale = #{pureesale}
+			</if>
+			<if test="bwcommercialclaimrate != null">
+				and bwcommercialclaimrate = #{bwcommercialclaimrate}
+			</if>
+			<if test="lwarrearstax != null">
+				and lwarrearstax = #{lwarrearstax}
+			</if>
+			<if test="platformcarprice != null">
+				and platformcarprice = #{platformcarprice}
+			</if>
+			<if test="drunkdrivingrate != null">
+				and drunkdrivingrate = #{drunkdrivingrate}
+			</if>
+		</where>
+		 LIMIT 1
+	</select>
+</mapper>

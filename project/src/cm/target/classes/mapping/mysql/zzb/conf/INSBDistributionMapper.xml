@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBDistribution --> 
+	<select id="INSBDistribution_insert" parameterType="com.zzb.conf.entity.INSBDistribution" resultType="int">
+		insert into INSBDistribution
+		(id,operator,createtime,modifytime,noti,agreementid,deptid,distritype,providerid,distrcompany,distpaytype,chargefee) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{agreementid},#{deptid},#{distritype},#{providerid},#{distrcompany},#{distpaytype},#{chargefee}) 
+	</select>
+	<select id="INSBDistribution_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBDistribution">
+		select * from INSBDistribution
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="distritype != null">
+				and distritype = #{distritype}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="distrcompany != null">
+				and distrcompany = #{distrcompany}
+			</if>
+			<if test="distpaytype != null">
+				and distpaytype = #{distpaytype}
+			</if>
+			<if test="chargefee != null">
+				and chargefee = #{chargefee}
+			</if>
+		</where>
+	</select>
+	<select id="INSBDistribution_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBDistribution">
+		select * from INSBDistribution where id = #{id}
+	</select>
+	<select id="INSBDistribution_deleteById" parameterType="String">
+		delete from INSBDistribution where id = #{id}
+	</select>
+	<select id="INSBDistribution_updateById" parameterType="com.zzb.conf.entity.INSBDistribution">
+		update INSBDistribution  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},agreementid = #{agreementid},deptid = #{deptid},distritype = #{distritype},providerid = #{providerid},distrcompany = #{distrcompany},distpaytype = #{distpaytype},chargefee = #{chargefee} where id = #{id}
+	</select>
+	<select id="INSBDistribution_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBDistribution
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="distritype != null">
+				and distritype = #{distritype}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="distrcompany != null">
+				and distrcompany = #{distrcompany}
+			</if>
+			<if test="distpaytype != null">
+				and distpaytype = #{distpaytype}
+			</if>
+			<if test="chargefee != null">
+				and chargefee = #{chargefee}
+			</if>
+		</where>
+	</select>
+	<select id="INSBDistribution_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBDistribution">
+		select * from INSBDistribution
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="distritype != null">
+				and distritype = #{distritype}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="distrcompany != null">
+				and distrcompany = #{distrcompany}
+			</if>
+			<if test="distpaytype != null">
+				and distpaytype = #{distpaytype}
+			</if>
+			<if test="chargefee != null">
+				and chargefee = #{chargefee}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+</mapper>

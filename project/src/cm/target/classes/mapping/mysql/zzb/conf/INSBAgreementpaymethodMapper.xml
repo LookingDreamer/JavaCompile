@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBAgreementpaymethod --> 
+	<select id="INSBAgreementpaymethod_insert" parameterType="com.zzb.conf.entity.INSBAgreementpaymethod" resultType="int">
+		insert into INSBAgreementpaymethod
+		(id,operator,createtime,modifytime,noti,deptid,agreementid,providerid,paychannelid,channelmanagerid) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{deptid},#{agreementid},#{providerid},#{paychannelid},#{channelmanagerid}) 
+	</select>
+	<select id="INSBAgreementpaymethod_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgreementpaymethod">
+		select * from INSBAgreementpaymethod
+		<where>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="paychannelid != null">
+				and paychannelid = #{paychannelid}
+			</if>
+			<if test="channelmanagerid != null">
+				and channelmanagerid = #{channelmanagerid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreementpaymethod_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBAgreementpaymethod">
+		select * from INSBAgreementpaymethod where id = #{id}
+	</select>
+	<select id="INSBAgreementpaymethod_deleteById" parameterType="String">
+		delete from INSBAgreementpaymethod where id = #{id}
+	</select>
+	<select id="INSBAgreementpaymethod_updateById" parameterType="com.zzb.conf.entity.INSBAgreementpaymethod">
+		update INSBAgreementpaymethod  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},deptid = #{deptid},agreementid = #{agreementid},providerid = #{providerid},paychannelid = #{paychannelid},channelmanagerid = #{channelmanagerid} where id = #{id}
+	</select>
+	<select id="INSBAgreementpaymethod_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBAgreementpaymethod
+		<where>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="paychannelid != null">
+				and paychannelid = #{paychannelid}
+			</if>
+			<if test="channelmanagerid != null">
+				and channelmanagerid = #{channelmanagerid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreementpaymethod_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgreementpaymethod">
+		select * from INSBAgreementpaymethod
+		<where>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="paychannelid != null">
+				and paychannelid = #{paychannelid}
+			</if>
+			<if test="channelmanagerid != null">
+				and channelmanagerid = #{channelmanagerid}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	
+	<select id="INSBAgreementpaymethod_delByAgreeid" parameterType="String">
+		delete from INSBAgreementpaymethod where agreementid = #{agreeid}
+	</select>
+	
+	<select id="INSBAgreementpaymethod_selectByChannelinnercodeAndPrvid" parameterType="Map" resultType="Map"> 
+		SELECT
+			b.id,
+			b.paychannelname,
+			b.paytype
+		FROM
+			insbagreementpaymethod a
+		LEFT JOIN insbpaychannel b ON a.paychannelid = b.id
+		LEFT JOIN insbchannelagreement e ON a.agreementid = e.id
+		LEFT JOIN insbchannel g ON e.channelid = g.id
+		LEFT JOIN insbagreementarea h ON e.id = h.agreementid
+		WHERE
+			g.channelinnercode = #{channelinnercode}
+		AND a.providerid = #{providerid}
+		AND h.city = #{city}
+		
+		AND (
+			g.deleteflag != '0'
+			OR g.deleteflag IS NULL
+		)
+		AND e.agreementstatus = '1'
+		
+		<if test="dept != null">
+			AND a.deptid = #{dept}
+		</if>
+	</select>
+		<select id="INSBAgreementpaymethod_getDeptPayType" parameterType="Map" resultType="com.zzb.conf.controller.vo.DeptPayTypeVo">
+		select 
+		  p.id,
+		  p.paychannelname,
+		  c.codename AS paytypename
+		FROM insbpaychannel p
+		  LEFT JOIN insccode c 
+		    ON c.codetype = 'paytype' 
+		    AND c.codevalue = p.paytype 
+	</select>
+	<select id="INSBAgreementpaymethod_delete" parameterType="com.zzb.conf.entity.INSBAgreementpaymethod" resultType="int">
+		delete from INSBAgreementpaymethod 
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+		</where>
+	</select>
+</mapper>

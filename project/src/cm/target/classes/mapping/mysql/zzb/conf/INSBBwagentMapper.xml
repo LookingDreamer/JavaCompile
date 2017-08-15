@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<select id="INSBBwagent_selectBwagentData" resultType="com.zzb.conf.entity.INSBBwagent">
+		SELECT NAME,SEX,AGENTCODE,MOBILE,EMAIL,MGMTDIVISION,AGENTGRADE,
+		AGENTSTATE,AGENTKIND,MOBILE,INTROAGENCY,QUACERTIFNO,
+		PRACERTIFNO,IDNO,IDNOTYPE,HOMEADDRESS,AGENTGROUP, 
+		TO_DATE(TO_CHAR(MAKEDATE,'yyyy-mm-dd') ||' ' || MAKETIME ,'yyyy-mm-dd hh24:mi:ss') MAKETIME,
+		TO_DATE(TO_CHAR(MODIFYDATE,'yyyy-mm-dd') ||' ' || MODIFYTIME ,'yyyy-mm-dd hh24:mi:ss') MODIFYTIME
+	    FROM CBSOPR.BW_FAAGENTTREE a  
+	    where a.agentcode not like 'T%'
+		and a.biztype ='02'
+		/*and a.agentstate &lt;'03'*/
+		and (select ismainflag from CBSOPR.HX_FDCOM where comcode=a.corporation)='Y'
+	    <if test="_parameter != null">
+			and   (
+		     TO_DATE(TO_CHAR(MAKEDATE,'yyyy-mm-dd') ||' ' || MAKETIME ,'yyyy-mm-dd hh24:mi:ss')  
+		     >= TO_DATE(#{_parameter},'yyyy-mm-dd hh24:mi:ss') 
+		    OR 
+		    TO_DATE(TO_CHAR(MODIFYDATE,'yyyy-mm-dd') ||' ' || MODIFYTIME ,'yyyy-mm-dd hh24:mi:ss') 
+		    >= TO_DATE(#{_parameter},'yyyy-mm-dd hh24:mi:ss') 
+		    ) 
+		</if> 
+		
+	</select>
+	
+	<select id="INSBBwagent_getBwagentDataByAgcode" resultType="com.zzb.conf.entity.INSBBwagent">
+			SELECT NAME,SEX,AGENTCODE,MOBILE,EMAIL,MGMTDIVISION,AGENTGRADE,
+		AGENTSTATE,AGENTKIND,MOBILE,INTROAGENCY,QUACERTIFNO,
+		PRACERTIFNO,IDNO,IDNOTYPE,HOMEADDRESS,AGENTGROUP, 
+		TO_DATE(TO_CHAR(MAKEDATE,'yyyy-mm-dd') ||' ' || MAKETIME ,'yyyy-mm-dd hh24:mi:ss') MAKETIME,
+		TO_DATE(TO_CHAR(MODIFYDATE,'yyyy-mm-dd') ||' ' || MODIFYTIME ,'yyyy-mm-dd hh24:mi:ss') MODIFYTIME
+	    FROM CBSOPR.BW_FAAGENTTREE a  
+	    where a.agentcode not like 'T%'
+		and a.biztype ='02'
+		/*and a.agentstate &lt;'03'*/
+		and (select ismainflag from CBSOPR.HX_FDCOM where comcode=a.corporation)='Y'
+	    <if test="_parameter != null">
+			and  AGENTCODE = #{_parameter}
+		</if> 
+		
+	</select>
+	<select id="INSBBwagent_getBwagentDataByOrg" resultType="com.zzb.conf.entity.INSBBwagent">	
+		SELECT a.NAME,a.SEX,a.AGENTCODE,a.MOBILE,a.EMAIL,a.MGMTDIVISION,a.AGENTGRADE,
+		a.AGENTSTATE,a.AGENTKIND,a.MOBILE,a.INTROAGENCY,a.QUACERTIFNO,
+		a.PRACERTIFNO,a.IDNO,a.IDNOTYPE,a.HOMEADDRESS,a.AGENTGROUP, 
+		TO_DATE(TO_CHAR(a.MAKEDATE,'yyyy-mm-dd') ||' ' || a.MAKETIME ,'yyyy-mm-dd hh24:mi:ss') MAKETIME,
+		TO_DATE(TO_CHAR(a.MODIFYDATE,'yyyy-mm-dd') ||' ' || a.MODIFYTIME ,'yyyy-mm-dd hh24:mi:ss') MODIFYTIME
+	  FROM CBSOPR.BW_FAAGENTTREE a ,CBSOPR.HX_FDCOM  b
+	  where b.comcode=a.corporation and  b.incomcode like '02031%' 
+	  and a.agentcode not like 'T%'
+			and a.biztype ='02'
+			/*and a.agentstate &lt;'03'*/
+	    and b.ismainflag ='Y' 
+    </select>
+</mapper>

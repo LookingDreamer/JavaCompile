@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBFilebusiness -->
+	<select id="INSBFilebusiness_insert" parameterType="com.zzb.cm.entity.INSBFilebusiness" resultType="int">
+		insert into INSBFilebusiness
+		(id,operator,createtime,modifytime,noti,filelibraryid,type,code) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{filelibraryid},#{type},#{code}) 
+	</select>
+	<select id="INSBFilebusiness_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBFilebusiness">
+		select * from INSBFilebusiness
+		<where>
+			<if test="filelibraryid != null">
+				and filelibraryid = #{filelibraryid}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+			<if test="code != null">
+				and code = #{code}
+			</if>
+		</where>
+	</select>
+	<select id="INSBFilebusiness_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBFilebusiness">
+		select * from INSBFilebusiness
+		<where>
+			<if test="filelibraryid != null">
+				and filelibraryid = #{filelibraryid}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+			<if test="code != null">
+				and code = #{code}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBFilebusiness_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBFilebusiness">
+		select * from INSBFilebusiness where id = #{id}
+	</select>
+	<select id="INSBFilebusiness_deleteById" parameterType="String">
+		delete from INSBFilebusiness where id = #{id}
+	</select>
+	<select id="INSBFilebusiness_deleteBy_filelibraryid" parameterType="String">
+		delete from INSBFilebusiness where filelibraryid = #{filelibraryid}
+	</select>
+	<select id="INSBFilebusiness_deleteBy_imagetype_taskId" parameterType="String">
+		delete from INSBFilebusiness where type = #{type} AND code = #{code}
+	</select>
+	<select id="INSBFilebusiness_deleteInIds" parameterType="List" resultType="Long">
+		delete from INSBFilebusiness
+		<where>
+			id IN
+			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</select>
+	<select id="INSBFilebusiness_updateById" parameterType="com.zzb.cm.entity.INSBFilebusiness">
+		update INSBFilebusiness  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},filelibraryid = #{filelibraryid},type = #{type},code = #{code} where id = #{id}
+	</select>
+	<select id="INSBFilebusiness_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBFilebusiness
+		<where>
+			<if test="filelibraryid != null">
+				and filelibraryid = #{filelibraryid}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+			<if test="code != null">
+				and code = #{code}
+			</if>
+		</where>
+	</select>
+</mapper>

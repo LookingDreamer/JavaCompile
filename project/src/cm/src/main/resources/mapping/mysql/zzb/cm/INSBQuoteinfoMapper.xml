@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+    <!-- INSBQuoteinfo  -->
+    <select id="INSBQuoteinfo_insert" parameterType="com.zzb.cm.entity.INSBQuoteinfo" resultType="int">
+		insert into INSBQuoteinfo
+		(id,operator,createtime,modifytime,noti,quotetotalinfoid,ownername,platenumber,quoteinfo,quoteresult,quoteamount,discountrate,inscomcode,insprovincecode,insprovincename,inscitycode,inscityname,insureway,taskstatus,workflowinstanceid,deptcode,agreementid,quotediscountamount,buybusitype,platforminnercode)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{quotetotalinfoid},#{ownername},#{platenumber},#{quoteinfo},#{quoteresult},#{quoteamount},#{discountrate},#{inscomcode},#{insprovincecode},#{insprovincename},#{inscitycode},#{inscityname},#{insureway},#{taskstatus},#{workflowinstanceid},#{deptcode},#{agreementid},#{quotediscountamount},#{buybusitype},#{platforminnercode})
+	</select>
+    <select id="INSBQuoteinfo_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBQuoteinfo">
+       	select * from INSBQuoteinfo
+        <where>
+            <if test="quotetotalinfoid != null">
+                and quotetotalinfoid = #{quotetotalinfoid}
+            </if>
+            <if test="ownername != null">
+                and ownername = #{ownername}
+            </if>
+            <if test="platenumber != null">
+                and platenumber = #{platenumber}
+            </if>
+            <if test="quoteinfo != null">
+                and quoteinfo = #{quoteinfo}
+            </if>
+            <if test="quoteresult != null">
+                and quoteresult = #{quoteresult}
+            </if>
+            <if test="quoteamount != null">
+                and quoteamount = #{quoteamount}
+            </if>
+            <if test="discountrate != null">
+                and discountrate = #{discountrate}
+            </if>
+            <if test="inscomcode != null">
+                and inscomcode = #{inscomcode}
+            </if>
+            <if test="insprovincecode != null">
+                and insprovincecode = #{insprovincecode}
+            </if>
+            <if test="insprovincename != null">
+                and insprovincename = #{insprovincename}
+            </if>
+            <if test="inscitycode != null">
+                and inscitycode = #{inscitycode}
+            </if>
+            <if test="inscityname != null">
+                and inscityname = #{inscityname}
+            </if>
+            <if test="insureway != null">
+                and insureway = #{insureway}
+            </if>
+            <if test="taskstatus != null">
+                and taskstatus = #{taskstatus}
+            </if>
+            <if test="workflowinstanceid != null">
+                and workflowinstanceid = #{workflowinstanceid}
+            </if>
+            <if test="deptcode != null">
+                and deptcode = #{deptcode}
+            </if>
+            <if test="agreementid != null">
+                and agreementid = #{agreementid}
+            </if>
+            <if test="quotediscountamount != null">
+                and quotediscountamount = #{quotediscountamount}
+            </if>
+            <if test="buybusitype != null">
+                and buybusitype = #{buybusitype}
+            </if>
+        </where>
+    </select>
+    <select id="INSBQuoteinfo_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBQuoteinfo">
+       	select * from INSBQuoteinfo
+        <where>
+            <if test="quotetotalinfoid != null">
+                and quotetotalinfoid = #{quotetotalinfoid}
+            </if>
+            <if test="ownername != null">
+                and ownername = #{ownername}
+            </if>
+            <if test="platenumber != null">
+                and platenumber = #{platenumber}
+            </if>
+            <if test="quoteinfo != null">
+                and quoteinfo = #{quoteinfo}
+            </if>
+            <if test="quoteresult != null">
+                and quoteresult = #{quoteresult}
+            </if>
+            <if test="quoteamount != null">
+                and quoteamount = #{quoteamount}
+            </if>
+            <if test="discountrate != null">
+                and discountrate = #{discountrate}
+            </if>
+            <if test="inscomcode != null">
+                and inscomcode = #{inscomcode}
+            </if>
+            <if test="insprovincecode != null">
+                and insprovincecode = #{insprovincecode}
+            </if>
+            <if test="insprovincename != null">
+                and insprovincename = #{insprovincename}
+            </if>
+            <if test="inscitycode != null">
+                and inscitycode = #{inscitycode}
+            </if>
+            <if test="inscityname != null">
+                and inscityname = #{inscityname}
+            </if>
+            <if test="insureway != null">
+                and insureway = #{insureway}
+            </if>
+            <if test="taskstatus != null">
+                and taskstatus = #{taskstatus}
+            </if>
+            <if test="workflowinstanceid != null">
+                and workflowinstanceid = #{workflowinstanceid}
+            </if>
+            <if test="deptcode != null">
+                and deptcode = #{deptcode}
+            </if>
+            <if test="agreementid != null">
+                and agreementid = #{agreementid}
+            </if>
+            <if test="quotediscountamount != null">
+                and quotediscountamount = #{quotediscountamount}
+            </if>
+            <if test="buybusitype != null">
+                and buybusitype = #{buybusitype}
+            </if>
+        </where>
+        LIMIT 2
+    </select>
+    <select id="INSBQuoteinfo_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBQuoteinfo">
+		select * from INSBQuoteinfo where id = #{id}
+	</select>
+
+    <select id="INSBQuoteinfo_closeTask" parameterType="Map" resultType="int">
+        select count(*)from (
+        select instanceid from insbworkflowmain where instanceid=#{maininstanceid} and taskstate='Closed' union all
+        SELECT a.maininstanceid as instanceid from insbworkflowsub a LEFT JOIN insbquoteinfo b on a.instanceid=b.workflowinstanceid
+        WHERE a.maininstanceid =#{maininstanceid} and b.inscomcode=#{inscomcode} and a.taskstate='Closed'
+        )aa
+    </select>
+
+    <select id="INSBQuoteinfo_selectDeptIdByQuotetotalIdAndComCode4Task" parameterType="Map" resultType="String">
+       	select a.deptcode FROM insbquoteinfo a join insbquotetotalinfo b
+        <where>
+            a.quotetotalinfoid=b.id
+            <if test=" taskid !=null">
+                and b.taskid=#{taskid}
+            </if>
+            <if test="inscomcode !=null">
+                and a.inscomcode=#{inscomcode}
+            </if>
+        </where>
+    </select>
+
+    <select id="INSBQuoteinfo_deleteById" parameterType="String">
+		delete from INSBQuoteinfo where id = #{id}
+	</select>
+    <select id="INSBQuoteinfo_updateById" parameterType="com.zzb.cm.entity.INSBQuoteinfo">
+		update INSBQuoteinfo  set operator = #{operator},modifytime = NOW(),noti = #{noti},quotetotalinfoid = #{quotetotalinfoid},ownername = #{ownername},platenumber = #{platenumber},quoteinfo = #{quoteinfo},quoteresult = #{quoteresult},quoteamount = #{quoteamount},discountrate = #{discountrate},inscomcode = #{inscomcode},insprovincecode = #{insprovincecode},insprovincename = #{insprovincename},inscitycode = #{inscitycode},inscityname = #{inscityname},insureway = #{insureway},taskstatus = #{taskstatus},workflowinstanceid = #{workflowinstanceid},deptcode = #{deptcode},agreementid = #{agreementid},quotediscountamount = #{quotediscountamount},buybusitype = #{buybusitype} where id = #{id}
+	</select>
+    <select id="INSBQuoteinfo_selectCount" parameterType="Map" resultType="Long">
+       	select count(1) from INSBQuoteinfo
+        <where>
+            <if test="quotetotalinfoid != null">
+                and quotetotalinfoid = #{quotetotalinfoid}
+            </if>
+            <if test="ownername != null">
+                and ownername = #{ownername}
+            </if>
+            <if test="platenumber != null">
+                and platenumber = #{platenumber}
+            </if>
+            <if test="quoteinfo != null">
+                and quoteinfo = #{quoteinfo}
+            </if>
+            <if test="quoteresult != null">
+                and quoteresult = #{quoteresult}
+            </if>
+            <if test="quoteamount != null">
+                and quoteamount = #{quoteamount}
+            </if>
+            <if test="discountrate != null">
+                and discountrate = #{discountrate}
+            </if>
+            <if test="inscomcode != null">
+                and inscomcode = #{inscomcode}
+            </if>
+            <if test="insprovincecode != null">
+                and insprovincecode = #{insprovincecode}
+            </if>
+            <if test="insprovincename != null">
+                and insprovincename = #{insprovincename}
+            </if>
+            <if test="inscitycode != null">
+                and inscitycode = #{inscitycode}
+            </if>
+            <if test="inscityname != null">
+                and inscityname = #{inscityname}
+            </if>
+            <if test="insureway != null">
+                and insureway = #{insureway}
+            </if>
+            <if test="taskstatus != null">
+                and taskstatus = #{taskstatus}
+            </if>
+            <if test="workflowinstanceid != null">
+                and workflowinstanceid = #{workflowinstanceid}
+            </if>
+            <if test="deptcode != null">
+                and deptcode = #{deptcode}
+            </if>
+            <if test="agreementid != null">
+                and agreementid = #{agreementid}
+            </if>
+            <if test="quotediscountamount != null">
+                and quotediscountamount = #{quotediscountamount}
+            </if>
+            <if test="buybusitype != null">
+                and buybusitype = #{buybusitype}
+            </if>
+        </where>
+    </select>
+
+    <select id="INSBQuoteinfo_queryAgreementIdByTaksId" parameterType="Map"
+            resultType="com.zzb.conf.entity.INSBAgreement">
+		select xy.agreementtrule,xy.agreementrule FROM insbquoteinfo info,insbquotetotalinfo infosum,insbagreement xy WHERE info.quotetotalinfoid = infosum.id AND infosum.taskid= #{taskid}
+		AND info.inscomcode = #{providerid} AND xy.id = info.agreementid LIMIT 0,1
+	</select>
+
+    <select id="INSBQuoteinfo_querydeptcode" parameterType="Map" resultType="String">
+		select info.deptcode FROM insbquoteinfo info,insbquotetotalinfo infosum 
+		WHERE infosum.taskid = #{taskid} AND infosum.id = info.quotetotalinfoid AND info.inscomcode = #{deptid} LIMIT 0,1
+	</select>
+
+    <select id="INSBQuoteinfo_queryQuoteinfoByWorkflowinstanceid" parameterType="String"
+            resultType="com.zzb.cm.entity.INSBQuoteinfo">
+		select i.* from insbquoteinfo i where i.workflowinstanceid= #{workflowinstanceid}
+	</select>
+    <select id="INSBQuoteinfo_selectSubInstanceIdProviderIdByMainInstanceId" parameterType="String" resultType="Map">
+		select workflowinstanceid,inscomcode from INSBQuoteinfo where quotetotalinfoid = #{value}
+	</select>
+    <select id="INSBQuoteinfo_selectDeptcodeByProviderIdTatolId" parameterType="Map" resultType="String">
+		select deptcode from insbquoteinfo  where inscomcode= #{inscomcode} and quotetotalinfoid=#{quotetotalinfoid}
+	</select>
+
+    <select id="INSBQuoteinfo_selectQuoteinfoByQuotetotalinfoidAndinscomcode" parameterType="Map"
+            resultType="com.zzb.cm.entity.INSBQuoteinfo">
+		select * from insbquoteinfo  where inscomcode= #{inscomcode} and quotetotalinfoid=#{quotetotalinfoid}
+	</select>
+    <select id="INSBQuoteinfo_selectByTaskidAndCompanyid" parameterType="Map"
+            resultType="com.zzb.cm.entity.INSBQuoteinfo">
+		select * from INSBQuoteinfo a,INSBQuotetotalinfo b where a.quotetotalinfoid = b.id and b.taskid=#{taskid} and a.inscomcode =#{companyid}
+	</select>
+    <!-- 规则试算成功后查询试算总保费 liu-->
+    <select id="INSBQuoteinfo_getTotalDiscountAmountPrice" parameterType="String" resultType="Double">
+		select quotediscountamount FROM insbquoteinfo WHERE workflowinstanceid = #{subInstanceId}
+	</select>
+    <select id="INSBQuoteinfo_selectWorkflowinstanceid" parameterType="String" resultType="Map">
+		select b.workflowinstanceid as workflowinstanceid
+		from insbquotetotalinfo a, insbquoteinfo b
+		where a.id = b.quotetotalinfoid
+		and a.taskid = #{taskid};
+	</select>
+    <select id="INSBQuoteinfo_selectByTaskid" parameterType="String" resultType="Map">
+		select a.inscomcode as inscomcode from INSBQuoteinfo a,INSBQuotetotalinfo b where a.quotetotalinfoid = b.id and b.taskid=#{taskid}
+	</select>
+    <select id="INSBQuoteinfo_selectComcodeByTaskid" parameterType="Map" resultType="Map">
+		select a.inscomcode as inscomcode, c.prvshotname  as comcodeName,d.taskcode as taskcode,
+        a.workflowinstanceid as subid ,e.totalepremium as totalPrice
+        from INSBQuoteinfo a,INSBQuotetotalinfo b ,insbprovider c ,insbworkflowsub d ,insbpolicyitem e
+        where a.quotetotalinfoid = b.id and d.instanceid=a.workflowinstanceid AND
+          c.prvcode=SUBSTRING(a.inscomcode,1,4)and e.taskid=b.taskid and b.taskid=#{taskid} 
+          
+        <if test="taskState != null">
+            and d.taskcode = #{taskState}
+        </if>
+          
+        GROUP BY subid ;
+
+	</select>
+    <select id="INSBQuoteinfo_deleteByObj" parameterType="com.zzb.cm.entity.INSBQuoteinfo" resultType="int">
+        delete from INSBQuoteinfo
+        <where>
+            <if test="quotetotalinfoid != null">
+                and quotetotalinfoid = #{quotetotalinfoid}
+            </if>
+            <if test="ownername != null">
+                and ownername = #{ownername}
+            </if>
+            <if test="platenumber != null">
+                and platenumber = #{platenumber}
+            </if>
+            <if test="quoteinfo != null">
+                and quoteinfo = #{quoteinfo}
+            </if>
+            <if test="quoteresult != null">
+                and quoteresult = #{quoteresult}
+            </if>
+            <if test="quoteamount != null">
+                and quoteamount = #{quoteamount}
+            </if>
+            <if test="discountrate != null">
+                and discountrate = #{discountrate}
+            </if>
+            <if test="inscomcode != null">
+                and inscomcode = #{inscomcode}
+            </if>
+            <if test="insprovincecode != null">
+                and insprovincecode = #{insprovincecode}
+            </if>
+            <if test="insprovincename != null">
+                and insprovincename = #{insprovincename}
+            </if>
+            <if test="inscitycode != null">
+                and inscitycode = #{inscitycode}
+            </if>
+            <if test="inscityname != null">
+                and inscityname = #{inscityname}
+            </if>
+            <if test="insureway != null">
+                and insureway = #{insureway}
+            </if>
+            <if test="taskstatus != null">
+                and taskstatus = #{taskstatus}
+            </if>
+            <if test="workflowinstanceid != null">
+                and workflowinstanceid = #{workflowinstanceid}
+            </if>
+            <if test="deptcode != null">
+                and deptcode = #{deptcode}
+            </if>
+            <if test="agreementid != null">
+                and agreementid = #{agreementid}
+            </if>
+            <if test="quotediscountamount != null">
+                and quotediscountamount = #{quotediscountamount}
+            </if>
+            <if test="buybusitype != null">
+                and buybusitype = #{buybusitype}
+            </if>
+        </where>
+    </select>
+    <select id="INSBQuoteinfo_selectTaskInfo" parameterType="Map" resultType="Map">
+        SELECT q.inscomcode,pro.prvshotname AS inscomname,sdept.comcode AS deptcode,sdept.comname AS deptname, sdept.`deptinnercode`
+        ,ag.jobnum AS agentNum, ag.name AS agentName,qt.`datasourcesfrom`,qt.purchaserchannel AS channelcode, l.`channelname` AS channelname
+        ,inhp.id AS insuredid,inhp.`name` AS insuredname,inhp.`idcardno` AS insuredcardno
+        ,car.carlicenseno AS carlicenseno,q.workflowinstanceid as subinstanceid
+        FROM insbquotetotalinfo qt
+        LEFT JOIN insbquoteinfo q ON q.`quotetotalinfoid`=qt.`id`
+        LEFT JOIN insbprovider pro ON pro.prvcode = q.inscomcode
+        LEFT JOIN inscdept sdept ON sdept.comcode = q.deptcode
+        LEFT JOIN insbagent ag ON qt.agentnum = ag.jobnum
+        LEFT JOIN insbchannel l ON qt.`purchaserchannel` = l.channelinnercode AND l.childflag='1' AND (l.deleteflag IS NULL OR l.deleteflag !='0')
+        LEFT JOIN insbinsured insd ON insd.taskid = qt.taskid
+        LEFT JOIN insbperson inhp ON inhp.id = insd.personid
+        LEFT JOIN insbcarinfo car ON car.taskid = qt.taskid
+        WHERE qt.taskid=#{maininstanceid}
+         <if test="inscomcode != null and inscomcode != ''">
+            AND q.inscomcode =#{inscomcode}
+         </if>
+    </select>
+	
+	<select id="INSBQuoteinfo_queryDeptAllQuoteCount" parameterType="Map" resultType="Map">
+		select DISTINCT q.platenumber from insbquoteinfo q 
+		LEFT JOIN insbcarinfo ca ON q.platenumber=ca.carlicenseno 
+		LEFT JOIN inscdept d ON q.deptcode=d.comcode 
+		<where>
+			q.platenumber IS NOT NULL AND q.platenumber != '新车未上牌'  
+			<if test="deptinnercode != null">
+				AND d.deptinnercode like CONCAT(#{deptinnercode},'%') 
+			</if>
+			<if test="starttime != null">
+				AND q.createtime &gt;=#{starttime} 
+			</if>
+			<if test="endtime != null">
+				AND q.createtime &lt;=#{endtime}
+			</if>
+		</where>
+    </select>
+
+</mapper>

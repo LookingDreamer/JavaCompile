@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+   <mapper namespace="com.zzb.mobile.entity">
+	 <select id="INSBRefereeStatisticInfo_findByAgentCode" parameterType="String"
+			resultType="com.zzb.mobile.entity.INSBRefereeStatisticInfo">
+        SELECT * FROM insbrefereestatisticinfo WHERE agentcode = #{agentCode} limit 1;
+	 </select>
+
+	<select id="INSBRefereeStatisticInfo_update" parameterType="com.zzb.mobile.entity.INSBRefereeStatisticInfo">
+		update INSBAgent
+		<set>
+			<if test=" name !=null">
+				name = #{name},
+			</if>
+			<if test=" agentcode !=null">
+				agentcode = #{agentcode},
+			</if>
+			<if test=" referrals !=null">
+				referrals = #{referrals},
+			</if>
+			<if test=" 1 == 1 ">
+				modifytime = NOW()
+			</if>
+		</set>
+		where id = #{id}
+	</select>
+
+
+	<select id="INSBRefereeStatisticInfo_insert" parameterType="com.zzb.mobile.entity.INSBRefereeStatisticInfo">
+       INSERT INTO insbrefereestatisticinfo(id,name,agentcode,referrals,noti,createtime,modifytime)
+       values(#{id},#{name},#{agentcode},#{referrals},#{noti},NOW(),NOW())
+	</select>
+
+
+
+
+	<select id="INSBRefereeStatisticInfo_getRankInfo" parameterType="int"
+			resultType="com.zzb.mobile.entity.INSBRefereeStatisticInfo">
+		SELECT * FROM insbrefereestatisticinfo ORDER BY referrals DESC ,modifytime ASE LIMIT #{limit};
+	</select>
+
+
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSHCarowneinfo -->
+	<select id="INSHCarowneinfo_insert" parameterType="com.zzb.cm.entity.INSHCarowneinfo" resultType="int">
+		insert into INSHCarowneinfo
+		(id,operator,createtime,modifytime,noti,taskid,personid,fairyoredi,nodecode) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{personid},#{fairyoredi},#{nodecode})
+	</select>
+	<select id="INSHCarowneinfo_select" parameterType="Map" resultType="com.zzb.cm.entity.INSHCarowneinfo">
+		select * from INSHCarowneinfo
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+	</select>
+	<select id="INSHCarowneinfo_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSHCarowneinfo">
+		select * from INSHCarowneinfo where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHCarowneinfo_deleteById" parameterType="String">
+		delete from INSHCarowneinfo where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHCarowneinfo_updateById" parameterType="com.zzb.cm.entity.INSHCarowneinfo">
+		update INSHCarowneinfo  set operator = #{operator},modifytime = NOW(),noti = #{noti},taskid = #{taskid},personid = #{personid},fairyoredi = #{fairyoredi},nodecode = #{nodecode} where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHCarowneinfo_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSHCarowneinfo
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+	</select>
+	<select id="INSHCarowneinfo_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSHCarowneinfo">
+		select * from INSHCarowneinfo
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+</mapper>

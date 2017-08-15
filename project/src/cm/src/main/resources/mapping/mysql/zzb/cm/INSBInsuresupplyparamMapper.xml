@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBInsuresupplyparam -->
+	<select id="INSBInsuresupplyparam_insert" parameterType="com.zzb.cm.entity.INSBInsuresupplyparam" resultType="int">
+		insert into INSBInsuresupplyparam
+		(id,operator,createtime,modifytime,noti,taskid,inscomcode,itemcode,itemname,itemvalue,iteminputtype,itemoptionallist,itemorder) 
+		values
+		(#{id},#{operator},NOW(),#{modifytime},#{noti},#{taskid},#{inscomcode},#{itemcode},#{itemname},#{itemvalue},#{iteminputtype},#{itemoptionallist},#{itemorder})
+	</select>
+	<select id="INSBInsuresupplyparam_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBInsuresupplyparam">
+		select * from INSBInsuresupplyparam
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="itemcode != null">
+				and itemcode = #{itemcode}
+			</if>
+			<if test="itemname != null">
+				and itemname = #{itemname}
+			</if>
+			<if test="itemvalue != null">
+				and itemvalue = #{itemvalue}
+			</if>
+			<if test="iteminputtype != null">
+				and iteminputtype = #{iteminputtype}
+			</if>
+			<if test="itemoptionallist != null">
+				and itemoptionallist = #{itemoptionallist}
+			</if>
+			<if test="itemorder != null">
+				and itemorder = #{itemorder}
+			</if>
+		</where>
+	</select>
+	<select id="INSBInsuresupplyparam_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBInsuresupplyparam">
+		select * from INSBInsuresupplyparam where id = #{id}
+	</select>
+	<select id="INSBInsuresupplyparam_deleteById" parameterType="String">
+		delete from INSBInsuresupplyparam where id = #{id}
+	</select>
+	<select id="INSBInsuresupplyparam_deleteByTask" parameterType="Map" resultType="Long">
+		delete from INSBInsuresupplyparam where taskid = #{taskid} and inscomcode = #{inscomcode}
+	</select>
+	<select id="INSBInsuresupplyparam_updateById" parameterType="com.zzb.cm.entity.INSBInsuresupplyparam">
+		update INSBInsuresupplyparam  set operator = #{operator},modifytime = NOW(),itemcode = #{itemcode},itemname = #{itemname},itemvalue = #{itemvalue},iteminputtype = #{iteminputtype},itemoptionallist = #{itemoptionallist},itemorder = #{itemorder} where id = #{id}
+	</select>
+	<select id="INSBInsuresupplyparam_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBInsuresupplyparam
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="itemcode != null">
+				and itemcode = #{itemcode}
+			</if>
+			<if test="itemname != null">
+				and itemname = #{itemname}
+			</if>
+			<if test="itemvalue != null">
+				and itemvalue = #{itemvalue}
+			</if>
+			<if test="iteminputtype != null">
+				and iteminputtype = #{iteminputtype}
+			</if>
+			<if test="itemoptionallist != null">
+				and itemoptionallist = #{itemoptionallist}
+			</if>
+			<if test="itemorder != null">
+				and itemorder = #{itemorder}
+			</if>
+		</where>
+	</select>
+	<select id="INSBInsuresupplyparam_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBInsuresupplyparam">
+		select * from INSBInsuresupplyparam
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="itemcode != null">
+				and itemcode = #{itemcode}
+			</if>
+			<if test="itemname != null">
+				and itemname = #{itemname}
+			</if>
+			<if test="itemvalue != null">
+				and itemvalue = #{itemvalue}
+			</if>
+			<if test="iteminputtype != null">
+				and iteminputtype = #{iteminputtype}
+			</if>
+			<if test="itemoptionallist != null">
+				and itemoptionallist = #{itemoptionallist}
+			</if>
+			<if test="itemorder != null">
+				and itemorder = #{itemorder}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+</mapper>

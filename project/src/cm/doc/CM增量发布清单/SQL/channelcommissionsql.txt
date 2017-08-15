@@ -1,0 +1,29 @@
+alter table insbcommissionrate add column reminder varchar(200);
+alter table insbcommissionrate add column channelsource varchar(30);
+alter table insbcommissionrate add column productcode varchar(10);
+update insbcommissionrate set productcode='minizzb';
+update insbcommissionrate set channelsource='minizzb';
+
+INSERT INTO `insccode` (`id`, `operator`, `createtime`, `modifytime`, `noti`, `codetype`, `parentcode`, `codevalue`, `codename`, `codeorder`, `prop1`, `prop2`, `prop3`, `prop4`) 
+VALUES ('bussinessChannel001', 'heweicheng', '2016-11-08 11:08:16', NULL, '渠道佣金配置渠道来源', 'channelSource', 'market', 'channel', '渠道', '0', '0', NULL, NULL, NULL);
+INSERT INTO `insccode` (`id`, `operator`, `createtime`, `modifytime`, `noti`, `codetype`, `parentcode`, `codevalue`, `codename`, `codeorder`, `prop1`, `prop2`, `prop3`, `prop4`) 
+VALUES ('bussinessChannel002', 'heweicheng', '2016-11-08 11:08:16', NULL, '渠道佣金配置渠道来源', 'channelSource', 'market', 'nqd_minizzb2016', 'mini掌中保', '1', '0', NULL, NULL, NULL);
+
+CREATE TABLE `insbcommissionratio` (
+  `id` varchar(32) NOT NULL COMMENT '主键',
+  `channelid` varchar(32) NOT NULL COMMENT '渠道id',
+  `commissiontype` varchar(20) NOT NULL COMMENT '佣金类型',
+  `ratio` decimal(10,4) NOT NULL COMMENT '佣金系数',
+  `effectivetime` datetime NOT NULL COMMENT '生效时间',
+  `terminaltime` datetime DEFAULT NULL COMMENT '结束时间',
+  `status` varchar(1) NOT NULL COMMENT '状态',
+  `operator` varchar(20) NOT NULL COMMENT '操作员',
+  `createtime` datetime NOT NULL COMMENT '创建时间',
+  `modifytime` datetime DEFAULT NULL COMMENT '修改时间',
+  `noti` varchar(500) DEFAULT NULL,
+  `remark` varchar(500) DEFAULT NULL, 
+  PRIMARY KEY (`id`),
+  KEY `idx_insbcommissionratio_channelid` (`channelid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO  `insccode` (`id`, `operator`, `createtime`, `modifytime`, `noti`, `codetype`, `parentcode`, `codevalue`, `codename`, `codeorder`, `prop1`, `prop2`, `prop3`, `prop4`) VALUES ('conditionsource004', 'yuanzhe', '2016-06-06 14:17:43', NULL, '规则条件来源', 'conditionsource', 'market', '04', '佣金系数条件', '0', '0', NULL, NULL, NULL);

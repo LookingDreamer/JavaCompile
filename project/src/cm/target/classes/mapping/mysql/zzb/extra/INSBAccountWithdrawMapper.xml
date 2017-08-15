@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.extra.entity">
+    <!-- INSBAccountWithdraw -->
+    <select id="INSBAccountWithdraw_insert" parameterType="com.zzb.extra.entity.INSBAccountWithdraw" resultType="int">
+		insert into INSBAccountWithdraw
+		(id,operator,createtime,modifytime,noti,accountid,amount,bankname,branch,cardnumber,status)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{accountid},#{amount},#{bankname},#{branch},#{cardnumber},#{status})
+	</select>
+    <select id="queryAccountWithdrawList" parameterType="Map" resultType="Map">
+       	select w.id AS id,w.accountid AS accountid,a.agentid AS agentid,g.name AS agentname,CONCAT(w.bankname,IFNULL(CONCAT(' ',w.branch),'')) AS bankname,w.cardnumber AS cardnumber,
+        fs.codename AS status,REPLACE(FORMAT(w.amount,2),',','') AS amount,w.noti AS noti,
+        DATE_FORMAT(w.createtime,'%Y-%m-%d %H:%i:%s') AS createtime from INSBAccountWithdraw w
+        LEFT JOIN INSBAccount a ON w.accountid=a.id
+        LEFT JOIN INSBAgent g ON g.id=a.agentid
+        LEFT JOIN INSCcode fs ON fs.parentcode='accountDetails' and fs.codetype='withdrawStatus' and
+        fs.codevalue=w.status
+        <where>
+            <if test="agentid != null and agentid != ''">
+                and g.id = #{agentid}
+            </if>
+            <if test="agentname != null and agentname != ''">
+                and g.name = #{agentname}
+            </if>
+            <if test="cardnumber != null and cardnumber!=''">
+                and w.cardnumber = #{cardnumber}
+            </if>
+            <if test="status != null and status!=''">
+                and w.status = #{status}
+            </if>
+            <if test="startdate != null and startdate != ''">
+                and w.createtime &gt;= #{startdate}
+            </if>
+            <if test="enddate != null and enddate != ''">
+                and w.createtime &lt;= #{enddate}
+            </if>
+        </where>
+        ORDER BY
+        <if test="sort != null and order != null">
+            ${sort} ${order}
+        </if>
+        <if test="sort == null">
+            w.createtime desc
+        </if>
+        <if test="offset != null and limit != null">
+            LIMIT #{offset},#{limit}
+        </if>
+    </select>
+    <select id="INSBAccountWithdraw_selectById" parameterType="String"
+            resultType="com.zzb.extra.entity.INSBAccountWithdraw">
+		select * from INSBAccountWithdraw where id = #{id}
+	</select>
+    <select id="INSBAccountWithdraw_deleteById" parameterType="String">
+		delete from INSBAccountWithdraw where id = #{id}
+	</select>
+    <select id="INSBAccountWithdraw_updateById" parameterType="com.zzb.extra.entity.INSBAccountWithdraw">
+		update INSBAccountWithdraw  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},accountid = #{accountid},amount = #{amount},bankname = #{bankname},branch = #{branch},cardnumber = #{cardnumber},status = #{status} where id = #{id}
+	</select>
+    <select id="INSBAccountWithdraw_updateStatusAndNotiById" parameterType="com.zzb.extra.entity.INSBAccountWithdraw"
+            resultType="int">
+        update INSBAccountWithdraw  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},status = #{status} where id = #{id}
+    </select>
+    <select id="queryAccountWithdrawListCount" parameterType="Map" resultType="Long">
+       	select count(1) from INSBAccountWithdraw w
+        LEFT JOIN INSBAccount a ON w.accountid=a.id
+        LEFT JOIN INSBAgent g ON g.id=a.agentid
+        <where>
+            <if test="agentid != null and agentid != ''">
+                and g.id = #{agentid}
+            </if>
+            <if test="agentname != null and agentname != ''">
+                and g.name = #{agentname}
+            </if>
+            <if test="cardnumber != null and cardnumber!=''">
+                and w.cardnumber = #{cardnumber}
+            </if>
+            <if test="status != null and status!=''">
+                and w.status = #{status}
+            </if>
+            <if test="startdate != null and startdate != ''">
+                and w.createtime &gt;= #{startdate}
+            </if>
+            <if test="enddate != null and enddate != ''">
+                and w.createtime &lt;= #{enddate}
+            </if>
+        </where>
+    </select>
+    <select id="INSBAccountWithdraw_selectOne" parameterType="Map"
+            resultType="com.zzb.extra.entity.INSBAccountWithdraw">
+       	select * from INSBAccountWithdraw
+        <where>
+            <if test="accountid != null">
+                and accountid = #{accountid}
+            </if>
+            <if test="amount != null">
+                and amount = #{amount}
+            </if>
+            <if test="bankname != null">
+                and bankname = #{bankname}
+            </if>
+            <if test="cardnumber != null">
+                and cardnumber = #{cardnumber}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        LIMIT 2
+    </select>
+    <select id="queryBlocked" parameterType="String" resultType="Double">
+       	select SUM(amount) from INSBAccountWithdraw WHERE accountid=#{accountid} AND status='0'
+    </select>
+    <select id="queryMonthWithdraw" parameterType="String" resultType="Double">
+       	select SUM(amount) from INSBAccountWithdraw WHERE accountid=#{accountid} AND status='1' AND date_format(modifytime,'%Y-%m')=date_format(now(),'%Y-%m')
+    </select>
+    <select id="queryAgentNameByAccountid" parameterType="String" resultType="String" >
+        select g.name from   INSBAccount a
+        LEFT JOIN INSBAgent g ON g.id=a.agentid
+        where a.id = #{accountid}
+    </select>
+
+
+</mapper>

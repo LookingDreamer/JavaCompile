@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="appInsuredQuote">
+
+	<select id="getChildProviderList" parameterType="String" resultType="com.zzb.conf.entity.INSBProvider">
+		 SELECT * FROM insbprovider WHERE parentcode = #{pid}
+	</select>
+	
+	<select id="getShippingAddressList" parameterType="String" resultType="Map">
+		SELECT liv.recipientaddress address,liv.recipientprovince provinceId,liv.recipientcity cityId,liv.recipientname contactName ,liv.zip postCode,liv.recipientmobilephone contactTel,liv.recipientarea zoneId
+		FROM insbperson person ,insctask task , insborder ord ,insborderdelivery liv 
+		<where>
+		 	person.taskid = task.id AND task.id = ord.taskid  AND liv.orderid = ord.id  
+		 	<if test="_parameter!=null and _parameter != ''">
+		 		AND person.id = #{_parameter}
+		 	</if>
+		</where>
+	</select>
+	
+	<select id="queryInsureConfigByKeyModel" parameterType="String" resultType="com.zzb.app.model.InsureConfigModel">
+		SELECT c.id,p.planname,p.plankey,c.type,c.riskkindname,c.riskkindcode,
+		c.prekindcode,c.isdeductible,c.datatemp 
+		FROM insbriskkindconfig c,insbriskplanrelation p 
+ 		<where>
+ 			p.isshow = 0 AND p.riskkindid = c.id  AND c.type &lt;&gt;'1'
+			<if test="_parameter!=null and _parameter != ''">
+			    AND p.plankey = #{_parameter}
+			</if>
+		</where>
+		ORDER BY c.id ASC
+	</select>
+	
+	<select id="queryAgentPowerByAgentId" parameterType="String" resultType="Map">
+		SELECT ap.agentid,ap.permissionid,ap.frontstate,ap.weblogin,ap.phonelogin,ap.deviceslogin,ap.num,
+		ap.functionstate,ap.validtimestart,ap.validtimeend,ap.abort,ap.status,p.permissionname,p.permissionpath 
+		FROM insbagentpermission ap,insbpermission p
+		WHERE ap.permissionid = p.id 
+		<if test="_parameter != null and _parameter != ''">
+				and ap.agentid = #{_parameter}
+		</if>
+	</select>
+	<select id="queryPayExpressinfo" parameterType="Map" resultType="Map">
+		SELECT DISTINCT
+		chann.favorabledescribe 'concessionsDesc',chann.paytarget 'payTarget',chann.collectiontype 'payee',chann.paychannelid 'payChannel',chann.sort 'displayOrder',
+		dis.distpaytype deliveryFreight,dis.noti 'desc'
+	 FROM insbprovider pro,insbagreement agr,insbdistributiontype dis ,insbpaychannelmanager chann 
+		<where> 
+			pro.id = agr.providerid AND dis.agreementid = agr.id AND chann.agreementid = agr.id 
+			<if test="id!=null and id != ''">
+				AND pro.id = #{id}
+			</if>
+			<if test="cityCode!=null and cityCode != ''">
+				
+			</if>
+		</where>
+	</select>
+	
+	<select id="queryPayTarget" parameterType="String" resultType="String">
+		SELECT codename FROM insccode 
+		<where>
+			codetype = 'tradingobject' 
+			<if test="codevalue!=null and codevalue !=''">
+				and codevalue= #{codevalue}
+			</if>
+		</where> 
+	</select>
+	<select id="queryPay" parameterType="String" resultType="com.zzb.conf.entity.INSBPaychannel">
+		SELECT pay.* FROM insbpaychannelmanager manger,insbpaychannel pay 
+		<where>
+			 pay.id=manger.paychannelid 
+			<if test="_parameter!=null and _parameter != ''">
+				AND manger.paychannelid = #{_parameter}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getAgreementProvidersByArea" parameterType="Map" resultType="String">
+		SELECT GROUP_CONCAT(temp.providerid) AS ids FROM (
+		SELECT a.* FROM inscdept cd,insbagreementscope s,insbagreement a 
+		WHERE cd.id = s.deptid AND cd.comgrade = '05'
+		AND a.id = s.agreementid
+		<if test="province != null and province != ''">
+				 AND cd.province = #{province}
+		</if>
+		<if test="city != null and city != ''">
+				AND cd.city = #{city}
+		</if>
+		 GROUP BY a.providerid) temp
+	</select>
+	
+	<!-- 查询 协议 及 供应商信息 -->
+	<select id="getAgreementProByCity" parameterType="Map" resultType="Map">
+		SELECT DISTINCT a.id as aid ,sp.id as spid,fp.id as fpid FROM inscdept cd,insbagreementscope s,insbagreement a,insbprovider sp,insbprovider fp
+		WHERE cd.id = s.deptid AND cd.comtype = '05' AND a.agreementstatus ='1'
+		AND a.id = s.agreementid
+	  	<if test="province != null and province != ''">
+				 AND cd.province = #{province}
+		</if>
+		<if test="city != null and city != ''">
+				AND cd.city = #{city}
+		</if>
+		AND fp.id = left(sp.id, 4) 
+		AND sp.id = a.providerid
+	</select>
+	
+	
+	
+	
+	<select id="getAllProviderList" parameterType="Map" resultType="String">
+		 SELECT GROUP_CONCAT(p.id) as ids 
+		 FROM insbagent a,insbagentprovider ap,insbprovider p
+		 WHERE a.id = ap.agentid AND p.id = ap.providerid 
+		<if test="agentid != null and agentid != ''">
+				and a.id = #{agentid}
+		</if>
+		<if test="channeltype != null and channeltype != ''">
+				and p.businesstype LIKE CONCAT(CONCAT('%', #{channeltype}), '%');
+		</if>
+	</select>
+	<select id="queryProviderListByIds" parameterType="java.util.List" resultType="com.zzb.conf.entity.INSBProvider">
+		 SELECT * FROM insbprovider
+		<if test="list != null and list.size() > 0">
+			WHERE id IN
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	            #{item}
+	         </foreach>
+         </if>
+	</select>
+	<select id="queryAgreementListByPids" parameterType="java.util.List" resultType="com.zzb.conf.entity.INSBAgreement">
+		 SELECT * FROM insbagreement
+		<if test="list != null and list.size() > 0">
+			WHERE providerid IN
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	            #{item}
+	         </foreach>
+         </if>
+	</select>
+	<select id="queryInsureConfigByKey" parameterType="String" resultType="com.zzb.mobile.model.InsureConfigsModel">
+		SELECT c.id,p.planname,p.plankey,c.type,c.riskkindname,c.riskkindcode,c.shortname,
+		c.prekindcode,c.isdeductible,c.datatemp,p.isselected as selected,p.selectkey as selectkey,p.isflag as isflag  
+		FROM insbriskkindconfig c,insbriskplanrelation p 
+ 		<where>
+ 			p.isshow = 0 AND p.riskkindid = c.id 
+			<if test="_parameter!=null and _parameter != ''">
+			    AND p.plankey = #{_parameter}
+			</if>
+		</where>
+		ORDER BY c.id ASC 
+	</select>
+	
+	<select id="queryRiskItemsByProviderids" parameterType="java.util.List" resultType="com.zzb.conf.entity.INSBRiskitem">
+		SELECT i.* FROM insbriskitem i,insbrisk r
+		WHERE i.riskid = r.id AND i.isusing = '1' 
+		<if test="list != null and list.size() > 0">
+			AND r.provideid IN
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	            #{item}
+	         </foreach>
+         </if>
+	</select>
+	
+	<select id="queryInsuredPersonInfoByTaskid" parameterType="String" resultType="com.zzb.cm.entity.INSBPerson">
+		SELECT p.* FROM insbPerson p,insbinsured i 
+		WHERE i.personid = p.id AND i.taskid = p.taskid 
+		<if test="_parameter!=null and _parameter != ''">
+			AND	p.taskid =  #{_parameter}
+			</if>
+	</select>
+	
+	<select id="queryApplicantPersonInfoByTaskid" parameterType="String" resultType="com.zzb.cm.entity.INSBPerson">
+		SELECT p.* FROM insbPerson p,insbapplicant i 
+		WHERE i.personid = p.id AND i.taskid = p.taskid 
+		<if test="_parameter!=null and _parameter != ''">
+			AND	p.taskid =  #{_parameter}
+			</if>
+	</select>
+	
+	<select id="queryCarowneinfoPersonInfoByTaskid" parameterType="String" resultType="com.zzb.cm.entity.INSBPerson">
+		SELECT p.* FROM insbPerson p,insbcarowneinfo i 
+		WHERE i.personid = p.id AND i.taskid = p.taskid 
+		<if test="_parameter!=null and _parameter != ''">
+			AND	p.taskid =  #{_parameter}
+			</if>
+	</select>
+	
+	<select id="selectNeedUploadImage" parameterType="java.util.List" resultType="com.zzb.mobile.model.InsuranceImageBean">
+		SELECT i.riskimgname,i.riskimgtype,c.codename AS riskimgtypename,c.codetype as codetype 
+		FROM insbriskimg i,insbrisk r,insccode c  
+		WHERE i.isusing = '1' AND c.parentcode = 'insuranceimage' 
+		AND i.riskid = r.id AND c.codevalue = i.riskimgtype  
+		<if test="list != null and list.size() > 0">
+			 AND r.provideid IN 
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	            #{item}
+	         </foreach>
+         </if>
+         GROUP BY c.codetype
+		 ORDER BY c.codeorder ASC
+	</select>
+
+	<select id="selectNeedUploadImageByParentcode" parameterType="String" resultType="com.zzb.mobile.model.InsuranceImageBean">
+		SELECT '' AS riskimgname,'' AS riskimgtype, c.codename AS riskimgtypename,c.codetype as codetype
+		FROM insccode c
+		WHERE  c.parentcode = 'insuranceimage'
+         ORDER BY c.codeorder ASC
+	</select>
+
+	<select id="selectNeedUploadImageByCodeType" parameterType="java.util.List" resultType="com.zzb.mobile.model.InsuranceImageBean">
+		SELECT '' AS riskimgname,'' AS riskimgtype, c.codename AS riskimgtypename,c.codetype as codetype
+		FROM insccode c
+		WHERE c.parentcode = 'insuranceimage'
+		<if test="list != null and list.size() > 0">
+			AND c.codetype IN
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		GROUP BY c.codetype
+		ORDER BY c.codeorder ASC
+
+	</select>
+
+	<select id="selectNeedUploadImageByCodeValue" parameterType="java.util.List" resultType="com.zzb.mobile.model.InsuranceImageBean">
+		SELECT '' AS riskimgname,'' AS riskimgtype, c.codename AS riskimgtypename,c.codetype as codetype
+		FROM insccode c
+		WHERE c.parentcode = 'insuranceimage'
+		<if test="list != null and list.size() > 0">
+			 AND c.codevalue IN
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	            #{item}
+	         </foreach>
+         </if>
+         GROUP BY c.codetype
+		 ORDER BY c.codeorder ASC
+	</select>
+	
+	<select id="selectAlreadyUploadImage" parameterType="String" resultType="Map">
+		SELECT fl.id, fl.filetype, fl.filecodevalue, fl.filepath, fl.smallfilepath, fl.filedescribe
+		FROM insbfilelibrary fl,insbfilebusiness fb, insccode c
+		WHERE fl.id=fb.filelibraryid AND fl.filetype=c.codetype AND fl.filecodevalue=c.codevalue
+				<if test="_parameter!=null and _parameter != ''">
+					AND fb.code = #{_parameter}
+				</if>
+				<!--AND fb.id IN
+				(
+				SELECT MAX(fb.id) id
+				FROM insbfilelibrary fl,insbfilebusiness fb
+				WHERE fl.id=fb.filelibraryid
+				<if test="_parameter!=null and _parameter != ''">
+					AND fb.code = #{_parameter}
+				</if>
+				GROUP BY fl.filetype
+				)-->
+		ORDER BY c.codeorder
+	</select>
+
+	<select id="selectUserAlreadyUploadImageCarlicenseno" parameterType="Map" resultType="Map">
+		SELECT AA.agentnum,AA.taskid, AA.carlicenseno, AA.fileCount fileCount, AA.name
+		FROM
+		(
+		SELECT quote_.agentnum,quote_.taskid, car.carlicenseno, COUNT(file_.code) fileCount, b.name
+		FROM INSBQuotetotalinfo quote_ INNER JOIN INSBCarinfo car ON quote_.taskid=car.taskid
+		INNER JOIN INSBFilebusiness file_ ON quote_.taskid=file_.code
+		INNER JOIN insbfilelibrary filelib_ ON file_.`filelibraryid`=filelib_.`id`
+		LEFT JOIN insbinsured a ON quote_.taskid=a.taskid
+		LEFT JOIN insbperson b ON a.personid=b.id
+		WHERE 1=1
+		<if test="agentnum != null and agentnum != ''">
+			AND quote_.agentnum = #{agentnum}
+		</if>
+		<if test="carlicenseno != null and carlicenseno != ''">
+			AND (car.carlicenseno LIKE CONCAT(CONCAT('%', #{carlicenseno}), '%')  OR  b.name LIKE CONCAT(CONCAT('%', #{carlicenseno}), '%'))
+		</if>
+		GROUP BY file_.code <!-- , filelib_.`filetype`-->
+		ORDER BY quote_.createtime DESC
+		) AA
+		GROUP BY AA.taskid
+		ORDER BY AA.taskid+0 DESC
+	</select>
+	
+	<select id="verificationInsuredConfig" parameterType="Map" resultType="Long">
+		SELECT COUNT(rk.id) FROM insbrisk r,insbriskkind rk 
+		WHERE r.id = rk.riskid
+		<if test="riskcode!=null and riskcode != ''">
+		 	 AND rk.kindcode = #{riskcode}
+		</if>
+		<if test="prid!=null and prid != ''">
+		 	 AND r.provideid = #{prid}
+		</if>
+	</select>
+	
+	<select id="verificationInsuredConfigIn" parameterType="Map" resultType="com.zzb.mobile.model.VerificationConfigBean">  
+	     SELECT rk.kindcode as kindcode,r.provideid as provideid
+	     	FROM insbrisk r,insbriskkind rk 
+			WHERE r.id = rk.riskid 
+			and r.provideid IN
+		    <foreach item="itemProvideId" index="index" collection="provideIdsubList" open="(" separator="," close=")">  
+		      	#{itemProvideId}
+		    </foreach> 
+		    <if test="riskKindCodeList != null and riskKindCodeList.size()>0">
+		        AND rk.kindcode IN
+		     	<foreach item="itemRiskKindCode" index="index" collection="riskKindCodeList" open="(" separator="," close=")">  
+		      		#{itemRiskKindCode}
+		     	</foreach>
+	     	</if>
+	</select>  
+	
+	<select id="selectInputCodeByElfId" parameterType="Map" resultType="Map">
+		SELECT sk.skillname,co.codename,co.codetype 
+		FROM insbskill sk,insccode co 
+		WHERE sk.inputcode = co.codevalue  
+		<if test="code !=null and code != ''">
+		 	 AND co.parentcode = #{code}
+		</if>
+		<if test="elfid !=null and elfid != ''">
+		 	 AND sk.elfid = #{elfid}
+		</if>
+	</select>
+	
+	<select id="selectOneElfconf" parameterType="String" resultType="com.zzb.conf.entity.INSBElfconf">
+		select c.* from insbelfconf c, insbautoconfig a
+		 where a.contentid = c.id
+		<if test="_parameter!=null and _parameter != ''">
+				 and quotetype=2 and conftype like '%03%'
+				 and a.providerid like CONCAT(#{_parameter}, '%')
+		</if>
+		limit 1
+	</select>
+	
+	<select id="selectOneElfconfDeptIdPt"  parameterType="Map" resultType="com.zzb.conf.entity.INSBElfconf">
+		select c.* from insbelfconf c,insbautoconfig a
+		where a.contentid = c.id 
+			<if test="_parameter!=null and _parameter != ''">
+				and quotetype=2 and conftype like '%05%' and a.deptid = #{_parameter}
+			</if>
+		limit 1
+	</select>
+	
+	<select id="sellectCityAreaByAgreeid" parameterType="String" resultType="com.cninsure.system.entity.INSCDept">
+		SELECT d.* FROM insbagent a,inscdept d 
+		WHERE a.deptid = d.id
+		<if test="_parameter!=null and _parameter != ''">
+		 	AND a.id =  #{_parameter}
+		</if>
+	</select>
+	
+	<select id="selectCarinfoModelBean" parameterType="String" resultType="com.zzb.mobile.model.QueryCarinfoModelBean">
+		SELECT ci.engineno,ci.vincode,ci.isTransfercar,ci.transferdate,ci.registdate,
+		ci.property,ci.carproperty,cm.brandname,cm.displacement,cm.seat,cm.carprice,cm.policycarprice,cm.unwrtweight,cm.fullweight
+		FROM insbcarinfo ci,insbcarmodelinfo cm
+		WHERE cm.carinfoid = ci.id 
+		<if test="_parameter!=null and _parameter != ''">
+		 	 AND ci.taskid = #{_parameter}
+		</if>
+	</select>
+	
+	<!-- 通过协议ID 获取出单网点机构-->
+	<select id="getOutProviderList" parameterType="String" resultType="com.cninsure.system.entity.INSCDept">
+		 select d.* from INSBOutorderdept a,inscdept d  
+		 where   a.deptid5 = d.id 
+		<if test="_parameter!=null and _parameter != ''">
+		 	 and a.agreementid = #{_parameter}
+		</if>
+		ORDER BY a.scaleflag DESC
+	</select>
+	
+	<select id="queryInsureConfigByKindCode" parameterType="java.util.List" resultType="com.zzb.mobile.model.InsureConfigsModel">
+		SELECT c.id,c.type,c.riskkindname,c.riskkindcode,
+		c.prekindcode,c.isdeductible,c.datatemp 
+		FROM insbriskkindconfig c,insbriskplanrelation rp 
+ 		<where>
+			<if test="list != null and list.size() > 0">
+			 c.riskkindcode IN 
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	            #{item}
+	         </foreach>
+         </if>
+         AND c.type &lt;&gt; '1'
+         AND rp.riskkindid = c.id
+         AND rp.plankey = 'jjshx'
+		</where>
+		ORDER BY c.id ASC 
+	</select>
+	
+	<select id="querySelectedInsure" parameterType="Map" resultType="com.zzb.mobile.model.InsureConfigsModel">
+		SELECT b.id,b.type, b.riskkindname,  b.riskkindcode ,b.prekindcode ,b.shortname,
+		b.isdeductible AS isdeductible,b.datatemp,a.selecteditem AS selectkey,a.notdeductible AS isflag
+		FROM insbriskkindconfig b
+		LEFT JOIN insbcarkindprice a ON b.riskkindcode = a.inskindcode AND a.inskindtype &lt;&gt; '1' 
+		AND a.taskid = #{taskid} AND a.inscomcode = #{inscomcode}
+		LEFT JOIN insbriskplanrelation rp ON rp.riskkindid = b.id 
+		WHERE rp.plankey = #{plankey} ORDER BY b.id ASC 
+	</select>
+	
+	<select id="querySelectedInsuresnbxpz" parameterType="Map" resultType="com.zzb.mobile.model.InsureConfigsModel">
+		SELECT b.id,b.type, b.riskkindname,  b.riskkindcode ,b.prekindcode ,
+		b.isdeductible AS isdeductible,b.datatemp,a.selecteditem AS selectkey,a.notdeductible AS isflag
+		FROM insbcarkindprice a,insbriskkindconfig b
+		WHERE b.riskkindcode = a.inskindcode AND a.inskindtype &lt;&gt; '1' 
+		<if test="taskid != null and taskid != ''">
+				and a.taskid = #{taskid}
+		</if>
+		<if test="inscomcode != null and inscomcode != ''">
+				and a.inscomcode = #{inscomcode}
+		</if>
+		ORDER BY b.id ASC 
+	</select>
+	
+	<select id="querySelectedAllInsure" parameterType="Map" resultType="com.zzb.mobile.model.InsureConfigsModel">
+		SELECT b.id,b.type, b.riskkindname,  b.riskkindcode ,b.prekindcode,b.shortname,
+		b.isdeductible AS isdeductible,b.datatemp,a.selecteditem AS selectkey,a.notdeductible AS isflag
+		FROM insbcarconfig a,insbriskkindconfig b
+		WHERE b.riskkindcode = a.inskindcode AND a.inskindtype &lt;&gt; '1'
+		<if test="taskid != null and taskid != ''">
+				and a.taskid = #{taskid}
+		</if>
+		ORDER BY b.id ASC 
+	</select>
+	
+	<select id="querySelectedAllInsuresnbxpz" parameterType="Map" resultType="com.zzb.mobile.model.InsureConfigsModel">
+		SELECT b.id,b.type, b.riskkindname,  b.riskkindcode ,b.prekindcode ,b.shortname,
+		b.isdeductible AS isdeductible,b.datatemp,a.selecteditem AS selectkey,a.notdeductible AS isflag
+		FROM insbriskkindconfig b
+		LEFT JOIN insbcarconfig a ON b.riskkindcode = a.inskindcode AND a.inskindtype &lt;&gt; '1' AND a.taskid = #{taskid}
+		LEFT JOIN insbriskplanrelation rp ON rp.riskkindid = b.id 
+		WHERE rp.plankey = #{plankey} ORDER BY b.id ASC 
+	</select>
+	
+	<select id="updateInsbQuoteinfoById" parameterType="Map">
+		update INSBQuoteinfo set workflowinstanceid = #{workflowinstanceid},modifytime = NOW() where id = #{id}
+	</select>
+
+	<select id="selectInsbQuoteInfoByTaskidAndPid" parameterType="Map" resultType="com.zzb.cm.entity.INSBQuoteinfo">
+		SELECT qi.* FROM insbquotetotalinfo qt,insbquoteinfo qi 
+		WHERE qt.id = qi.quotetotalinfoid AND qt.taskid = #{taskid}	AND qi.inscomcode = #{inscomcode} 
+	</select>
+	<select id="getSelectedProvidersByTaskid" parameterType="String" resultType="com.zzb.cm.entity.INSBQuoteinfo">
+		SELECT qi.* FROM insbquotetotalinfo qt,insbquoteinfo qi 
+		WHERE qt.id = qi.quotetotalinfoid AND qt.taskid = #{_parameter}
+	</select>
+	<!-- 根据codetype从字典表中获取车辆性质、所属性质、车价选择信息 -->
+	<select id="select_all" parameterType="String" resultType="Map">
+		SELECT codename,codevalue FROM insccode WHERE codetype = #{codetype} order by codeorder 	
+	</select>
+	
+	<select id="queryProviderOrderDesc" parameterType="java.util.List" resultType="String">
+		SELECT id FROM insbprovider
+		WHERE		
+		<if test="list != null and list.size() > 0">
+			 id IN 
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	            #{item}
+	         </foreach>
+         </if>
+         ORDER BY orderflag DESC 
+	</select>
+	
+	<select id="getInsuredConfigs" parameterType="map" resultType="com.zzb.cm.entity.INSBCarkindprice">
+		SELECT bp.* 
+		FROM insbcarkindprice bp 
+		WHERE
+		 <if test="taskid != null and taskid != ''">
+				bp.taskid =  #{taskid}
+		</if>
+		<if test="inscomcode != null and inscomcode != ''">
+				 AND bp.inscomcode = #{inscomcode}
+		</if>
+		GROUP BY bp.id
+	</select>
+	<select id="getDeptInfo" parameterType="map" resultType="map">
+		SELECT
+        a.comname AS comname,
+        d.comname AS upcomname,
+        b.platenumber AS platenumber
+        FROM
+        inscdept AS a
+         LEFT JOIN insbquoteinfo AS b ON b.deptcode = a.id
+        LEFT JOIN insbquotetotalinfo AS c ON c.id = b.quotetotalinfoid
+        INNER JOIN inscdept AS d ON a.upcomcode = d.id
+      WHERE
+       c.taskid = #{taskid} AND
+       b.inscomcode = #{inscomcode}
+	</select>
+	
+	<select id="getAgreementidPidByAgentid" parameterType="Map" resultType="com.zzb.mobile.model.SelectProviderBean">
+		SELECT a.id AS agreementid,a.agreementname AS agreementname,sp.id AS provid,LEFT(sp.id,4) AS parentid 
+		FROM inscdept cd,insbagreementscope s,
+		insbagreement a,insbprovider sp,insbagent ag, insbpermissionset ps
+		WHERE  cd.comtype = '05' 
+		AND a.agreementstatus ='1'
+		AND cd.id = s.deptid
+		AND a.id = s.agreementid 
+		AND sp.id = a.providerid
+		AND ag.deptid = cd.id 
+       <if test="agentid!=null and agentid != ''">
+		 	 AND ag.id = #{agentid}
+		</if>
+		AND ps.id = #{setId}
+		AND ps.`status` = 2
+		ORDER BY sp.orderflag DESC
+	</select>
+
+    <select id="getRenewalAgreementidPidByAgentid" parameterType="String" resultType="com.zzb.mobile.model.SelectProviderBean">
+        SELECT a.id AS agreementid,a.agreementname AS agreementname,sp.id AS provid,LEFT(sp.id,4) AS parentid
+        FROM inscdept cd,insbagreementscope s,
+        insbagreement a,insbprovider sp,insbagent ag
+        WHERE  cd.comtype = '05'
+        AND a.agreementstatus ='1'
+        AND cd.id = s.deptid
+        AND a.id = s.agreementid
+        AND sp.id = a.providerid
+        AND ag.deptid = cd.id
+        AND a.renewalenable = 1
+		and a.underwritestatus = 1
+        <if test="_parameter!=null and _parameter != ''">
+            AND ag.id = #{_parameter}
+        </if>
+        ORDER BY sp.orderflag DESC
+    </select>
+	
+	<select id="getAgreementidPidByAgentidHavesetid" parameterType="Map" resultType="com.zzb.mobile.model.SelectProviderBean">
+		SELECT tem.agreementid,tem.agreementname,tem.provid,tem.parentid,tem.orderflag FROM (
+		SELECT a.id AS agreementid,a.agreementname AS agreementname,sp.id AS provid,LEFT(sp.id,4) AS parentid,sp.orderflag,ag.setid 
+		FROM inscdept cd,insbagreementscope s,
+		insbagreement a,insbprovider sp,insbagent ag
+		WHERE  cd.comtype = '05' 
+		AND a.agreementstatus ='1'
+		AND cd.id = s.deptid
+		AND a.id = s.agreementid 
+		AND sp.id = a.providerid
+		AND ag.deptid = cd.id 
+		<if test="agentid!=null and agentid != ''">
+		 	 AND ag.id = #{agentid}
+		</if>
+		) tem ,insbitemprovidestatus ips , insbpermissionset ps
+		WHERE ips.setid = #{setId}
+		AND tem.agreementid = ips.provideid
+		AND ips.`setid` = ps.`id`
+		AND ps.`status` = 2
+		ORDER BY tem.orderflag DESC
+	</select>
+	
+	<select id="selectCarmodelInfoByTaskid" parameterType="String" resultType="com.zzb.cm.entity.INSBCarmodelinfo">
+		SELECT cm.* FROM insbcarinfo c,insbcarmodelinfo cm WHERE c.id = cm.carinfoid 	
+       <if test="_parameter!=null and _parameter != ''">
+		 	  AND c.taskid = #{_parameter}
+		</if>
+	</select>
+	
+	<select id="selectOneWorkflowsubtrack" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowsubtrack">
+		select * from INSBWorkflowsubtrack where instanceid = #{instanceid} and maininstanceid = #{maininstanceid} and taskcode = #{taskcode}
+		limit 1
+	</select>
+	
+	<select id="selectAutoconfigList" parameterType="Map" resultType="com.zzb.conf.entity.INSBAutoconfig">
+		SELECT * FROM insbautoconfig WHERE providerid = #{providerid}  AND deptid = #{deptid}
+	</select>
+	
+	<select id="getCodeValueFromCode" parameterType="String" resultType="String">
+		SELECT codevalue FROM insccode WHERE parentcode = 'riskkindconfig' AND codetype = 'riskkindconfig' 
+		<if test="_parameter!=null and _parameter != ''">
+		 	  AND codename = #{_parameter}
+		</if>
+	</select>
+	<select id="queryWorkflowStatusByMainAndSub" parameterType="Map" resultType="String">
+		SELECT ww.taskcode FROM insbquoteinfo qi,insbquotetotalinfo qt,insbworkflowsub ww  
+		WHERE qt.id = qi.quotetotalinfoid AND qt.taskid = ww.maininstanceid 
+		AND ww.instanceid = qi.workflowinstanceid 
+		AND qi.inscomcode = #{inscomcode} AND qt.taskid = #{maininstanceid} LIMIT 1
+	</select>
+	
+	<select id="querySpecialInsuredConf" parameterType="Map" resultType="com.zzb.mobile.model.NewEquipmentInsBean">
+		SELECT codekey AS `key`,codevalue AS `value` 
+		FROM insbspecialkindconfig 
+		WHERE taskid = #{taskid} AND typecode = #{typecode} AND inscomcode = #{inscomcode}
+	</select>
+	
+	<select id="isHaveFastRenewConfig" parameterType="String" resultType="Int">
+		SELECT COUNT(id) FROM insbautoconfig WHERE providerid LIKE CONCAT(#{_parameter},'%') AND conftype LIKE '%03%'
+	</select>
+	
+	<select id="selectIwantCarkindpriceData" parameterType="Map" resultType="com.zzb.cm.entity.INSBCarkindprice">
+		select * from INSBCarkindprice
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="inskindcode != null">
+				and inskindcode = #{inskindcode}
+			</if>
+			<if test="list != null and list.size() > 0">
+				and inskindtype IN 
+				<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+		            #{item}
+		         </foreach>
+         	</if>
+		</where>
+	</select>
+	
+	<select id="queryInsureConfigByKey1343541" parameterType="String" resultType="com.zzb.mobile.model.InsureConfigsModel">
+		SELECT c.id,p.planname,p.plankey,c.type,c.riskkindname,c.riskkindcode,
+		c.prekindcode,c.isdeductible,c.datatemp,p.isselected as selected,p.selectkey as selectkey,p.isflag as isflag  
+		FROM insbriskkindconfig c,insbriskplanrelation p 
+ 		<where>
+ 			p.isshow = 0 AND p.riskkindid = c.id 
+			<if test="_parameter!=null and _parameter != ''">
+			    AND p.plankey = #{_parameter}
+			</if>
+		</where>
+		ORDER BY c.id ASC 
+	</select>
+	
+	<select id="selectQuoteInfoListDesc" parameterType="String" resultType="com.zzb.cm.entity.INSBQuoteinfo">
+		SELECT q.*,co.codename,co.codeorder FROM insbquoteinfo q
+		LEFT JOIN insbquotetotalinfo qt ON qt.id = q.quotetotalinfoid
+		LEFT JOIN INSBWorkflowsub wm ON wm.instanceid = q.workflowinstanceid
+		LEFT JOIN insccode co ON co.codetype = 'workflowNodelName' AND co.codevalue = wm.taskcode
+		<where>
+			<if test="_parameter!=null and _parameter != ''">
+				qt.taskid = #{_parameter}
+			</if>
+		</where>
+		ORDER BY co.prop1 DESC
+	</select>
+
+	<select id="selectSpecialRiskkind" parameterType="Map" resultType="com.zzb.cm.entity.INSBCarkindprice">
+		select * from INSBCarkindprice where taskid = #{taskid} and inscomcode = #{inscomcode}
+		and inskindcode in('Ncfaddtionalclause','NcfBasicClause','NcfDriverPassengerIns','NcfClause');
+	</select>
+	
+	<select id="deletedata" parameterType="String">
+		CALL clear_data_by_taskid(#{taskid});
+	</select>
+	
+	<select id="selectmoredata" resultType="String">
+		SELECT taskid FROM insbcarinfo WHERE ownername REGEXP '测试|[A-Za-z0-9]'
+	</select>
+	
+	<select id="getTobeinsuredNum" parameterType="Map" resultType="long">
+		/*slave*/SELECT COUNT(1) FROM insbquotetotalinfo qt,insbworkflowmain wm 
+		WHERE qt.taskid = wm.instanceid AND wm.taskcode = '2' 
+		AND (qt.agentnum = #{agentnum} OR qt.lzgshareid = #{shareagentnum})
+		<!-- AND qt.agentnum = #{agentnum} -->
+		AND EXISTS (SELECT 1 FROM insbworkflowsub ws 
+		WHERE qt.taskid = ws.maininstanceid AND ws.taskstate != 'Closed' 
+		AND ws.taskcode NOT IN ("25","26","27","28","23","24","21","20"))
+		AND NOT EXISTS(SELECT 1 FROM insbworkflowsub ws 
+		WHERE qt.taskid = ws.maininstanceid AND ws.taskstate != 'Closed'
+		AND ws.taskcode = "20") 
+	</select>
+	
+	<select id="getTobePaymentOrderNum" parameterType="Map" resultType="Map">
+		/*slave*/SELECT qt.taskid,q.inscomcode,q.workflowinstanceid FROM
+		(select id,taskid from  INSBQuotetotalinfo
+		where  agentnum = #{agentnum} 	and deleteflag IS NULL
+			<if test="purchaserid!=null and purchaserid != ''">
+				and purchaserid = #{purchaserid}
+			</if>
+			<if test="purchaserchannel!=null and purchaserchannel != ''">
+				and purchaserchannel = #{purchaserchannel}
+			</if>
+		<if test="shareagentnum!=null and shareagentnum != ''">
+			UNION ALL
+			select id,taskid from  INSBQuotetotalinfo
+			where   lzgshareid = #{shareagentnum} and deleteflag IS NULL
+				<if test="purchaserid!=null and purchaserid != ''">
+					and purchaserid = #{purchaserid}
+				</if>
+				<if test="purchaserchannel!=null and purchaserchannel != ''">
+					and purchaserchannel = #{purchaserchannel}
+				</if>
+		</if>
+		) qt
+		INNER JOIN insbquoteinfo q ON q.quotetotalinfoid = qt.id
+		INNER JOIN insbworkflowsub ws ON q.workflowinstanceid = ws.instanceid and ws.taskcode = '20'
+	</select>
+</mapper>

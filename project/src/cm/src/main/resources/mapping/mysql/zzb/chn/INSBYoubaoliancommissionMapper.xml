@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.chn.entity">
+	<!-- INSBYoubaoliancommission --> 
+	<select id="INSBYoubaoliancommission_insert" parameterType="com.zzb.chn.entity.INSBYoubaoliancommission" resultType="int">
+		insert into INSBYoubaoliancommission
+		(id,createtime,modifytime,taskId,checkedId,checkedState,ret,code,msg,salesmanSettleFee,platformSettleFee,supplierSettleFee,supplierAccount,platformAccount,biSettlePoint,ciSettlePoint,vvTaxSettlePoint) 
+		values
+		(#{id},#{createtime},#{modifytime},#{taskId},#{checkedId},#{checkedState},#{ret},#{code},#{msg},#{salesmanSettleFee},#{platformSettleFee},#{supplierSettleFee},#{supplierAccount},#{platformAccount},#{biSettlePoint},#{ciSettlePoint},#{vvTaxSettlePoint}) 
+	</select> 
+	
+</mapper>

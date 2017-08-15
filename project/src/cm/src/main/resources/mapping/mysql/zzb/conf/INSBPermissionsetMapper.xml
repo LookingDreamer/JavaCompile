@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBPermissionset -->
+	<select id="INSBPermissionset_insert" parameterType="com.zzb.conf.entity.INSBPermissionset" resultType="int">
+		insert into INSBPermissionset
+		(id,operator,createtime,modifytime,noti,setcode,setname,deptid,treedept,agentkind,istest,status,isnew) 
+		values 
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{setcode},#{setname},#{deptid},#{treedept},#{agentkind},#{istest},#{status},#{isnew}) 
+	</select>
+	
+	<select id="INSBPermissionset_insertreturnId" parameterType="com.zzb.conf.entity.INSBPermissionset" resultType="int">
+		insert into INSBPermissionset
+		(id,operator,createtime,modifytime,noti,setcode,setname,deptid,treedept,agentkind,istest,status,isnew) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{setcode},#{setname},#{deptid},#{treedept},#{agentkind},#{istest},#{status},#{isnew}) 
+	</select>
+	
+	<select id="INSBPermissionset_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBPermissionset">
+		select * from INSBPermissionset
+		<where>
+			<if test="setcode != null">
+				and setcode = #{setcode}
+			</if>
+			<if test="isnew != null and isnew!=0">
+				and isnew = #{isnew}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="setname != null">
+				and setname = #{setname}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="treedept != null">
+				and treedept = #{treedept}
+			</if>
+			<if test="agentkind != null">
+				and agentkind = #{agentkind}
+			</if>
+			<if test="istest != null">
+				and istest = #{istest}
+			</if>
+		</where>
+	</select>
+	<select id="INSBPermissionset_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBPermissionset">
+		select * from INSBPermissionset
+		<where>
+			<if test="setcode != null">
+				and setcode = #{setcode}
+			</if>
+			<if test="isnew != null and isnew!=0">
+				and isnew = #{isnew}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="setname != null">
+				and setname = #{setname}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="treedept != null">
+				and treedept = #{treedept}
+			</if>
+			<if test="agentkind != null">
+				and agentkind = #{agentkind}
+			</if>
+			<if test="istest != null">
+				and istest = #{istest}
+			</if>
+		</where>
+		limit 2
+	</select>
+	<select id="INSBPermissionset_selectByDeptAndAgentkind" parameterType="Map" resultType="com.zzb.conf.entity.INSBPermissionset">
+		select  id,setcode,setname,deptid,agentkind,status from INSBPermissionset where status = '2'
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="agentkind != null and agentkind!=0">
+				and agentkind = #{agentkind}
+			</if>
+	</select>
+	<!-- 带分页查询 -->
+	<select id="INSBPermissionset_selectPage" parameterType="Map" resultType="com.zzb.conf.entity.INSBPermissionset">
+		select @rownum:=@rownum+1 as rownum, 
+		 a.*,b.comname from INSBPermissionset 
+		 a left join inscdept b on a.deptid=b.id,(select @rownum:=0) c
+		<where>
+			<if test="setcode != null">
+				and a.setcode = #{setcode}
+			</if>
+			<if test="status != null">
+				and a.status = #{status}
+			</if>
+			<if test="isnew != null">
+				and a.isnew = #{isnew}
+			</if>
+			<if test="setname != null">
+				and a.setname = #{setname}
+			</if>
+			<if test="deptid != null and deptid != '' ">
+				and (a.deptid = #{deptid} or b.parentcodes  like CONCAT('%',#{deptid},'%'))
+			</if>
+			<if test="treedept != null">
+				and a.treedept = #{treedept}
+			</if>
+			<if test="agentkind !=null">
+				and a.agentkind = #{agentkind}
+			</if>
+			<if test="istest != null">
+				and a.istest = #{istest}
+			</if>
+		</where>
+		<!-- order by a.createtime desc -->
+		order by 
+		<if test="sort != null and order != null">
+			  ${sort}  ${order}  
+		</if>
+		<if test="sort == null">
+			 a.createtime desc 
+		</if>
+		limit #{offset},#{limit}
+	</select>
+	
+	<!-- 带分页查询 -->
+	<select id="INSBPermissionset_selectCountByParam" parameterType="Map" resultType="long">
+		select count(1) from INSBPermissionset a left join inscdept b on a.deptid=b.id
+		<where>
+			<if test="setcode != null">
+				and a.setcode = #{setcode}
+			</if>
+			<if test="status != null">
+				and a.status = #{status}
+			</if>
+			<if test="isnew != null">
+				and a.isnew = #{isnew}
+			</if>
+			<if test="setname != null">
+				and a.setname = #{setname}
+			</if>
+			<if test="deptid != null and deptid != '' ">
+				and a.deptid = #{deptid} or b.parentcodes  like CONCAT('%',#{deptid},'%')
+			</if>
+			<if test="treedept != null">
+				and a.treedept = #{treedept}
+			</if>
+			<if test=" agentkind !=null and agentkind != '' ">
+				and a.agentkind = #{agentkind}
+			</if>
+			<if test="istest != null">
+				and a.istest = #{istest}
+			</if>
+		</where>
+	</select>
+	
+	
+	<select id="INSBPermissionset_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBPermissionset">
+		select a.*,b.comname from INSBPermissionset a left join inscdept b on a.deptid=b.id 
+		where a.id = #{id}
+	</select>
+	<select id="INSBPermissionset_selectByDeptidIstest" parameterType="Map" resultType="String">
+		select id from  INSBPermissionset 
+		where deptid=#{deptid} and istest=#{istest} and status=#{status} 
+		order by createtime desc
+	</select>
+	
+	<select id="INSBPermissionset_selectDefaultPermissionallot" parameterType="Map" resultType="String">
+		select id from INSBPermissionset 
+		where deptid='' and istest=#{istest} and status=#{status} 
+		order by createtime desc
+	</select>
+	
+	<select id="INSBPermissionset_selectOnUseSet" resultType="com.zzb.conf.entity.INSBPermissionset">
+		select * from INSBPermissionset  
+		where isnew = 2 order by createtime
+	</select>
+	<select id="INSBPermissionset_deleteById" parameterType="String">
+		delete from INSBPermissionset where id = #{id}
+	</select>
+	<select id="INSBPermissionset_updateById" parameterType="com.zzb.conf.entity.INSBPermissionset">
+		update INSBPermissionset  
+		<set>
+			<if test="operator!=null">
+				operator = #{operator},
+			</if>
+			<if test="modifytime !=null">
+				modifytime = #{modifytime},
+			</if>
+			<if test="noti !=null">
+				noti = #{noti},
+			</if>
+			<if test=" setcode!=null">
+				setcode = #{setcode},
+			</if>
+			<if test=" setname!=null">
+				setname = #{setname},
+			</if>
+			<if test=" deptid!=null">
+				deptid = #{deptid},
+			</if>
+			<if test=" treedept!=null">
+				treedept = #{treedept},
+			</if>
+			<if test=" agentkind!=null and agentkind!=0">
+				agentkind = #{agentkind},
+			</if>
+			<if test=" istest!=null and istest!=0">
+				istest = #{istest},
+			</if>
+			<if test=" status!=null and status!=0">
+				status=#{status},
+			</if>
+			<if test=" isnew!=null and isnew!=0">
+				isnew=#{isnew}
+			</if>
+		</set> 
+		  where id = #{id}
+	</select>
+	<select id="INSBPermissionset_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBPermissionset
+		<where>
+			<if test="setcode != null">
+				and setcode = #{setcode}
+			</if>
+			<if test="isnew != null and isnew!=0">
+				and isnew = #{isnew}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="setname != null">
+				and setname = #{setname}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="treedept != null">
+				and treedept = #{treedept}
+			</if>
+			<if test="agentkind != null">
+				and agentkind = #{agentkind}
+			</if>
+			<if test="istest != null">
+				and istest = #{istest}
+			</if>
+		</where>
+	</select>
+
+	<select id="INSBPermissionset_selectByDeptAgentkindAndOnUseSet" parameterType="Map" resultType="com.zzb.conf.entity.INSBPermissionset">
+		select * FROM INSBPermissionset s WHERE STATUS = 2
+		<if test="agentkind != null and agentkind !=0">
+			AND agentkind = #{agentkind}
+		</if>
+		AND EXISTS(
+			select 1 FROM (
+				select T2.comcode
+				FROM (
+				SELECT
+				@r AS _id,
+				(select @r := upcomcode FROM inscdept WHERE comcode = _id) AS parent_id,
+				@l := @l + 1 AS lvl
+				FROM
+				(select @r := #{deptid}, @l := '') vars,
+				inscdept h
+				WHERE @r &lt;&gt; '') T1
+				JOIN inscdept T2
+				ON T1._id = T2.comcode
+			) parents WHERE parents.comcode = s.`deptid`
+		)
+		ORDER BY createtime
+
+	</select>
+
+	<select id="INSBPermissionset_selectTrialSet" parameterType="Map" resultType="com.zzb.conf.entity.INSBPermissionset">
+		select * FROM INSBPermissionset s WHERE STATUS = 2  AND agentkind = 1
+		AND EXISTS(
+		select 1 FROM (
+		select T2.comcode
+		FROM (
+		SELECT
+		@r AS _id,
+		(select @r := upcomcode FROM inscdept WHERE comcode = _id) AS parent_id,
+		@l := @l + 1 AS lvl
+		FROM
+		(select @r := #{deptid}, @l := '') vars,
+		inscdept h
+		WHERE @r &lt;&gt; '') T1
+		JOIN inscdept T2
+		ON T1._id = T2.comcode
+		) parents WHERE parents.comcode = s.`deptid`
+		)
+		ORDER BY deptid DESC,createtime DESC
+
+	</select>
+
+	<select id="INSBPermissionset_getUserByPage" resultType="Map" parameterType="Map">
+
+		/*slave*/select @rownum:=@rownum+1 as rownum,t.*,d.`comname`
+		FROM insbagent t,inscdept d,(select @rownum:=0) c WHERE
+		t.`deptid` = d.`id`
+		AND t.`setid` = #{setId}
+		<if test="agentkind != null and agentkind!='' ">
+			and t.`agentkind` = #{agentkind}
+		</if>
+
+
+		<if test="name != null and name!='' ">
+			and t.name like CONCAT('%',#{name},'%')
+		</if>
+
+		<if test="jobnum != null and jobnum !='' ">
+			and t.jobnum like CONCAT('%',#{jobnum},'%')
+		</if>
+
+		ORDER BY t.`createtime` DESC
+		limit #{offset},#{limit}
+	</select>
+
+	<select id="INSBPermissionset_getUserByPageCount" resultType="Long" parameterType="Map">
+
+		select count(1) FROM insbagent t,inscdept d WHERE
+		t.`deptid` = d.`id`
+		AND t.`setid` = #{setId}
+		<if test="agentkind != null and agentkind!='' ">
+			and t.`agentkind` = #{agentkind}
+		</if>
+		<if test="name != null and name!='' ">
+			and t.name like CONCAT('%',#{name},'%')
+		</if>
+
+		<if test="jobnum != null and jobnum !='' ">
+			and t.jobnum like CONCAT('%',#{jobnum},'%')
+		</if>
+
+	</select>
+	
+	<select id="INSBPermissionset_queryBySetcode" resultType="String" parameterType="String">
+		select id FROM INSBPermissionset WHERE setcode=#{bag}
+	</select>
+	
+	<!-- 判断权限包代码的唯一性 -->
+	<select id="INSBPermissionset_selectCountBySetCode" parameterType="Map"
+		resultType="int">
+		select count(1) from INSBPermissionset
+		<where>
+			<if test="id !=null">
+			and id !=#{id}
+			</if>
+			<if test="setcode !=null">
+			and setcode = #{setcode}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询部门下启用的权限包-->
+	<select id="INSBPermissionset_selectByDeptinnercode" parameterType="Map" resultType="com.zzb.conf.entity.INSBPermissionset">
+		SELECT s.* FROM INSBPermissionset s ,inscdept d WHERE s.STATUS = 2 AND s.`deptid` = d.`id`
+		AND d.`deptinnercode` LIKE CONCAT(#{deptinnercode},'%') ORDER BY s.createTime;
+	</select>
+	
+	<select id="INSBPermissionset_selectSetByKindAndDeptid" parameterType="Map" resultType="com.zzb.conf.entity.INSBPermissionset">
+		select * FROM INSBPermissionset s where STATUS = 2 
+		<if test="agentkind !=null">
+			AND agentkind = #{agentkind}
+		</if>
+		AND EXISTS(
+		select 1 FROM (
+		select T2.comcode
+		FROM (
+		SELECT
+		@r AS _id,
+		(select @r := upcomcode FROM inscdept WHERE comcode = _id) AS parent_id,
+		@l := @l + 1 AS lvl
+		FROM
+		(select @r := #{deptid}, @l := '') vars,
+		inscdept h
+		WHERE @r &lt;&gt; '') T1
+		JOIN inscdept T2
+		ON T1._id = T2.comcode
+		) parents WHERE parents.comcode = s.`deptid`
+		)
+		ORDER BY deptid DESC,createtime DESC
+	</select>
+</mapper>

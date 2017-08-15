@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBGroupmembers -->
+	<select id="INSBGroupmembers_insert" parameterType="com.zzb.conf.entity.INSBGroupmembers" resultType="int">
+		insert into INSBGroupmembers
+		(id,operator,createtime,modifytime,noti,groupid,userid,groupprivilege,usercode) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{groupid},#{userid},#{groupprivilege},#{usercode}) 
+	</select>
+	<select id="INSBGroupmembers_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBGroupmembers">
+		select * from INSBGroupmembers
+		<where>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="userid != null">
+				and userid = #{userid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBGroupmembers_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBGroupmembers">
+		select * from INSBGroupmembers
+		<where>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="userid != null">
+				and userid = #{userid}
+			</if>
+		</where>
+		LIMIT 2
+	</select>	
+	
+	<select id="INSBGroupmembers_selectPageByParam" parameterType="Map" resultType="com.zzb.conf.entity.INSBGroupmembers">
+		select a.userid as id,b.usercode,b.name,i.comname userorganization,a.groupprivilege from INSBGroupmembers a left join inscuser b on a.userid=b.id left join inscdept i on i.id=b.userorganization
+		<where>
+			<if test="groupid != null">
+				a.groupid = #{groupid}
+			</if>
+			<if test="userid != null">
+				and a.userid = #{userid}
+			</if>
+		</where>
+		<!-- order by a.createtime desc -->
+		order by 
+		<if test="sort != null and order != null">
+			  ${sort}  ${order}  
+		</if>
+		<if test="sort == null">
+			 a.createtime desc 
+		</if>
+		limit #{offset},#{limit}
+	</select>
+	
+	<select id="INSBGroupmembers_selectPageCountByParam" parameterType="Map" resultType="long">
+		select count(1) from INSBGroupmembers a left join inscuser b on a.userid=b.id
+		<where>
+			<if test="groupid != null">
+				 a.groupid = #{groupid}
+			</if>
+			<if test="userid != null">
+				and a.userid = #{userid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBGroupmembers_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBGroupmembers">
+		select * from INSBGroupmembers where id = #{id}
+	</select>
+	
+	<select id="INSBGroupmembers_selectGroupIdinfosByUserCodes4Tasklist" parameterType="String" resultType="Map">
+		select g.id,g.groupname,g.tasktype,d.deptid,p.provideid from insbbusinessmanagegroup g 
+		INNER JOIN insbgroupmembers m on g.id=m.groupid
+		LEFT JOIN insbgroupdept d on g.id=d.groupid 
+		LEFT JOIN insbgroupprovide p on g.id=p.groupid where m.usercode=#{usercode} and g.privilegestate = '1'
+	</select>
+	
+	<select id="INSBGroupmembers_selectGroupIdsByUserCodes4Task" parameterType="List" resultType="String">
+		select groupid from INSBGroupmembers 
+		<where>
+			<if test="list !=null">
+				and usercode in 
+				<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+		<select id="INSBGroupmembers_selectGroupIdsByUserCodes4Login" parameterType="List" resultType="String">
+		select groupid from INSBGroupmembers g left join insbbusinessmanagegroup p on g.groupid=p.id  
+		<where>
+			g.groupprivilege=2 and p.privilegestate=1
+			<if test="list !=null">
+				and usercode in 
+				<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+	<select id="INSBGroupmembers_selectGroupIdsByUserId4UserDelete" parameterType="List" resultType="String">
+		select groupid from INSBGroupmembers 
+		<where>
+			<if test="list !=null">
+				 userid in 
+				<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+	<select id="INSBGroupmembers_updateMembersUserCode" parameterType="Map" resultType="String">
+		update INSBGroupmembers set usercode=#{newUserCode} where usercode=#{oldUserCode}
+		
+	</select>
+	
+	
+	<select id="INSBGroupmembers_selecUserCodeByGroupIds4Task" parameterType="Map" resultType="String">
+		select b.usercode from 
+		
+		INSBGroupmembers a left join inscuser b on b.onlinestatus=1 and a.usercode=b.usercode 
+		<where> a.groupprivilege=2  
+			<if test="refuseUsers !=null">
+				and a.usercode not in
+				<foreach collection="refuseUsers" item="item" index="index" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="groupIds !=null">
+				and a.groupid in 
+				<foreach collection="groupIds" item="item" index="index" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+	
+	<select id="INSBGroupmembers_selectPrivilegeByGroupIdAndUserId" parameterType="Map" resultType="Map">
+		select id,groupid, groupprivilege from INSBGroupmembers where groupid = #{groupid} and userid=#{userid}
+	</select>
+	
+	<select id="INSBGroupmembers_selectByGroupId" parameterType="String" resultType="com.zzb.conf.entity.INSBGroupmembers">
+		select * from INSBGroupmembers where groupid = #{groupid}
+	</select>
+	<select id="INSBGroupmembers_selectUserCodeByGroupId" parameterType="String" resultType="String">
+		select b.usercode from INSBGroupmembers a left join  inscuser b on b.id=a.userid where groupid = #{groupid}
+	</select>
+	
+	<select id="INSBGroupmembers_deleteById" parameterType="String">
+		delete from INSBGroupmembers where id = #{id}
+	</select>
+	
+	<select id="INSBGroupmembers_deleteByUserId" parameterType="Map">
+		delete from INSBGroupmembers 
+		<where>
+				userid = #{userid} 
+			<if test="groupid !=null">
+				and groupid =#{groupid}
+			</if>
+		</where> 
+	</select>
+	
+	<select id="INSBGroupmembers_deleteByGroupId" parameterType="String">
+		delete from INSBGroupmembers where groupid =#{groupid}
+	</select>
+	
+	<select id="INSBGroupmembers_updateById" parameterType="com.zzb.conf.entity.INSBGroupmembers">
+		update INSBGroupmembers  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},groupid = #{groupid},userid = #{userid} where id = #{id}
+	</select>
+	
+	<select id="INSBGroupmembers_updateUserGroupPrivilegeById" parameterType="Map">
+		update INSBGroupmembers  set groupprivilege= #{groupprivilege} where id = #{id}
+	</select>
+	<select id="INSBGroupmembers_queryPrivileges" parameterType="Map" resultType="Long">
+		select COUNT(1) from INSBGroupmembers t LEFT JOIN insbbusinessmanagegroup g on t.groupid=g.id 
+ 		where t.userid=#{userId} and g.tasktype like  CONCAT('%', #{task},'%') AND t.groupprivilege='2' 
+	</select>
+	<select id="INSBGroupmembers_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBGroupmembers
+		<where>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="userid != null">
+				and userid = #{userid}
+			</if>
+		</where>
+	</select>
+	<!-- 车险任务管理页面初始化分配业管列表使用liuchao -->
+	<select id="INSBGroupmembers_getUserInfoListByGroup" parameterType="Map" resultType="Map">
+		/*slave*/select usercode,`name` as uname 
+		from inscuser 
+		where onlinestatus='1' and  usercode in 
+		(	select DISTINCT(usercode) 
+		from insbgroupmembers  
+		where   groupprivilege=2 and  groupid in 
+		(select groupid from insbgroupmembers where usercode=#{usercode}))
+	</select>
+</mapper>

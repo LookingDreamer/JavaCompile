@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBAgreementscope -->
+	<select id="INSBAgreementscope_insert" parameterType="com.zzb.conf.entity.INSBAgreementscope" resultType="int">
+		insert into INSBAgreementscope
+		(id,operator,createtime,modifytime,noti,agreementid,scopetype,province,city,county,deptid)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{agreementid},#{scopetype},#{province},#{city},#{county},
+		#{deptid})
+	</select>
+	<select id="INSBAgreementscope_selectArea" parameterType="String" resultType="String">
+		select sc.comcode from inscdept sc left join inscdept scd on sc.comcode = scd.upcomcode and scd.comtype='06'
+		where scd.upcomcode is null and sc.city=#{city} 
+	</select>
+	<select id="INSBAgreementscope_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgreementscope">
+		select * from INSBAgreementscope
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="scopetype != null">
+				and scopetype = #{scopetype}
+			</if>
+			<if test="province != null">
+				and province = #{province}
+			</if>
+			<if test="city != null">
+				and city = #{city}
+			</if>
+			<if test="county != null">
+				and county = #{county}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreementscope_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgreementscope">
+		select * from INSBAgreementscope
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="scopetype != null">
+				and scopetype = #{scopetype}
+			</if>
+			<if test="province != null">
+				and province = #{province}
+			</if>
+			<if test="city != null">
+				and city = #{city}
+			</if>
+			<if test="county != null">
+				and county = #{county}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	
+	<select id="INSBAgreementscope_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBAgreementscope">
+		select * from INSBAgreementscope where id = #{id}
+	</select>
+	<select id="INSBAgreementscope_selectDeptIdByAgreementId" parameterType="String" resultType="String">
+		select deptid from INSBAgreementscope where agreementid = #{agreementid}
+	</select>
+	<select id="INSBAgreementscope_selectAgreementIdByDeptId" parameterType="String" resultType="String">
+		select agreementid from INSBAgreementscope where deptid = #{deptid}
+	</select>
+	<select id="INSBAgreementscope_deleteById" parameterType="String">
+		delete from INSBAgreementscope where id = #{id}
+	</select>
+	<select id="INSBAgreementscope_updateById" parameterType="com.zzb.conf.entity.INSBAgreementscope">
+		update INSBAgreementscope  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},agreementid = #{agreementid},scopetype = #{scopetype},province = #{province},city = #{city},county = #{county},deptid = #{deptid} where id = #{id}
+	</select>
+	<select id="INSBAgreementscope_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBAgreementscope
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="scopetype != null">
+				and scopetype = #{scopetype}
+			</if>
+			<if test="province != null">
+				and province = #{province}
+			</if>
+			<if test="city != null">
+				and city = #{city}
+			</if>
+			<if test="county != null">
+				and county = #{county}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreementscope_selectAdrAndDeptName" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgreementscope">
+		select id,operator,createtime,modifytime,noti,agreementid,scopetype,
+		(select comcodename FROM insbregion WHERE  id =s.province ) province,
+		(select comcodename FROM insbregion WHERE  id =s.city )  city,
+		(select comcodename FROM insbregion WHERE  id =s.county ) county,
+		(select shortname FROM inscdept WHERE  id =s.deptid ) deptid
+		from INSBAgreementscope s
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="scopetype != null">
+				and scopetype = #{scopetype}
+			</if>
+			<if test="province != null">
+				and province = #{province}
+			</if>
+			<if test="city != null">
+				and city = #{city}
+			</if>
+			<if test="county != null">
+				and county = #{county}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreementscope_selectByCityInsert" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgreementscope">
+		insert into INSBAgreementscope(id,operator,createtime,modifytime,noti,agreementid,scopetype,province,city,county,deptid) 
+		select UUID(),#{operator},#{createtime},#{modifytime},'',#{agreementid},#{scopetype},'',#{city},'',
+ 		       comcode from inscdept a where city =#{city}  AND comgrade ='04' 
+ 		       and exists(select 1 from inscdept b,INSBAgreement c where c.id= #{agreementid}  and c.deptid = b.id and a.deptinnercode like CONCAT(b.deptinnercode,'%'))
+	</select>
+	<select id="INSBAgreementscope_deletByCity" parameterType="Map" >
+		delete from INSBAgreementscope where agreementid = #{agreementid} and city = #{city}
+<!-- 		<where> -->
+<!-- 			<if test="agreementid != null"> -->
+<!-- 				and agreementid = #{agreementid} -->
+<!-- 			</if> -->
+<!-- 			<if test="city != null"> -->
+<!-- 				and city = #{city} -->
+<!-- 			</if> -->
+<!-- 		</where>  -->
+	</select>
+	
+<!-- 	<select id="INSBAgreementscope_selectByCity" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgreementscope"> -->
+<!-- 			select comcode as deptid,city from inscdept where city in -->
+<!-- 	       <foreach item="cityid" index="index" collection="cityids" open="(" separator="," close=")">   -->
+<!-- 	           #{cityid} -->
+<!-- 		   </foreach> -->
+<!-- 	</select> -->
+<!-- 	<select id="INSBAgreementscope_selectByCityInsert" parameterType="List" > -->
+<!-- 	insert into INSBAgreementscope -->
+<!-- 		(id,operator,createtime,modifytime,noti,agreementid,scopetype,province,city,county,deptid) -->
+<!-- 		values  -->
+<!-- 	       <foreach collection="list" item="scope" index="index" separator="," >  -->
+<!-- 		    (#{scope.id},#{scope.operator},#{scope.createtime},#{scope.modifytime},#{scope.noti},#{scope.agreementid},#{scope.scopetype},#{scope.province},#{scope.city},#{scope.county}, -->
+<!-- 		       #{scope.deptid}) -->
+<!-- 		   </foreach> -->
+<!-- 	</select> -->
+<!-- 	<insert id="INSBAgreementscope_selectByCityInsert" parameterType="java.util.List"> -->
+<!-- 			  <selectKey keyProperty="fetchTime" order="BEFORE" -->
+<!-- 			  resultType="java.lang.String"> -->
+<!-- 			   	select CURRENT_TIMESTAMP() -->
+<!-- 			  </selectKey> -->
+<!--   insert into INSBAgreementscope -->
+<!-- 		(id,operator,createtime,modifytime,noti,agreementid,scopetype,province,city,county,deptid) -->
+<!-- 		values  -->
+<!--      <foreach collection="list" item="item" index="index" separator=","> -->
+<!--           (#{scope.id},#{scope.operator},#{scope.createtime},#{scope.modifytime},#{scope.noti},#{scope.agreementid},#{scope.scopetype},#{scope.province},#{scope.city},#{scope.county}, -->
+<!-- 		       #{scope.deptid}) -->
+<!--      </foreach> -->
+<!--   </insert> -->
+</mapper>

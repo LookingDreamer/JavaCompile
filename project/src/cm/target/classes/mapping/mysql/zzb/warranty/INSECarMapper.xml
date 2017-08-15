@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.warranty.model">
+    <!-- INSEOrder  -->
+
+    <select id="INSECar_insert" parameterType="com.zzb.cm.entity.INSBCarinfo" resultType="int">
+        insert into insecar
+		(id,operator,createtime,modifytime,selectconfig,selectins,owner,ownername,phonenumber,address,carlicenseno,vincode,standardfullname,engineno,registdate,registlicense,transferdate,isTransfercar,Specifydriver,drivingarea,mileage,accidentnum,carid,useyears,signdate,parksite,preinscode,taskstatus,property,carproperty,businessstartdate,businessenddate,strongstartdate,strongenddate,cloudinscompany,islicense,platecolor,plateType,ineffectualDate,rejectDate,lastCheckDate,isLoansCar,carVehicularApplications,isFieldCar,carBodyColor,loanManyYearsFlag,isNew,depprice, floatprice, isdanger, isrob, isspecial, maxprice, maxpricerate, minprice, minpricerate, taxprice,drivinglicenseurl,brandimg,cifstandardname,insureconfigsameaslastyear,origialwarrantyperiod)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{selectconfig},#{selectins},#{owner.id},#{owner.name},#{phonenumber},#{address},#{carlicenseno},#{vincode},#{standardfullname},#{engineno},#{registdate},#{registlicense},#{transferdate},#{isTransfercar},#{Specifydriver},#{drivingarea},#{mileage},#{accidentnum},#{carid},#{useyears},#{signdate},#{parksite},#{preinscode},#{taskstatus},#{property},#{carproperty},#{businessstartdate},#{businessenddate},#{strongstartdate},#{strongenddate},#{cloudinscompany},#{islicense},#{platecolor},#{plateType},#{ineffectualDate},#{rejectDate},#{lastCheckDate},#{isLoansCar},#{carVehicularApplications},#{isFieldCar},#{carBodyColor},#{loanManyYearsFlag},#{isNew},#{depprice},#{floatprice},#{isdanger},#{isrob},#{isspecial},#{maxprice},#{maxpricerate},#{minprice},#{minpricerate},#{taxprice},#{drivinglicenseurl},#{brandimg},#{cifstandardname},#{insureconfigsameaslastyear},#{origialwarrantyperiod})
+	</select>
+
+	<update id="INSECar_updateById" parameterType="com.zzb.cm.entity.INSBCarinfo">
+
+	</update>
+
+	<select id="INSECar_selectById" parameterType="String" resultType="com.zzb.warranty.model.INSECar">
+		select * from insecar where id=#{id}
+	</select>
+
+	<select id="INSECar_selectByOwnernameAndPlateNumber" parameterType="map" resultType="map">
+		select c.*, m.* from insbperson pe
+		left join insbcarinfo c on c.owner=pe.id
+		left join insbcarmodelinfo m on m.carinfoid = c.id
+		where pe.name=#{key} or c.carlicenseno=#{key}
+		ORDER BY c.registdate desc
+        LIMIT 1;
+	</select>
+
+</mapper>

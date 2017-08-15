@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cninsure.system.entity">
+	<insert  id="INSCCmLogs_insert" parameterType="com.cninsure.system.entity.INSCCmLogs" useGeneratedKeys="true" keyProperty="id">
+		insert into INSCCmLogs
+		(operator,entertime,exittime,lasttime,noti,loginip,classname,method,methodname) 
+		values
+		(#{operator},#{entertime},#{exittime},#{lasttime},#{noti},#{loginip},#{classname},#{method},#{methodname}) 
+	</insert>
+</mapper>

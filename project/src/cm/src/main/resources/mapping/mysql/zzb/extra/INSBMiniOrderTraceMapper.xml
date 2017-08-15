@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.extra.entity">
+	<!-- INSBMiniOrderTrace -->
+	<select id="INSBMiniOrderTrace_insert" parameterType="com.zzb.extra.entity.INSBMiniOrderTrace" resultType="int">
+		insert into INSBMiniOrderTrace
+		(id,operator,createtime,modifytime,noti,taskid,agentid,insuredname,carowner,carlicenseno,prvname,premium,paytime,starttime,taskstate,operatestate,msg,reason,providercode,agentoperate)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{agentid},#{insuredname},#{carowner},#{carlicenseno},#{prvname},#{premium},#{paytime},#{starttime},#{taskstate},#{operatestate},#{msg},#{reason},#{providercode},#{agentoperate})
+	</select>
+	<select id="INSBMiniOrderTrace_select" parameterType="Map" resultType="com.zzb.extra.entity.INSBMiniOrderTrace">
+		select * from INSBMiniOrderTrace
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="agentid != null">
+				and agentid = #{agentid}
+			</if>
+			<if test="insuredname != null">
+				and insuredname = #{insuredname}
+			</if>
+			<if test="carowner != null">
+				and carowner = #{carowner}
+			</if>
+			<if test="carlicenseno != null">
+				and carlicenseno = #{carlicenseno}
+			</if>
+			<if test="prvname != null">
+				and prvname = #{prvname}
+			</if>
+			<if test="premium != null">
+				and premium = #{premium}
+			</if>
+			<if test="paytime != null">
+				and paytime = #{paytime}
+			</if>
+			<if test="starttime != null">
+				and starttime = #{starttime}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+			<if test="operatestate != null">
+				and operatestate = #{operatestate}
+			</if>
+			<if test="msg != null">
+				and msg = #{msg}
+			</if>
+			<if test="reason != null">
+				and reason = #{reason}
+			</if>
+			<if test="providercode != null">
+				and providercode = #{providercode}
+			</if>
+		</where>
+	</select>
+	<select id="INSBMiniOrderTrace_selectById" parameterType="String" resultType="com.zzb.extra.entity.INSBMiniOrderTrace">
+		select * from INSBMiniOrderTrace where id = #{id}
+	</select>
+	<select id="INSBMiniOrderTrace_deleteById" parameterType="String">
+		delete from INSBMiniOrderTrace where id = #{id}
+	</select>
+	<select id="INSBMiniOrderTrace_updateAgentOperateByTaskId" parameterType="com.zzb.extra.entity.INSBMiniOrderTrace">
+		update  INSBMiniOrderTrace set operator = #{operator},agentoperate='1',modifytime = #{modifytime} where taskid = #{taskid} and operatestate != '3'
+	</select>
+
+	<select id="INSBMiniOrderTrace_updateOrderTraceByTaskId" parameterType="com.zzb.extra.entity.INSBMiniOrderTrace">
+		update  INSBMiniOrderTrace set taskstate=#{taskstate}, agentoperate=#{agentoperate} ,modifytime = #{modifytime} where taskid = #{taskid} and providercode = #{providercode}
+	</select>
+	<select id="INSBMiniOrderTrace_updateById" parameterType="com.zzb.extra.entity.INSBMiniOrderTrace">
+		update INSBMiniOrderTrace  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},taskid = #{taskid},agentid = #{agentid},insuredname = #{insuredname},carowner = #{carowner},carlicenseno = #{carlicenseno},prvname = #{prvname},premium = #{premium},paytime = #{paytime},starttime = #{starttime},taskstate = #{taskstate},operatestate = #{operatestate},msg = #{msg},reason = #{reason} where id = #{id}
+	</select>
+	<select id="INSBMiniOrderTrace_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBMiniOrderTrace
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="agentid != null">
+				and agentid = #{agentid}
+			</if>
+			<if test="insuredname != null">
+				and insuredname = #{insuredname}
+			</if>
+			<if test="carowner != null">
+				and carowner = #{carowner}
+			</if>
+			<if test="carlicenseno != null">
+				and carlicenseno = #{carlicenseno}
+			</if>
+			<if test="prvname != null">
+				and prvname = #{prvname}
+			</if>
+			<if test="premium != null">
+				and premium = #{premium}
+			</if>
+			<if test="paytime != null">
+				and paytime = #{paytime}
+			</if>
+			<if test="starttime != null">
+				and starttime = #{starttime}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+			<if test="operatestate != null">
+				and operatestate = #{operatestate}
+			</if>
+			<if test="msg != null">
+				and msg = #{msg}
+			</if>
+			<if test="reason != null">
+				and reason = #{reason}
+			</if>
+			<if test="providercode != null">
+				and providercode = #{providercode}
+			</if>
+		</where>
+	</select>
+	<select id="INSBMiniOrderTrace_selectOne" parameterType="Map" resultType="com.zzb.extra.entity.INSBMiniOrderTrace">
+		select * from INSBMiniOrderTrace
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="agentid != null">
+				and agentid = #{agentid}
+			</if>
+			<if test="insuredname != null">
+				and insuredname = #{insuredname}
+			</if>
+			<if test="carowner != null">
+				and carowner = #{carowner}
+			</if>
+			<if test="carlicenseno != null">
+				and carlicenseno = #{carlicenseno}
+			</if>
+			<if test="prvname != null">
+				and prvname = #{prvname}
+			</if>
+			<if test="premium != null">
+				and premium = #{premium}
+			</if>
+			<if test="paytime != null">
+				and paytime = #{paytime}
+			</if>
+			<if test="starttime != null">
+				and starttime = #{starttime}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+			<if test="operatestate != null">
+				and operatestate = #{operatestate}
+			</if>
+			<if test="msg != null">
+				and msg = #{msg}
+			</if>
+			<if test="reason != null">
+				and reason = #{reason}
+			</if>
+			<if test="providercode != null">
+				and providercode = #{providercode}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBMiniOrderTrace_queryOrderListCount" parameterType="Map" resultType="Long">
+		select count(1)
+		from INSBMiniOrderTrace as a inner join insbagent as b on a.agentid = b.id and b.usersource='minizzb'
+		left join insccode as c on a.reason = c.codevalue and c.parentcode='minizzbOrder' and c.codetype='refundReason'
+		<where>
+		<if test="taskid != null and taskid !=''">
+			and a.taskid = #{taskid}
+		</if>
+		<if test="insuredname != null and insuredname !=''">
+			and insuredname = #{insuredname}
+		</if>
+		<if test="carowner != null and carowner !=''">
+			and carowner = #{carowner}
+		</if>
+		<if test="carlicenseno != null and carlicenseno !=''">
+			and carlicenseno = #{carlicenseno}
+		</if>
+		<if test="starttime != null and starttime !=''">
+			and starttime = #{starttime}
+		</if>
+		<if test="taskstate != null and taskstate !=''">
+			and taskstate = #{taskstate}
+		</if>
+		<if test="operatestate != null and operatestate !=''">
+			and operatestate = #{operatestate}
+		</if>
+		<if test="agentname != null and agentname !=''">
+			and ifnull(b.name,b.nickname) = #{agentname}
+		</if>
+		<if test="providercode != null">
+			and providercode = #{providercode}
+		</if>
+			<if test="startdateflag != null and startdateflag !=''">
+				and
+				( (#{startdateflag}='0' AND  DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s') > starttime)
+				OR
+				(#{startdateflag}='1' AND  DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s') &lt;=starttime)
+				)
+			</if>
+			<if test="createtimestart != null and createtimestart !=''">
+				AND  DATE_FORMAT(a.createtime,'%Y-%m-%d') >= #{createtimestart}
+			</if>
+			<if test="createtimeend != null and createtimeend !=''">
+				AND  DATE_FORMAT(a.createtime,'%Y-%m-%d') &lt;= #{createtimeend}
+			</if>
+	</where>
+	</select>
+	<select id="INSBMiniOrderTrace_queryOrderList" parameterType="Map" resultType="Map">
+		select a.*,ifnull(b.name,b.nickname) as agentname,b.phone,c.codename as reasonmsg
+		from INSBMiniOrderTrace as a inner join insbagent as b on a.agentid = b.id and b.usersource='minizzb'
+		left join insccode as c on a.reason = c.codevalue and c.parentcode='minizzbOrder' and c.codetype='refundReason'
+		<where>
+			<if test="taskid != null and taskid !=''">
+				and a.taskid = #{taskid}
+			</if>
+			<if test="insuredname != null and insuredname !=''">
+				and insuredname = #{insuredname}
+			</if>
+			<if test="carowner != null and carowner !=''">
+				and carowner = #{carowner}
+			</if>
+			<if test="carlicenseno != null and carlicenseno !=''">
+				and carlicenseno = #{carlicenseno}
+			</if>
+			<if test="starttime != null and starttime !=''">
+				and starttime = #{starttime}
+			</if>
+			<if test="taskstate != null and taskstate !=''">
+				and taskstate = #{taskstate}
+			</if>
+			<if test="operatestate != null and operatestate !=''">
+				and operatestate = #{operatestate}
+			</if>
+			<if test="agentname != null and agentname !=''">
+				and ifnull(b.name,b.nickname) = #{agentname}
+			</if>
+			<if test="providercode != null">
+				and providercode = #{providercode}
+			</if>
+			<if test="startdateflag != null and startdateflag !=''">
+				and
+				( (#{startdateflag}='0' AND  DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s') > starttime)
+				 OR
+				  (#{startdateflag}='1' AND  DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s') &lt;=starttime)
+				)
+			</if>
+			<if test="createtimestart != null and createtimestart !=''">
+				AND  DATE_FORMAT(a.createtime,'%Y-%m-%d') >= #{createtimestart}
+			</if>
+			<if test="createtimeend != null and createtimeend !=''">
+				AND  DATE_FORMAT(a.createtime,'%Y-%m-%d') &lt;= #{createtimeend}
+			</if>
+		</where>
+			<if test="sort != null and order != null">
+				ORDER BY	${sort} ${order}
+			</if>
+			<if test="sort == null">
+				ORDER BY operatestate asc,starttime asc
+			</if>
+			<if test="offset != null and limit != null">
+				LIMIT #{offset},#{limit}
+			</if>
+
+	</select>
+	<select id="INSBMiniOrderTrace_updateOrderOperateState" parameterType="com.zzb.extra.entity.INSBMiniOrderTrace">
+		update INSBMiniOrderTrace  set operator = #{operator},modifytime = #{modifytime},operatestate = #{operatestate},reason = #{reason},taskstate= #{taskstate} where id = #{id}
+	</select>
+</mapper>
