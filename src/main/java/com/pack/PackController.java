@@ -28,6 +28,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fasterxml.jackson.databind.ObjectMapper; //Jsckson JSON Processer
+
+import java.util.*;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.*;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+
 /**
  * author: cjianquan
  * date: 2016/9/2
@@ -78,6 +93,48 @@ public class PackController {
 
         return msg;
     }
+
+    @RequestMapping(value = "/JavaCompiler")
+    @ResponseBody
+    public String JavaCompiler(HttpServletRequest request, PackBean packBean) {
+        List result = new ArrayList();
+        try {
+            result = this.packService.javaComplier(packBean);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result.add(e.getMessage());
+        }
+        return result.toString();
+    }
+
+
+    @RequestMapping(value = "/getString", produces = "application/json;text/html;charset=UTF-8")
+    @ResponseBody
+    public String getString(HttpServletRequest request, PackBean packBean) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("1","张三");
+        map.put("2","李四");
+        map.put("3","王五");
+        map.put("4", "Jackson");
+
+        String json = "";
+
+        try
+        {
+            json = mapper.writeValueAsString(map);
+            System.out.println(json);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return json;
+    }
+
+
 
     @RequestMapping(value = "/Compiler")
     @ResponseBody

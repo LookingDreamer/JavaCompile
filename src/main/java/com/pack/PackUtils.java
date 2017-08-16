@@ -139,6 +139,7 @@ public class PackUtils {
      * 2015-2-6
      */
     public static void getUpdateFiles(String rootFile,Date updateDate,List<String> resultFileNameList){
+//        System.out.println("-----------------------");
         File rFile = new File(rootFile);
         File[] fileArr = rFile.listFiles();
         long lastModifiedTime = 0;
@@ -158,8 +159,9 @@ public class PackUtils {
     }
 
 
+
     /**
-     * 获取在指定日期updateDate后修改过的文件列表
+     * 获取目录下的lib文件
      * 文件名放入resultFileNameList
      * @param rootFile webRoot的路径
      * @ignoreDir 忽略的目录
@@ -167,17 +169,15 @@ public class PackUtils {
      * @param resultFileNameList 更新的文件清单
      */
     // cjianquan 2016/11/11
-    public static void getUpdateFiles(String rootFile,String ignoreDir,Date updateDate,List<String> resultFileNameList){
+    public static void getLibFiles(String rootFile,String ignoreDir,Date updateDate,List<String> resultFileNameList){
+        System.out.println("=========");
         File rFile = new File(rootFile);
         File[] fileArr = rFile.listFiles();
         long lastModifiedTime = 0;
         Date lastModifiedDate = null;
         for(File file:fileArr){
             if(file.isDirectory()){//是目录，则递归查找该目录
-                String t_path = file.getAbsolutePath();
-                if(!t_path.contains(ignoreDir)){
-                    getUpdateFiles(file.getAbsolutePath(), ignoreDir, updateDate, resultFileNameList);
-                }
+                getUpdateFiles(file.getAbsolutePath(),updateDate,resultFileNameList);
             }else if(file.isFile()){//是文件
                 lastModifiedTime = file.lastModified();
                 lastModifiedDate = new Date(lastModifiedTime);
@@ -188,5 +188,7 @@ public class PackUtils {
             }
         }
     }
+
+
 
 }

@@ -79,7 +79,7 @@ public class PackService {
             //获取resource文件
             PackUtils.getUpdateFiles(packBean.getPropath() + packBean.getResourcesPath(),packTime ,fileList);
 
-            PackUtils.getUpdateFiles(packBean.getPropath()+packBean.getWrPath(),packBean.getCompilePath(),packTime,fileList);
+//            PackUtils.getUpdateFiles(packBean.getPropath() + packBean.getWrPath(),packBean.getCompilePath(),packTime,fileList);
         } catch (ParseException e) {
             System.out.println("发生了异常");
             throw new Exception(e);
@@ -89,5 +89,30 @@ public class PackService {
 
         return fileList;
     }
+
+    public List<String> javaComplier(PackBean packBean) throws Exception{
+        List<String> fileList = new ArrayList<String>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try {
+            System.out.println("开始获取更新文件....");
+            Date packTime = sdf.parse(packBean.getPacktime());
+            System.out.println("更新日期:"+packBean.getPacktime()+"   getPropath:"+packBean.getPropath() + "    getSrcPath:"+packBean.getSrcPath()+"");
+            //获取src文件
+            PackUtils.getUpdateFiles(packBean.getPropath() + packBean.getSrcPath(),packTime ,fileList);
+            //获取resource文件
+            PackUtils.getUpdateFiles(packBean.getPropath() + packBean.getResourcesPath(),packTime ,fileList);
+
+//            PackUtils.getUpdateFiles(packBean.getPropath()+packBean.getWrPath(),packBean.getCompilePath(),packTime,fileList);
+        } catch (ParseException e) {
+            System.out.println("发生了异常");
+            throw new Exception(e);
+        }catch (Exception e){
+            throw new Exception(e);
+        }
+
+        return fileList;
+    }
+
 
 }
