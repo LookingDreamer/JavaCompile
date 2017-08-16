@@ -94,37 +94,24 @@ public class PackController {
         return msg;
     }
 
-    @RequestMapping(value = "/JavaCompiler")
+    @RequestMapping(value = "/JavaCompiler", produces = "application/json;text/html;charset=UTF-8")
     @ResponseBody
     public String JavaCompiler(HttpServletRequest request, PackBean packBean) {
-        List result = new ArrayList();
-        try {
-            result = this.packService.javaComplier(packBean);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            result.add(e.getMessage());
-        }
-        return result.toString();
-    }
-
-
-    @RequestMapping(value = "/getString", produces = "application/json;text/html;charset=UTF-8")
-    @ResponseBody
-    public String getString(HttpServletRequest request, PackBean packBean) {
         ObjectMapper mapper = new ObjectMapper();
 
         HashMap<String,String> map = new HashMap<String,String>();
-        map.put("1","张三");
-        map.put("2","李四");
-        map.put("3","王五");
-        map.put("4", "Jackson");
+        map.put("status","0");
+        map.put("msg","编译成功");
 
         String json = "";
+
+        map.put("status","1");
+        map.put("msg","编译成功11111");
 
         try
         {
             json = mapper.writeValueAsString(map);
-            System.out.println(json);
+            logger.info("返回JSON数据: "+json);
         }
         catch(Exception e)
         {
@@ -133,6 +120,33 @@ public class PackController {
 
         return json;
     }
+
+
+//    @RequestMapping(value = "/getString", produces = "application/json;text/html;charset=UTF-8")
+//    @ResponseBody
+//    public String getString(HttpServletRequest request, PackBean packBean) {
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//        HashMap<String,String> map = new HashMap<String,String>();
+//        map.put("1","张三");
+//        map.put("2","李四");
+//        map.put("3","王五");
+//        map.put("4", "Jackson");
+//
+//        String json = "";
+//
+//        try
+//        {
+//            json = mapper.writeValueAsString(map);
+//            System.out.println(json);
+//        }
+//        catch(Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//
+//        return json;
+//    }
 
 
 
