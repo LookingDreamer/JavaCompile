@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.extra.entity">
+	<!-- INSBChnTaxrate -->
+	<select id="INSBChnTaxrate_insert" parameterType="com.zzb.extra.entity.INSBChnTaxrate" resultType="int">
+		insert into INSBChnTaxrate
+		(id,operator,createtime,modifytime,noti,channelid,effectivetime,terminaltime,taxrate,status) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{channelid},#{effectivetime},#{terminaltime},#{taxrate},#{status}) 
+	</select>
+	<select id="INSBChnTaxrate_select" parameterType="Map" resultType="com.zzb.extra.entity.INSBChnTaxrate">
+		select * from INSBChnTaxrate
+		<where>
+			<if test="channelid != null">
+				and channelid = #{channelid}
+			</if>
+			<if test="effectivetime != null">
+				and effectivetime = #{effectivetime}
+			</if>
+			<if test="terminaltime != null">
+				and terminaltime = #{terminaltime}
+			</if>
+			<if test="taxrate != null">
+				and taxrate = #{taxrate}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+		ORDER BY
+        <if test="sort != null and order != null">
+            ${sort} ${order}
+        </if>
+        <if test="sort == null">
+            createtime desc
+        </if>
+        <if test="offset != null and limit != null">
+            LIMIT #{offset},#{limit}
+        </if>
+	</select>
+	<select id="INSBChnTaxrate_cleanTaxrateStatus" parameterType="String" >
+		update INSBChnTaxrate  set status = '2' where channelid = #{value}  AND status = '1' AND DATE_FORMAT(IFNULL(terminaltime,'2100-1-1 23:59:59'),'%Y-%m-%d %H:%i:%s') &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
+	</select>
+	<select id="INSBChnTaxrate_queryRateLsitVo" parameterType="Map" resultType="Map">
+		select t.id,t.status,case when t.status='1' then '已启用' when t.status='2' then '已关闭' else '待审核' end statusname,
+		date_format(t.createtime,'%Y-%m-%d %H:%i:%s') createtime,
+		date_format(t.effectivetime,'%Y-%m-%d %H:%i:%s') effectivetime,
+		date_format(t.terminaltime,'%Y-%m-%d %H:%i:%s') terminaltime,
+		DATE_FORMAT(t.effectivetime,'%Y-%m-%d') as channeleffectivetime,
+		IFNULL(DATE_FORMAT(t.terminaltime,'%Y-%m-%d'),NULL) as channelterminaltime,
+		t.channelid,t.taxrate,c.channelname
+		from INSBChnTaxrate t left join insbchannel c  
+		on t.channelid = c.channelinnercode 
+		and c.upchannelcode=''
+		and c.deleteflag is null
+		<where>
+			<if test="channelid != null and channelid!='' ">
+				and t.channelid = #{channelid}
+			</if>
+			<if test="status != null and status!='' ">
+				and t.status = #{status}
+			</if>
+			<if test="keyword != null and keyword != ''">
+                and t.taxrate =#{keyword} or t.id = #{keyword} 
+            </if>
+            <if test="channelcode != null and channelcode != ''">
+				and c.channelinnercode = #{channelcode}            
+            </if>
+            <if test="id != null and id != ''">
+				and t.id = #{id}            
+            </if>
+            <if test="createtime != null ">
+				and t.createtime = #{createtime}            
+            </if>
+           
+		</where>
+		ORDER BY
+        <if test="sort != null and order != null">
+            ${sort} ${order}
+        </if>
+        <if test="sort == null">
+            t.createtime desc
+        </if>
+        <if test="offset != null and limit != null">
+            LIMIT #{offset},#{limit}
+        </if>
+	</select>
+	<select id="INSBChnTaxrate_queryRateLsitVoCount" parameterType="Map" resultType="Long">
+		select count(1)
+		from INSBChnTaxrate t left join insbchannel c  on t.channelid = c.id and c.upchannelcode='' and c.deleteflag is null
+		<where>
+			
+			<if test="channelid != null and channelid!='' ">
+				and t.channelid = #{channelid}
+			</if>
+			
+			<if test="status != null and status!='' ">
+				and t.status = #{status}
+			</if>
+			 <if test="keyword != null and keyword != ''">
+                and t.taxrate =#{keyword} or t.id = #{keyword} 
+            </if>
+            <if test="channelcode != null and channelcode != ''">
+				and c.channelinnercode = #{channelcode}         
+            </if>
+            <if test="id != null and id != ''">
+				and c.id = #{id}            
+            </if>
+            <if test="createtime != null ">
+				and t.createtime = #{createtime}            
+            </if>
+		</where>
+		
+	</select>
+	<select id="INSBChnTaxrate_selectById" parameterType="String" resultType="com.zzb.extra.entity.INSBChnTaxrate">
+		select * from INSBChnTaxrate where id = #{id}
+	</select>
+	<select id="INSBChnTaxrate_deleteById" parameterType="String">
+		delete from INSBChnTaxrate where id = #{id}
+	</select>
+	<select id="INSBChnTaxrate_updateById" parameterType="com.zzb.extra.entity.INSBChnTaxrate">
+		update INSBChnTaxrate  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},channelid = #{channelid},effectivetime = #{effectivetime},terminaltime = #{terminaltime},taxrate = #{taxrate},status = #{status} where id = #{id}
+	</select>
+	<select id="INSBChnTaxrate_updateStatusById2" parameterType="com.zzb.extra.entity.INSBChnTaxrate">
+		update INSBChnTaxrate set operator = #{operator},modifytime = #{modifytime}
+		<if test="effectivetime = null and effectivetime = '' ">
+			,effectivetime = #{effectivetime}
+		</if>
+		<if test="terminaltime = null and terminaltime = '' ">
+			,terminaltime = #{terminaltime}
+		</if>
+		<if test="taxrate = null and taxrate = '' ">
+			,taxrate = #{taxrate}
+		</if>
+		where id = #{id}
+		
+	</select>
+	<select id="INSBChnTaxrate_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBChnTaxrate
+		<where>
+			<if test="channelid != null">
+				and channelid = #{channelid}
+			</if>
+			<if test="effectivetime != null">
+				and effectivetime = #{effectivetime}
+			</if>
+			<if test="terminaltime != null">
+				and terminaltime = #{terminaltime}
+			</if>
+			<if test="taxrate != null">
+				and taxrate = #{taxrate}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+	</select>
+	<select id="INSBChnTaxrate_selectOne" parameterType="Map" resultType="com.zzb.extra.entity.INSBChnTaxrate">
+		select * from INSBChnTaxrate
+		<where>
+			<if test="channelid != null">
+				and channelid = #{channelid}
+			</if>
+			<if test="effectivetime != null">
+				and effectivetime = #{effectivetime}
+			</if>
+			<if test="terminaltime != null">
+				and terminaltime = #{terminaltime}
+			</if>
+			<if test="taxrate != null">
+				and taxrate = #{taxrate}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBChnTaxrate_updateStatusById" parameterType="Map" resultType="Integer">
+		update INSBChnTaxrate  set status = #{status},operator = #{operator},modifytime = #{modifytime},effectivetime = #{effectivetime},noti = #{noti}
+		<if test="terminaltime != null and terminaltime != ''">
+			,terminaltime = #{terminaltime}
+		</if>
+		 where id = #{id}
+	</select>
+	<select id="INSBChnTaxrate_queryTaxrateByChannelid" parameterType="String" resultType="com.zzb.extra.entity.INSBChnTaxrate">
+		select * from insbchntaxrate where status = '1' and channelid = #{value}
+	
+	</select>
+</mapper>

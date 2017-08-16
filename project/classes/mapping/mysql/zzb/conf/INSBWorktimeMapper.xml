@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBWorktime -->
+	<select id="INSBWorktime_insert" parameterType="com.zzb.conf.entity.INSBWorktime"
+		resultType="int">
+		insert into INSBWorktime
+		(id,operator,createtime,modifytime,noti,inscdeptid,paytimetype,noworkwords,workwords)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{inscdeptid},#{paytimetype},#{noworkwords},#{workwords})
+	</select>
+	<select id="INSBWorktime_select" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBWorktime">
+		select * from INSBWorktime
+		<where>
+			<if test="operater != null">
+				and operater = #{operater}
+			</if>
+			<if test="inscdeptid != null">
+				and inscdeptid = #{inscdeptid}
+			</if>
+			<if test="paytimetype != null">
+				and paytimetype = #{paytimetype}
+			</if>
+			<if test="noworkwords != null">
+				and noworkwords = #{noworkwords}
+			</if>
+			<if test="workwords != null">
+				and workwords = #{workwords}
+			</if>
+		</where>
+	</select>
+
+	<select id="INSBWorktime_selectOne" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBWorktime">
+		select * from INSBWorktime
+		<where>
+			<if test="operater != null">
+				and operater = #{operater}
+			</if>
+			<if test="inscdeptid != null">
+				and inscdeptid = #{inscdeptid}
+			</if>
+			<if test="paytimetype != null">
+				and paytimetype = #{paytimetype}
+			</if>
+			<if test="noworkwords != null">
+				and noworkwords = #{noworkwords}
+			</if>
+			<if test="workwords != null">
+				and workwords = #{workwords}
+			</if>
+		</where>
+		limit 2
+	</select>
+
+	<select id="INSBWorktime_selectById" parameterType="String"
+		resultType="com.zzb.conf.entity.INSBWorktime">
+		select * from INSBWorktime where id = #{id}
+	</select>
+	<select id="INSBWorktime_deleteById" parameterType="String">
+		delete from
+		INSBWorktime where id = #{id}
+	</select>
+	<select id="INSBWorktime_updateById" parameterType="com.zzb.conf.entity.INSBWorktime">
+		update
+		INSBWorktime set operator = #{operator},modifytime =
+		#{modifytime},noti = #{noti},inscdeptid = #{inscdeptid},paytimetype =
+		#{paytimetype},noworkwords = #{noworkwords},workwords =
+		#{workwords},networkstate = #{networkstate} where id = #{id}
+	</select>
+	<select id="INSBWorktime_selectCount" parameterType="Map"
+		resultType="Long">
+		select count(1) from INSBWorktime
+		<where>
+			<if test="operater != null">
+				and operater = #{operater}
+			</if>
+			<if test="inscdeptid != null">
+				and inscdeptid = #{inscdeptid}
+			</if>
+			<if test="paytimetype != null">
+				and paytimetype = #{paytimetype}
+			</if>
+			<if test="noworkwords != null">
+				and noworkwords = #{noworkwords}
+			</if>
+			<if test="workwords != null">
+				and workwords = #{workwords}
+			</if>
+		</where>
+	</select>
+
+	<select id="INSBWorktime_selectByPage" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBWorktime">
+		select * from INSBWorktime limit #{limit},#{pageSize}
+	</select>
+	<select id="INSBWorktime_selectOneBydeptId" parameterType="String"
+		resultType="com.zzb.conf.entity.INSBWorktime">
+		select * from INSBWorktime
+		<where>
+			<if test="_parameter != null">
+				and inscdeptid = #{_parameter}
+			</if>
+		</where>
+	</select>
+
+	<select id="INSBWorktime_selectOneFuture" parameterType="Map"
+		resultType="Map">
+		select 
+		   d.shortname,a.workwords,a.noworkwords, a.paytimetype ,a.networkstate ,
+		   b.isremindtime,b.workdaystart,b.workdayend,b.daytimestart,b.daytimeend,
+		   c.isonduty,c.datestart,c.dateend,c.daytimestart,c.daytimeend
+		from insbworktime a
+		LEFT JOIN insbworktimearea b on a.id=b.insbworktimeid
+		LEFT JOIN insbholidayarea c on a.id=c.insbworktimeid
+		LEFT JOIN inscdept d on a.inscdeptid=d.id
+		<where>
+		   <if test="inscdeptid != null and inscdeptid !=''">
+		        and inscdeptid=#{inscdeptid} 
+		   </if>
+		   <if test="future != null and future !='' and future = '1'">
+				and DATE_FORMAT(c.datestart, '%Y-%m-%d') >= CURDATE()  
+		   </if>
+		</where>
+	</select>
+	
+	<select id="INSBWorktime_selectWorktimeAndWeekareaInfo" parameterType="Map" resultType="Map">
+	   	select 
+	       b.shortname,b.id as deptid,
+	       a.id,a.workwords,a.noworkwords, a.paytimetype ,a.networkstate ,
+           c.isremindtime,c.workdaystart,c.workdayend,c.daytimestart,c.daytimeend
+	    FROM insbworktime a 
+	    LEFT JOIN inscdept b on a.inscdeptid = b.id 
+	    LEFT JOIN insbworktimearea c ON a.id = c.insbworktimeid
+	    <where>
+	        <if test="inscdeptid != null and inscdeptid !=''">
+	           and a.inscdeptid=#{inscdeptid}
+	        </if>
+	    </where>
+	</select>
+	
+
+	<select id="INSBWorktime_insertone" parameterType="com.zzb.conf.entity.INSBWorktime"
+		resultType="int">
+		insert into INSBWorktime
+		(id,createtime,modifytime,noti,operater,inscdeptid,paytimetype,noworkwords,workwords,networkstate)
+		values
+		(#{id},#{createtime},#{modifytime},#{noti},#{operater},#{inscdeptid},#{paytimetype},#{noworkwords},#{workwords},#{networkstate})
+	</select>
+</mapper>

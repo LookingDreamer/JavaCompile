@@ -1,0 +1,2253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBCarinfo -->
+	<select id="INSBCarinfo_insert" parameterType="com.zzb.cm.entity.INSBCarinfo" resultType="int">
+		insert into INSBCarinfo
+		(id,operator,createtime,modifytime,noti,taskid,selectconfig,selectins,owner,ownername,phonenumber,address,carlicenseno,vincode,standardfullname,engineno,registdate,registlicense,transferdate,isTransfercar,Specifydriver,drivingarea,mileage,accidentnum,carid,useyears,signdate,parksite,preinscode,taskstatus,property,carproperty,businessstartdate,businessenddate,strongstartdate,strongenddate,cloudinscompany,islicense,platecolor,plateType,ineffectualDate,rejectDate,lastCheckDate,isLoansCar,carVehicularApplications,isFieldCar,carBodyColor,loanManyYearsFlag,isNew,depprice, floatprice, isdanger, isrob, isspecial, maxprice, maxpricerate, minprice, minpricerate, taxprice,drivinglicenseurl,brandimg,cifstandardname) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{selectconfig},#{selectins},#{owner},#{ownername},#{phonenumber},#{address},#{carlicenseno},#{vincode},#{standardfullname},#{engineno},#{registdate},#{registlicense},#{transferdate},#{isTransfercar},#{Specifydriver},#{drivingarea},#{mileage},#{accidentnum},#{carid},#{useyears},#{signdate},#{parksite},#{preinscode},#{taskstatus},#{property},#{carproperty},#{businessstartdate},#{businessenddate},#{strongstartdate},#{strongenddate},#{cloudinscompany},#{islicense},#{platecolor},#{plateType},#{ineffectualDate},#{rejectDate},#{lastCheckDate},#{isLoansCar},#{carVehicularApplications},#{isFieldCar},#{carBodyColor},#{loanManyYearsFlag},#{isNew},#{depprice},#{floatprice},#{isdanger},#{isrob},#{isspecial},#{maxprice},#{maxpricerate},#{minprice},#{minpricerate},#{taxprice},#{drivinglicenseurl},#{brandimg},#{cifstandardname})
+	</select>
+	<select id="INSBCarinfo_getCarinfosByMap" parameterType="Map" resultType="com.zzb.cm.entity.INSBCarinfo">
+		select DISTINCT car.* FROM insbcarinfo car LEFT JOIN insbpolicyitem tem ON tem.carinfoid = car.id 
+		<where>
+			<if test="policyno !=null and policyno!=''">
+				and tem.policyno = #{policyno}
+			</if>
+			<if test="taskid != null and taskid !=''">
+				and car.taskid = #{taskid}
+			</if>
+			<if test="selectconfig != null">
+				and car.selectconfig = #{selectconfig}
+			</if>
+			<if test="selectins != null">
+				and car.selectins = #{selectins}
+			</if>
+			<if test="owner != null">
+				and car.owner = #{owner}
+			</if>
+			<if test="ownername != null and ownername != '' ">
+				<!-- and ownername = #{ownername} -->
+				and car.ownername like CONCAT(#{ownername},'%')
+			</if>
+			<if test="phonenumber != null and phonenumber != '' ">
+				and car.phonenumber = #{phonenumber}
+			</if>
+			<if test="address != null">
+				and car.address = #{address}
+			</if>
+			<if test="carlicenseno != null and carlicenseno != '' ">
+				<!-- and carlicenseno = #{carlicenseno} -->
+				and car.carlicenseno like CONCAT(#{carlicenseno},'%')
+			</if>
+			<if test="vincode != null and vincode != '' ">
+				and car.vincode = #{vincode}
+			</if>
+			<if test="standardfullname != null">
+				and car.standardfullname = #{standardfullname}
+			</if>
+			<if test="engineno != null and engineno != '' ">
+				and car.engineno = #{engineno}
+			</if>
+			<if test="registdate != null">
+				and car.registdate = #{registdate}
+			</if>
+			<if test="registlicense != null">
+				and car.registlicense = #{registlicense}
+			</if>
+			<if test="transferdate != null">
+				and car.transferdate = #{transferdate}
+			</if>
+			<if test="isTransfercar != null">
+				and car.isTransfercar = #{isTransfercar}
+			</if>
+			<if test="Specifydriver != null">
+				and car.Specifydriver = #{Specifydriver}
+			</if>
+			<if test="drivingarea != null">
+				and drivingarea = #{drivingarea}
+			</if>
+			<if test="mileage != null">
+				and car.mileage = #{mileage}
+			</if>
+			<if test="accidentnum != null">
+				and car.accidentnum = #{accidentnum}
+			</if>
+			<if test="carid != null">
+				and car.carid = #{carid}
+			</if>
+			<if test="useyears != null">
+				and car.useyears = #{useyears}
+			</if>
+			<if test="signdate != null">
+				and car.signdate = #{signdate}
+			</if>
+			<if test="parksite != null">
+				and car.parksite = #{parksite}
+			</if>
+			<if test="preinscode != null">
+				and car.preinscode = #{preinscode}
+			</if>
+			<if test="taskstatus != null">
+				and car.taskstatus = #{taskstatus}
+			</if>
+			<if test="property != null">
+				and car.property = #{property}
+			</if>
+			<if test="carproperty != null">
+				and car.carproperty = #{carproperty}
+			</if>
+			<if test="businessstartdate != null">
+				and car.businessstartdate = #{businessstartdate}
+			</if>
+			<if test="businessenddate != null">
+				and car.businessenddate = #{businessenddate}
+			</if>
+			<if test="strongstartdate != null">
+				and car.strongstartdate = #{strongstartdate}
+			</if>
+			<if test="strongenddate != null">
+				and car.strongenddate = #{strongenddate}
+			</if>
+			<if test="cloudinscompany != null">
+				and car.cloudinscompany = #{cloudinscompany}
+			</if>
+			<if test="islicense != null">
+				and car.islicense = #{islicense}
+			</if>
+			<if test="platecolor != null">
+				and car.platecolor = #{platecolor}
+			</if>
+			<if test="plateType != null">
+				and car.plateType = #{plateType}
+			</if>
+			<if test="ineffectualDate != null">
+				and car.ineffectualDate = #{ineffectualDate}
+			</if>
+			<if test="rejectDate != null">
+				and car.rejectDate = #{rejectDate}
+			</if>
+			<if test="lastCheckDate != null">
+				and car.lastCheckDate = #{lastCheckDate}
+			</if>
+			<if test="isLoansCar != null">
+				and car.isLoansCar = #{isLoansCar}
+			</if>
+			<if test="carVehicularApplications != null">
+				and car.carVehicularApplications = #{carVehicularApplications}
+			</if>
+			<if test="isFieldCar != null">
+				and car.isFieldCar = #{isFieldCar}
+			</if>
+			<if test="carBodyColor != null">
+				and car.carBodyColor = #{carBodyColor}
+			</if>
+			<if test="loanManyYearsFlag != null">
+				and car.loanManyYearsFlag = #{loanManyYearsFlag}
+			</if>
+			<if test="isNew != null">
+				and car.isNew = #{isNew}
+			</if>
+			<if test="depprice != null">
+				and car.depprice = #{depprice}
+			</if>
+			<if test="floatprice != null">
+				and car.floatprice = #{floatprice}
+			</if>
+			<if test="isdanger != null">
+				and car.isdanger = #{isdanger}
+			</if>
+			<if test="isrob != null">
+				and car.isrob = #{isrob}
+			</if>
+			<if test="isspecial != null">
+				and car.isspecial = #{isspecial}
+			</if>
+			<if test="maxprice != null">
+				and car.maxprice = #{maxprice}
+			</if>
+			<if test="maxpricerate != null">
+				and car.maxpricerate = #{maxpricerate}
+			</if>
+			<if test="minprice != null">
+				and car.minprice = #{minprice}
+			</if>
+			<if test="minpricerate != null">
+				and car.minpricerate = #{minpricerate}
+			</if>
+			<if test="taxprice != null">
+				and car.taxprice = #{taxprice}
+			</if>
+			<if test="drivinglicenseurl != null">
+				and car.drivinglicenseurl = #{drivinglicenseurl}
+			</if>
+			<if test="brandimg != null">
+				and car.brandimg = #{brandimg}
+			</if>
+			<if test="cifstandardname != null">
+				and cifstandardname = #{cifstandardname}
+			</if>
+		</where>
+		<!-- order by a.createtime desc -->
+		order by 
+		<if test="sort != null and order != null">
+			  ${sort}  ${order}  
+		</if>
+		<if test="sort == null">
+			 createtime desc 
+		</if>
+		limit #{offset},#{limit}
+	</select>
+	<select id="INSBCarinfo_getCarinfosByMapCount" parameterType="Map" resultType="Long">
+		select COUNT(DISTINCT car.id) FROM insbcarinfo car LEFT JOIN insbpolicyitem tem ON tem.carinfoid = car.id 
+		<where>
+			<if test="policyno !=null and policyno!=''">
+				and tem.policyno = #{policyno}
+			</if>
+			<if test="taskid != null and taskid !=''">
+				and car.taskid = #{taskid}
+			</if>
+			<if test="selectconfig != null">
+				and car.selectconfig = #{selectconfig}
+			</if>
+			<if test="selectins != null">
+				and car.selectins = #{selectins}
+			</if>
+			<if test="owner != null">
+				and car.owner = #{owner}
+			</if>
+			<if test="ownername != null and ownername != '' ">
+				<!-- and ownername = #{ownername} -->
+				and car.ownername like CONCAT(#{ownername},'%')
+			</if>
+			<if test="phonenumber != null and phonenumber != '' ">
+				and car.phonenumber = #{phonenumber}
+			</if>
+			<if test="address != null">
+				and car.address = #{address}
+			</if>
+			<if test="carlicenseno != null and carlicenseno != '' ">
+				<!-- and carlicenseno = #{carlicenseno} -->
+				and car.carlicenseno like CONCAT(#{carlicenseno},'%')
+			</if>
+			<if test="vincode != null and vincode != '' ">
+				and car.vincode = #{vincode}
+			</if>
+			<if test="standardfullname != null">
+				and car.standardfullname = #{standardfullname}
+			</if>
+			<if test="engineno != null and engineno != '' ">
+				and car.engineno = #{engineno}
+			</if>
+			<if test="registdate != null">
+				and car.registdate = #{registdate}
+			</if>
+			<if test="registlicense != null">
+				and car.registlicense = #{registlicense}
+			</if>
+			<if test="transferdate != null">
+				and car.transferdate = #{transferdate}
+			</if>
+			<if test="isTransfercar != null">
+				and car.isTransfercar = #{isTransfercar}
+			</if>
+			<if test="Specifydriver != null">
+				and car.Specifydriver = #{Specifydriver}
+			</if>
+			<if test="drivingarea != null">
+				and drivingarea = #{drivingarea}
+			</if>
+			<if test="mileage != null">
+				and car.mileage = #{mileage}
+			</if>
+			<if test="accidentnum != null">
+				and car.accidentnum = #{accidentnum}
+			</if>
+			<if test="carid != null">
+				and car.carid = #{carid}
+			</if>
+			<if test="useyears != null">
+				and car.useyears = #{useyears}
+			</if>
+			<if test="signdate != null">
+				and car.signdate = #{signdate}
+			</if>
+			<if test="parksite != null">
+				and car.parksite = #{parksite}
+			</if>
+			<if test="preinscode != null">
+				and car.preinscode = #{preinscode}
+			</if>
+			<if test="taskstatus != null">
+				and car.taskstatus = #{taskstatus}
+			</if>
+			<if test="property != null">
+				and car.property = #{property}
+			</if>
+			<if test="carproperty != null">
+				and car.carproperty = #{carproperty}
+			</if>
+			<if test="businessstartdate != null">
+				and car.businessstartdate = #{businessstartdate}
+			</if>
+			<if test="businessenddate != null">
+				and car.businessenddate = #{businessenddate}
+			</if>
+			<if test="strongstartdate != null">
+				and car.strongstartdate = #{strongstartdate}
+			</if>
+			<if test="strongenddate != null">
+				and car.strongenddate = #{strongenddate}
+			</if>
+			<if test="cloudinscompany != null">
+				and car.cloudinscompany = #{cloudinscompany}
+			</if>
+			<if test="islicense != null">
+				and car.islicense = #{islicense}
+			</if>
+			<if test="platecolor != null">
+				and car.platecolor = #{platecolor}
+			</if>
+			<if test="plateType != null">
+				and car.plateType = #{plateType}
+			</if>
+			<if test="ineffectualDate != null">
+				and car.ineffectualDate = #{ineffectualDate}
+			</if>
+			<if test="rejectDate != null">
+				and car.rejectDate = #{rejectDate}
+			</if>
+			<if test="lastCheckDate != null">
+				and car.lastCheckDate = #{lastCheckDate}
+			</if>
+			<if test="isLoansCar != null">
+				and car.isLoansCar = #{isLoansCar}
+			</if>
+			<if test="carVehicularApplications != null">
+				and car.carVehicularApplications = #{carVehicularApplications}
+			</if>
+			<if test="isFieldCar != null">
+				and car.isFieldCar = #{isFieldCar}
+			</if>
+			<if test="carBodyColor != null">
+				and car.carBodyColor = #{carBodyColor}
+			</if>
+			<if test="loanManyYearsFlag != null">
+				and car.loanManyYearsFlag = #{loanManyYearsFlag}
+			</if>
+			<if test="isNew != null">
+				and car.isNew = #{isNew}
+			</if>
+			<if test="depprice != null">
+				and car.depprice = #{depprice}
+			</if>
+			<if test="floatprice != null">
+				and car.floatprice = #{floatprice}
+			</if>
+			<if test="isdanger != null">
+				and car.isdanger = #{isdanger}
+			</if>
+			<if test="isrob != null">
+				and car.isrob = #{isrob}
+			</if>
+			<if test="isspecial != null">
+				and car.isspecial = #{isspecial}
+			</if>
+			<if test="maxprice != null">
+				and car.maxprice = #{maxprice}
+			</if>
+			<if test="maxpricerate != null">
+				and car.maxpricerate = #{maxpricerate}
+			</if>
+			<if test="minprice != null">
+				and car.minprice = #{minprice}
+			</if>
+			<if test="minpricerate != null">
+				and car.minpricerate = #{minpricerate}
+			</if>
+			<if test="taxprice != null">
+				and car.taxprice = #{taxprice}
+			</if>
+			<if test="drivinglicenseurl != null">
+				and car.drivinglicenseurl = #{drivinglicenseurl}
+			</if>
+			<if test="brandimg != null">
+				and car.brandimg = #{brandimg}
+			</if>
+			<if test="cifstandardname != null">
+				and cifstandardname = #{cifstandardname}
+			</if>
+		</where>
+	</select>
+	<select id="INSBCarinfo_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBCarinfo">
+		select * from INSBCarinfo
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="selectconfig != null">
+				and selectconfig = #{selectconfig}
+			</if>
+			<if test="selectins != null">
+				and selectins = #{selectins}
+			</if>
+			<if test="owner != null">
+				and owner = #{owner}
+			</if>
+			<if test="ownername != null">
+				<!-- and ownername = #{ownername} -->
+				and ownername like CONCAT(#{ownername},'%')
+			</if>
+			<if test="phonenumber != null">
+				and phonenumber = #{phonenumber}
+			</if>
+			<if test="address != null">
+				and address = #{address}
+			</if>
+			<if test="carlicenseno != null">
+				<!-- and carlicenseno = #{carlicenseno} -->
+				and carlicenseno like CONCAT(#{carlicenseno},'%')
+			</if>
+			<if test="vincode != null">
+				and vincode = #{vincode}
+			</if>
+			<if test="standardfullname != null">
+				and standardfullname = #{standardfullname}
+			</if>
+			<if test="engineno != null">
+				and engineno = #{engineno}
+			</if>
+			<if test="registdate != null">
+				and registdate = #{registdate}
+			</if>
+			<if test="registlicense != null">
+				and registlicense = #{registlicense}
+			</if>
+			<if test="transferdate != null">
+				and transferdate = #{transferdate}
+			</if>
+			<if test="isTransfercar != null">
+				and isTransfercar = #{isTransfercar}
+			</if>
+			<if test="Specifydriver != null">
+				and Specifydriver = #{Specifydriver}
+			</if>
+			<if test="drivingarea != null">
+				and drivingarea = #{drivingarea}
+			</if>
+			<if test="mileage != null">
+				and mileage = #{mileage}
+			</if>
+			<if test="accidentnum != null">
+				and accidentnum = #{accidentnum}
+			</if>
+			<if test="carid != null">
+				and carid = #{carid}
+			</if>
+			<if test="useyears != null">
+				and useyears = #{useyears}
+			</if>
+			<if test="signdate != null">
+				and signdate = #{signdate}
+			</if>
+			<if test="parksite != null">
+				and parksite = #{parksite}
+			</if>
+			<if test="preinscode != null">
+				and preinscode = #{preinscode}
+			</if>
+			<if test="taskstatus != null">
+				and taskstatus = #{taskstatus}
+			</if>
+			<if test="property != null">
+				and property = #{property}
+			</if>
+			<if test="carproperty != null">
+				and carproperty = #{carproperty}
+			</if>
+			<if test="businessstartdate != null">
+				and businessstartdate = #{businessstartdate}
+			</if>
+			<if test="businessenddate != null">
+				and businessenddate = #{businessenddate}
+			</if>
+			<if test="strongstartdate != null">
+				and strongstartdate = #{strongstartdate}
+			</if>
+			<if test="strongenddate != null">
+				and strongenddate = #{strongenddate}
+			</if>
+			<if test="cloudinscompany != null">
+				and cloudinscompany = #{cloudinscompany}
+			</if>
+			<if test="islicense != null">
+				and islicense = #{islicense}
+			</if>
+			<if test="platecolor != null">
+				and platecolor = #{platecolor}
+			</if>
+			<if test="plateType != null">
+				and plateType = #{plateType}
+			</if>
+			<if test="ineffectualDate != null">
+				and ineffectualDate = #{ineffectualDate}
+			</if>
+			<if test="rejectDate != null">
+				and rejectDate = #{rejectDate}
+			</if>
+			<if test="lastCheckDate != null">
+				and lastCheckDate = #{lastCheckDate}
+			</if>
+			<if test="isLoansCar != null">
+				and isLoansCar = #{isLoansCar}
+			</if>
+			<if test="carVehicularApplications != null">
+				and carVehicularApplications = #{carVehicularApplications}
+			</if>
+			<if test="isFieldCar != null">
+				and isFieldCar = #{isFieldCar}
+			</if>
+			<if test="carBodyColor != null">
+				and carBodyColor = #{carBodyColor}
+			</if>
+			<if test="loanManyYearsFlag != null">
+				and loanManyYearsFlag = #{loanManyYearsFlag}
+			</if>
+			<if test="isNew != null">
+				and isNew = #{isNew}
+			</if>
+			<if test="depprice != null">
+				and depprice = #{depprice}
+			</if>
+			<if test="floatprice != null">
+				and floatprice = #{floatprice}
+			</if>
+			<if test="isdanger != null">
+				and isdanger = #{isdanger}
+			</if>
+			<if test="isrob != null">
+				and isrob = #{isrob}
+			</if>
+			<if test="isspecial != null">
+				and isspecial = #{isspecial}
+			</if>
+			<if test="maxprice != null">
+				and maxprice = #{maxprice}
+			</if>
+			<if test="maxpricerate != null">
+				and maxpricerate = #{maxpricerate}
+			</if>
+			<if test="minprice != null">
+				and minprice = #{minprice}
+			</if>
+			<if test="minpricerate != null">
+				and minpricerate = #{minpricerate}
+			</if>
+			<if test="taxprice != null">
+				and taxprice = #{taxprice}
+			</if>
+			<if test="drivinglicenseurl != null">
+				and drivinglicenseurl = #{drivinglicenseurl}
+			</if>
+			<if test="brandimg != null">
+				and brandimg = #{brandimg}
+			</if>
+			<if test="cifstandardname != null">
+				and cifstandardname = #{cifstandardname}
+			</if>
+		</where>
+		 order by createtime desc 
+	</select>
+	<select id="INSBCarinfo_getByCreattime" parameterType="Map" resultType="com.zzb.cm.entity.INSBCarinfo">
+		select * from INSBCarinfo
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="selectconfig != null">
+				and selectconfig = #{selectconfig}
+			</if>
+			<if test="selectins != null">
+				and selectins = #{selectins}
+			</if>
+			<if test="owner != null">
+				and owner = #{owner}
+			</if>
+			<if test="ownername != null">
+				<!-- and ownername = #{ownername} -->
+				and ownername like CONCAT(#{ownername},'%')
+			</if>
+			<if test="phonenumber != null">
+				and phonenumber = #{phonenumber}
+			</if>
+			<if test="address != null">
+				and address = #{address}
+			</if>
+			<if test="carlicenseno != null">
+				<!-- and carlicenseno = #{carlicenseno} -->
+				and carlicenseno like CONCAT(#{carlicenseno},'%')
+			</if>
+			<if test="vincode != null">
+				and vincode = #{vincode}
+			</if>
+			<if test="standardfullname != null">
+				and standardfullname = #{standardfullname}
+			</if>
+			<if test="engineno != null">
+				and engineno = #{engineno}
+			</if>
+			<if test="registdate != null">
+				and registdate = #{registdate}
+			</if>
+			<if test="registlicense != null">
+				and registlicense = #{registlicense}
+			</if>
+			<if test="transferdate != null">
+				and transferdate = #{transferdate}
+			</if>
+			<if test="isTransfercar != null">
+				and isTransfercar = #{isTransfercar}
+			</if>
+			<if test="Specifydriver != null">
+				and Specifydriver = #{Specifydriver}
+			</if>
+			<if test="drivingarea != null">
+				and drivingarea = #{drivingarea}
+			</if>
+			<if test="mileage != null">
+				and mileage = #{mileage}
+			</if>
+			<if test="accidentnum != null">
+				and accidentnum = #{accidentnum}
+			</if>
+			<if test="carid != null">
+				and carid = #{carid}
+			</if>
+			<if test="useyears != null">
+				and useyears = #{useyears}
+			</if>
+			<if test="signdate != null">
+				and signdate = #{signdate}
+			</if>
+			<if test="parksite != null">
+				and parksite = #{parksite}
+			</if>
+			<if test="preinscode != null">
+				and preinscode = #{preinscode}
+			</if>
+			<if test="taskstatus != null">
+				and taskstatus = #{taskstatus}
+			</if>
+			<if test="property != null">
+				and property = #{property}
+			</if>
+			<if test="carproperty != null">
+				and carproperty = #{carproperty}
+			</if>
+			<if test="businessstartdate != null">
+				and businessstartdate = #{businessstartdate}
+			</if>
+			<if test="businessenddate != null">
+				and businessenddate = #{businessenddate}
+			</if>
+			<if test="strongstartdate != null">
+				and strongstartdate = #{strongstartdate}
+			</if>
+			<if test="strongenddate != null">
+				and strongenddate = #{strongenddate}
+			</if>
+			<if test="cloudinscompany != null">
+				and cloudinscompany = #{cloudinscompany}
+			</if>
+			<if test="islicense != null">
+				and islicense = #{islicense}
+			</if>
+			<if test="platecolor != null">
+				and platecolor = #{platecolor}
+			</if>
+			<if test="plateType != null">
+				and plateType = #{plateType}
+			</if>
+			<if test="ineffectualDate != null">
+				and ineffectualDate = #{ineffectualDate}
+			</if>
+			<if test="rejectDate != null">
+				and rejectDate = #{rejectDate}
+			</if>
+			<if test="lastCheckDate != null">
+				and lastCheckDate = #{lastCheckDate}
+			</if>
+			<if test="isLoansCar != null">
+				and isLoansCar = #{isLoansCar}
+			</if>
+			<if test="carVehicularApplications != null">
+				and carVehicularApplications = #{carVehicularApplications}
+			</if>
+			<if test="isFieldCar != null">
+				and isFieldCar = #{isFieldCar}
+			</if>
+			<if test="carBodyColor != null">
+				and carBodyColor = #{carBodyColor}
+			</if>
+			<if test="loanManyYearsFlag != null">
+				and loanManyYearsFlag = #{loanManyYearsFlag}
+			</if>
+			<if test="isNew != null">
+				and isNew = #{isNew}
+			</if>
+			<if test="depprice != null">
+				and depprice = #{depprice}
+			</if>
+			<if test="floatprice != null">
+				and floatprice = #{floatprice}
+			</if>
+			<if test="isdanger != null">
+				and isdanger = #{isdanger}
+			</if>
+			<if test="isrob != null">
+				and isrob = #{isrob}
+			</if>
+			<if test="isspecial != null">
+				and isspecial = #{isspecial}
+			</if>
+			<if test="maxprice != null">
+				and maxprice = #{maxprice}
+			</if>
+			<if test="maxpricerate != null">
+				and maxpricerate = #{maxpricerate}
+			</if>
+			<if test="minprice != null">
+				and minprice = #{minprice}
+			</if>
+			<if test="minpricerate != null">
+				and minpricerate = #{minpricerate}
+			</if>
+			<if test="taxprice != null">
+				and taxprice = #{taxprice}
+			</if>
+			<if test="drivinglicenseurl != null">
+				and drivinglicenseurl = #{drivinglicenseurl}
+			</if>
+			<if test="brandimg != null">
+				and brandimg = #{brandimg}
+			</if>
+			<if test="cifstandardname != null">
+				and cifstandardname = #{cifstandardname}
+			</if>
+			<if test="startdate != null">
+				and createtime &gt;= #{startdate}
+			</if>
+			<if test="enddate != null">
+				and createtime &lt;= #{enddate}
+			</if>
+		</where>
+		 order by createtime desc 
+	</select>
+	<select id="INSBCarinfo_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBCarinfo">
+		select * from INSBCarinfo
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="selectconfig != null">
+				and selectconfig = #{selectconfig}
+			</if>
+			<if test="selectins != null">
+				and selectins = #{selectins}
+			</if>
+			<if test="owner != null">
+				and owner = #{owner}
+			</if>
+			<if test="ownername != null">
+				<!-- and ownername = #{ownername} -->
+				and ownername like CONCAT(#{ownername},'%')
+			</if>
+			<if test="phonenumber != null">
+				and phonenumber = #{phonenumber}
+			</if>
+			<if test="address != null">
+				and address = #{address}
+			</if>
+			<if test="carlicenseno != null">
+				<!-- and carlicenseno = #{carlicenseno} -->
+				and carlicenseno like CONCAT(#{carlicenseno},'%')
+			</if>
+			<if test="vincode != null">
+				and vincode = #{vincode}
+			</if>
+			<if test="standardfullname != null">
+				and standardfullname = #{standardfullname}
+			</if>
+			<if test="engineno != null">
+				and engineno = #{engineno}
+			</if>
+			<if test="registdate != null">
+				and registdate = #{registdate}
+			</if>
+			<if test="registlicense != null">
+				and registlicense = #{registlicense}
+			</if>
+			<if test="transferdate != null">
+				and transferdate = #{transferdate}
+			</if>
+			<if test="isTransfercar != null">
+				and isTransfercar = #{isTransfercar}
+			</if>
+			<if test="Specifydriver != null">
+				and Specifydriver = #{Specifydriver}
+			</if>
+			<if test="drivingarea != null">
+				and drivingarea = #{drivingarea}
+			</if>
+			<if test="mileage != null">
+				and mileage = #{mileage}
+			</if>
+			<if test="accidentnum != null">
+				and accidentnum = #{accidentnum}
+			</if>
+			<if test="carid != null">
+				and carid = #{carid}
+			</if>
+			<if test="useyears != null">
+				and useyears = #{useyears}
+			</if>
+			<if test="signdate != null">
+				and signdate = #{signdate}
+			</if>
+			<if test="parksite != null">
+				and parksite = #{parksite}
+			</if>
+			<if test="preinscode != null">
+				and preinscode = #{preinscode}
+			</if>
+			<if test="taskstatus != null">
+				and taskstatus = #{taskstatus}
+			</if>
+			<if test="property != null">
+				and property = #{property}
+			</if>
+			<if test="carproperty != null">
+				and carproperty = #{carproperty}
+			</if>
+			<if test="businessstartdate != null">
+				and businessstartdate = #{businessstartdate}
+			</if>
+			<if test="businessenddate != null">
+				and businessenddate = #{businessenddate}
+			</if>
+			<if test="strongstartdate != null">
+				and strongstartdate = #{strongstartdate}
+			</if>
+			<if test="strongenddate != null">
+				and strongenddate = #{strongenddate}
+			</if>
+			<if test="cloudinscompany != null">
+				and cloudinscompany = #{cloudinscompany}
+			</if>
+			<if test="islicense != null">
+				and islicense = #{islicense}
+			</if>
+			<if test="platecolor != null">
+				and platecolor = #{platecolor}
+			</if>
+			<if test="plateType != null">
+				and plateType = #{plateType}
+			</if>
+			<if test="ineffectualDate != null">
+				and ineffectualDate = #{ineffectualDate}
+			</if>
+			<if test="rejectDate != null">
+				and rejectDate = #{rejectDate}
+			</if>
+			<if test="lastCheckDate != null">
+				and lastCheckDate = #{lastCheckDate}
+			</if>
+			<if test="isLoansCar != null">
+				and isLoansCar = #{isLoansCar}
+			</if>
+			<if test="carVehicularApplications != null">
+				and carVehicularApplications = #{carVehicularApplications}
+			</if>
+			<if test="isFieldCar != null">
+				and isFieldCar = #{isFieldCar}
+			</if>
+			<if test="carBodyColor != null">
+				and carBodyColor = #{carBodyColor}
+			</if>
+			<if test="loanManyYearsFlag != null">
+				and loanManyYearsFlag = #{loanManyYearsFlag}
+			</if>
+			<if test="isNew != null">
+				and isNew = #{isNew}
+			</if>
+			<if test="depprice != null">
+				and depprice = #{depprice}
+			</if>
+			<if test="floatprice != null">
+				and floatprice = #{floatprice}
+			</if>
+			<if test="isdanger != null">
+				and isdanger = #{isdanger}
+			</if>
+			<if test="isrob != null">
+				and isrob = #{isrob}
+			</if>
+			<if test="isspecial != null">
+				and isspecial = #{isspecial}
+			</if>
+			<if test="maxprice != null">
+				and maxprice = #{maxprice}
+			</if>
+			<if test="maxpricerate != null">
+				and maxpricerate = #{maxpricerate}
+			</if>
+			<if test="minprice != null">
+				and minprice = #{minprice}
+			</if>
+			<if test="minpricerate != null">
+				and minpricerate = #{minpricerate}
+			</if>
+			<if test="taxprice != null">
+				and taxprice = #{taxprice}
+			</if>
+			<if test="drivinglicenseurl != null">
+				and drivinglicenseurl = #{drivinglicenseurl}
+			</if>
+			<if test="brandimg != null">
+				brandimg = #{brandimg}
+			</if>
+			<if test="cifstandardname != null">
+				and cifstandardname = #{cifstandardname}
+			</if>
+		</where>
+		 ORDER BY createtime DESC LIMIT 1  
+	</select>
+	<select id="INSBCarinfo_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBCarinfo">
+		select * from INSBCarinfo where id = #{id}
+	</select>
+	<select id="INSBCarinfo_selectByTaskId" parameterType="String" resultType="com.zzb.cm.entity.INSBCarinfo">
+		select * from INSBCarinfo where taskid = #{taskid}
+	</select>
+	<select id="INSBCarinfo_deleteById" parameterType="String">
+		delete from INSBCarinfo where id = #{id}
+	</select>
+	<select id="INSBCarinfo_updateById" parameterType="com.zzb.cm.entity.INSBCarinfo">
+		update INSBCarinfo
+		<set>
+            modifytime = NOW()
+		<if test="operator !=null and operator !=''">
+            ,operator = #{operator}
+		</if>
+		<if test="paidtaxes !=null and paidtaxes !=''">
+            ,paidtaxes = #{paidtaxes}
+		</if>
+		<if test="noti !=null and noti !=''">
+            ,noti = #{noti}
+		</if>
+		<if test="taskid !=null and taskid !=''">
+            ,taskid = #{taskid}
+		</if>
+		<if test="selectconfig !=null and selectconfig !=''">
+            ,selectconfig = #{selectconfig}
+		</if>
+		<if test="selectins !=null and selectins !=''">
+            ,selectins = #{selectins}
+		</if>
+		<if test="owner !=null and owner !=''">
+            ,owner = #{owner}
+		</if>
+		<if test="ownername !=null and ownername !=''">
+            ,ownername = #{ownername}
+		</if>
+		<if test="phonenumber !=null and phonenumber !=''">
+            ,phonenumber = #{phonenumber}
+		</if>
+		<if test="address !=null and address !=''">
+            ,address = #{address}
+		</if>
+		<if test="carlicenseno !=null and carlicenseno !=''">
+            ,carlicenseno = #{carlicenseno}
+		</if>
+		<if test="vincode !=null and vincode !=''">
+            ,vincode = #{vincode}
+		</if>
+		<if test="standardfullname !=null and standardfullname !=''">
+            ,standardfullname = #{standardfullname}
+		</if>
+		<if test="engineno !=null and engineno !=''">
+            ,engineno = #{engineno}
+		</if>
+		<if test="registdate !=null and registdate !=''">
+            ,registdate = #{registdate}
+		</if>
+		<if test="registlicense !=null and registlicense !=''">
+            ,registlicense = #{registlicense}
+		</if>
+		<if test="transferdate !=null and transferdate !=''">
+            ,transferdate = #{transferdate}
+		</if>
+		<if test="isTransfercar !=null and isTransfercar !=''">
+            ,isTransfercar = #{isTransfercar}
+		</if>
+		<if test="Specifydriver !=null and Specifydriver !=''">
+            ,Specifydriver = #{Specifydriver}
+		</if>
+		<if test="drivingarea !=null and drivingarea !=''">
+            ,drivingarea = #{drivingarea}
+		</if>
+		<if test="mileage !=null and mileage !=''">
+            ,mileage = #{mileage}
+		</if>
+		<if test="accidentnum !=null and accidentnum !=''">
+            ,accidentnum = #{accidentnum}
+		</if>
+		<if test="carid !=null and carid !=''">
+            ,carid = #{carid}
+		</if>
+		<if test="useyears !=null and useyears !=''">
+            ,useyears = #{useyears}
+		</if>
+		<if test="signdate !=null and signdate !=''">
+            ,signdate = #{signdate}
+		</if>
+		<if test="parksite !=null and parksite !=''">
+            ,parksite = #{parksite}
+		</if>
+		<if test="preinscode !=null and preinscode !=''">
+            ,preinscode = #{preinscode}
+		</if>
+		<if test="taskstatus !=null and taskstatus !=''">
+            ,taskstatus = #{taskstatus}
+		</if>
+		<if test="property !=null and property !=''">
+            ,property = #{property}
+		</if>
+		<if test="carproperty !=null and carproperty !=''">
+            ,carproperty = #{carproperty}
+		</if>
+		<if test="businessstartdate !=null and businessstartdate !=''">
+            ,businessstartdate = #{businessstartdate}
+		</if>
+		<if test="businessenddate !=null and businessenddate !=''">
+            ,businessenddate = #{businessenddate}
+		</if>
+		<if test="strongstartdate !=null and strongstartdate !=''">
+            ,strongstartdate = #{strongstartdate}
+		</if>
+		<if test="strongenddate !=null and strongenddate !=''">
+            ,strongenddate = #{strongenddate}
+		</if>
+		<if test="cloudinscompany !=null and cloudinscompany !=''">
+            ,cloudinscompany = #{cloudinscompany}
+		</if>
+		<if test="islicense !=null and islicense !=''">
+            ,islicense = #{islicense}
+		</if>
+		<if test="platecolor !=null and platecolor !=''">
+            ,platecolor = #{platecolor}
+		</if>
+		<if test="plateType !=null and plateType !=''">
+            ,plateType = #{plateType}
+		</if>
+		<if test="ineffectualDate !=null and ineffectualDate !=''">
+            ,ineffectualDate = #{ineffectualDate}
+		</if>
+		<if test="rejectDate !=null and rejectDate !=''">
+            ,rejectDate = #{rejectDate}
+		</if>
+		<if test="lastCheckDate !=null and lastCheckDate !=''">
+            ,lastCheckDate = #{lastCheckDate}
+		</if>
+		<if test="isLoansCar !=null and isLoansCar !=''">
+            ,isLoansCar = #{isLoansCar}
+		</if>
+		<if test="carVehicularApplications !=null and carVehicularApplications !=''">
+            ,carVehicularApplications = #{carVehicularApplications}
+		</if>
+		<if test="isFieldCar !=null and isFieldCar !=''">
+            ,isFieldCar = #{isFieldCar}
+		</if>
+		<if test="carBodyColor !=null and carBodyColor !=''">
+            ,carBodyColor = #{carBodyColor}
+		</if>
+		<if test="loanManyYearsFlag !=null and loanManyYearsFlag !=''">
+            ,loanManyYearsFlag = #{loanManyYearsFlag}
+		</if>
+		<if test="isNew !=null and isNew !=''">
+            ,isNew = #{isNew}
+		</if>
+		<if test="depprice !=null and depprice !=''">
+            ,depprice = #{depprice}
+		</if>
+		<if test="floatprice !=null and floatprice !=''">
+            ,floatprice = #{floatprice}
+		</if>
+		<if test="isdanger !=null and isdanger !=''">
+            ,isdanger = #{isdanger}
+		</if>
+		<if test="isrob !=null and isrob !=''">
+            ,isrob = #{isrob}
+		</if>
+		<if test="isspecial !=null and isspecial !=''">
+            ,isspecial = #{isspecial}
+		</if>
+		<if test="maxprice !=null and maxprice !=''">
+            ,maxprice = #{maxprice}
+		</if>
+		<if test="maxpricerate !=null and maxpricerate !=''">
+            ,maxpricerate = #{maxpricerate}
+		</if>
+		<if test="minprice !=null and minprice !=''">
+            ,minprice = #{minprice}
+		</if>
+		<if test="minpricerate !=null and minpricerate !=''">
+            ,minpricerate = #{minpricerate}
+		</if>
+		<if test="taxprice !=null and taxprice !=''">
+            ,taxprice = #{taxprice}
+		</if>
+		<if test="drivinglicenseurl != null  and drivinglicenseurl !=''">
+            ,drivinglicenseurl = #{drivinglicenseurl}
+		</if>
+		<if test="brandimg != null and brandimg !=''">
+            ,brandimg = #{brandimg}
+		</if>
+		<if test="cifstandardname != null">
+            ,cifstandardname = #{cifstandardname}
+		</if>
+		</set>
+		  where id = #{id}				
+	</select>
+	<!-- 保存车辆信息 -->
+	<select id="INSBCarinfo_updateByCarInfoId" parameterType="Map">
+		update INSBCarinfo  set operator = #{operator},modifytime = NOW(),vincode = #{vincode},engineno = #{engineno},registdate = #{registdate},transferdate = #{transferdate},isTransfercar = #{isTransfercar},drivingarea = #{drivingarea},mileage = #{mileage},property = #{property},carproperty = #{carproperty} where id = #{carinfoid} and taskid = #{taskid}
+   </select>
+	<!-- 保存保险配置是否与上年一致的属性 -->
+	<select id="INSBCarinfo_updateInsureconfigsameaslastyear" parameterType="Map">
+		update INSBCarinfo set insureconfigsameaslastyear = #{sameaslastyear} where taskid = #{taskid}
+	</select>
+	<select id="INSBCarinfo_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBCarinfo
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="selectconfig != null">
+				and selectconfig = #{selectconfig}
+			</if>
+			<if test="selectins != null">
+				and selectins = #{selectins}
+			</if>
+			<if test="owner != null">
+				and owner = #{owner}
+			</if>
+			<if test="ownername != null and ownername != '' ">
+				and ownername  LIKE CONCAT(#{ownername},'%')
+			</if>
+			<if test="phonenumber != null and phonenumber != '' ">
+				and phonenumber = #{phonenumber}
+			</if>
+			<if test="address != null">
+				and address = #{address}
+			</if>
+			<if test="carlicenseno != null and carlicenseno != '' ">
+				and carlicenseno  LIKE CONCAT(#{carlicenseno},'%')
+			</if>
+			<if test="vincode != null and vincode != '' ">
+				and vincode  LIKE CONCAT(#{vincode},'%')
+			</if>
+			<if test="standardfullname != null">
+				and standardfullname = #{standardfullname}
+			</if>
+			<if test="engineno != null and engineno != '' ">
+				and engineno  LIKE CONCAT(#{engineno},'%')
+			</if>
+			<if test="registdate != null">
+				and registdate = #{registdate}
+			</if>
+			<if test="registlicense != null">
+				and registlicense = #{registlicense}
+			</if>
+			<if test="transferdate != null">
+				and transferdate = #{transferdate}
+			</if>
+			<if test="isTransfercar != null">
+				and isTransfercar = #{isTransfercar}
+			</if>
+			<if test="Specifydriver != null">
+				and Specifydriver = #{Specifydriver}
+			</if>
+			<if test="drivingarea != null">
+				and drivingarea = #{drivingarea}
+			</if>
+			<if test="mileage != null">
+				and mileage = #{mileage}
+			</if>
+			<if test="accidentnum != null">
+				and accidentnum = #{accidentnum}
+			</if>
+			<if test="carid != null">
+				and carid = #{carid}
+			</if>
+			<if test="useyears != null">
+				and useyears = #{useyears}
+			</if>
+			<if test="signdate != null">
+				and signdate = #{signdate}
+			</if>
+			<if test="parksite != null">
+				and parksite = #{parksite}
+			</if>
+			<if test="preinscode != null">
+				and preinscode = #{preinscode}
+			</if>
+			<if test="taskstatus != null">
+				and taskstatus = #{taskstatus}
+			</if>
+			<if test="property != null">
+				and property = #{property}
+			</if>
+			<if test="carproperty != null">
+				and carproperty = #{carproperty}
+			</if>
+			<if test="businessstartdate != null">
+				and businessstartdate = #{businessstartdate}
+			</if>
+			<if test="businessenddate != null">
+				and businessenddate = #{businessenddate}
+			</if>
+			<if test="strongstartdate != null">
+				and strongstartdate = #{strongstartdate}
+			</if>
+			<if test="strongenddate != null">
+				and strongenddate = #{strongenddate}
+			</if>
+			<if test="cloudinscompany != null">
+				and cloudinscompany = #{cloudinscompany}
+			</if>
+			<if test="islicense != null">
+				and islicense = #{islicense}
+			</if>
+			<if test="platecolor != null">
+				and platecolor = #{platecolor}
+			</if>
+			<if test="plateType != null">
+				and plateType = #{plateType}
+			</if>
+			<if test="ineffectualDate != null">
+				and ineffectualDate = #{ineffectualDate}
+			</if>
+			<if test="rejectDate != null">
+				and rejectDate = #{rejectDate}
+			</if>
+			<if test="lastCheckDate != null">
+				and lastCheckDate = #{lastCheckDate}
+			</if>
+			<if test="isLoansCar != null">
+				and isLoansCar = #{isLoansCar}
+			</if>
+			<if test="carVehicularApplications != null">
+				and carVehicularApplications = #{carVehicularApplications}
+			</if>
+			<if test="isFieldCar != null">
+				and isFieldCar = #{isFieldCar}
+			</if>
+			<if test="carBodyColor != null">
+				and carBodyColor = #{carBodyColor}
+			</if>
+			<if test="loanManyYearsFlag != null">
+				and loanManyYearsFlag = #{loanManyYearsFlag}
+			</if>
+			<if test="isNew != null">
+				and isNew = #{isNew}
+			</if>
+			<if test="depprice != null">
+				and depprice = #{depprice}
+			</if>
+			<if test="floatprice != null">
+				and floatprice = #{floatprice}
+			</if>
+			<if test="isdanger != null">
+				and isdanger = #{isdanger}
+			</if>
+			<if test="isrob != null">
+				and isrob = #{isrob}
+			</if>
+			<if test="isspecial != null">
+				and isspecial = #{isspecial}
+			</if>
+			<if test="maxprice != null">
+				and maxprice = #{maxprice}
+			</if>
+			<if test="maxpricerate != null">
+				and maxpricerate = #{maxpricerate}
+			</if>
+			<if test="minprice != null">
+				and minprice = #{minprice}
+			</if>
+			<if test="minpricerate != null">
+				and minpricerate = #{minpricerate}
+			</if>
+			<if test="taxprice != null">
+				and taxprice = #{taxprice}
+			</if>
+			<if test="drivinglicenseurl != null">
+				and drivinglicenseurl = #{drivinglicenseurl}
+			</if>
+			<if test="brandimg != null">
+				and brandimg = #{brandimg}
+			</if>
+			<if test="cifstandardname != null">
+				and cifstandardname = #{cifstandardname}
+			</if>
+		</where>
+	</select>
+	<select id="INSBCarinfo_getCarTaskListByMapOld" parameterType="Map" resultType="Map">
+		/*slave*/select 
+		  	a.taskid,
+		  	a.carlicenseno,
+		  	DATE_FORMAT(a.createtime,'%Y-%m-%d') taskcreatetime,
+		  	a.operator,
+		  	c.name insuredname,
+		  	CONCAT('(', d.agentnum,')',d.agentname) agentname,
+		  	d.id quotetotalinfoid
+		from insbcarinfo a 
+		left join insbinsured b on a.taskid = b.taskid 
+		left join insbperson c on c.id = b.personid 
+		left join insbquotetotalinfo d on a.taskid = d.taskid 
+		<where>
+			 <if test="taskcreatetimeup != null"> 
+				and a.createtime &gt;= DATE_FORMAT(#{taskcreatetimeup}, '%Y-%m-%d %H:%i:%S')
+			 </if>
+			 <if test="taskcreatetimedown != null">
+			 	and a.createtime &lt;= DATE_FORMAT(#{taskcreatetimedown}, '%Y-%m-%d %H:%i:%S')  
+			 </if>
+		</where>
+		order by 
+		<if test="sort != null and order != null">
+			  ${sort}  ${order}  
+		</if>
+		<if test="sort == null">
+			 a.createtime desc 
+		</if>
+	</select>
+	
+	<!-- 车险任务管理页面查询分页后记录使用liuchao -->
+	<select id="INSBCarinfo_getCarTaskListByMap" parameterType="Map" resultType="Map">
+		/*slave*/SELECT ws.taskcode as subtaskcode,dcode.codevalue as subcodevalue,wfm.taskcode as maintaskcode,dcode2.codevalue as maincodevalue,
+			ws.maininstanceid AS taskid,
+			q.inscomcode,
+		CASE WHEN ws.taskcode = '33' THEN ws.maininstanceid  else ws.instanceId end AS subInstanceId,
+			
+		CASE WHEN ws.taskcode = '33' THEN wfm.operatorstate
+		 	ELSE ws.operatorstate END  AS operatorstateFlag ,	
+			ws.maininstanceId AS maininstanceId,
+			CASE WHEN ws.taskcode = '33' THEN wfm.taskcode ELSE ws.taskcode END AS taskcode,
+			CASE WHEN ws.taskcode = '33' THEN wfm.taskstate ELSE ws.taskstate END AS taskstate,
+			DATE_FORMAT(wst.createtime, '%Y-%m-%d %H:%i:%S')AS taskcreatetime,
+			
+			CASE WHEN ws.taskcode = '33' THEN  CONCAT(inu2. NAME, '(', wfm.operator, ')')
+			ELSE CONCAT(inu. NAME, '(', ws.operator, ')') END AS operator,
+			
+			CASE WHEN ws.taskcode = '33' THEN wfm.operator
+			ELSE ws.operator END  AS operatorcode,
+			
+			pro.prvshotname AS inscomName,
+			'待处理' AS taskstateName,
+			carh.carlicenseno AS carlicenseno,
+		inhp.name AS insuredname,
+		CASE WHEN ws.taskcode = '33' THEN
+			wfm.groupid ELSE ws.groupid
+		END AS groupid,
+		
+		CASE WHEN ws.taskcode = '33' THEN zds2.codename
+			ELSE zds.codename
+			END AS tasktype,
+			
+		CASE WHEN ws.taskcode = '33' THEN
+			(
+				CASE
+				WHEN(wfm.groupid IS NULL OR wfm.groupid = '')
+				AND(wfm.operator IS NULL OR wfm.operator = '')
+				AND dcode2.id IS NOT NULL THEN
+					'组分配中'
+				WHEN(wfm.groupid IS NOT NULL AND wfm.groupid != '')
+				AND(wfm.operator IS NULL OR wfm.operator = '')
+				AND dcode2.id IS NOT NULL THEN
+					'人分配中'
+				WHEN(wfm.operator IS NOT NULL AND wfm.operator != '')
+				AND dcode2.id IS NOT NULL THEN
+					'已分配到人'
+				ELSE
+					'系统分配'
+				END
+			)
+		ELSE
+			(
+				CASE
+				WHEN(ws.groupid IS NULL OR ws.groupid = '')
+				AND(ws.operator IS NULL OR ws.operator = '')
+				AND dcode.id IS NOT NULL THEN
+					'组分配中'
+				WHEN(ws.groupid IS NOT NULL AND ws.groupid != '')
+				AND(ws.operator IS NULL OR ws.operator = '')
+				AND dcode.id IS NOT NULL THEN
+					'人分配中'
+				WHEN(ws.operator IS NOT NULL AND ws.operator != '')
+				AND dcode.id IS NOT NULL THEN
+					'已分配到人'
+				ELSE
+					'系统分配'
+				END
+			)
+		END AS dispatchstatus,
+		
+		CASE WHEN ws.taskcode = '33' THEN
+			(CASE WHEN dcode2.id IS NOT NULL THEN '1' ELSE '0' END)
+		ELSE
+			(CASE WHEN dcode.id IS NOT NULL THEN '1' ELSE '0' END)
+		END AS dispatchFlag,
+		
+		 CONCAT('(', ag.jobnum, ')', ag.name)AS name,
+		 
+		CASE WHEN ws.taskcode = '33' THEN
+			(
+				CASE
+				WHEN wfm.operatorstate = 'reassignment' THEN
+					'任务改派'
+				WHEN wfm.operatorstate = 'refuseTask' THEN
+					'拒绝任务'
+				WHEN wfm.operatorstate = 'restartTask' THEN
+					'重启调度'
+				WHEN wfm.operatorstate = 'getTask' THEN
+					'认领任务'
+				WHEN wfm.operatorstate = 'autoDispatch' THEN
+					'自动分配'
+				WHEN wfm.operatorstate = 'pauseTask' THEN
+					'暂停任务'
+				ELSE
+					'未知状态'
+				END
+			)
+		ELSE
+			(
+				CASE
+				WHEN ws.operatorstate = 'reassignment' THEN
+					'任务改派'
+				WHEN ws.operatorstate = 'refuseTask' THEN
+					'拒绝任务'
+				WHEN ws.operatorstate = 'restartTask' THEN
+					'重启调度'
+				WHEN ws.operatorstate = 'getTask' THEN
+					'认领任务'
+				WHEN ws.operatorstate = 'autoDispatch' THEN
+					'自动分配'
+				WHEN ws.operatorstate = 'pauseTask' THEN
+					'暂停任务'
+				ELSE
+					'未知状态'
+				END
+			)
+		END AS operatorstate,
+		
+		 sdept.comcode AS deptcode,
+		 sdept.comname AS deptname
+		FROM insbworkflowsub ws
+		LEFT JOIN insbquoteinfo q ON ws.instanceid = q.workflowinstanceid
+		<!--LEFT JOIN insbcarinfo car ON car.taskid = ws.maininstanceid-->
+		LEFT JOIN insbcarinfohis carh ON carh.taskid = ws.maininstanceid
+		AND carh.inscomcode = q.inscomcode
+		<!--LEFT JOIN insbinsured insd ON insd.taskid = ws.maininstanceid-->
+		LEFT JOIN insbinsuredhis insdh ON insdh.taskid = ws.maininstanceid
+		AND q.inscomcode = insdh.inscomcode
+		LEFT JOIN insbperson inhp ON inhp.id = insdh.personid
+		LEFT JOIN insbworkflowmain wfm ON wfm.instanceid = ws.maininstanceid
+		LEFT JOIN insccode zds ON zds.codevalue = ws.taskcode
+		AND zds.codetype = 'workflowNodelName'
+		AND zds.parentcode = 'workflowNodelName'
+		LEFT JOIN insccode zds2 ON zds2.codevalue = wfm.taskcode
+		AND zds2.codetype = 'workflowNodelName'
+		AND zds2.parentcode = 'workflowNodelName'
+		LEFT JOIN insccode dcode ON dcode.codename = zds.codename
+		AND dcode.codetype = 'tasktype'
+		AND dcode.parentcode = 'tasktype'
+		LEFT JOIN insccode dcode2 ON dcode2.codename = zds2.codename
+		AND dcode2.codetype = 'tasktype'
+		AND dcode2.parentcode = 'tasktype'
+		LEFT JOIN inscdept sdept ON sdept.comcode = q.deptcode
+		INNER JOIN insbquotetotalinfo qt ON qt.taskid = ws.maininstanceid
+		LEFT JOIN insbagent ag ON qt.agentnum = ag.jobnum
+		LEFT JOIN insbprovider pro ON pro.prvcode = q.inscomcode
+		LEFT JOIN inscuser inu ON inu.usercode = ws.operator
+		LEFT JOIN inscuser inu2 ON inu2.usercode = wfm.operator
+		LEFT JOIN insbworkflowsubtrack wst ON wst.maininstanceid=ws.maininstanceid and wst.instanceid=ws.instanceid and wst.taskcode=ws.taskcode
+		and wst.createtime=(SELECT MAX(a.createtime) from insbworkflowsubtrack a WHERE a.maininstanceid=ws.maininstanceid and a.instanceid=ws.instanceid and a.taskcode=ws.taskcode)
+		LEFT JOIN insbchannel l ON qt.`purchaserchannel` = l.channelinnercode AND l.childflag='1' AND (l.deleteflag IS NULL OR l.deleteflag !='0')
+		where 1=1
+		AND (sdept.deptinnercode LIKE CONCAT(#{userorganization},'%'))
+		<!-- 组分配中 -->
+			 <if test="taskstatus != null and taskstatus == '01'">
+			 	AND (ws.groupid IS NULL OR ws.groupid = '') AND (ws.operator IS NULL OR ws.operator = '') AND dcode.id IS NOT NULL 
+			 </if>
+			 <!-- 人分配中 -->
+			 <if test="taskstatus != null and taskstatus == '02'"> 
+			 	AND  (ws.groupid IS NOT NULL AND ws.groupid != '') AND (ws.operator IS NULL OR ws.operator = '') AND dcode.id IS NOT NULL
+			 </if>
+			  <!-- 已分配到人 -->
+			 <if test="taskstatus != null and taskstatus == '03'">
+			 	AND (ws.operator IS NOT NULL AND ws.operator != '') AND dcode.id IS NOT NULL
+			 </if>
+			 <if test="taskcreatetimeup != null"> 
+				AND wst.createtime &gt;= #{taskcreatetimeup}
+			 </if>
+			 <if test="taskcreatetimedown != null">
+			 	AND wst.createtime &lt;= #{taskcreatetimedown}
+			 </if>
+			 <if test="carlicensenoOrinsuredname != null">
+			 	  AND carh.carlicenseno =#{carlicensenoOrinsuredname}
+			 </if>
+			 <if test="carlicenseno != null">
+			 	  AND carh.carlicenseno =#{carlicenseno}
+			 </if>
+			 <if test="insuredname != null">
+				 AND inhp.name  =#{insuredname}
+			 </if>
+			 <if test="tasktype != null">
+			 	AND ( 
+			 	(ws.taskcode IN 
+			        <foreach collection="tasktype" index="index" item="item" open="(" separator="," close=")">
+			            #{item}
+			        </foreach>
+			          AND ws.taskcode != '33'
+			        )
+				 OR  (wfm.taskcode IN 
+			        <foreach collection="tasktype" index="index" item="item" open="(" separator="," close=")">
+			            #{item}
+			        </foreach>
+				  AND ws.taskcode = '33'
+				 )
+				 )
+			 </if>	 
+			 <if test="usertype != null">
+			 	AND ag.jobnumtype = #{usertype}
+			 </if>
+			 <if test="agentName != null">
+			 	AND ag.name LIKE CONCAT(#{agentName},'%')
+			 </if>
+			 <if test="agentNum != null">
+			 	AND ag.jobnum = #{agentNum}
+			 </if>
+			 <if test="ad_instanceId !=null">
+			 	AND ws.maininstanceid = #{ad_instanceId}
+			 </if>
+			 <if test="operatorname !=null">
+			 	AND (inu.name LIKE CONCAT(#{operatorname},'%')
+			 	OR ws.operator = #{operatorname} OR inu2.name LIKE CONCAT(#{operatorname},'%')
+			 	OR wfm.operator = #{operatorname})
+			 </if>
+			 <if test="deptcode !=null">
+			 	AND sdept.deptinnercode like CONCAT(#{deptcode}, '%')
+			 </if>
+			 <if test="inscomcode !=null">
+			 	AND q.inscomcode like CONCAT(#{inscomcode},'%') 
+			 </if>
+			  <if test="taskstate !=null   and taskstate == '02'">
+			 	AND (ws.taskcode ='33' or ws.taskcode ='37')
+			 </if>
+			 <if test="taskstate !=null   and taskstate == '01'">
+			 	AND ((ws.taskcode !='33' AND ws.taskcode != '37' AND ws.taskcode != '30') 
+				  or (ws.taskcode ='33' AND wfm.taskcode != '33' AND wfm.taskcode != '37')
+				)
+			 </if>
+		<if test="channelinnercode !=null and channelinnercode != ''">
+			and qt.`purchaserchannel`= #{channelinnercode}
+		</if>
+		order by taskcreatetime desc
+		LIMIT #{offset},#{limit}
+	</select>
+	<!-- 车险任务管理页面查询数据总条数使用liuchao -->
+	<select id="INSBCarinfo_getCarTaskCountByMap" parameterType="Map" resultType="Long">
+	    /*slave*/select count(1)
+		FROM insbworkflowsub ws
+		LEFT JOIN insbquoteinfo q ON ws.instanceid = q.workflowinstanceid
+		<!--LEFT JOIN insbcarinfo car ON car.taskid = ws.maininstanceid-->
+		LEFT JOIN insbcarinfohis carh ON carh.taskid = ws.maininstanceid
+		AND carh.inscomcode = q.inscomcode
+		<!--LEFT JOIN insbinsured insd ON insd.taskid = ws.maininstanceid-->
+		LEFT JOIN insbinsuredhis insdh ON insdh.taskid = ws.maininstanceid
+		AND q.inscomcode = insdh.inscomcode
+		LEFT JOIN insbperson inhp ON inhp.id = insdh.personid
+		LEFT JOIN insbworkflowmain wfm ON wfm.instanceid = ws.maininstanceid
+		LEFT JOIN insccode zds ON zds.codevalue = ws.taskcode
+		AND zds.codetype = 'workflowNodelName'
+		AND zds.parentcode = 'workflowNodelName'
+		<!--LEFT JOIN insccode zds2 ON zds2.codevalue = wfm.taskcode
+		AND zds2.codetype = 'workflowNodelName'
+		AND zds2.parentcode = 'workflowNodelName'-->
+		LEFT JOIN insccode dcode ON dcode.codename = zds.codename
+		AND dcode.codetype = 'tasktype'
+		AND dcode.parentcode = 'tasktype'
+		<!--LEFT JOIN insccode dcode2 ON dcode2.codename = zds2.codename
+		AND dcode2.codetype = 'tasktype'
+		AND dcode2.parentcode = 'tasktype'-->
+		LEFT JOIN inscdept sdept ON sdept.comcode = q.deptcode
+		INNER JOIN insbquotetotalinfo qt ON qt.taskid = ws.maininstanceid
+		LEFT JOIN insbagent ag ON qt.agentnum = ag.jobnum
+		LEFT JOIN insbprovider pro ON pro.prvcode = q.inscomcode
+		LEFT JOIN inscuser inu ON inu.usercode = ws.operator
+		LEFT JOIN inscuser inu2 ON inu2.usercode = wfm.operator
+        LEFT JOIN insbworkflowsubtrack wst ON wst.maininstanceid=ws.maininstanceid and wst.instanceid=ws.instanceid and wst.taskcode=ws.taskcode
+		and wst.createtime=(SELECT MAX(a.createtime) from insbworkflowsubtrack a WHERE a.maininstanceid=ws.maininstanceid and a.instanceid=ws.instanceid and a.taskcode=ws.taskcode)
+		LEFT JOIN insbchannel l ON qt.`purchaserchannel` = l.channelinnercode AND l.childflag='1' AND (l.deleteflag IS NULL OR l.deleteflag !='0')
+		where 1=1
+		AND (sdept.deptinnercode LIKE CONCAT(#{userorganization},'%'))
+		<!-- 组分配中 -->
+			 <if test="taskstatus != null and taskstatus == '01'">
+			 	AND (ws.groupid IS NULL OR ws.groupid = '') AND (ws.operator IS NULL OR ws.operator = '') AND dcode.id IS NOT NULL 
+			 </if>
+			 <!-- 人分配中 -->
+			 <if test="taskstatus != null and taskstatus == '02'"> 
+			 	AND  (ws.groupid IS NOT NULL AND ws.groupid != '') AND (ws.operator IS NULL OR ws.operator = '') AND dcode.id IS NOT NULL
+			 </if>
+			  <!-- 已分配到人 -->
+			 <if test="taskstatus != null and taskstatus == '03'">
+			 	AND (ws.operator IS NOT NULL AND ws.operator != '') AND dcode.id IS NOT NULL
+			 </if> 
+			 <if test="taskcreatetimeup != null"> 
+				AND wst.createtime &gt;= #{taskcreatetimeup}
+			 </if>
+			 <if test="taskcreatetimedown != null">
+			 	AND wst.createtime &lt;= #{taskcreatetimedown}
+			 </if>
+			 <if test="carlicensenoOrinsuredname != null">
+				 AND carh.carlicenseno =#{carlicensenoOrinsuredname}
+			 </if>
+			 <if test="carlicenseno != null">
+				 AND carh.carlicenseno =#{carlicenseno}
+			 </if>
+			 <if test="insuredname != null">
+			    AND inhp.name =#{insuredname}
+			 </if>
+			 <if test="tasktype != null">
+			 	AND ( 
+			 	(ws.taskcode IN 
+			        <foreach collection="tasktype" index="index" item="item" open="(" separator="," close=")">
+			            #{item}
+			        </foreach>
+			         AND ws.taskcode != '33'
+			        )
+				 OR  (wfm.taskcode IN 
+			        <foreach collection="tasktype" index="index" item="item" open="(" separator="," close=")">
+			            #{item}
+			        </foreach>
+				  AND ws.taskcode = '33'
+				 )
+				 )
+			 </if>	
+			 <if test="usertype != null">
+			 	AND ag.jobnumtype = #{usertype}
+			 </if>
+			 <if test="agentName != null">
+			 	AND ag.name LIKE CONCAT(#{agentName},'%')
+			 </if>
+			 <if test="agentNum != null">
+			 	AND ag.jobnum = #{agentNum}
+			 </if>
+			 <if test="ad_instanceId !=null">
+			 	AND ws.maininstanceid = #{ad_instanceId}
+			 </if>
+			 <if test="operatorname !=null">
+			 	AND (inu.name LIKE CONCAT(#{operatorname},'%')
+			 	OR ws.operator = #{operatorname} OR inu2.name LIKE CONCAT(#{operatorname},'%')
+			 	OR wfm.operator = #{operatorname})
+			 </if>
+			 <if test="deptcode !=null">
+			 	AND sdept.deptinnercode like CONCAT(#{deptcode}, '%')
+			 </if>
+			 <if test="inscomcode !=null">
+			 	AND q.inscomcode like CONCAT(#{inscomcode},'%') 
+			 </if>
+			 <!-- 
+			 <if test="taskstate !=null   and taskstate == '02'">
+			 	AND ws.taskcode ='33'
+			 </if>
+			 <if test="taskstate !=null   and taskstate == '01'">
+			 	AND ws.taskcode !='33'
+			 </if>
+			  -->
+			 <if test="taskstate !=null   and taskstate == '02'">
+			 	AND (ws.taskcode ='33' or ws.taskcode ='37')
+			 </if>
+			 <if test="taskstate !=null   and taskstate == '01'">
+			 	AND ((ws.taskcode !='33' AND ws.taskcode != '37' AND ws.taskcode != '30') 
+				  or (ws.taskcode ='33' AND wfm.taskcode != '33' AND wfm.taskcode != '37')
+				)
+			 </if>
+		<if test="channelinnercode !=null and channelinnercode != ''">
+			and qt.`purchaserchannel`= #{channelinnercode}
+		</if>
+	</select>
+	
+	<select id="INSBCarinfo_getCarInfoByPerson" parameterType="Map" resultType="Map">
+		select
+			a.taskid,
+		  	a.vincode,
+		  	a.carlicenseno,
+		  	DATE_FORMAT(a.registdate,'%Y-%m-%d') registdate,
+		  	a.engineno,
+		  	a.standardfullname,
+		  	a.carproperty,
+		  	a.isTransfercar
+		from insbcarinfo a 
+		left join insbpolicyitem b on b.taskid = a.taskid  and b.carinfoid=a.id
+		LEFT JOIN insbapplicanthis d ON b.taskid =d.taskid AND b.applicantid = d.id  AND b.inscomcode=d.inscomcode 
+		left join insbperson c on a.taskid = c.taskid and c.id = d.personid 
+		<where>
+			 <if test="idCardType != null"> 
+				and c.idcardtype = #{idCardType}
+			 </if>
+			 <if test="idCardNo != null">
+			 	and c.idcardno=#{idCardNo}
+			 </if>
+			 <if test="jobNum != null">
+			 	and b.agentnum=#{jobNum}
+			 </if>
+			 <if test="applicantname != null">
+			 	and b.applicantname=#{applicantname}
+			 </if>
+		</where>
+		order by a.createtime desc
+	</select> 
+	<select id="INSBCarinfo_queryBytaskid" parameterType="String" resultType="com.zzb.cm.entity.INSBCarinfo">
+		select * FROM insbcarinfo WHERE carproperty in ('15','16') AND taskid = #{taskid}
+	</select>
+	
+	<!-- 杨威   车险任务管理中已完成的数据  -->
+	<select id="INSBCarinfo_getCompletedCarTaskListByMap" parameterType="Map" resultType="Map">
+		select * FROM(
+		select wst.maininstanceid maininstanceId,wst.instanceid as subInstanceId,q.inscomcode,wst.operatorstate operatorstateFlag,wst.taskcode,wst.taskstate,
+			DATE_FORMAT(wst.createtime, '%Y-%m-%d %H:%i:%S')AS taskcreatetime,
+			CONCAT(cu.name,'(',wst.operator,')') AS operator,pro.prvshotname inscomName,
+			'已完成' AS taskstateName,
+		    carh.carlicenseno AS carlicenseno,
+			inph.name  AS insuredname,
+			wst.groupid, CONCAT('(', ag.jobnum, ')', ag.name)AS name,ic.codename AS tasktype,
+			dept.comcode AS deptcode,dept.comname AS deptname,
+			CASE WHEN (wst.groupid IS NULL OR wst.groupid='') AND (wst.operator IS NULL OR wst.operator='')
+					AND icc.id IS NOT NULL THEN '组分配中'
+					WHEN (wst.groupid IS NOT NULL OR wst.groupid!='') AND (wst.operator IS NULL OR wst.operator='')
+					AND icc.id IS NOT NULL THEN '人分配中'
+					WHEN (wst.operator IS NOT NULL OR wst.operator!='')AND icc.id IS NOT NULL THEN '已分配到人'
+					ELSE '系统分配' END AS dispatchstatus,
+			CASE WHEN icc.id IS NOT NULL THEN '1' ELSE '0' END AS dispatchFlag,
+			CASE WHEN wst.operatorstate='reassignment' THEN '任务改派'
+					 WHEN wst.operatorstate='refuseTask' THEN '拒绝任务'
+					 WHEN wst.operatorstate='restartTask' THEN '重启调度'
+					 WHEN wst.operatorstate='getTask' THEN '认领任务'
+					 WHEN wst.operatorstate='autoDispatch' THEN '自动分配'
+					 WHEN wst.operatorstate='pauseTask' THEN '暂停任务' 
+					 ELSE '未知状态' END AS operatorstate	
+		FROM insbworkflowsubtrack wst
+		LEFT JOIN insbworkflowsub ws ON ws.instanceid=wst.instanceid AND ws.maininstanceid=wst.maininstanceid
+		LEFT JOIN insbquoteinfo q ON q.workflowinstanceid=wst.instanceid
+		LEFT JOIN inscuser cu ON cu.usercode = wst.operator
+		LEFT JOIN insbprovider pro ON pro.prvcode = q.inscomcode
+		LEFT JOIN insbcarinfohis carh ON carh.taskid = ws.maininstanceid AND carh.inscomcode=q.inscomcode
+		LEFT JOIN insbinsuredhis insdh ON insdh.taskid = ws.maininstanceid AND q.inscomcode = insdh.inscomcode
+		LEFT JOIN insbperson inph ON inph.id=insdh.personid 
+		LEFT JOIN insccode ic ON ic.codevalue=wst.taskcode AND ic.codetype='workflowNodelName'
+		LEFT JOIN insccode icc ON ic.codename=icc.codename AND icc.codetype='tasktype'
+		INNER JOIN
+		(SElect comcode,comname from inscdept dept where dept.deptinnercode LIKE CONCAT(#{userorganization},'%')
+		<if test="deptcode !=null">
+			AND dept.deptinnercode like CONCAT(#{deptcode}, '%')
+		</if>
+		)
+		dept ON dept.comcode=q.deptcode
+		INNER JOIN insbquotetotalinfo qt ON qt.taskid = wst.maininstanceid
+		LEFT JOIN insbagent ag ON qt.agentnum = ag.jobnum
+		LEFT JOIN insbchannel l ON qt.`purchaserchannel` = l.channelinnercode AND l.childflag='1' AND (l.deleteflag IS NULL OR l.deleteflag !='0')
+		WHERE (wst.taskstate='Completed' OR wst.taskstate='Closed' OR (wst.taskstate!='Completed' AND wst.taskstate!='Closed' AND ws.taskcode='37')) AND wst.taskcode !='1'
+
+			 <!-- 表分区查询 -->
+			 <!--<if test="platforminnercode != null and platforminnercode != ''">
+				 AND q.platforminnercode = #{platforminnercode}
+			 </if>-->
+			 <!-- 组分配中 -->
+			 <if test="taskstatus != null and taskstatus == '01'">
+			 	AND (wst.groupid IS NULL OR wst.groupid = '') AND (wst.operator IS NULL OR wst.operator = '') AND icc.id IS NOT NULL 
+			 </if>
+			 <!-- 人分配中 -->
+			 <if test="taskstatus != null and taskstatus == '02'"> 
+			 	AND (wst.groupid IS NOT NULL AND wst.groupid != '') AND (wst.operator IS NULL OR wst.operator = '') AND icc.id IS NOT NULL
+			 </if>
+			  <!-- 已分配到人 -->
+			 <if test="taskstatus != null and taskstatus == '03'">
+			 	AND (wst.operator IS NOT NULL AND wst.operator != '') AND icc.id IS NOT NULL
+			 </if> 
+			 <if test="taskcreatetimeup != null"> 
+				AND wst.createtime &gt;= #{taskcreatetimeup}
+			 </if>
+			 <if test="taskcreatetimedown != null">
+			 	AND wst.createtime &lt;= #{taskcreatetimedown}
+			 </if>
+			 <if test="carlicensenoOrinsuredname != null">
+				 AND (carh.carlicenseno =#{carlicensenoOrinsuredname} OR inph.name LIKE CONCAT(#{carlicensenoOrinsuredname},'%'))
+			 </if>
+			 <if test="carlicenseno != null">
+				 AND carh.carlicenseno =#{carlicenseno}
+			 </if>
+			 <if test="insuredname != null">
+			 	AND inph.name =#{insuredname}
+			 </if>
+			 <if test="tasktype != null">
+			 	AND wst.taskcode =  #{tasktype}
+			 </if>	
+			 <if test="usertype != null">
+			 	AND ag.jobnumtype = #{usertype}
+			 </if>
+			 <if test="agentName != null">
+			 	AND ag.name =#{agentName}
+			 </if>
+			 <if test="agentNum != null">
+			 	AND ag.jobnum = #{agentNum}
+			 </if>
+			 <if test="ad_instanceId !=null">
+			 	AND wst.maininstanceid = #{ad_instanceId}
+			 </if>
+			 <if test="operatorname !=null">
+			 	AND (cu.name LIKE CONCAT(#{operatorname},'%')
+			 	OR wst.operator = #{operatorname})
+			 </if>
+
+			 <if test="inscomcode !=null">
+			 	AND q.inscomcode like CONCAT(#{inscomcode},'%') 
+			 </if>
+			 <if test="channelinnercode !=null and channelinnercode != ''">
+			 	and qt.`purchaserchannel`= #{channelinnercode}
+			 </if>
+
+		LIMIT #{offset},#{limit}
+		UNION all
+		select wmt.instanceid maininstanceId,ws.instanceid as subInstanceId,q.inscomcode,wmt.operatorstate operatorstateFlag,wmt.taskcode,wmt.taskstate,
+			DATE_FORMAT(wmt.createtime, '%Y-%m-%d %H:%i:%S')AS taskcreatetime,
+			CONCAT(cu.name,'(',wmt.operator,')') AS operator,pro.prvshotname inscomName,
+			'已完成' AS taskstateName,
+			carh.carlicenseno AS carlicenseno,
+			inph.name  AS insuredname,
+			wmt.groupid, CONCAT('(', ag.jobnum, ')', ag.name)AS name,ic.codename AS tasktype,
+			dept.comcode AS deptcode,dept.comname AS deptname,
+			CASE WHEN (wmt.groupid IS NULL OR wmt.groupid='') AND (wmt.operator IS NULL OR wmt.operator='')
+					AND icc.id IS NOT NULL THEN '组分配中'
+					WHEN (wmt.groupid IS NOT NULL OR wmt.groupid!='') AND (wmt.operator IS NULL OR wmt.operator='')
+					AND icc.id IS NOT NULL THEN '人分配中'
+					WHEN (wmt.operator IS NOT NULL OR wmt.operator!='')AND icc.id IS NOT NULL THEN '已分配到人'
+					ELSE '系统分配' END AS dispatchstatus,
+			CASE WHEN icc.id IS NOT NULL THEN '1' ELSE '0' END AS dispatchFlag,
+			CASE WHEN wmt.operatorstate='reassignment' THEN '任务改派'
+					 WHEN wmt.operatorstate='refuseTask' THEN '拒绝任务'
+					 WHEN wmt.operatorstate='restartTask' THEN '重启调度'
+					 WHEN wmt.operatorstate='getTask' THEN '认领任务'
+					 WHEN wmt.operatorstate='autoDispatch' THEN '自动分配'
+					 WHEN wmt.operatorstate='pauseTask' THEN '暂停任务' 
+					 ELSE '未知状态' END AS operatorstate	
+		FROM insbworkflowmaintrack wmt
+		INNER JOIN insbworkflowmain wm ON wm.instanceid=wmt.instanceid
+		LEFT JOIN insbworkflowsub ws ON wm.instanceid=ws.maininstanceid AND ws.taskcode='33'
+		LEFT JOIN insbquoteinfo q ON q.workflowinstanceid=ws.instanceid
+		LEFT JOIN inscuser cu ON cu.usercode = wmt.operator
+		LEFT JOIN insbprovider pro ON pro.prvcode = q.inscomcode
+		LEFT JOIN insbcarinfohis carh ON carh.taskid = wm.instanceid AND carh.inscomcode=q.inscomcode
+		LEFT JOIN insbinsuredhis insdh ON insdh.taskid = wm.instanceid AND q.inscomcode = insdh.inscomcode
+		LEFT JOIN insbperson inph ON inph.id=insdh.personid
+		LEFT JOIN insccode ic ON ic.codevalue=wmt.taskcode AND ic.codetype='workflowNodelName'
+		LEFT JOIN insccode icc ON ic.codename=icc.codename AND icc.codetype='tasktype'
+		INNER JOIN
+		(SElect comcode,comname from inscdept dept where dept.deptinnercode LIKE CONCAT(#{userorganization},'%')
+		<if test="deptcode !=null">
+			AND dept.deptinnercode like CONCAT(#{deptcode}, '%')
+		</if>
+		)
+		dept ON dept.comcode=q.deptcode
+		INNER JOIN insbquotetotalinfo qt ON qt.taskid = wmt.instanceid
+		LEFT JOIN insbagent ag ON qt.agentnum = ag.jobnum
+		LEFT JOIN insbchannel l ON qt.`purchaserchannel` = l.channelinnercode AND l.childflag='1' AND (l.deleteflag IS NULL OR l.deleteflag !='0')
+		WHERE (wmt.taskstate='Completed' OR wmt.taskstate='Closed') AND wmt.taskcode !='1'
+
+			 <!-- 表分区查询 -->
+			 <!--<if test="platforminnercode != null and platforminnercode != ''">
+				 AND q.platforminnercode = #{platforminnercode}
+			 </if>-->
+			 <!-- 组分配中 -->
+			 <if test="taskstatus != null and taskstatus == '01'">
+			 	AND (wmt.groupid IS NULL OR wmt.groupid = '') AND (wmt.operator IS NULL OR wmt.operator = '') AND icc.id IS NOT NULL 
+			 </if>
+			 <!-- 人分配中 -->
+			 <if test="taskstatus != null and taskstatus == '02'"> 
+			 	AND  (wmt.groupid IS NOT NULL AND wmt.groupid != '') AND (wmt.operator IS NULL OR wmt.operator = '') AND icc.id IS NOT NULL
+			 </if>
+			  <!-- 已分配到人 -->
+			 <if test="taskstatus != null and taskstatus == '03'">
+			 	AND (wmt.operator IS NOT NULL AND wmt.operator != '') AND icc.id IS NOT NULL
+			 </if> 
+			 <if test="taskcreatetimeup != null"> 
+				AND wmt.createtime &gt;= #{taskcreatetimeup}
+			 </if>
+			 <if test="taskcreatetimedown != null">
+			 	AND wmt.createtime &lt;= #{taskcreatetimedown}
+			 </if>
+			 <if test="carlicensenoOrinsuredname != null">
+				 AND (carh.carlicenseno =#{carlicensenoOrinsuredname} OR inph.name LIKE CONCAT(#{carlicensenoOrinsuredname},'%'))
+			 </if>
+			 <if test="carlicenseno != null">
+				 AND ( carh.carlicenseno=#{carlicenseno})
+			 </if>
+			 <if test="insuredname != null">
+			 	AND inph.name = #{insuredname}
+			 </if>
+			 <if test="tasktype != null">
+			 	AND wmt.taskcode = #{tasktype}
+			 </if>	
+			 <if test="usertype != null">
+			 	AND ag.jobnumtype = #{usertype}
+			 </if>
+			 <if test="agentName != null">
+			 	AND ag.name=#{agentName}
+			 </if>
+			 <if test="agentNum != null">
+			 	AND ag.jobnum = #{agentNum}
+			 </if>
+			 <if test="ad_instanceId !=null">
+			 	AND wmt.instanceid = #{ad_instanceId}
+			 </if>
+			 <if test="operatorname !=null">
+			 	AND (cu.name LIKE CONCAT(#{operatorname},'%')
+			 	OR wmt.operator = #{operatorname})
+			 </if>
+
+			 <if test="inscomcode !=null">
+			 	AND q.inscomcode like CONCAT(#{inscomcode},'%') 
+			 </if>
+			 <if test="channelinnercode !=null and channelinnercode != ''">
+			 	and qt.`purchaserchannel`= #{channelinnercode}
+			 </if>
+
+		LIMIT #{offset},#{limit}
+		) m
+		ORDER BY taskcreatetime desc
+		LIMIT #{offset},#{limit}
+	</select>
+	<!-- 杨威   车险任务管理中已完成的数据条数  -->
+	<select id="INSBCarinfo_getCompletedCarTaskListCountByMap" parameterType="Map" resultType="Long">
+		select count(1) FROM(
+		select wst.maininstanceid maininstanceId,wst.instanceid as subInstanceId,q.inscomcode
+		FROM insbworkflowsubtrack wst
+		LEFT JOIN insbworkflowsub ws ON ws.instanceid=wst.instanceid AND ws.maininstanceid=wst.maininstanceid
+		LEFT JOIN insbquoteinfo q ON q.workflowinstanceid=wst.instanceid
+		LEFT JOIN inscuser cu ON cu.usercode = wst.operator
+		LEFT JOIN insbcarinfohis carh ON carh.taskid = ws.maininstanceid AND carh.inscomcode=q.inscomcode
+		LEFT JOIN insbinsuredhis insdh ON insdh.taskid = ws.maininstanceid AND q.inscomcode = insdh.inscomcode
+		LEFT JOIN insbperson inph ON inph.id=insdh.personid
+		INNER JOIN
+		(SElect comcode from inscdept dept where dept.deptinnercode LIKE CONCAT(#{userorganization},'%')
+		<if test="deptcode !=null">
+			AND dept.deptinnercode like CONCAT(#{deptcode}, '%')
+		</if>
+		)
+		dept ON dept.comcode=q.deptcode
+		INNER JOIN insbquotetotalinfo qt ON qt.taskid = wst.maininstanceid
+		LEFT JOIN insbagent ag ON qt.agentnum = ag.jobnum
+		WHERE (wst.taskstate='Completed' OR wst.taskstate='Closed' OR (wst.taskstate!='Completed' AND wst.taskstate!='Closed' AND ws.taskcode='37')) AND wst.taskcode !='1'
+
+			 <!-- 表分区查询 -->
+			 <!--<if test="platforminnercode != null and platforminnercode != ''">
+				 AND q.platforminnercode = #{platforminnercode}
+			 </if>-->
+			 <if test="taskcreatetimeup != null"> 
+				AND wst.createtime &gt;= #{taskcreatetimeup}
+			 </if>
+			 <if test="taskcreatetimedown != null">
+			 	AND wst.createtime &lt;= #{taskcreatetimedown}
+			 </if>
+			 <if test="carlicensenoOrinsuredname != null">
+				 AND (carh.carlicenseno =#{carlicensenoOrinsuredname} OR inph.name LIKE CONCAT(#{carlicensenoOrinsuredname},'%'))
+			 </if>
+			 <if test="carlicenseno != null">
+				 AND carh.carlicenseno =#{carlicenseno}
+			 </if>
+			 <if test="insuredname != null">
+			 	AND inph.name =#{insuredname}
+			 </if>
+			 <if test="tasktype != null">
+			 	AND wst.taskcode = #{tasktype}
+			 </if>	
+			 <if test="usertype != null">
+			 	AND ag.jobnumtype = #{usertype}
+			 </if>
+			 <if test="agentName != null">
+			 	AND ag.name =#{agentName}
+			 </if>
+			 <if test="agentNum != null">
+			 	AND ag.jobnum = #{agentNum}
+			 </if>
+			 <if test="ad_instanceId !=null">
+			 	AND wst.maininstanceid = #{ad_instanceId}
+			 </if>
+			 <if test="operatorname !=null">
+			 	AND (cu.name LIKE CONCAT(#{operatorname},'%')
+			 	OR wst.operator = #{operatorname})
+			 </if>
+
+			 <if test="inscomcode !=null">
+			 	AND q.inscomcode like CONCAT(#{inscomcode},'%') 
+			 </if>
+			 <if test="channelinnercode !=null and channelinnercode != ''">
+			 	and qt.`purchaserchannel`= #{channelinnercode}
+			 </if>
+		UNION all
+		select wmt.instanceid maininstanceId,ws.instanceid as subInstanceId,q.inscomcode
+		FROM insbworkflowmaintrack wmt
+		INNER JOIN insbworkflowmain wm ON wm.instanceid=wmt.instanceid
+		LEFT JOIN insbworkflowsub ws ON wm.instanceid=ws.maininstanceid AND ws.taskcode='33'
+		LEFT JOIN insbquoteinfo q ON q.workflowinstanceid=ws.instanceid
+		LEFT JOIN inscuser cu ON cu.usercode = wmt.operator
+		LEFT JOIN insbcarinfohis carh ON carh.taskid = wm.instanceid AND carh.inscomcode=q.inscomcode
+		LEFT JOIN insbinsuredhis insdh ON insdh.taskid = wm.instanceid AND q.inscomcode = insdh.inscomcode
+		LEFT JOIN insbperson inph ON inph.id=insdh.personid
+		INNER JOIN
+		(SElect comcode from inscdept dept where dept.deptinnercode LIKE CONCAT(#{userorganization},'%')
+		<if test="deptcode !=null">
+			AND dept.deptinnercode like CONCAT(#{deptcode}, '%')
+		</if>
+		)
+		dept ON dept.comcode=q.deptcode
+		INNER JOIN insbquotetotalinfo qt ON qt.taskid = wmt.instanceid
+		LEFT JOIN insbagent ag ON qt.agentnum = ag.jobnum
+		WHERE (wmt.taskstate='Completed' OR wmt.taskstate='Closed') AND wmt.taskcode !='1'
+
+			 <!-- 表分区查询 -->
+			 <!--<if test="platforminnercode != null and platforminnercode != ''">
+				 AND q.platforminnercode = #{platforminnercode}
+			 </if>-->
+			 <if test="taskcreatetimeup != null"> 
+				AND wmt.createtime &gt;= #{taskcreatetimeup}
+			 </if>
+			 <if test="taskcreatetimedown != null">
+			 	AND wmt.createtime &lt;= #{taskcreatetimedown}
+			 </if>
+			 <if test="carlicensenoOrinsuredname != null">
+				 AND (carh.carlicenseno =#{carlicensenoOrinsuredname} OR inph.name LIKE CONCAT(#{carlicensenoOrinsuredname},'%'))
+			 </if>
+			 <if test="carlicenseno != null">
+				 AND ( carh.carlicenseno=#{carlicenseno})
+			 </if>
+			 <if test="insuredname != null">
+			 	AND inph.name = #{insuredname}
+			 </if>
+			 <if test="tasktype != null">
+			 	AND wmt.taskcode =  #{tasktype}
+			 </if>	
+			 <if test="usertype != null">
+			 	AND ag.jobnumtype = #{usertype}
+			 </if>
+			 <if test="agentName != null">
+			 	AND ag.name=#{agentName}
+			 </if>
+			 <if test="agentNum != null">
+			 	AND ag.jobnum = #{agentNum}
+			 </if>
+			 <if test="ad_instanceId !=null">
+			 	AND wmt.instanceid = #{ad_instanceId}
+			 </if>
+			 <if test="operatorname !=null">
+			 	AND (cu.name LIKE CONCAT(#{operatorname},'%')
+			 	OR wmt.operator = #{operatorname})
+			 </if>
+
+			 <if test="inscomcode !=null">
+			 	AND q.inscomcode like CONCAT(#{inscomcode},'%') 
+			 </if>
+			 <if test="channelinnercode !=null and channelinnercode != ''">
+			 	and qt.`purchaserchannel`= #{channelinnercode}
+			 </if>
+		) m
+	</select>
+	
+	<!-- 优化查询 -->
+	<!-- 查询任务 -->
+	<select id="INSBCarinfo_getSingleCarTaskListByMap" parameterType="Map" resultType="Map">
+		SELECT t.`inscomcode`,CASE WHEN ws.taskcode = '33' THEN ws.maininstanceid  else ws.instanceId end AS subInstanceId,
+		t.`maininstanceid` AS maininstanceId,
+		t.`tasktype` AS taskcode,DATE_FORMAT(t.`taskcreatetime`, '%Y-%m-%d %H:%i:%S')AS taskcreatetime,
+		t.`inscomname` AS inscomName, '待处理' AS taskstateName,carh.`carlicenseno`,ip.`name` AS insuredname,
+		t.`tasktypename` AS tasktype,CONCAT('(', t.`agentNum`, ')', t.`agentName`)AS name,t.`deptcode`,t.`deptname`,
+		CASE WHEN ws.taskcode ='33' THEN  CONCAT(inu2. NAME, '(', wfm.operator, ')')
+		ELSE CONCAT(inu. NAME, '(', ws.operator, ')') END AS operator,
+		CASE WHEN ws.taskcode ='33' THEN wfm.operator
+		ELSE ws.operator END  AS operatorcode,
+		ws.taskcode as subtaskcode,dcode.codevalue as subcodevalue,wfm.taskcode as maintaskcode,dcode2.codevalue as maincodevalue,
+		CASE WHEN ws.taskcode ='33' THEN wfm.operatorstate
+		ELSE ws.operatorstate END  AS operatorstateFlag ,
+		CASE WHEN ws.taskcode = '33' THEN
+		(CASE WHEN dcode2.id IS NOT NULL THEN '1' ELSE '0' END)
+		ELSE
+		(CASE WHEN dcode.id IS NOT NULL THEN '1' ELSE '0' END)
+		END AS dispatchFlag
+
+		FROM insbrealtimetask t
+		LEFT JOIN insbcarinfohis carh ON carh.taskid = t.maininstanceid AND carh.inscomcode = t.inscomcode
+		LEFT JOIN insbinsuredhis ih ON t.`maininstanceid`=ih.`taskid` AND t.`inscomcode`=ih.`inscomcode`
+		LEFT JOIN insbperson ip ON ih.`personid`=ip.`id`
+		LEFT JOIN insbworkflowsub ws ON  ws.maininstanceid = t.maininstanceid AND  t.subinstanceid = ws.instanceid
+		LEFT JOIN insbworkflowmain wfm ON wfm.instanceid = t.maininstanceid
+		LEFT JOIN inscuser inu ON inu.usercode = ws.operator
+		LEFT JOIN inscuser inu2 ON inu2.usercode = wfm.operator
+		LEFT JOIN insccode zds ON zds.codevalue = ws.taskcode
+		AND zds.codetype = 'workflowNodelName'
+		AND zds.parentcode = 'workflowNodelName'
+		LEFT JOIN insccode zds2 ON zds2.codevalue = wfm.taskcode
+		AND zds2.codetype = 'workflowNodelName'
+		AND zds2.parentcode = 'workflowNodelName'
+		LEFT JOIN insccode dcode ON dcode.codename = zds.codename
+		AND dcode.codetype = 'tasktype'
+		AND dcode.parentcode = 'tasktype'
+		LEFT JOIN insccode dcode2 ON dcode2.codename = zds2.codename
+		AND dcode2.codetype = 'tasktype'
+		AND dcode2.parentcode = 'tasktype'
+		where (t.deptinnercode LIKE CONCAT(#{userorganization},'%'))
+		and t.`tasktype` !='2' and t.`tasktype` !='15'
+		<if test="taskcreatetimeup != null">
+			AND t.taskcreatetime &gt;= #{taskcreatetimeup}
+		</if>
+		<if test="taskcreatetimedown != null">
+			AND t.taskcreatetime &lt;= #{taskcreatetimedown}
+		</if>
+		<if test="carlicenseno != null">
+			AND carh.carlicenseno =#{carlicenseno}
+		</if>
+		<if test="insuredname != null">
+			AND ip.name  =#{insuredname}
+		</if>
+		<if test="tasktype != null">
+			AND t.tasktype = #{tasktype}
+		</if>
+		<if test="agentName != null">
+			AND t.agentName LIKE CONCAT(#{agentName},'%')
+		</if>
+		<if test="agentNum != null">
+			AND t.agentNum = #{agentNum}
+		</if>
+		<if test="ad_instanceId !=null">
+			AND t.maininstanceid = #{ad_instanceId}
+		</if>
+		<if test="operatorname !=null">
+			AND (inu.name LIKE CONCAT(#{operatorname},'%')
+			OR ws.operator = #{operatorname} OR inu2.name LIKE CONCAT(#{operatorname},'%')
+			 	OR wfm.operator = #{operatorname})
+		</if>
+		<if test="deptcode !=null">
+			AND t.deptinnercode like CONCAT(#{deptcode}, '%')
+		</if>
+		<if test="inscomcode !=null">
+			AND t.inscomcode like CONCAT(#{inscomcode},'%')
+		</if>
+		<if test="channelinnercode !=null and channelinnercode != ''">
+			and t.`channelcode`= #{channelinnercode}
+		</if>
+		order by taskcreatetime desc
+		LIMIT #{offset},#{limit}
+	</select>
+	<!-- 查询任务记录数 -->
+	<select id="INSBCarinfo_getSingleCarTaskCountByMap" parameterType="Map" resultType="Long">
+		select count(1)
+		FROM insbrealtimetask t
+		LEFT JOIN insbcarinfohis carh ON carh.taskid = t.maininstanceid AND carh.inscomcode = t.inscomcode
+		LEFT JOIN insbinsuredhis ih ON t.`maininstanceid`=ih.`taskid` AND t.`inscomcode`=ih.`inscomcode`
+		LEFT JOIN insbperson ip ON ih.`personid`=ip.`id`
+		LEFT JOIN insbworkflowsub ws ON ws.maininstanceid = t.maininstanceid AND  t.subinstanceid = ws.instanceid
+		LEFT JOIN insbworkflowmain wfm ON wfm.instanceid = t.maininstanceid
+		LEFT JOIN inscuser inu ON inu.usercode = ws.operator
+		LEFT JOIN inscuser inu2 ON inu2.usercode = wfm.operator
+		where (t.deptinnercode LIKE CONCAT(#{userorganization},'%'))
+		and t.`tasktype` !='2' and t.`tasktype` !='15'
+		<if test="taskcreatetimeup != null">
+			AND t.taskcreatetime &gt;= #{taskcreatetimeup}
+		</if>
+		<if test="taskcreatetimedown != null">
+			AND t.taskcreatetime &lt;= #{taskcreatetimedown}
+		</if>
+		<if test="carlicenseno != null">
+			AND carh.carlicenseno =#{carlicenseno}
+		</if>
+		<if test="insuredname != null">
+			AND ip.name  =#{insuredname}
+		</if>
+		<if test="tasktype != null">
+			AND t.tasktype = #{tasktype}
+		</if>
+		<if test="agentName != null">
+			AND t.agentName LIKE CONCAT(#{agentName},'%')
+		</if>
+		<if test="agentNum != null">
+			AND t.agentNum = #{agentNum}
+		</if>
+		<if test="ad_instanceId !=null">
+			AND t.maininstanceid = #{ad_instanceId}
+		</if>
+		<if test="operatorname !=null">
+			AND (inu.name LIKE CONCAT(#{operatorname},'%')
+			OR ws.operator = #{operatorname} OR inu2.name LIKE CONCAT(#{operatorname},'%')
+			 	OR wfm.operator = #{operatorname})
+		</if>
+		<if test="deptcode !=null">
+			AND t.deptinnercode like CONCAT(#{deptcode}, '%')
+		</if>
+		<if test="inscomcode !=null">
+			AND t.inscomcode like CONCAT(#{inscomcode},'%')
+		</if>
+		<if test="channelinnercode !=null and channelinnercode != ''">
+			and t.`channelcode`= #{channelinnercode}
+		</if>
+	</select>
+	<!-- 查询已完成任务 -->
+	<select id="INSBCarinfo_getSingleCompletedCarTaskListByMap" parameterType="Map" resultType="Map">
+		select * from insbrealtimetask
+		order by taskcreatetime desc
+		LIMIT #{offset},#{limit}
+	</select>
+	<!-- 查询任务记录数 -->
+	<select id="INSBCarinfo_getSingleCompletedCarTaskListCountByMap" parameterType="Map" resultType="Long">
+		select count(1) from insbrealtimetask
+	</select>
+
+	<select id="INSBCarinfo_getState" resultType="Map" parameterType="Map">
+		SELECT CASE WHEN ws.taskcode = '33' THEN wfm.operatorstate
+       ELSE ws.operatorstate END  AS operatorstateFlag ,
+		CASE WHEN ws.taskcode = '33' THEN
+			(CASE WHEN dcode2.id IS NOT NULL THEN '1' ELSE '0' END)
+		ELSE
+			(CASE WHEN dcode.id IS NOT NULL THEN '1' ELSE '0' END)
+		END AS dispatchFlag
+
+		FROM insbworkflowsub ws
+		LEFT JOIN insbworkflowmain wfm ON wfm.instanceid = ws.maininstanceid
+		LEFT JOIN insccode zds ON zds.codevalue = ws.taskcode
+		AND zds.codetype = 'workflowNodelName'
+		AND zds.parentcode = 'workflowNodelName'
+		LEFT JOIN insccode zds2 ON zds2.codevalue = wfm.taskcode
+		AND zds2.codetype = 'workflowNodelName'
+		AND zds2.parentcode = 'workflowNodelName'
+		LEFT JOIN insccode dcode ON dcode.codename = zds.codename
+		AND dcode.codetype = 'tasktype'
+		AND dcode.parentcode = 'tasktype'
+		LEFT JOIN insccode dcode2 ON dcode2.codename = zds2.codename
+		AND dcode2.codetype = 'tasktype'
+		AND dcode2.parentcode = 'tasktype'
+		where  ws.maininstanceid = #{maininstanceid}
+			<if test="instanceid !=null and instanceid != ''">
+				AND  ws.instanceid = #{instanceid}
+			</if>
+	</select>
+	
+	
+</mapper>

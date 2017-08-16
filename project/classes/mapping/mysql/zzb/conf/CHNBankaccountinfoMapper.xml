@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- CHNBankaccountinfo -->
+	<select id="CHNBankaccountinfo_insert" parameterType="com.zzb.conf.entity.CHNBankaccountinfo"
+			resultType="int">
+		insert into CHNBankaccountinfo
+		(id,taskid,payflowno,accountname,accountno,bankname,province,bankcode,createtime,modifytime)
+		values
+		(#{id},#{taskid},#{payflowno},#{accountname},#{accountno},#{bankname},#{province},#{bankcode},#{createtime},#{modifytime})
+	</select>
+
+		
+	<update id="CHNBankaccountinfo_updateById" parameterType="com.zzb.conf.entity.CHNBankaccountinfo" >
+      update chnbankaccountinfo  a set a.payflowno = #{payflowno}, a.accountname = #{accountname}, a.bankname = #{bankname},
+       a.province = #{province},a.bankcode = #{bankcode} ,a.modifytime = #{modifytime} WHERE a.taskid = #{taskid} AND a.accountno = #{accountno};
+	</update>
+
+	<select id="CHNBankaccountinfo_selectByTaskIdAndAccountNo" parameterType="Map"
+			resultType="com.zzb.conf.entity.CHNBankaccountinfo">
+		SELECT * FROM chnbankaccountinfo a WHERE a.taskid = #{taskid} AND a.accountno = #{accountno};
+	</select>
+
+</mapper>

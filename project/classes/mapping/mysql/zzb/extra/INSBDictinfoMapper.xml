@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.extra.entity">
+	<!-- INSBDictinfo -->
+	<select id="INSBDictinfo_insert" parameterType="com.zzb.extra.entity.INSBDictinfo" resultType="int">
+		insert into INSBDictinfo
+		(id,operator,createtime,modifytime,noti,textname,textvalue,type) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{textname},#{textvalue},#{type}) 
+	</select>
+	<select id="INSBDictinfo_select" parameterType="Map" resultType="Map">
+		select * from INSBDictinfo
+		<where>
+			<if test="textname != null">
+				and textname = #{textname}
+			</if>
+			<if test="textvalue != null">
+				and textvalue = #{textvalue}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+		</where>
+	</select>
+	<select id="INSBDictinfo_selectById" parameterType="String" resultType="com.zzb.extra.entity.INSBDictinfo">
+		select * from INSBDictinfo where id = #{id}
+	</select>
+	<select id="INSBDictinfo_deleteById" parameterType="String">
+		delete from INSBDictinfo where id = #{id}
+	</select>
+	<select id="INSBDictinfo_updateById" parameterType="com.zzb.extra.entity.INSBDictinfo">
+		update INSBDictinfo  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},textname = #{textname},textvalue = #{textvalue},type = #{type} where id = #{id}
+	</select>
+	<select id="INSBDictinfo_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBDictinfo
+		<where>
+			<if test="textname != null">
+				and textname = #{textname}
+			</if>
+			<if test="textvalue != null">
+				and textvalue = #{textvalue}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+		</where>
+	</select>
+	<select id="INSBDictinfo_selectOne" parameterType="Map" resultType="com.zzb.extra.entity.INSBDictinfo">
+		select * from INSBDictinfo
+		<where>
+			<if test="textname != null">
+				and textname = #{textname}
+			</if>
+			<if test="textvalue != null">
+				and textvalue = #{textvalue}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+</mapper>

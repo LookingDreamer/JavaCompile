@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBWorktimearea -->
+	<select id="INSBWorktimearea_insert" parameterType="com.zzb.conf.entity.INSBWorktimearea" resultType="int">
+		insert into INSBWorktimearea
+		(id,operator,createtime,modifytime,noti,insbworktimeid,workdaystart,workdayend,daytimestart,daytimeend,isremindtime) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{insbworktimeid},#{workdaystart},#{workdayend},#{daytimestart},#{daytimeend},#{isremindtime}) 
+	</select>
+	<select id="INSBWorktimearea_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorktimearea">
+		select * from INSBWorktimearea
+		<where>
+			<if test="operater != null">
+				and operater = #{operater}
+			</if>
+			<if test="insbworktimeid != null">
+				and insbworktimeid = #{insbworktimeid}
+			</if>
+			<if test="workdaystart != null">
+				and workdaystart = #{workdaystart}
+			</if>
+			<if test="workdayend != null">
+				and workdayend = #{workdayend}
+			</if>
+			<if test="daytimestart != null">
+				and daytimestart = #{daytimestart}
+			</if>
+			<if test="daytimeend != null">
+				and daytimeend = #{daytimeend}
+			</if>
+			<if test="isremindtime != null">
+				and isremindtime = #{isremindtime}
+			</if>
+		</where>
+	</select>
+	
+	<select id="INSBWorktimearea_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorktimearea">
+		select * from INSBWorktimearea
+		<where>
+			<if test="operater != null">
+				and operater = #{operater}
+			</if>
+			<if test="insbworktimeid != null">
+				and insbworktimeid = #{insbworktimeid}
+			</if>
+			<if test="workdaystart != null">
+				and workdaystart = #{workdaystart}
+			</if>
+			<if test="workdayend != null">
+				and workdayend = #{workdayend}
+			</if>
+			<if test="daytimestart != null">
+				and daytimestart = #{daytimestart}
+			</if>
+			<if test="daytimeend != null">
+				and daytimeend = #{daytimeend}
+			</if>
+			<if test="isremindtime != null">
+				and isremindtime = #{isremindtime}
+			</if>
+		</where>
+		limit 2
+	</select>
+	
+	<select id="INSBWorktimearea_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBWorktimearea">
+		select * from INSBWorktimearea where id = #{id}
+	</select>
+	<select id="INSBWorktimearea_deleteById" parameterType="String">
+		delete from INSBWorktimearea where id = #{id}
+	</select>
+	<select id="INSBWorktimearea_updateById" parameterType="com.zzb.conf.entity.INSBWorktimearea">
+		update INSBWorktimearea  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},insbworktimeid = #{insbworktimeid},workdaystart = #{workdaystart},workdayend = #{workdayend},daytimestart = #{daytimestart},daytimeend = #{daytimeend},isremindtime = #{isremindtime} where id = #{id}
+	</select>
+	<select id="INSBWorktimearea_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBWorktimearea
+		<where>
+			<if test="operater != null">
+				and operater = #{operater}
+			</if>
+			<if test="insbworktimeid != null">
+				and insbworktimeid = #{insbworktimeid}
+			</if>
+			<if test="workdaystart != null">
+				and workdaystart = #{workdaystart}
+			</if>
+			<if test="workdayend != null">
+				and workdayend = #{workdayend}
+			</if>
+			<if test="daytimestart != null">
+				and daytimestart = #{daytimestart}
+			</if>
+			<if test="daytimeend != null">
+				and daytimeend = #{daytimeend}
+			</if>
+			<if test="isremindtime != null">
+				and isremindtime = #{isremindtime}
+			</if>
+		</where>
+	</select>
+	
+	<select id="INSBWorktimearea_selectByWorktimeId" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorktimearea">
+		select * from INSBWorktimearea where insbworktimeid = #{insbworktimeid} and isremindtime = #{isremindtime}
+	</select>
+</mapper>

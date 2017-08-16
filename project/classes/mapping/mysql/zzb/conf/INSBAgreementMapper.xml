@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBAgreement --> 
+	<select id="INSBAgreement_insert" parameterType="com.zzb.conf.entity.INSBAgreement"
+		resultType="int">
+		insert into INSBAgreement
+		(id,operator,createtime,modifytime,noti,agreementcode,agreementname,agreementstatus,agreementType,providerid,agreementdrule,deptid,agreementtrule,agreementrule)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{agreementcode},#{agreementname},#{agreementstatus},#{agreementType},#{providerid},#{agreementdrule},#{deptid},#{agreementtrule},#{agreementrule})
+	</select>
+	<select id="INSBAgreement_select" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBAgreement">
+		select * from INSBAgreement
+		<where>
+			<if test="agreementcode != null">
+				and agreementcode = #{agreementcode}
+			</if>
+			<if test="agreementname != null">
+				and agreementname = #{agreementname}
+			</if>
+			<if test="agreementstatus != null">
+				and agreementstatus = #{agreementstatus}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="agreementtrule != null">
+				and agreementtrule = #{agreementtrule}
+			</if>
+			<if test="agreementdrule != null">
+				and agreementdrule = #{agreementdrule}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="agreementType != null">
+				and agreementType = #{agreementType}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreement_selectOne" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBAgreement">
+		select * from INSBAgreement
+		<where>
+			<if test="agreementcode != null">
+				and agreementcode = #{agreementcode}
+			</if>
+			<if test="agreementname != null">
+				and agreementname = #{agreementname}
+			</if>
+			<if test="agreementstatus != null">
+				and agreementstatus = #{agreementstatus}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="agreementtrule != null">
+				and agreementtrule = #{agreementtrule}
+			</if>
+			<if test="agreementdrule != null">
+				and agreementdrule = #{agreementdrule}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="agreementType != null">
+				and agreementType = #{agreementType}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+
+	<select id="INSBAgreement_selectById" parameterType="String"
+		resultType="com.zzb.conf.entity.INSBAgreement">
+		select * from INSBAgreement where id = #{id}
+	</select>
+	<select id="INSBAgreement_selectAllSubAgreement"  resultType="com.zzb.conf.entity.INSBAgreement">
+		select * from INSBAgreement 
+		<where>
+			agreementstatus = '1' AND deptid in
+			<foreach collection="list"  item="item" index="index" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+		GROUP BY providerid
+	</select>
+
+	<select id="INSBAgreement_selectByOutorderdept"  resultType="com.zzb.conf.entity.INSBAgreement" parameterType="Map">
+		SELECT * FROM INSBAgreement a WHERE agreementstatus = '1' AND EXISTS(
+		SELECT 1 FROM INSBOutorderdept ood WHERE a.`id`=ood.`agreementid` AND ood.`deptid5` =#{deptid5}
+		) GROUP BY providerid
+	</select>
+
+	<select id="INSBAgreement_selectProviderByDeptId" parameterType="String"
+		resultType="String">
+		select providerid from INSBAgreement where deptid =
+		#{deptid}
+	</select>
+
+	<select id="INSBAgreement_selectAgreementIdByDeptId"
+		parameterType="String" resultType="String">
+		select id from INSBAgreement where
+		deptid = #{deptid}
+	</select>
+	<select id="INSBAgreement_selectProviderIdsByAgreementId"
+		parameterType="String" resultType="String">
+		select providerid from INSBAgreement
+		where id = #{id}
+	</select>
+
+	<select id="INSBAgreement_deleteById" parameterType="String">
+		delete from
+		INSBAgreement where id = #{id}
+	</select>
+	<select id="INSBAgreement_updateById" parameterType="com.zzb.conf.entity.INSBAgreement">
+		update
+		INSBAgreement set operator = #{operator},modifytime =
+		#{modifytime},noti = #{noti},agreementcode =
+		#{agreementcode},agreementname = #{agreementname},
+		<if test="agreementstatus!= null and agreementstatus != ''">
+		agreementstatus = #{agreementstatus},
+		</if>
+		providerid = #{providerid},agreementtrule =
+		#{agreementtrule},deptid = #{deptid},agreementdrule=#{agreementdrule},agreementrule=#{agreementrule}
+        <if test="renewalenable != null">
+        ,renewalenable=#{renewalenable}
+        </if>
+		<if test="underwritestatus != null">
+			,underwritestatus=#{underwritestatus}
+		</if>
+		<if test="agreementType != null">
+			,agreementType=#{agreementType}
+		</if>
+		where id = #{id}
+	</select>
+	<select id="INSBAgreement_selectCount" parameterType="Map"
+		resultType="Long">
+		select count(1) from INSBAgreement
+		<where>
+			<if test="agreementcode != null">
+				and agreementcode = #{agreementcode}
+			</if>
+			<if test="agreementname != null">
+				and agreementname = #{agreementname}
+			</if>
+			<if test="agreementstatus != null">
+				and agreementstatus = #{agreementstatus}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="agreementtrule != null">
+				and agreementtrule = #{agreementtrule}
+			</if>
+			<if test="agreementdrule != null">
+				and agreementdrule = #{agreementdrule}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="agreementType != null">
+				and agreementType = #{agreementType}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreement_selectCountVo" parameterType="Map"
+		resultType="Long">
+		select count(1) from INSBAgreement
+		<where>
+			<if test="agreementcode != null">
+				and agreementcode like CONCAT('%', #{agreementcode},'%')
+			</if>
+			<if test="agreementname != null">
+				and agreementname like CONCAT('%', #{agreementname},'%')
+			</if>
+			<if test="agreementstatus != null">
+				and agreementstatus = #{agreementstatus}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="agreementtrule != null">
+				and agreementtrule = #{agreementtrule}
+			</if>
+			<if test="agreementdrule != null">
+				and agreementdrule = #{agreementdrule}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreement_selectVo" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBAgreement">
+		select @rownum:=@rownum+1 as rownum, id,
+		operator,
+		createtime,
+		modifytime,
+		noti,
+		agreementcode,
+		agreementname,
+		(CASE WHEN c.agreementstatus ='1' THEN '已生效' ELSE '未生效'
+		END)agreementstatus,
+		(SELECT prvshotname FROM insbprovider WHERE id =c.providerid)providerid,
+		agreementtrule,
+		agreementdrule,
+		(SELECT shortname FROM inscdept WHERE id =c.deptid ) deptid
+		from INSBAgreement c,(SELECT @rownum:=0) b
+		<where>
+			<if test="agreementcode != null">
+				and agreementcode like CONCAT('%', #{agreementcode},'%')
+			</if>
+			<if test="agreementname != null">
+				and agreementname like CONCAT('%', #{agreementname},'%')
+			</if>
+			<if test="agreementstatus != null">
+				and agreementstatus = #{agreementstatus}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="agreementtrule != null">
+				and agreementtrule = #{agreementtrule}
+			</if>
+			<if test="agreementdrule != null">
+				and agreementdrule = #{agreementdrule}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreement_selectAgreementIdByPro" parameterType="String"
+		resultType="String">
+		select id from insbagreement where providerid =
+		#{providerId};
+	</select>
+	<select id="INSBAgreement_selectAgreementtruleListByProviderid"
+		parameterType="String" resultType="String">
+		select distinct a.agreementtrule as
+		agreementtrule
+		from insbagreement a inner join insbagreementscope s
+		on a.id=s.agreementid
+		where a.providerid=#{providerid} and
+		s.deptid=#{deptid}
+	</select>
+
+	<sql id="queryFilter">
+		<if test="queryagreementcode != null and queryagreementcode != ''">
+			and a.agreementcode like CONCAT('%', #{queryagreementcode},'%')
+		</if>
+		<if test="queryagreementname != null and queryagreementname != ''">
+			and a.agreementname like CONCAT('%', #{queryagreementname},'%')
+		</if>
+		<if test="citys != null and citys != ''">
+			AND EXISTS(
+			SELECT 1 FROM insbagreementscope agreementscope WHERE agreementscope.`agreementid` = a.`id`
+			AND INSTR(#{citys},agreementscope.`city`) > 0
+			AND agreementscope.`city` != '' AND agreementscope.`city` IS NOT NULL
+			)
+		</if>
+		<if test="providerid != null and providerid != ''">
+			AND a.`providerid` = #{providerid}
+		</if>
+		<if test="agreementtype != null and agreementtype != -1">
+			AND a.`agreementType` = #{agreementtype}
+		</if>
+
+	</sql>
+
+	<select id="INSBAgreement_queryAgreementByComecode" parameterType="Map"
+			resultType="com.zzb.conf.entity.INSBAgreement">
+				SELECT
+				`a`.`id` AS `id`,
+				`a`.`operator` AS `operator`,
+				`a`.`createtime` AS `createtime`,
+				`a`.`modifytime` AS `modifytime`,
+				`a`.`noti` AS `noti`,
+				`a`.`agreementcode` AS `agreementcode`,
+				`a`.`agreementname` AS `agreementname`,
+				`a`.`agreementstatus` AS `agreementstatus`,
+				`a`.`providerid` AS `providerid`,
+				`a`.`agreementdrule` AS `agreementdrule`,
+				`a`.`agreementtrule` AS `agreementtrule`,
+				`a`.`deptid` AS `deptid`,
+				`a`.`agreementrule` AS `agreementrule`,
+				ISNULL(ag.`provideid`) AS `renewalenable`
+				FROM INSBAgreement a LEFT JOIN
+				(SELECT p.provideid FROM  INSBItemprovidestatus p  INNER JOIN insbpermissionset ps ON ps.`id`=p.`setid`AND p.`setid`=#{setid}) ag
+				ON a.id=ag.provideid
+				,INSCDept s
+				WHERE a.deptid = s.id AND s.comcode =#{comcode}
+				  <if test="agentId != null">
+					  AND ag.`provideid` IS NOT NULL
+				  </if>
+	</select>
+	<select id="INSBAgreement_querymeAgreement001" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBAgreement">
+		select * from INSBAgreement a ,INSCDept s where a.deptid = s.id and
+		s.upcomcode =#{comcode}
+		<include refid="queryFilter"/>
+		<if test="offset != null">
+			limit #{offset},
+		</if>
+		<if test="limit != null">
+			#{limit}
+		</if>
+	</select>
+	<select id="INSBAgreement_querymeAgreement010" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBAgreement">
+		select * from INSBAgreement a ,INSCDept s where a.deptid = s.id and
+		s.id =#{comcode}
+		<include refid="queryFilter"/>
+		<if test="offset != null">
+			limit #{offset},
+		</if>
+		<if test="limit != null">
+			#{limit}
+		</if>
+	</select>
+	<select id="INSBAgreement_querymeAgreement100" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBAgreement">
+		select * from INSBAgreement a ,INSCDept s where a.deptid = s.id
+		<include refid="queryFilter"/>
+		and
+		exists
+		(select 1 from INSCDept ss where ss.id =#{comcode} and
+		ss.upcomcode = s.id )
+		and not exists
+		(select * from INSBAgreement a1 ,INSCDept s1 where a1.deptid = s1.id and
+		s1.id =#{comcode} and a1.providerid =a.providerid)
+		<if test="offset != null">
+			limit #{offset},
+		</if>
+		<if test="limit != null">
+			#{limit}
+		</if>
+	</select>
+	<select id="INSBAgreement_querymeAgreement011" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBAgreement">
+		select * from (
+		select a.* from INSBAgreement a ,INSCDept s where a.deptid = s.id and
+		s.id =#{comcode}
+		<include refid="queryFilter"/>
+		union
+		select a.* from INSBAgreement a ,INSCDept s  where a.deptid = s.id and
+		s.upcomcode =#{comcode}
+		<include refid="queryFilter"/>
+		)ot where 1=1
+		<if test="offset != null">
+			limit #{offset},
+		</if>
+		<if test="limit != null">
+			#{limit}
+		</if>
+	</select>
+	<select id="INSBAgreement_querymeAgreement110" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBAgreement">
+		SELECT * FROM (
+		select * from INSBAgreement a ,INSCDept s where a.deptid = s.id and
+		s.id =#{comcode}
+		<include refid="queryFilter"/>
+		union
+		select * from INSBAgreement a ,INSCDept s where a.deptid = s.id
+		<include refid="queryFilter"/>
+		and exists
+		(select 1 from INSCDept ss where ss.id =#{comcode} and ss.upcomcode =
+		s.id )
+		and not exists
+		(select * from INSBAgreement a1 ,INSCDept s1 where a1.deptid = s1.id and
+		s1.id =#{comcode} and a1.providerid =a.providerid)
+		)ot WHERE 1=1
+		<if test="offset != null">
+			limit #{offset},
+		</if>
+		<if test="limit != null">
+			#{limit}
+		</if>
+	</select>
+	<select id="INSBAgreement_querymeAgreement101" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBAgreement">
+		SELECT * FROM (
+		select * from INSBAgreement a ,INSCDept s where a.deptid = s.id and
+		s.upcomcode =#{comcode}
+		<include refid="queryFilter"/>
+		union
+		select * from INSBAgreement a ,INSCDept s where a.deptid = s.id
+		<include refid="queryFilter"/>
+		and exists
+		(select 1 from INSCDept ss where ss.id =#{comcode} and ss.upcomcode =
+		s.id )
+		and not exists
+		(select * from INSBAgreement a1 ,INSCDept s1 where a1.deptid = s1.id and
+		s1.id =#{comcode} and a1.providerid =a.providerid)
+		)ot WHERE 1=1
+		<if test="offset != null">
+			limit #{offset},
+		</if>
+		<if test="limit != null">
+			#{limit}
+		</if>
+	</select>
+	<select id="INSBAgreement_querymeAgreement111" parameterType="Map"
+		resultType="com.zzb.conf.entity.INSBAgreement">
+		SELECT * FROM (
+		select a.* from INSBAgreement a ,INSCDept s where a.deptid = s.id and
+		s.upcomcode =#{comcode}
+		<include refid="queryFilter"/>
+		union
+		select a.* from INSBAgreement a ,INSCDept s
+		where a.deptid = s.id and s.id =#{comcode}
+		<include refid="queryFilter"/>
+		union
+		select a.* from INSBAgreement a ,INSCDept s where a.deptid = s.id
+		<include refid="queryFilter"/>
+		and exists
+		(select 1 from INSCDept ss where ss.id =#{comcode} and ss.upcomcode =
+		s.id )
+		and not exists
+		(select * from INSBAgreement a1 ,INSCDept s1 where a1.deptid = s1.id and
+		s1.id =#{comcode} and a1.providerid =a.providerid)
+		)ot WHERE 1=1
+		<if test="offset != null">
+			limit #{offset},
+		</if>
+		<if test="limit != null">
+			#{limit}
+		</if>
+	</select>
+</mapper>

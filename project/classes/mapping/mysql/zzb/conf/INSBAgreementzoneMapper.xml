@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBAgreementzone --> 
+	<select id="INSBAgreementzone_insert" parameterType="com.zzb.conf.entity.INSBAgreementzone" resultType="int">
+		insert into INSBAgreementzone
+		(id,operator,createtime,modifytime,noti,agreementid,province,city) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{agreementid},#{province},#{city}) 
+	</select>
+	<select id="INSBAgreementzone_getprovincebyagreementid" parameterType="String" resultType="map">
+		select r.comcodename,r.comcode FROM insbagreementzone as a
+         LEFT JOIN insbregion  AS r ON r.comcode = a.province
+          WHERE
+          a.agreementid=#{agreementid}
+          GROUP BY a.province
+	</select>
+	<select id="INSBAgreementzone_getcitybyprovince" parameterType="map" resultType="map">
+		select r.comcodename,r.comcode FROM insbagreementzone as a
+         LEFT JOIN insbregion  AS r ON r.comcode = a.city
+          WHERE
+          a.agreementid=#{agreementid} and a.province=#{comcode}
+          GROUP BY a.city
+	</select>
+	<select id="INSBAgreementzone_deleteById" parameterType="String">
+		delete from INSBAgreementzone where id = #{id}
+	</select>
+	<select id="INSBAgreementzone_updateById" parameterType="com.zzb.conf.entity.INSBAgreementzone">
+		update INSBAgreementzone  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},agreementid = #{agreementid},province = #{province},city = #{city} where id = #{id}
+	</select>
+	<select id="INSBAgreementzone_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBAgreementzone
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="province != null">
+				and province = #{province}
+			</if>
+			<if test="city != null">
+				and city = #{city}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreementzone_deleteguanlian" parameterType="String" >
+		delete  from INSBAgreementzone where agreementid=#{agreementid}
+	</select>
+	<select id="INSBAgreementzone_getcitysbyagreementid" parameterType="String" resultType="String">
+		select city from INSBAgreementzone where agreementid=#{agreementid}
+	</select>
+</mapper>

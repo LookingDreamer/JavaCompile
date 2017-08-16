@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBApplicant -->
+	<select id="INSBApplicant_insert" parameterType="com.zzb.cm.entity.INSBApplicant" resultType="int">
+		insert into INSBApplicant
+		(id,operator,createtime,modifytime,noti,taskid,personid,businessproposalformno,businesspolicyno,relation) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{personid},#{businessproposalformno},#{businesspolicyno},#{relation})
+	</select>
+	<select id="INSBApplicant_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBApplicant">
+		select * from INSBApplicant
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="businessproposalformno != null">
+				and businessproposalformno = #{businessproposalformno}
+			</if>
+			<if test="businesspolicyno != null">
+				and businesspolicyno = #{businesspolicyno}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+		</where>
+	</select>
+	<select id="INSBApplicant_getcheckdata" parameterType="String" resultType="Map">
+		SELECT COUNT(1) AS countValue FROM insbApplicant WHERE taskid=#{taskID}
+		UNION ALL
+		SELECT COUNT(1) FROM insbinsured WHERE taskId=#{taskID}
+		UNION ALL
+		SELECT COUNT(1) FROM INSBLegalrightclaim WHERE taskId=#{taskID}
+		UNION ALL
+		SELECT COUNT(1) FROM INSBRelationperson WHERE taskId=#{taskID}
+		UNION ALL 
+		SELECT COUNT(1) FROM insbCarInfo WHERE taskId=#{taskID} AND engineno IS NOT NULL AND registdate IS NOT NULL
+	</select>
+	<select id="INSBApplicant_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBApplicant">
+		select * from INSBApplicant
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="businessproposalformno != null">
+				and businessproposalformno = #{businessproposalformno}
+			</if>
+			<if test="businesspolicyno != null">
+				and businesspolicyno = #{businesspolicyno}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+		</where>
+		 ORDER BY createtime DESC LIMIT 1  
+	</select>
+	<select id="INSBApplicant_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBApplicant">
+		select * from INSBApplicant where id = #{id}
+	</select>
+	<!-- 通过taskID查询投保人信息 -->
+	<select id="INSBApplicant_selectByTaskID" parameterType="String" resultType="com.zzb.cm.entity.INSBApplicant">
+		select * from INSBApplicant where taskid = #{taskid}
+	</select>
+	<select id="INSBApplicant_deleteById" parameterType="String">
+		delete from INSBApplicant where id = #{id}
+	</select>
+	<select id="INSBApplicant_updateById" parameterType="com.zzb.cm.entity.INSBApplicant">
+		update INSBApplicant  set operator = #{operator},modifytime = NOW(),noti = #{noti},taskid = #{taskid},personid = #{personid},businessproposalformno = #{businessproposalformno},businesspolicyno = #{businesspolicyno},relation = #{relation} where id = #{id}
+	</select>
+	<!--依据taskID来修改personID -->
+	<select id="INSBApplicant_updateByTaskId" parameterType="com.zzb.cm.entity.INSBApplicant">
+		update INSBApplicant  set personid = #{personid},modifytime = NOW() where taskid = #{taskid}
+	</select>
+	<select id="INSBApplicant_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBApplicant
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="businessproposalformno != null">
+				and businessproposalformno = #{businessproposalformno}
+			</if>
+			<if test="businesspolicyno != null">
+				and businesspolicyno = #{businesspolicyno}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+		</where>
+	</select>
+</mapper>

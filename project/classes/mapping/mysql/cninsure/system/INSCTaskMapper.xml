@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cninsure.system.entity">
+	<!-- INSCTask -->
+	<select id="INSCTask_insert" parameterType="com.cninsure.system.entity.INSCTask" resultType="int">
+		insert into INSCTask
+		(id,operator,createtime,modifytime,noti,tasktypeid,taskname,fullclassname) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{tasktypeid},#{taskname},#{fullclassname}) 
+	</select>
+	<select id="INSCTask_select" parameterType="Map" resultType="com.cninsure.system.entity.INSCTask">
+		select * from INSCTask
+		<where>
+			<if test="tasktypeid != null">
+				and tasktypeid = #{tasktypeid}
+			</if>
+			<if test="taskname != null">
+				and taskname = #{taskname}
+			</if>
+			<if test="fullclassname != null">
+				and fullclassname = #{fullclassname}
+			</if>
+		</where>
+	</select>
+	<select id="INSCTask_selectPage" parameterType="Map" resultType="com.cninsure.system.entity.INSCTask">
+		select * from INSCTask limit #{offset},#{limit}
+	</select>
+	<select id="INSCTask_selectOne" parameterType="Map" resultType="com.cninsure.system.entity.INSCTask">
+		select * from INSCTask
+		<where>
+			<if test="tasktypeid != null">
+				and tasktypeid = #{tasktypeid}
+			</if>
+			<if test="taskname != null">
+				and taskname = #{taskname}
+			</if>
+			<if test="fullclassname != null">
+				and fullclassname = #{fullclassname}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	
+	<select id="INSCTask_selectById" parameterType="String" resultType="com.cninsure.system.entity.INSCTask">
+		select * from INSCTask where id = #{id}
+	</select>
+	<select id="INSCTask_deleteById" parameterType="String">
+		delete from INSCTask where id = #{id}
+	</select>
+	<select id="INSCTask_updateById" parameterType="com.cninsure.system.entity.INSCTask">
+		update INSCTask  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},tasktypeid = #{tasktypeid},taskname = #{taskname},fullclassname = #{fullclassname} where id = #{id}
+	</select>
+	<select id="INSCTask_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSCTask
+		<where>
+			<if test="tasktypeid != null">
+				and tasktypeid = #{tasktypeid}
+			</if>
+			<if test="taskname != null">
+				and taskname = #{taskname}
+			</if>
+			<if test="fullclassname != null">
+				and fullclassname = #{fullclassname}
+			</if>
+		</where>
+	</select>
+</mapper>

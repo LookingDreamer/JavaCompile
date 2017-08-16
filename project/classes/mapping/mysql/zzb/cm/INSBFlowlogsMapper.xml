@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBFlowlogs -->
+	<select id="INSBFlowlogs_insert" parameterType="com.zzb.cm.entity.INSBFlowlogs" resultType="int">
+		insert into INSBFlowlogs
+		(id,operator,createtime,modifytime,noti,flowinfoid,taskid,inscomcode,currenthandle,flowcode,flowname,firoredi,fromwhere,count,taskstatus) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{flowinfoid},#{taskid},#{inscomcode},#{currenthandle},#{flowcode},#{flowname},#{firoredi},#{fromwhere},#{count},#{taskstatus}) 
+	</select>
+	<select id="INSBFlowlogs_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBFlowlogs">
+		select * from INSBFlowlogs
+		<where>
+			<if test="flowinfoid != null">
+				and flowinfoid = #{flowinfoid}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="currenthandle != null">
+				and currenthandle = #{currenthandle}
+			</if>
+			<if test="flowcode != null">
+				and flowcode = #{flowcode}
+			</if>
+			<if test="flowname != null">
+				and flowname = #{flowname}
+			</if>
+			<if test="firoredi != null">
+				and firoredi = #{firoredi}
+			</if>
+			<if test="fromwhere != null">
+				and fromwhere = #{fromwhere}
+			</if>
+			<if test="count != null">
+				and count = #{count}
+			</if>
+			<if test="taskstatus != null">
+				and taskstatus = #{taskstatus}
+			</if>
+		</where>
+	</select>
+	<select id="INSBFlowlogs_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBFlowlogs">
+		select * from INSBFlowlogs
+		<where>
+			<if test="flowinfoid != null">
+				and flowinfoid = #{flowinfoid}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="currenthandle != null">
+				and currenthandle = #{currenthandle}
+			</if>
+			<if test="flowcode != null">
+				and flowcode = #{flowcode}
+			</if>
+			<if test="flowname != null">
+				and flowname = #{flowname}
+			</if>
+			<if test="firoredi != null">
+				and firoredi = #{firoredi}
+			</if>
+			<if test="fromwhere != null">
+				and fromwhere = #{fromwhere}
+			</if>
+			<if test="count != null">
+				and count = #{count}
+			</if>
+			<if test="taskstatus != null">
+				and taskstatus = #{taskstatus}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBFlowlogs_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBFlowlogs">
+		select * from INSBFlowlogs where id = #{id}
+	</select>
+	<select id="INSBFlowlogs_deleteById" parameterType="String">
+		delete from INSBFlowlogs where id = #{id}
+	</select>
+	<select id="INSBFlowlogs_updateById" parameterType="com.zzb.cm.entity.INSBFlowlogs">
+		update INSBFlowlogs  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},flowinfoid = #{flowinfoid},taskid = #{taskid},inscomcode = #{inscomcode},currenthandle = #{currenthandle},flowcode = #{flowcode},flowname = #{flowname},firoredi = #{firoredi},fromwhere = #{fromwhere},count = #{count},taskstatus = #{taskstatus} where id = #{id}
+	</select>
+	<select id="INSBFlowlogs_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBFlowlogs
+		<where>
+			<if test="flowinfoid != null">
+				and flowinfoid = #{flowinfoid}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="currenthandle != null">
+				and currenthandle = #{currenthandle}
+			</if>
+			<if test="flowcode != null">
+				and flowcode = #{flowcode}
+			</if>
+			<if test="flowname != null">
+				and flowname = #{flowname}
+			</if>
+			<if test="firoredi != null">
+				and firoredi = #{firoredi}
+			</if>
+			<if test="fromwhere != null">
+				and fromwhere = #{fromwhere}
+			</if>
+			<if test="count != null">
+				and count = #{count}
+			</if>
+			<if test="taskstatus != null">
+				and taskstatus = #{taskstatus}
+			</if>
+		</where>
+	</select>
+</mapper>

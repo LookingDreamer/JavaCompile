@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+
+	<!-- INSBFilelibrary   -->
+	<select id="INSBFilelibrary_insert" parameterType="com.zzb.cm.entity.INSBFilelibrary" resultType="int">
+		insert into INSBFilelibrary
+		(id,operator,createtime,modifytime,noti,filetype,filename,filecodevalue,filedescribe,filepath,filephysicalpath,smallfilepath) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{filetype},#{filename},#{filecodevalue},#{filedescribe},#{filepath},#{filephysicalpath},#{smallfilepath}) 
+	</select>
+	<select id="INSBFilelibrary_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBFilelibrary">
+		select * from INSBFilelibrary
+		<where>
+			<if test="filetype != null">
+				and filetype = #{filetype}
+			</if>
+			<if test="filename != null">
+				and filename = #{filename}
+			</if>
+			<if test="filecodevalue != null">
+				and filecodevalue = #{filecodevalue}
+			</if>
+			<if test="filedescribe != null">
+				and filedescribe = #{filedescribe}
+			</if>
+			<if test="filepath != null">
+				and filepath = #{filepath}
+			</if>
+			<if test="filephysicalpath != null">
+				and filephysicalpath = #{filephysicalpath}
+			</if>
+			<if test="smallfilepath != null">
+				and smallfilepath = #{smallfilepath}
+			</if>
+		</where>
+		order by createtime 
+	</select>
+	<select id="INSBFilelibrary_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBFilelibrary">
+		select * from INSBFilelibrary
+		<where>
+			<if test="filetype != null">
+				and filetype = #{filetype}
+			</if>
+			<if test="filename != null">
+				and filename = #{filename}
+			</if>
+			<if test="filecodevalue != null">
+				and filecodevalue = #{filecodevalue}
+			</if>
+			<if test="filedescribe != null">
+				and filedescribe = #{filedescribe}
+			</if>
+			<if test="filepath != null">
+				and filepath = #{filepath}
+			</if>
+			<if test="filephysicalpath != null">
+				and filephysicalpath = #{filephysicalpath}
+			</if>
+			<if test="smallfilepath != null">
+				and smallfilepath = #{smallfilepath}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBFilelibrary_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBFilelibrary">
+		select * from INSBFilelibrary where id = #{id}
+	</select>
+	<select id="INSBFilelibrary_deleteById" parameterType="String">
+		delete from INSBFilelibrary where id = #{id}
+	</select>
+	<select id="INSBFilelibrary_deleteInIds" parameterType="List" resultType="Long">
+		delete from INSBFilelibrary
+		<where>
+			id IN
+			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</select>
+	<select id="INSBFilelibrary_updateById" parameterType="com.zzb.cm.entity.INSBFilelibrary">
+		update INSBFilelibrary  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},filetype = #{filetype},filename = #{filename},filecodevalue = #{filecodevalue},filedescribe = #{filedescribe},filepath = #{filepath},filephysicalpath = #{filephysicalpath},smallfilepath = #{smallfilepath} where id = #{id}
+	</select>
+	<select id="INSBFilelibrary_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBFilelibrary
+		<where>
+			<if test="filetype != null">
+				and filetype = #{filetype}
+			</if>
+			<if test="filename != null">
+				and filename = #{filename}
+			</if>
+			<if test="filecodevalue != null">
+				and filecodevalue = #{filecodevalue}
+			</if>
+			<if test="filedescribe != null">
+				and filedescribe = #{filedescribe}
+			</if>
+			<if test="filepath != null">
+				and filepath = #{filepath}
+			</if>
+			<if test="filephysicalpath != null">
+				and filephysicalpath = #{filephysicalpath}
+			</if>
+			<if test="smallfilepath != null">
+				and smallfilepath = #{smallfilepath}
+			</if>
+		</where>
+	</select>
+	<select id="INSBFilelibrary_selectByFilebusinessCode" parameterType="String" resultType="com.zzb.cm.entity.INSBFilelibrary">
+		SELECT * FROM (
+		select l.* from INSBFilelibrary l,INSBFilebusiness b where l.id = b.filelibraryid and b.code=#{code} order by l.createtime desc
+		) outter <!-- 同一类型可重复上传 GROUP BY filetype -->
+	</select>
+	<select id="INSBFilelibrary_selectListBymap" parameterType="Map" resultType="com.zzb.cm.entity.INSBFilelibrary">		
+		SELECT DISTINCT fy.* FROM insbfilelibrary fy 
+		LEFT JOIN insbfilebusiness fb ON fy.id = fb.filelibraryid 
+		LEFT JOIN insbpolicyitem py ON py.taskid = fb.`code` 
+		LEFT JOIN insbcarinfo car ON car.taskid = fb.`code`
+		LEFT JOIN insccode ic ON ic.codetype= fy.filetype
+
+			<where>
+			<if test="filename != null and filename != '' ">
+				and fy.filename like CONCAT('%', #{filename},'%')
+			</if>
+			<if test="filedescribe != null and filedescribe != '' ">
+				and fy.filedescribe like CONCAT('%', #{filedescribe},'%')
+			</if>
+			<if test="operator != null">
+				and fy.operator =#{operator}
+			</if>
+			<if test="filetype != null">
+				and ic.parentcode =#{filetype}
+			</if>
+			<if test="filecodevalue != null">
+				and ic.codevalue =#{filecodevalue}
+			</if>
+			<if test="taskid != null and taskid != '' ">
+				and fb.`code` =#{taskid}
+			</if>
+			<if test="insured != null  and insured != '' ">
+				and py.insuredname like CONCAT(#{insured},'%')
+			</if>
+			<if test="platenum != null  and platenum != '' ">
+				and car.carlicenseno like CONCAT(#{platenum},'%')
+			</if>
+		</where>
+	</select>
+</mapper>

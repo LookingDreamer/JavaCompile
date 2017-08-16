@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBRulequeryclaims -->
+	<select id="INSBRulequeryclaims_insert" parameterType="com.zzb.cm.entity.INSBRulequeryclaims" resultType="int">
+		insert into INSBRulequeryclaims
+		(id,operator,createtime,modifytime,noti,taskid,inscorpid,inscorpcode,inscorpname,casestarttime,caseendtime,claimamount,policyid,risktype) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{inscorpid},#{inscorpcode},#{inscorpname},#{casestarttime},#{caseendtime},#{claimamount},#{policyid},#{risktype}) 
+	</select>
+	<select id="INSBRulequeryclaims_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBRulequeryclaims">
+		select * from INSBRulequeryclaims
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscorpid != null">
+				and inscorpid = #{inscorpid}
+			</if>
+			<if test="inscorpcode != null">
+				and inscorpcode = #{inscorpcode}
+			</if>
+			<if test="inscorpname != null">
+				and inscorpname = #{inscorpname}
+			</if>
+			<if test="casestarttime != null">
+				and casestarttime = #{casestarttime}
+			</if>
+			<if test="caseendtime != null">
+				and caseendtime = #{caseendtime}
+			</if>
+			<if test="claimamount != null">
+				and claimamount = #{claimamount}
+			</if>
+			<if test="policyid != null">
+				and policyid = #{policyid}
+			</if>
+			<if test="risktype != null">
+				and risktype = #{risktype}
+			</if>
+		</where>
+	</select>
+	<select id="INSBRulequeryclaims_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBRulequeryclaims">
+		select * from INSBRulequeryclaims where id = #{id}
+	</select>
+	<select id="INSBRulequeryclaims_deleteById" parameterType="String">
+		delete from INSBRulequeryclaims where id = #{id}
+	</select>
+	<select id="INSBRulequeryclaims_updateById" parameterType="com.zzb.cm.entity.INSBRulequeryclaims">
+		update INSBRulequeryclaims  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},taskid = #{taskid},inscorpid = #{inscorpid},inscorpcode = #{inscorpcode},inscorpname = #{inscorpname},casestarttime = #{casestarttime},caseendtime = #{caseendtime},claimamount = #{claimamount},policyid = #{policyid},risktype = #{risktype} where id = #{id}
+	</select>
+	<select id="INSBRulequeryclaims_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBRulequeryclaims
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscorpid != null">
+				and inscorpid = #{inscorpid}
+			</if>
+			<if test="inscorpcode != null">
+				and inscorpcode = #{inscorpcode}
+			</if>
+			<if test="inscorpname != null">
+				and inscorpname = #{inscorpname}
+			</if>
+			<if test="casestarttime != null">
+				and casestarttime = #{casestarttime}
+			</if>
+			<if test="caseendtime != null">
+				and caseendtime = #{caseendtime}
+			</if>
+			<if test="claimamount != null">
+				and claimamount = #{claimamount}
+			</if>
+			<if test="policyid != null">
+				and policyid = #{policyid}
+			</if>
+			<if test="risktype != null">
+				and risktype = #{risktype}
+			</if>
+		</where>
+	</select>
+	<select id="INSBRulequeryclaims_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBRulequeryclaims">
+		select * from INSBRulequeryclaims
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="inscorpid != null">
+				and inscorpid = #{inscorpid}
+			</if>
+			<if test="inscorpcode != null">
+				and inscorpcode = #{inscorpcode}
+			</if>
+			<if test="inscorpname != null">
+				and inscorpname = #{inscorpname}
+			</if>
+			<if test="casestarttime != null">
+				and casestarttime = #{casestarttime}
+			</if>
+			<if test="caseendtime != null">
+				and caseendtime = #{caseendtime}
+			</if>
+			<if test="claimamount != null">
+				and claimamount = #{claimamount}
+			</if>
+			<if test="policyid != null">
+				and policyid = #{policyid}
+			</if>
+			<if test="risktype != null">
+				and risktype = #{risktype}
+			</if>
+		</where>
+		 LIMIT 1
+	</select>
+
+	<select id="INSBRulequeryclaims_selectPolicy" parameterType="Map" resultType="com.zzb.cm.entity.INSBRulequeryclaims">
+		SELECT i.*,p.`policyno` FROM insbrulequeryclaims i left JOIN  insbpolicyitem p ON i.`policyid` = p.`id`
+		WHERE i.`taskid`=#{taskid}
+
+	</select>
+</mapper>

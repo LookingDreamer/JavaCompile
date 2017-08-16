@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSHOrder -->
+	<select id="INSHOrder_insert" parameterType="com.zzb.cm.entity.INSHOrder" resultType="int">
+		insert into INSHOrder
+		(id,operator,createtime,modifytime,noti,taskid,orderno,orderstatus,paymentstatus,deliverystatus,buyway,agentcode,agentname,inputusercode,currency,totaldeliveryamount,totalpaymentamount,totalproductamount,totalpromotionamount,deptcode,paymentmethod,prvid,fairyoredi,nodecode) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{orderno},#{orderstatus},#{paymentstatus},#{deliverystatus},#{buyway},#{agentcode},#{agentname},#{inputusercode},#{currency},#{totaldeliveryamount},#{totalpaymentamount},#{totalproductamount},#{totalpromotionamount},#{deptcode},#{paymentmethod},#{prvid},#{fairyoredi},#{nodecode})
+	</select>
+	<select id="INSHOrder_select" parameterType="Map" resultType="com.zzb.cm.entity.INSHOrder">
+		select * from INSHOrder
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="orderno != null">
+				and orderno = #{orderno}
+			</if>
+			<if test="orderstatus != null">
+				and orderstatus = #{orderstatus}
+			</if>
+			<if test="paymentstatus != null">
+				and paymentstatus = #{paymentstatus}
+			</if>
+			<if test="deliverystatus != null">
+				and deliverystatus = #{deliverystatus}
+			</if>
+			<if test="buyway != null">
+				and buyway = #{buyway}
+			</if>
+			<if test="agentcode != null">
+				and agentcode = #{agentcode}
+			</if>
+			<if test="agentname != null">
+				and agentname = #{agentname}
+			</if>
+			<if test="inputusercode != null">
+				and inputusercode = #{inputusercode}
+			</if>
+			<if test="currency != null">
+				and currency = #{currency}
+			</if>
+			<if test="totaldeliveryamount != null">
+				and totaldeliveryamount = #{totaldeliveryamount}
+			</if>
+			<if test="totalpaymentamount != null">
+				and totalpaymentamount = #{totalpaymentamount}
+			</if>
+			<if test="totalproductamount != null">
+				and totalproductamount = #{totalproductamount}
+			</if>
+			<if test="totalpromotionamount != null">
+				and totalpromotionamount = #{totalpromotionamount}
+			</if>
+			<if test="deptcode != null">
+				and deptcode = #{deptcode}
+			</if>
+			<if test="paymentmethod != null">
+				and paymentmethod = #{paymentmethod}
+			</if>
+			<if test="prvid != null">
+				and prvid = #{prvid}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+	</select>
+	<select id="INSHOrder_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSHOrder">
+		select * from INSHOrder where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHOrder_deleteById" parameterType="String">
+		delete from INSHOrder where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHOrder_updateById" parameterType="com.zzb.cm.entity.INSHOrder">
+		update INSHOrder  set operator = #{operator},modifytime = NOW(),noti = #{noti},taskid = #{taskid},orderno = #{orderno},orderstatus = #{orderstatus},paymentstatus = #{paymentstatus},deliverystatus = #{deliverystatus},buyway = #{buyway},agentcode = #{agentcode},agentname = #{agentname},inputusercode = #{inputusercode},currency = #{currency},totaldeliveryamount = #{totaldeliveryamount},totalpaymentamount = #{totalpaymentamount},totalproductamount = #{totalproductamount},totalpromotionamount = #{totalpromotionamount},deptcode = #{deptcode},paymentmethod = #{paymentmethod},prvid = #{prvid},fairyoredi = #{fairyoredi},nodecode = #{nodecode} where id = #{id} and fairyoredi = #{fairyoredi} and nodecode = #{nodecode}
+	</select>
+	<select id="INSHOrder_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSHOrder
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="orderno != null">
+				and orderno = #{orderno}
+			</if>
+			<if test="orderstatus != null">
+				and orderstatus = #{orderstatus}
+			</if>
+			<if test="paymentstatus != null">
+				and paymentstatus = #{paymentstatus}
+			</if>
+			<if test="deliverystatus != null">
+				and deliverystatus = #{deliverystatus}
+			</if>
+			<if test="buyway != null">
+				and buyway = #{buyway}
+			</if>
+			<if test="agentcode != null">
+				and agentcode = #{agentcode}
+			</if>
+			<if test="agentname != null">
+				and agentname = #{agentname}
+			</if>
+			<if test="inputusercode != null">
+				and inputusercode = #{inputusercode}
+			</if>
+			<if test="currency != null">
+				and currency = #{currency}
+			</if>
+			<if test="totaldeliveryamount != null">
+				and totaldeliveryamount = #{totaldeliveryamount}
+			</if>
+			<if test="totalpaymentamount != null">
+				and totalpaymentamount = #{totalpaymentamount}
+			</if>
+			<if test="totalproductamount != null">
+				and totalproductamount = #{totalproductamount}
+			</if>
+			<if test="totalpromotionamount != null">
+				and totalpromotionamount = #{totalpromotionamount}
+			</if>
+			<if test="deptcode != null">
+				and deptcode = #{deptcode}
+			</if>
+			<if test="paymentmethod != null">
+				and paymentmethod = #{paymentmethod}
+			</if>
+			<if test="prvid != null">
+				and prvid = #{prvid}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+	</select>
+	<select id="INSHOrder_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSHOrder">
+		select * from INSHOrder
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="orderno != null">
+				and orderno = #{orderno}
+			</if>
+			<if test="orderstatus != null">
+				and orderstatus = #{orderstatus}
+			</if>
+			<if test="paymentstatus != null">
+				and paymentstatus = #{paymentstatus}
+			</if>
+			<if test="deliverystatus != null">
+				and deliverystatus = #{deliverystatus}
+			</if>
+			<if test="buyway != null">
+				and buyway = #{buyway}
+			</if>
+			<if test="agentcode != null">
+				and agentcode = #{agentcode}
+			</if>
+			<if test="agentname != null">
+				and agentname = #{agentname}
+			</if>
+			<if test="inputusercode != null">
+				and inputusercode = #{inputusercode}
+			</if>
+			<if test="currency != null">
+				and currency = #{currency}
+			</if>
+			<if test="totaldeliveryamount != null">
+				and totaldeliveryamount = #{totaldeliveryamount}
+			</if>
+			<if test="totalpaymentamount != null">
+				and totalpaymentamount = #{totalpaymentamount}
+			</if>
+			<if test="totalproductamount != null">
+				and totalproductamount = #{totalproductamount}
+			</if>
+			<if test="totalpromotionamount != null">
+				and totalpromotionamount = #{totalpromotionamount}
+			</if>
+			<if test="deptcode != null">
+				and deptcode = #{deptcode}
+			</if>
+			<if test="paymentmethod != null">
+				and paymentmethod = #{paymentmethod}
+			</if>
+			<if test="prvid != null">
+				and prvid = #{prvid}
+			</if>
+			<if test="fairyoredi != null">
+				and fairyoredi = #{fairyoredi}
+			</if>
+			<if test="nodecode != null">
+				and nodecode = #{nodecode}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+</mapper>

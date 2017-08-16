@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cninsure.system.entity">
+	<!-- INSCRole -->
+	<select id="INSCRole_insert" parameterType="com.cninsure.system.entity.INSCRole"
+		resultType="int">
+		insert into INSCRole
+		(id,operator,createtime,modifytime,noti,rolecode,rolename,branchinnerCode,prop1,prop2,status)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{rolecode},#{rolename},#{branchinnerCode},#{prop1},#{prop2},#{status})
+	</select>
+	<select id="INSCRole_select" parameterType="Map"
+		resultType="com.cninsure.system.entity.INSCRole">
+		select * from INSCRole
+		<where>
+			 <if test="rolecode != null">
+			 and 	rolecode = #{rolecode}	
+			</if>
+			<if test="rolename != null">
+			 and 	rolename = #{rolename}	
+			</if>
+			<if test="branchinnerCode != null">
+			 and 	branchinnerCode = #{branchinnerCode}	
+			</if>
+			<if test="prop1 != null">
+			 and 	prop1 = #{prop1}	
+			</if>
+			<if test="prop2 != null">
+			 and 	prop2 = #{prop2}	
+			</if>
+			<if test="status != null">
+			 and 	status = #{status}	
+			</if>
+		</where>
+	</select>
+	<select id="INSCRole_selectOne" parameterType="Map"
+		resultType="com.cninsure.system.entity.INSCRole">
+		select * from INSCRole
+		<where>
+			 <if test="rolecode != null">
+			 and 	rolecode = #{rolecode}	
+			</if>
+			<if test="rolename != null">
+			 and 	rolename = #{rolename}	
+			</if>
+			<if test="branchinnerCode != null">
+			 and 	branchinnerCode = #{branchinnerCode}	
+			</if>
+			<if test="prop1 != null">
+			 and 	prop1 = #{prop1}	
+			</if>
+			<if test="prop2 != null">
+			 and 	prop2 = #{prop2}	
+			</if>
+			<if test="status != null">
+			 and 	status = #{status}	
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSCRole_selectById" parameterType="String"
+		resultType="com.cninsure.system.entity.INSCRole">
+		select * from INSCRole where id = #{value}
+	</select>
+	
+	<select id="INSCRole_selectAllList" resultType="Map">
+		select a.* from inscrole a
+	</select>
+	
+	
+	<select id="INSCRole_deleteById" parameterType="String">
+		delete from
+		INSCRole where id = #{value}
+	</select>
+	<select id="INSCRole_updateById" parameterType="com.cninsure.system.entity.INSCRole">
+		update
+		INSCRole set
+		modifytime = #{modifytime},rolecode = #{rolecode},rolename = #{rolename},
+		branchinnerCode = #{branchinnerCode},prop1 = #{prop1},prop2 = #{prop2},
+		status = #{status},noti = #{noti}, operator = #{operator}
+		where id =
+		#{id}
+	</select>
+	<select id="INSCRole_selectCount" parameterType="Map" resultType="long">
+		select count(1) from INSCRole
+		<where>
+			<if test="rolecode != null">
+			 and 	rolecode = #{rolecode}	
+			</if>
+			<if test="rolename != null">
+			 and 	rolename = #{rolename}	
+			</if>
+			<if test="branchinnerCode != null">
+			 and 	branchinnerCode = #{branchinnerCode}	
+			</if>
+			<if test="prop1 != null">
+			 and 	prop1 = #{prop1}	
+			</if>
+			<if test="prop2 != null">
+			 and 	prop2 = #{prop2}	
+			</if>
+			<if test="status != null">
+			 and 	status = #{status}	
+			</if>
+		</where>
+	</select>
+	
+	<select id="INSCRole_selectRolecodesByRoleids" parameterType="String" resultType="String">
+		select rolecode from INSCRole where id  in 
+		<foreach item="rolecodeItem" index="index" collection="list" open="(" separator="," close=")">  
+			#{rolecodeItem}  
+		</foreach>
+	</select>
+	
+	<select id="INSCRole_selectRoleistByMap" parameterType="Map" resultType="Map">
+		SELECT
+			ro.id,
+			ro.noti,
+			ro.rolecode,
+			ro.rolename,
+			ro.branchinnerCode,
+			ro.status,
+			DATE_FORMAT(
+				ro.createtime,
+				'%Y-%m-%d %H:%i:%s'
+			) createtime
+		from
+			inscrole ro
+		<where>
+			<if test="rolecode != null"> 
+			 	and ro.rolecode = #{rolecode}
+			 </if>
+			 <if test="rolename != null"> 
+			 	and ro.rolename = #{rolename}
+			 </if>
+			 <if test="status != null"> 
+				and ro.status = #{status}
+			 </if>
+			 <if test="begintime != null"> 
+				and ro.createtime >= DATE_FORMAT(#{begintime},'yyyy-mm-dd 00:00:00')
+			 </if>
+			 <if test="endtime != null"> 
+				and ro.createtime = DATE_FORMAT(#{endtime},'yyyy-mm-dd 00:00:00')
+			 </if>
+		</where>
+		order by ro.createtime desc
+		limit #{offset},#{limit}
+	</select>
+	<select id="INSCPermissionRole_insert">
+		insert into inscpermissionrole 
+		(id,operator,createtime,modifytime,noti,roleid,permissionid)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{roleid},#{permissionid})
+	</select>
+	<select id="INSCRole_selectRoleNameByRoleid" parameterType="String" resultType="String">
+		select rolename from inscrole where id=#{id}
+	</select>
+</mapper>

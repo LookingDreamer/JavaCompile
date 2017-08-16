@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.warranty.model">
+    <!-- INSEOrder  -->
+
+    <select id="INSEQuote_insert" parameterType="com.zzb.warranty.model.INSEQuote" resultType="int">
+        insert into INSEQuote
+        (id,operator,createtime,modifytime, vincode,engineno, standardfullname, cifstandardname, carprice,registerdate,startdate, enddate, amount,origialwarrantyperiod,plateNumber,extendwarrantytype)
+        values
+        (#{id},#{operator},#{createtime},#{modifytime}, #{vincode},#{engineno},#{standardfullname},#{cifstandardname},#{carprice},#{registerdate},#{startdate},#{enddate},#{amount},#{origialwarrantyperiod},#{plateNumber},#{extendwarrantytype})
+    </select>
+
+    <select id="INSEQuote_selectById" parameterType="String" resultType="com.zzb.warranty.model.INSEQuote">
+            select * from INSEQuote where id = #{id}
+    </select>
+
+</mapper>

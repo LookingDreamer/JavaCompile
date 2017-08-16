@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.mobile.entity">
+	<select id="AppPaymentyzf_querySignInfos"  parameterType="Map" resultType="com.zzb.model.AppPaymentyzfRModel">
+     	select id,name,CASE WHEN bankcardType='cashcardflag' THEN '储蓄卡' 
+      WHEN bankcardType='creditcardflag' THEN '信用卡' end as bankcardType,bankcardno,khcomname from insbpaymentyzf
+      <where>
+			<if test="cradType != null">
+				and bankcardType = #{cradType}
+			</if>
+			<if test="cardno != null">
+				and bankcardno = #{cardno}
+			</if>	
+			<if test="jobNum != null">
+				and jobNum = #{jobNum}
+			</if>					
+		</where>
+	</select>
+	
+	<select id="AppPaymentyzf_getProvince" resultType="Map">
+    	select comcode as provincecode,comcodename from insbregion where parentid='0'
+	</select>
+	
+	<select id="AppPaymentyzf_getCity" parameterType="String" resultType="Map">
+		select comcode as citycode,comcodename from insbregion where comcodename !='县' and parentid = #{parentid} 
+	</select>	
+	
+	
+	<select id="AppPaymentyzf_getBankType"  resultType="Map">
+     	select codevalue as fkbankcode,codename from insccode where codetype='bankcard' order by codevalue asc
+
+	</select>
+    <select id="AppPaymentyzf_getidCardType"  resultType="Map">
+     	select codevalue as idcradType,codename from insccode where codetype='CertKinds'
+    </select>
+     <select id="AppPaymentyzf_getBankCardType"  resultType="Map">
+     	select codevalue as bankCardType,codename from insccode where codetype='CardType'
+    </select>
+    <select id="AppPaymentyzf_queryFromInsccodeByCode"  parameterType="Map" resultType="Map">
+     	select codename from insccode
+            <where>
+			<if test="codevalue != null">
+				and codevalue = #{codevalue}
+			</if>	
+			<if test="codetype != null">
+				and codetype = #{codetype}
+			</if>			
+		</where>
+    </select>
+    
+    <select id="AppPaymentyzf_queryFromInsbregionByCode"  parameterType="Map" resultType="Map">
+     	select comcodename from insbregion
+            <where>
+			<if test="comcode != null">
+				and comcode = #{comcode}
+			</if>				
+		</where>
+    </select>
+    
+
+	<select id="AppPaymentyzf_insert" parameterType="com.zzb.mobile.entity.AppPaymentyzf">
+		insert into insbpaymentyzf
+		(id,operator,createtime,modifytime,noti,name,phone,idcradType,idcardno,khprovincecode,khcitycode,khcomname,valiadatecode,periodyear,periodmonth,fkbankname,fkbankcode,bankcardType,bankcardno,relationaddress,jobNum)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{name},#{phone},#{idcradType},#{idcardno},#{khprovincecode},#{khcitycode},#{khcomname},#{valiadatecode},#{periodyear},#{periodmonth},#{fkbankname},#{fkbankcode},#{bankcardType},#{bankcardno},#{relationaddress},#{jobNum})
+	</select>
+	
+	<select id="AppPaymentyzf_select" parameterType="map" resultType="com.zzb.mobile.entity.AppPaymentyzf">
+		select * from insbpaymentyzf 
+		<where>
+			<if test="operator != null">
+				and operator = #{operator}
+			</if>
+			<if test="phone != null">
+				and phone = #{phone}
+			</if>
+			<if test="jobNum != null">
+				and jobNum = #{jobNum}
+			</if>	
+							
+		</where>
+	</select>
+	
+	<select id="AppPaymentyzf_selectById" parameterType="String" resultType="com.zzb.mobile.entity.AppPaymentyzf">
+		select * from insbpaymentyzf  where id=#{id}
+	</select>
+	
+	
+	
+</mapper>

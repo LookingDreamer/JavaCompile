@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBGrouptaskset -->
+	<select id="INSBGrouptaskset_insert" parameterType="com.zzb.conf.entity.INSBGrouptaskset" resultType="int">
+		insert into INSBGrouptaskset
+		(id,operator,createtime,modifytime,noti,tasksetid,groupid,groupname,groupcode) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{tasksetid},#{groupid},#{groupname},#{groupcode}) 
+	</select>
+	<select id="INSBGrouptaskset_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBGrouptaskset">
+		select * from INSBGrouptaskset
+		<where>
+			<if test="tasksetid != null">
+				and tasksetid = #{tasksetid}
+			</if>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBGrouptaskset_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBGrouptaskset">
+		select * from INSBGrouptaskset
+		<where>
+			<if test="tasksetid != null">
+				and tasksetid = #{tasksetid}
+			</if>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+		</where>
+		LIMIT 2
+	</select>	
+	<select id="INSBGrouptaskset_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBGrouptaskset">
+		select * from INSBGrouptaskset where id = #{id}
+	</select>
+	<select id="INSBGrouptaskset_selectByGroupId" parameterType="String" resultType="com.zzb.conf.entity.INSBGrouptaskset">
+		select * from INSBGrouptaskset where groupid = #{groupid}
+	</select>
+	<select id="INSBGrouptaskset_selectByTaskSetId" parameterType="String" resultType="com.zzb.conf.entity.INSBGrouptaskset">
+		select * from INSBGrouptaskset where tasksetid = #{tasksetid}
+	</select>
+	
+	
+	<select id="INSBGrouptaskset_selectGroupIdsByTaskSetId4Task" parameterType="List" resultType="String">
+		select * from INSBGrouptaskset 
+		<where>
+			<if test="ids !=null">
+				tasksetid in 
+				<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	<select id="INSBGrouptaskset_deleteById" parameterType="String">
+		delete from INSBGrouptaskset where id = #{id}
+	</select>
+	
+	<select id="INSBGrouptaskset_deleteByGroupId" parameterType="String">
+		delete from INSBGrouptaskset where groupid = #{groupid}
+	</select>
+	<select id="INSBGrouptaskset_updateById" parameterType="com.zzb.conf.entity.INSBGrouptaskset">
+		update INSBGrouptaskset  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},tasksetid = #{tasksetid},groupid = #{groupid},groupcode=#{groupcode},groupname=#{groupname} where id = #{id}
+	</select>
+	<select id="INSBGrouptaskset_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBGrouptaskset
+		<where>
+			<if test="tasksetid != null">
+				and tasksetid = #{tasksetid}
+			</if>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+		</where>
+	</select>
+	
+	<select id="INSBGrouptaskset_selectPageList" parameterType="Map" resultType="com.zzb.conf.entity.INSBGrouptaskset">
+		select b.id, b.setname,b.setstatus,b.tasksetcode,a.groupname,a.groupcode 
+		from INSBGrouptaskset a left join insbtaskset b on 
+		a.tasksetid=b.id 
+		<where>
+			<if test="groupcode != null">
+				 a.groupcode like CONCAT('%',#{groupcode},'%') 
+			</if>
+			<if test="groupname != null">
+				and a.groupname like CONCAT('%',#{groupname},'%') 
+			</if>
+		</where>
+		order by a.createtime desc
+		limit #{offset},#{limit}
+	</select>
+	<select id="INSBGrouptaskset_selectPageCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBGrouptaskset
+		<where>
+			<if test="groupcode != null">
+				 groupcode like CONCAT('%',#{groupcode},'%') 
+			</if>
+			<if test="groupname != null">
+				and groupname like CONCAT('%',#{groupname},'%') 
+			</if>
+		</where>
+	</select>
+</mapper>

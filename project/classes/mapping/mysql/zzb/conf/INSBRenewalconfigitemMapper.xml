@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBRenewalconfigitem -->
+	<select id="INSBRenewalconfigitem_insert" parameterType="com.zzb.conf.entity.INSBRenewalconfigitem" resultType="int">
+		insert into INSBRenewalconfigitem
+		(id,operator,createtime,modifytime,noti,agreementid,itemcode,itemname,itemorder,isrequired) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{agreementid},#{itemcode},#{itemname},#{itemorder},#{isrequired}) 
+	</select>
+	<select id="INSBRenewalconfigitem_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBRenewalconfigitem">
+		select * from INSBRenewalconfigitem
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="itemcode != null">
+				and itemcode = #{itemcode}
+			</if>
+			<if test="itemname != null">
+				and itemname = #{itemname}
+			</if>
+			<if test="itemorder != null">
+				and itemorder = #{itemorder}
+			</if>
+			<if test="isrequired != null">
+				and isrequired = #{isrequired}
+			</if>
+		</where>
+	</select>
+	<select id="INSBRenewalconfigitem_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBRenewalconfigitem">
+		select * from INSBRenewalconfigitem where id = #{id}
+	</select>
+	<select id="INSBRenewalconfigitem_deleteById" parameterType="String">
+		delete from INSBRenewalconfigitem where id = #{id}
+	</select>
+    <select id="INSBRenewalconfigitem_deleteByAgreementid" parameterType="String" resultType="Long">
+        delete from INSBRenewalconfigitem where agreementid = #{agreementid}
+    </select>
+	<select id="INSBRenewalconfigitem_updateById" parameterType="com.zzb.conf.entity.INSBRenewalconfigitem">
+		update INSBRenewalconfigitem  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},agreementid = #{agreementid},itemcode = #{itemcode},itemname = #{itemname},itemorder = #{itemorder},isrequired = #{isrequired} where id = #{id}
+	</select>
+	<select id="INSBRenewalconfigitem_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBRenewalconfigitem
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="itemcode != null">
+				and itemcode = #{itemcode}
+			</if>
+			<if test="itemname != null">
+				and itemname = #{itemname}
+			</if>
+			<if test="itemorder != null">
+				and itemorder = #{itemorder}
+			</if>
+			<if test="isrequired != null">
+				and isrequired = #{isrequired}
+			</if>
+		</where>
+	</select>
+	<select id="INSBRenewalconfigitem_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBRenewalconfigitem">
+		select * from INSBRenewalconfigitem
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="itemcode != null">
+				and itemcode = #{itemcode}
+			</if>
+			<if test="itemname != null">
+				and itemname = #{itemname}
+			</if>
+			<if test="itemorder != null">
+				and itemorder = #{itemorder}
+			</if>
+			<if test="isrequired != null">
+				and isrequired = #{isrequired}
+			</if>
+		</where>
+		LIMIT 1
+	</select>
+</mapper>

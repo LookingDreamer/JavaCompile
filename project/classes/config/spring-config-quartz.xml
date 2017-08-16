@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!-- 在<Beans>中设置default-autowire="byName"的属性，不能通过Bean名称自动注入，必须通过明确引用注入 -->
+<beans>
+	<bean id="job1"
+		  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<!--<bean class="com.cninsure.quartz.test.Job1" />  -->
+			<bean class="com.zzb.cm.service.impl.INSBFilelibraryUploadCosFailServiceImpl" />
+		</property>
+		<property name="targetMethod" value="uploadCosTask" />
+		<property name="concurrent" value="false" /><!-- 作业不并发调度 -->
+	</bean>
+	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="job1" />
+		<property name="startDelay" value="0" /><!-- 调度工厂实例化后，经过0秒开始执行调度 -->
+		<property name="repeatInterval" value="600000" /><!-- 每600秒调度一次 -->
+	</bean>
+
+	<bean id="fairyInsureQueryJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.cninsure.jobpool.timer.job.FairyInsureQueryJob" />
+	</bean>
+
+	<bean id="fairyInsureQueryTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="fairyInsureQueryJobDetail" />
+		<property name="startDelay" value="10" /><!-- 调度工厂实例化后，经过0秒开始执行调度 -->
+		<property name="cronExpression" value="0 0 20 * * ?"/><!-- 每天20点触发一次 -->
+
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="jobFactory" ref="jobFactory" />
+		<property name="triggers">
+			<list>
+				<!--<ref bean="simpleTrigger" />-->
+				<ref bean="fairyInsureQueryTrigger" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 管理类：配置Schedule信息，与spring容器的生命周期建立联系等功能 -->
+    <bean id="jobFactory" class="com.cninsure.quartz.test.MyJobFactory"></bean>
+
+	<!-- 自动刷已承保任务，返佣 refreshExtraJobDetail
+	<bean id="refreshExtraJobDetail"
+		  class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.zzb.extra.task.TaskJob" />
+		<property name="durability" value="false" />
+	</bean>
+	<bean id="refreshExtraTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="refreshExtraJobDetail"/>
+		</property>
+		<property name="startDelay">
+			<value>2000</value>
+		</property>
+		<property name="repeatInterval">
+			<value>300000</value>
+		</property>
+		<property name="repeatCount">
+			<value>-1</value>
+		</property>
+		<property name="priority">
+			<value>10</value>
+		</property>
+	</bean> -->
+    <!-- <bean id="scheduler"
+          class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobFactory" ref="jobFactory"></property>
+        <property name="dataSource" ref="dataSourceMySql" />
+        在SchedulerFactoryBean初始化完成后，延迟300秒启动Scheduler，以便让Spring能够更快初始化容器中剩余的Bean。
+        <property name="startupDelay" value="10000000" />
+        <property name="quartzProperties">
+            <props>
+                <prop key="org.quartz.scheduler.instanceName">qmsQuartzScheduler</prop>
+                <prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+                <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+                <prop key="org.quartz.threadPool.threadCount">3</prop>
+                <prop key="org.quartz.threadPool.threadPriority">5</prop>
+                <prop key="org.quartz.jobStore.misfireThreshold">60000</prop>
+                <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
+                <prop key="org.quartz.jobStore.isClustered">true</prop>
+                <prop key="org.quartz.jobStore.clusterCheckinInterval">20000</prop>
+            </props>
+        </property>
+        <property name="triggers">
+            <list>
+				
+            </list>
+        </property>
+    </bean> -->
+</beans>

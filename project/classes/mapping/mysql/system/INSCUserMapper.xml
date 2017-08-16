@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cninsure.system.entity">
+	<!-- INSCUser -->
+	<select id="INSCUser_insert" parameterType="com.cninsure.system.entity.INSCUser"
+		resultType="int">
+		insert into INSCUser
+		(id,operator,createtime,modifytime,noti,usercode,username,userorganization,password,picurl,sex,phone,email,address,status,userclass,objectclass,name,openid,maturitydata,onlinestatus)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{usercode},#{username},#{userorganization},#{password},#{picurl},#{sex},#{phone},#{email},#{address},#{status},#{userclass},#{objectclass},#{name},#{openid},#{maturitydata},#{onlinestatus})
+	</select>
+	<select id="INSCUser_select" parameterType="Map"
+		resultType="com.cninsure.system.entity.INSCUser">
+		select * from INSCUser
+		<where>
+			<if test="usercode != null">
+				and usercode = #{usercode}
+			</if>
+			<if test="onlinestatus != null">
+				and onlinestatus = #{onlinestatus}
+			</if>
+			<if test="userorganization != null">
+				and userorganization = #{userorganization}
+			</if>
+			<if test="objectclass != null">
+				and objectclass = #{objectclass}
+			</if>
+			<if test="userclass != null">
+				and userclass = #{userclass}
+			</if>
+			
+			<if test="username != null">
+				and username = #{username}
+			</if>
+			
+			<if test="password != null">
+				and password = #{password}
+			</if>
+			<if test="picurl != null">
+				and picurl = #{picurl}
+			</if>
+			<if test="sex != null">
+				and sex = #{sex}
+			</if>
+			<if test="phone != null">
+				and phone = #{phone}
+			</if>
+			<if test="email != null">
+				and email = #{email}
+			</if>
+			<if test="address != null">
+				and address = #{address}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+		order by createtime desc limit 0,50
+	</select>
+	<select id="INSCUser_selectOne" parameterType="Map"
+		resultType="com.cninsure.system.entity.INSCUser">
+		select * from INSCUser
+		<where>
+			<if test="usercode != null">
+				and usercode = #{usercode}
+			</if>
+			<if test="onlinestatus != null">
+				and onlinestatus = #{onlinestatus}
+			</if>
+			<if test="userorganization != null">
+				and userorganization = #{userorganization}
+			</if>
+			<if test="objectclass != null">
+				and objectclass = #{objectclass}
+			</if>
+			<if test="userclass != null">
+				and userclass = #{userclass}
+			</if>
+			
+			<if test="username != null">
+				and username = #{username}
+			</if>
+			
+			<if test="password != null">
+				and password = #{password}
+			</if>
+			<if test="picurl != null">
+				and picurl = #{picurl}
+			</if>
+			<if test="sex != null">
+				and sex = #{sex}
+			</if>
+			<if test="phone != null">
+				and phone = #{phone}
+			</if>
+			<if test="email != null">
+				and email = #{email}
+			</if>
+			<if test="address != null">
+				and address = #{address}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+		order by createtime desc limit 0,50
+	</select>
+	
+	<select id="INSCUser_selectByPage" parameterType="com.cninsure.system.entity.INSCUser"
+		resultType="com.cninsure.system.entity.INSCUser">
+		select a.*,b.comname from INSCUser a left join inscdept b on
+		a.userorganization=b.id
+		<where>
+			<if test="userorganization != null">
+				and a.userorganization = #{userorganization}
+			</if>
+			<if test="onlinestatus != null">
+				and a.onlinestatus = #{onlinestatus}
+			</if>
+			<if test="usercode != null">
+				and a.usercode = #{usercode}
+			</if>
+			<if test="objectclass != null">
+				and a.objectclass = #{objectclass}
+			</if>
+			<if test="userclass != null">
+				and a.userclass = #{userclass}
+			</if>
+			
+			<if test="username != null">
+				and a.username = #{username}
+			</if>
+			
+			<if test="password != null">
+				and a.password = #{password}
+			</if>
+			<if test="picurl != null">
+				and a.picurl = #{picurl}
+			</if>
+			<if test="sex != null">
+				and a.sex = #{sex}
+			</if>
+			<if test="phone != null">
+				and a.phone = #{phone}
+			</if>
+			<if test="email != null">
+				and a.email = #{email}
+			</if>
+			<if test="address != null">
+				and a.address = #{address}
+			</if>
+			<if test="status != null">
+				and a.status = #{status}
+			</if>
+		</where>
+		order by a.createtime desc
+		limit #{offset},#{limit}
+	</select>
+	
+	<update id="INSCUser_updateById" parameterType="com.cninsure.system.entity.INSCUser">
+		update  INSCUser 
+		<set>
+			<if test="objectclass != null">
+				objectclass = #{objectclass},
+			</if>
+			<if test="userclass != null">
+				userclass = #{userclass},
+			</if>
+			<if test="onlinestatus != null">
+				onlinestatus = #{onlinestatus},
+			</if>
+			<if test="openid != null">
+				openid = #{openid},
+			</if>
+			<if test="usercode != null">
+				 usercode = #{usercode},
+			</if>
+			<if test="username != null">
+				 username = #{username},
+			</if>
+			<if test="name != null">
+				 name= #{name},
+			</if>
+			<if test="userorganization != null">
+				userorganization = #{userorganization},
+			</if>
+			<if test="password != null">
+				password = #{password},
+			</if>
+			<if test="picurl != null">
+				picurl = #{picurl},
+			</if>
+			<if test="sex != null">
+				sex = #{sex},
+			</if>
+			<if test="phone != null">
+				phone = #{phone},
+			</if>
+			<if test="email != null">
+				email = #{email},
+			</if>
+			<if test="address != null">
+				address = #{address},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="maturitydata != null">
+				maturitydata = #{maturitydata},
+			</if>
+			<if test="noti != null">
+				noti = #{noti},
+			</if>
+			<if test="taskpool != 0">
+				taskpool = #{taskpool},
+			</if>
+			<if test="pwsmodifytime != null">
+				pwsmodifytime = #{pwsmodifytime}
+			</if>
+		</set>
+		<where>
+			id=#{id}
+		</where>
+	</update>	
+	
+	<select id="INSCUser_selectById" parameterType="String"
+		resultType="com.cninsure.system.entity.INSCUser">
+		select * from INSCUser where id = #{value}
+	</select>
+	<select id="INSCUser_selectCodeById" parameterType="String"
+		resultType="String">
+		select usercode from INSCUser where id = #{value}
+	</select>
+	
+	
+	<select id="INSCUser_selectIdByCode4Menu" parameterType="String"
+		resultType="String">
+		select id from INSCUser where usercode = #{value}
+	</select>
+
+	<select id="INSCUser_selectPageByDeptId" parameterType="Map" resultType="com.cninsure.system.entity.INSCUser">
+		select a.id,a.name,a.usercode,b.comname from INSCUser a left join inscdept b on
+		a.userorganization=b.id
+		<where> 1= 1 
+			<if test="deptIds !=null ">
+				 and a.userorganization in
+				<foreach collection="deptIds" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="name!=null and name!='' ">
+				 and a.name like CONCAT('%',#{name},'%') 
+			</if>
+			<if test="usercode!=null and usercode!=''">
+				and a.usercode like CONCAT('%',#{usercode},'%') 
+			</if>
+		</where>
+		order by a.createtime desc
+		limit #{offset},#{limit}
+	</select>
+	
+	
+	<select id="INSCUser_selectCountPageByDeptId" parameterType="Map" resultType="long">
+		select count(1) from INSCUser 
+		<where> 1= 1 
+			<if test="deptIds!=null ">
+				 and userorganization in
+				<foreach collection="deptIds" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="name!=null and name!='' ">
+				 and name like CONCAT('%',#{name},'%') 
+			</if>
+			<if test="usercode!=null and usercode!=''">
+				and usercode like CONCAT('%',#{usercode},'%') 
+			</if>
+		</where>
+	</select>
+	
+	<select id="INSCUser_selectPageCountByDeptId" resultType="long">
+		select count(1) from INSCUser a left join inscdept b on
+		a.userorganization=b.id
+		<where>
+			1= 1
+			<if test="userIds!=null ">
+				and a.id not in
+				<foreach collection="userIds" index="index1" item="item1"
+					open="(" separator="," close=")">
+					#{item1}
+				</foreach>
+			</if>
+			<if test="userorganization!=null">
+				and a.userorganization=#{userorganization}
+			</if>
+			<if test="deptIds!=null ">
+				and a.userorganization in
+				<foreach collection="deptIds" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="name!=null ">
+				and a.name like CONCAT('%',#{name},'%')
+			</if>
+			<if test="usercode!=null">
+				and a.usercode like CONCAT('%',#{usercode},'%')
+			</if>
+		</where>
+		order by a.createtime desc
+	</select>
+
+	<select id="INSCUser_selectByUserCode" parameterType="String"
+		resultType="com.cninsure.system.entity.INSCUser">
+		SELECT u.*, d.deptinnercode
+				from INSCUser u,inscdept d
+				where usercode = #{usercode} and d.comcode=u.userorganization
+	</select>
+	
+	<!-- 业管群组添加成员使用   本级机构-->
+	<select id="INSCUser_selectUsersUseLike" parameterType="Map" resultType="Map">
+		select a.id,a.name,a.usercode,b.comname,b.comcode from INSCUser a left join inscdept b on
+		a.userorganization=b.id
+		<where> 1= 1 
+			<if test="deptid !=null and deptid!=''  ">
+				and a.userorganization = #{deptid}
+			</if>
+			<if test="userList !=null">
+				and  a.usercode not in
+				<foreach collection="userList" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="name!=null and name!='' ">
+				 and a.name like CONCAT('%',#{name},'%') 
+			</if>
+			<if test="usercode!=null and usercode!=''">
+				and a.usercode like CONCAT('%',#{usercode},'%') 
+			</if>
+		</where>
+		order by a.createtime desc
+		limit #{offset},#{limit}
+	</select>
+	
+	<!-- 业管群组添加成员使用 -->
+	<select id="INSCUser_selectCountUsersUseLike" parameterType="Map" resultType="long">
+		select count(1) from INSCUser
+		<where> 1= 1 
+			<if test="deptid !=null and deptid!=''  ">
+				and userorganization = #{deptid}
+			</if>
+			<if test="userList !=null">
+				and  usercode not in
+				<foreach collection="userList" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="name!=null and name!='' ">
+				 and name like CONCAT('%',#{name},'%') 
+			</if>
+			<if test="usercode!=null and usercode!=''">
+				and usercode like CONCAT('%',#{usercode},'%') 
+			</if>
+		</where>
+	</select>
+	
+	<select id="INSCUser_deleteById" parameterType="String">
+		delete from
+		INSCUser where id = #{value}
+	</select>
+	<select id="INSCUser_selectCount" parameterType="Map"
+		resultType="long">
+		select count(1) from INSCUser
+		<where>
+			<if test="objectclass != null">
+				and objectclass = #{objectclass}
+			</if>
+			<if test="onlinestatus != null">
+				and onlinestatus = #{onlinestatus}
+			</if>
+			<if test="userclass != null">
+				and userclass = #{userclass}
+			</if>
+			<if test="usercode != null">
+				and usercode = #{usercode}
+			</if>
+			<if test="username != null">
+				and username = #{username}
+			</if>
+			<if test="userorganization != null">
+				and userorganization = #{userorganization}
+			</if>
+			<if test="password != null">
+				and password = #{password}
+			</if>
+			<if test="picurl != null">
+				and picurl = #{picurl}
+			</if>
+			<if test="sex != null">
+				and sex = #{sex}
+			</if>
+			<if test="phone != null">
+				and phone = #{phone}
+			</if>
+			<if test="email != null">
+				and email = #{email}
+			</if>
+			<if test="address != null">
+				and address = #{address}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+	</select>
+
+
+	<select id="INSCUser_selectUserListByMap" parameterType="Map"
+		resultType="Map">
+		select
+		a.id,
+		a.name,
+		DATE_FORMAT(a.createtime,'%Y-%m-%d %H:%i:%s') createtime,
+		a.usercode,
+		a.username,
+		a.userorganization,
+		b.deptname,
+		a.openid,
+		a.phone,
+		a.email,
+		a.address,
+		a.status
+		from
+		inscuser a
+		left join inscdept b on a.userorganization = b.comcode
+		<where>
+			<if test="usercode != null">
+				and a.usercode = #{usercode}
+			</if>
+			<if test="onlinestatus != null">
+				and a.onlinestatus = #{onlinestatus}
+			</if>
+			<if test="name != null">
+				and a.name = #{name}
+			</if>
+			<if test="userorganization != null">
+				and a.userorganization = #{userorganization}
+			</if>
+			<if test="sex != null">
+				and a.sex = #{sex}
+			</if>
+			<if test="phone != null">
+				and a.phone = #{phone}
+			</if>
+			<if test="email != null">
+				and a.email = #{email}
+			</if>
+			<if test="address != null">
+				and a.address = #{address}
+			</if>
+			<if test="status != null">
+				and a.status = #{status}
+			</if>
+			<if test="deptname != null">
+				and b.deptname = #{deptname}
+			</if>
+			<if test="begintime != null">
+				and a.createtime >= DATE_FORMAT(#{begintime},'yyyy-mm-dd 00:00:00')
+			</if>
+			<if test="endtime != null">
+				and a.createtime = DATE_FORMAT(#{endtime},'yyyy-mm-dd 00:00:00')
+			</if>
+		</where>
+		order by createtime desc
+	</select>
+
+	<select id="INSCUser_selectUserListPaging" parameterType="Map"
+		resultType="Map">
+		select
+		distinct a.usercode,
+		a.id,
+		a.name,
+		DATE_FORMAT(a.createtime,'%Y-%m-%d %H:%i:%s') createtime,
+		DATE_FORMAT(a.maturitydata,'%Y-%m-%d') maturitydata,
+		a.username,
+		a.userorganization,
+		b.comname,
+		b.shortname,
+		a.openid,
+		a.phone,
+		a.email,
+		a.address,
+		a.status
+		from
+		inscuser a
+		left join inscdept b on a.userorganization = b.comcode
+		left join inscuserrole ur on a.id = ur.userid
+		<where>
+			<if test="roleid != null and roleid !=''">
+				and ur.roleid = #{roleid}
+			</if>
+			<if test="userorganization != null and userorganization !=''">
+				and a.userorganization = #{userorganization}
+			</if>
+			<if test="onlinestatus != null and onlinestatus !=''">
+				and a.onlinestatus = #{onlinestatus}
+			</if>
+				<if test="usercode != null and usercode!= ''">
+				and a.usercode like CONCAT('%', #{usercode},'%')
+			</if>
+			<if test="name != null and name !=''">
+				and a.name like CONCAT('%', #{name},'%')
+			</if>
+		</where>
+		order by a.createtime desc
+		limit #{offset},#{limit}
+	</select>
+	<select id="INSCUser_selectUserCountPaging" parameterType="Map"
+		resultType="long">
+		select count(DISTINCT a.usercode) from inscuser a
+		left join inscdept b on
+		a.userorganization = b.comcode
+	    join inscuserrole ur on a.id = ur.userid
+		<where>
+		    <if test="roleid != null and roleid !=''">
+				and ur.roleid = #{roleid}
+			</if>
+			<if test="userorganization != null and userorganization !=''">
+				and a.userorganization = #{userorganization}
+			</if>
+			<if test="onlinestatus != null and onlinestatus !=''">
+				and a.onlinestatus = #{onlinestatus}
+			</if>
+				<if test="usercode != null and usercode!= ''">
+				and a.usercode like CONCAT('%', #{usercode},'%')
+			</if>
+			<if test="name != null and name !=''">
+				and a.name like CONCAT('%', #{name},'%')
+			</if>
+		</where>
+	</select>
+	<select id="INSCUser_updateUserPWDById" parameterType="com.cninsure.system.entity.INSCUser"
+		resultType="Integer">
+		update inscuser set password=#{password},pwsmodifytime=#{pwsmodifytime} where id=#{id}
+	</select>
+	<select id="INSCUser_updateUserStatusById" parameterType="com.cninsure.system.entity.INSCUser"
+		resultType="Integer">
+		update inscuser set status=#{status} where id=#{id}
+	</select>
+	
+	<select id="INSCUser_updateUserStatus2OnById" parameterType="com.cninsure.system.entity.INSCUser"
+		resultType="Integer">
+		update inscuser set status=#{status} where id=#{id}
+	</select>
+	
+	<select id="INSCUser_selectUserById" parameterType="String"
+		resultType="com.cninsure.system.entity.INSCUser">
+		select * from inscuser where id=#{id}
+	</select>
+	<!-- 得到角色还未分配用户，用户信息 -->
+	<select id="INSCUser_selectUsersRemainByIds"  resultType="com.cninsure.system.entity.INSCUser">
+		select * from inscuser
+		where id not in 
+		<foreach index="index" item="item" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>		
+	</select>
+	<!-- 得到角色还未分配用户，用户信息 -->
+	<select id="INSCUser_selectUsersRemainByMap" parameterType="Map" resultType="com.cninsure.system.entity.INSCUser">
+		select id,usercode,username,name,status from inscuser
+		<where> 
+			<if test="ids !=null">
+				id not in
+				<foreach index="index" item="item" collection="ids" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>	
+			</if>
+			<if  test="usercode != null and usercode!='' ">
+				and usercode like CONCAT('%',#{usercode},'%')
+			</if>
+			<if  test="name != null and name!='' ">
+				and name like CONCAT('%',#{name},'%') 
+			</if>
+		</where>
+		order by createtime desc
+		limit #{offset},#{limit}
+	</select>
+	
+	<select id="INSCUser_selectCountUsersRemainByMap" parameterType="Map" resultType="long">
+		select count(1) from inscuser
+		<where> 
+			<if test="ids !=null">
+				id not in
+				<foreach index="index" item="item" collection="ids" open="("
+					separator="," close=")">
+					#{item}
+				</foreach>	
+			</if>
+			<if  test="usercode != null and usercode!='' ">
+				and usercode like CONCAT('%',#{usercode},'%')
+			</if>
+			<if  test="name != null and name!='' ">
+				and name like CONCAT('%',#{name},'%') 
+			</if>
+		</where>
+	</select>
+	
+	<select id="INSCUser_selectUserByGroupid" parameterType="String"
+		resultType="String">
+		select U.USERNAME
+		FROM INSCUSER U INNER JOIN INSBGROUPMEMBERS GM ON U.ID=GM.USERID
+		WHERE
+		GM.GROUPID=#{groupid}
+	</select>
+	<select id="INSCUser_queryuserlist" resultType="com.cninsure.system.entity.INSCUser">
+		select * FROM inscuser WHERE noti IS NULL
+	</select>
+	<select id="INSCUser_updateid" parameterType="Map" resultType="Integer">
+		update inscuser set noti=#{noti} where id=#{id}
+	</select>
+	<!--根据usercode查询业管所在的业管组  -->
+	<select id="INSCUser_selectGroupidByUserid" parameterType="String"
+		resultType="String">
+		select  bm.groupname
+		from inscuser u 
+		LEFT JOIN insbgroupmembers gm on gm.userid=u.id 
+		LEFT JOIN insbbusinessmanagegroup bm on bm.id= gm.groupid
+		WHERE u.id in (select id FROM inscuser  WHERE usercode=#{usercode})
+	</select>
+	<!--根据usercode查询业管所在的业管组的数量  -->
+	<select id="INSCUser_selectGroupidCountByUserid" parameterType="String"
+		resultType="long">
+		select COUNT(1) 
+		from inscuser u 
+		LEFT JOIN insbgroupmembers gm on gm.userid=u.id 
+		LEFT JOIN insbbusinessmanagegroup bm on bm.id= gm.groupid
+		WHERE u.id in (select id FROM inscuser  WHERE usercode=#{usercode})
+	</select>
+	<!-- 在线用户下的人员信息展示 -->
+	<select id="INSCUser_selectOnlineUserListPaging" parameterType="Map"
+		resultType="Map">		
+		select 
+			a.usercode,
+			b.comname,
+			a.name,
+			a.userorganization,
+			a.onlinestatus,
+			a.status,
+			DATE_FORMAT(a.modifytime,'%Y-%m-%d %H:%i:%s') modifytime,
+			ug.groupname 
+			FROM inscuser a  LEFT JOIN inscdept b on  a.userorganization = b.id
+			LEFT JOIN insbbusinessmanagegroup ug on ug.id in(select m.groupid FROM insbgroupmembers m WHERE a.id= m.userid)				 
+		<where>
+			<if test="usercode != null and usercode != ''">
+				and a.usercode like CONCAT( #{usercode},'%')
+			</if>
+			<if test="name != null and name != ''">
+				and a.name like CONCAT( #{name},'%') 
+			</if>
+			<if test="onlinestatus != null">
+				and a.onlinestatus = #{onlinestatus}
+			</if>
+			<if test="userorganization != null and userorganization != ''">
+				and a.userorganization = #{userorganization}
+			</if>
+			<if test="groupname != null and groupname != ''">
+				and ug.groupname like CONCAT( #{groupname},'%') 
+			</if>			
+		</where>
+		 GROUP BY a.usercode order by a.modifytime desc 
+		 limit #{offset},#{limit}
+	</select>
+	<!-- 在线用户下的人员的数量 -->
+	<select id="INSCUser_selectOnlineUserCountPaging" parameterType="Map"
+		resultType="long">
+		select count(1) from(select count(1) 
+		from inscuser a  
+		LEFT JOIN insbbusinessmanagegroup ug on ug.id in(select m.groupid FROM insbgroupmembers m WHERE a.id= m.userid)
+		<where>
+			<if test="usercode != null and usercode != ''">
+				and a.usercode like CONCAT(#{usercode},'%')
+			</if>
+			<if test="name != null and name != ''">
+				and a.name like CONCAT(#{name},'%') 
+			</if>
+			<if test="onlinestatus != null">
+				and a.onlinestatus = #{onlinestatus}
+			</if>
+			<if test="userorganization != null and userorganization != ''">
+				and a.userorganization = #{userorganization}
+			</if>
+			<if test="groupname != null and groupname != ''">
+				and ug.groupname like CONCAT(#{groupname},'%') 
+			</if>
+			GROUP BY a.usercode) b
+		</where>
+	</select>
+	<!-- 在线用户下的人员的未完成的任务数量 -->
+	<select id="INSCUser_selectunfinishedtasknumCount" parameterType="Map"
+		resultType="long">
+		select 
+			count(wfst.maininstanceid) unfinishedtasknum
+			FROM inscuser a 
+			LEFT JOIN insbworkflowsubtrack wfst ON  wfst.operator = a.usercode and  wfst.taskstate !='Completed' 
+			where usercode=#{usercode}
+	</select>
+	<!-- 批量查询用户 -->
+	<select id="INSCUser_selectByIds" parameterType="List" resultType="com.cninsure.system.entity.INSCUser">
+		select * from inscuser
+		<where>
+			<if test="list!=null">
+				id in
+				<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+</mapper>

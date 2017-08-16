@@ -1,0 +1,1055 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBWorkflowmain -->
+	<select id="INSBWorkflowmain_insert" parameterType="com.zzb.conf.entity.INSBWorkflowmain" resultType="int">
+		insert into INSBWorkflowmain
+		(id,operator,createtime,modifytime,noti,instanceid,taskid,taskcode,createby,taskstate,groupid,operatorstate) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{instanceid},#{taskid},#{taskcode},#{createby},#{taskstate},#{groupid},#{operatorstate}) 
+	</select>
+	<select id="INSBWorkflowmain_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowmain">
+		select * from INSBWorkflowmain
+		<where>
+			<if test="instanceid != null">
+				and instanceid = #{instanceid}
+			</if>
+			<if test="operatorstate != null"> 
+				and operatorstate = #{operatorstate}
+			</if>
+			<if test="operator != null"> 
+				and operator = #{operator}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="taskcode != null">
+				and taskcode = #{taskcode}
+			</if>
+			<if test="createby != null">
+				and createby = #{createby}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+			<if test="reclystate != null">
+				and taskstate != 'Completed' and taskstate != 'Closed' and taskstate != 'end'
+			</if>
+		</where>
+	</select>
+	<select id="INSBWorkflowmain_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowmain">
+		select * from INSBWorkflowmain
+		<where>
+			<if test="instanceid != null">
+				and instanceid = #{instanceid}
+			</if>
+			<if test="operatorstate != null">
+				and operatorstate = #{operatorstate}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="taskcode != null">
+				and taskcode = #{taskcode}
+			</if>
+			<if test="createby != null">
+				and createby = #{createby}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+		</where>
+		limit 2
+	</select>
+	<select id="INSBWorkflowmain_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBWorkflowmain">
+		select * from INSBWorkflowmain where id = #{id}
+	</select>
+	
+	
+	<!-- 通过群组id得到当前未分配的任务信息 -->
+	<select id="INSBWorkflowmain_getDataByGroupId4UserLogin"  resultType="com.zzb.conf.entity.INSBWorkflowmain">
+		select * from INSBWorkflowmain where taskcode in('8','18','21','27') and operator is null
+		and groupid in
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+<!--  
+	<select id="INSBWorkflowmain_SelectList" parameterType="String" resultType="com.zzb.conf.entity.INSBWorkflowmain">
+		select * from INSBWorkflowmain where createby = #{createby}
+	</select>
+	-->	
+	
+	<select id="INSBWorkflowmain_selectIdByInstanceId" parameterType="String" resultType="com.zzb.conf.entity.INSBWorkflowmain">
+		select * from INSBWorkflowmain where instanceid = #{instanceid}
+	</select>
+	<select id="INSBWorkflowmain_selectIdByInstanceId4Task" parameterType="String" resultType="Map">
+		select id,groupid,operator,taskcode,taskstate from INSBWorkflowmain where instanceid = #{value}
+	</select>
+	
+	<select id="INSBWorkflowmain_selectOperatorCount"  resultType="Map">
+		select operator ,count(1) count from INSBWorkflowmain 
+		<where>
+			<if test="list !=null">
+				 operator in
+				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+		
+		group by operator order by count
+	</select>
+	
+	<select id="INSBWorkflowmain_deleteById" parameterType="String">
+		delete from INSBWorkflowmain where id = #{id}
+	</select>
+	
+	<select id="INSBWorkflowmain_deleteByInstanceId" parameterType="String">
+		delete from INSBWorkflowmain where instanceid = #{instanceid}
+	</select>
+	
+	<select id="INSBWorkflowmain_updateById" parameterType="com.zzb.conf.entity.INSBWorkflowmain">
+		update INSBWorkflowmain  set groupid=#{groupid}, operator = #{operator},modifytime = NOW(),noti = #{noti},instanceid = #{instanceid},taskid = #{taskid},taskcode = #{taskcode},createby = #{createby},taskstate = #{taskstate},operatorstate=#{operatorstate} 
+		 where id = #{id}
+	</select>
+	<select id="INSBWorkflowmain_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBWorkflowmain
+		<where>
+			<if test="instanceid != null">
+				and instanceid = #{instanceid}
+			</if>
+			<if test="operatorstate != null">
+				and operatorstate = #{operatorstate}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="taskcode != null">
+				and taskcode = #{taskcode}
+			</if>
+			<if test="createby != null">
+				and createby = #{createby}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+		</where>
+	</select> 
+	<select id="getMyTaskInPage" parameterType="Map" resultType="Map" resultMap="myTaskResult">
+		SELECT m.*,o.orderno FROM (
+ 
+ 			SELECT m.instanceid AS maininstanceid, m.taskcode AS maintaskcode, s.instanceid, m.taskcode,chn.paychannelname,pay.paymentransaction,dc.codename as delivetype,
+				   (SELECT MAX(wmt.createtime) FROM insbworkflowmaintrack wmt WHERE wmt.instanceid=m.instanceid and wmt.taskcode=m.taskcode and wmt.taskstate in ('Reserved', 'Ready')) as createtime,
+				   ic.codename, q.inscomcode, (SELECT teamname from insbagent WHERE jobnum=qt.agentnum) AS team,
+                    qt.insprovincename, qt.inscityname, qt.agentname, d.shortname, CONCAT( p.prvshotname, '(', p.prvname, ');' ) AS prvname,
+ 					(SELECT l.channelname from insbchannel l where channelinnercode=qt.purchaserchannel and childflag='1' and (deleteflag is NULL OR deleteflag !='0') ) AS purchaserchannel,
+				   CASE WHEN carh.carlicenseno IS NULL THEN car.carlicenseno ELSE carh.carlicenseno END AS carlicenseno, 
+				   CASE WHEN carmh.standardfullname IS NULL THEN carm.standardfullname ELSE carmh.standardfullname END AS standardfullname, 
+				   CASE WHEN pih.`name` IS NULL THEN pi.`name` ELSE pih.`name` END AS insuredname 
+			  FROM insbworkflowmain m 
+				INNER JOIN insbworkflowsub s ON m.instanceid = s.maininstanceid  AND s.taskcode=33
+				LEFT JOIN insbquotetotalinfo qt ON qt.taskid = m.instanceid 
+				LEFT JOIN insbquoteinfo q ON s.instanceid = q.workflowinstanceid 
+				LEFT JOIN insbcarinfo car ON car.taskid = m.instanceid 
+				LEFT JOIN insbcarinfohis carh ON carh.taskid = m.instanceid AND carh.inscomcode = q.inscomcode 
+				LEFT JOIN insbcarmodelinfo carm ON carm.carinfoid = car.id 
+				LEFT JOIN insbcarmodelinfohis carmh ON carmh.carinfoid = car.id AND carmh.inscomcode = q.inscomcode 
+				LEFT JOIN insbinsured i ON i.taskid = m.instanceid 
+				LEFT JOIN insbinsuredhis ih ON ih.taskid = m.instanceid AND ih.inscomcode = q.inscomcode 
+				LEFT JOIN insbperson pi ON pi.id = i.personid 
+				LEFT JOIN insbperson pih ON pih.id = ih.personid 
+				LEFT JOIN insccode ic ON ic.codetype = 'workflowNodelName' AND ic.codevalue = m.taskcode 
+				LEFT JOIN inscdept d ON d.id = q.deptcode 
+				LEFT JOIN insbprovider p ON p.id = q.inscomcode 
+				LEFT JOIN insborderpayment pay on pay.taskid=m.instanceid  and pay.payresult='02'  LEFT JOIN insbpaychannel chn on pay.paychannelid=chn.id
+			    LEFT JOIN insborderdelivery dt on dt.taskid=m.instanceid and dt.providerid=q.inscomcode LEFT JOIN insccode dc on dc.codetype='DeliveType' and dt.delivetype=dc.codevalue 
+			WHERE m.operator = #{createby}  
+			AND m.taskcode != '2' AND m.taskcode != '15'
+			AND m.taskstate != 'Closed' AND m.taskstate != 'Completed'
+			AND s.taskstate != 'Closed'
+
+			UNION ALL 
+
+			SELECT maininstanceid, maintaskcode, instanceid, taskcode,paychannelname,paymentransaction,delivetype,
+					createtime, codename, inscomcode, team, insprovincename, inscityname, agentname,  shortname,
+				   group_concat( CONCAT( s.prvshotname, '(', s.prvname, ')' ) SEPARATOR ';' ) AS prvname,
+				   (SELECT l.channelname from insbchannel l where channelinnercode=purchaserchannel and childflag='1' and (deleteflag is NULL OR deleteflag !='0') ) AS purchaserchannel,
+				   carlicenseno, standardfullname, insuredname
+			FROM ( 
+ 
+				SELECT m.instanceid AS maininstanceid, m.taskcode AS maintaskcode, s.instanceid, s.taskcode,chn.paychannelname,pay.paymentransaction,dc.codename as delivetype,
+					   (SELECT MAX(wst.createtime) FROM insbworkflowsubtrack wst WHERE wst.maininstanceid=s.maininstanceid and wst.instanceid=s.instanceid and wst.taskcode=s.taskcode and wst.taskstate in ('Reserved', 'Ready')) as createtime,
+					   ic.codename, q.inscomcode, (SELECT teamname from insbagent WHERE jobnum=qt.agentnum) AS team,
+                        qt.insprovincename, qt.inscityname, qt.agentname, d.shortname, p.prvshotname, p.prvname,
+ 						(SELECT l.channelname from insbchannel l where channelinnercode=qt.purchaserchannel and childflag='1' and (deleteflag is NULL OR deleteflag !='0') ) AS purchaserchannel,
+					   CASE WHEN carh.carlicenseno IS NULL THEN car.carlicenseno ELSE carh.carlicenseno END AS carlicenseno, 
+					   CASE WHEN carmh.standardfullname IS NULL THEN carm.standardfullname ELSE carmh.standardfullname END AS standardfullname, 
+					   CASE WHEN pih.`name` IS NULL THEN pi.`name` ELSE pih.`name` END AS insuredname 
+			 	FROM insbworkflowmain m 
+			 		INNER JOIN insbworkflowsub s ON m.instanceid = s.maininstanceid 
+			 		LEFT JOIN insbquotetotalinfo qt ON qt.taskid = m.instanceid 
+			 		LEFT JOIN insbquoteinfo q ON s.instanceid = q.workflowinstanceid 
+			 		LEFT JOIN insbcarinfo car ON car.taskid = m.instanceid 
+			 		LEFT JOIN insbcarinfohis carh ON carh.taskid = m.instanceid AND carh.inscomcode = q.inscomcode 
+			 		LEFT JOIN insbcarmodelinfo carm ON carm.carinfoid = car.id 
+			 		LEFT JOIN insbcarmodelinfohis carmh ON carmh.carinfoid = car.id AND carmh.inscomcode = q.inscomcode 
+			 		LEFT JOIN insbinsured i ON i.taskid = m.instanceid 
+			 		LEFT JOIN insbinsuredhis ih ON ih.taskid = m.instanceid AND ih.inscomcode = q.inscomcode 
+			 		LEFT JOIN insbperson pi ON pi.id = i.personid 
+			 		LEFT JOIN insbperson pih ON pih.id = ih.personid 
+			 		LEFT JOIN insccode ic ON ic.codetype = 'workflowNodelName' AND ic.codevalue = s.taskcode 
+			 		LEFT JOIN inscdept d ON d.id = q.deptcode 
+			 		LEFT JOIN insbprovider p ON p.id = q.inscomcode 
+					LEFT JOIN insborderpayment pay on pay.taskid=m.instanceid LEFT JOIN insbpaychannel chn on pay.paychannelid=chn.id
+				    LEFT JOIN insborderdelivery dt on dt.taskid=m.instanceid and dt.providerid=q.inscomcode LEFT JOIN insccode dc on dc.codetype='DeliveType' and dt.delivetype=dc.codevalue 
+			 	WHERE s.operator = #{createby} 
+			 	AND m.taskcode IN ('2', '15') 
+			 	AND s.taskcode IN ('6', '7', '8') 
+			 	AND s.taskstate != 'Closed' AND s.taskstate != 'Completed'
+			 	)  s 
+			GROUP BY s.maininstanceid, s.taskcode
+
+			UNION ALL  
+ 
+			SELECT m.instanceid AS maininstanceid, m.taskcode AS maintaskcode, s.instanceid, s.taskcode,chn.paychannelname,pay.paymentransaction,dc.codename as delivetype,
+				   (SELECT MAX(wst.createtime) FROM insbworkflowsubtrack wst WHERE wst.maininstanceid=s.maininstanceid and wst.instanceid=s.instanceid and wst.taskcode=s.taskcode and wst.taskstate in ('Reserved', 'Ready')) as createtime,
+				   ic.codename, q.inscomcode, (SELECT teamname from insbagent WHERE jobnum=qt.agentnum) AS team,
+                    qt.insprovincename, qt.inscityname, qt.agentname, d.shortname, CONCAT( p.prvshotname, '(', p.prvname, ');' ) AS prvname,
+ 					(SELECT l.channelname from insbchannel l where channelinnercode=qt.purchaserchannel and childflag='1' and (deleteflag is NULL OR deleteflag !='0') ) AS purchaserchannel,
+				   CASE WHEN carh.carlicenseno IS NULL THEN car.carlicenseno ELSE carh.carlicenseno END AS carlicenseno, 
+				   CASE WHEN carmh.standardfullname IS NULL THEN carm.standardfullname ELSE carmh.standardfullname END AS standardfullname, 
+				   CASE WHEN pih.`name` IS NULL THEN pi.`name` ELSE pih.`name` END AS insuredname 
+			FROM insbworkflowmain m 
+				INNER JOIN insbworkflowsub s ON m.instanceid = s.maininstanceid 
+				LEFT JOIN insbquotetotalinfo qt ON qt.taskid = m.instanceid 
+				LEFT JOIN insbquoteinfo q ON s.instanceid = q.workflowinstanceid 
+				LEFT JOIN insbcarinfo car ON car.taskid = m.instanceid 
+				LEFT JOIN insbcarinfohis carh ON carh.taskid = m.instanceid AND carh.inscomcode = q.inscomcode 
+				LEFT JOIN insbcarmodelinfo carm ON carm.carinfoid = car.id 
+				LEFT JOIN insbcarmodelinfohis carmh ON carmh.carinfoid = car.id AND carmh.inscomcode = q.inscomcode 
+				LEFT JOIN insbinsured i ON i.taskid = m.instanceid 
+				LEFT JOIN insbinsuredhis ih ON ih.taskid = m.instanceid AND ih.inscomcode = q.inscomcode 
+				LEFT JOIN insbperson pi ON pi.id = i.personid 
+				LEFT JOIN insbperson pih ON pih.id = ih.personid 
+				LEFT JOIN insccode ic ON ic.codetype = 'workflowNodelName' AND ic.codevalue = s.taskcode 
+				LEFT JOIN inscdept d ON d.id = q.deptcode 
+				LEFT JOIN insbprovider p ON p.id = q.inscomcode 
+				LEFT JOIN insborderpayment pay on pay.taskid=m.instanceid  and pay.payresult='02'  LEFT JOIN insbpaychannel chn on pay.paychannelid=chn.id
+				LEFT JOIN insborderdelivery dt on dt.taskid=m.instanceid and dt.providerid=q.inscomcode LEFT JOIN insccode dc on dc.codetype='DeliveType' and dt.delivetype=dc.codevalue 
+			WHERE s.operator = #{createby}  
+			AND m.taskcode IN ('2', '15') 
+			AND s.taskcode IN ('21', '18', '20') 
+			AND s.taskstate != 'Closed' AND s.taskstate != 'Completed'
+
+			UNION ALL 
+
+			SELECT c.id AS maininstanceid, '999' AS maintaskcode, c.id AS instanceid, '999' AS taskcode,'' AS paychannelname,'' AS paymentransaction,'' AS delivetype, c.createtime AS createtime, '认证' AS codename, 
+				   rcx.comcodename AS inscomcode, '' AS team ,rcp.comcodename AS insprovincename, rcc.comcodename AS inscityname, agent.`name` AS agentname, agent.mobile AS shortname,
+				   agent.jobnum AS prvname, '' AS purchaserchannel, agent.jobnumtype AS carlicenseno, c.mainbiz AS standardfullname, '' AS insuredname
+			FROM insbagent agent,insbcertification c  
+				LEFT JOIN inscdept rd ON rd.id = c.deptid 
+				LEFT JOIN insbregion rcp ON rcp.comcode = rd.province 
+				LEFT JOIN insbregion rcc ON rcc.comcode = rd.city 
+				LEFT JOIN insbregion rcx ON rcx.comcode = rd.county 
+			WHERE c. STATUS = '0'  and agent.tempjobnum = c.agentnum 
+			AND c.designatedoperator = #{createby} 
+		) m left join insborder o on m.maininstanceid=o.taskid  and o.prvid=m.inscomcode 
+		<where>
+			<if test="simplequery != null and simplequery != '' ">
+				and  (m.carlicenseno  like CONCAT('%', #{simplequery},'%') or  m.insuredname  like CONCAT('%', #{simplequery},'%') or  m.agentname  like CONCAT('%', #{simplequery},'%'))
+			</if>
+		</where> 
+		order by m.createtime 
+	</select>
+	 <resultMap id="myTaskResult" type="Map">
+	 	<result property="maininstanceid" column="maininstanceid"/>
+	 	<result property="mtaskcode" column="maintaskcode"/>
+	 	<result property="instanceid" column="instanceid"/>
+	 	<result property="taskcode" column="taskcode"/>
+	 	<result property="createtime" column="createtime"/>
+	 	<result property="codename" column="codename"/>
+	 	<result property="inscomcode" column="inscomcode"/>
+	 	<result property="team" column="team"/>
+	 	<result property="insprovincename" column="insprovincename"/>
+	 	<result property="inscityname" column="inscityname"/>
+	 	<result property="agentname" column="agentname"/>
+	 	<result property="shortname" column="shortname"/>
+	 	<result property="prvname" column="prvname"/>
+	 	<result property="carlicenseno" column="carlicenseno"/>
+	 	<result property="standardfullname" column="standardfullname"/>
+	 	<result property="insuredname" column="insuredname"/>
+	 	<!-- <result property="prvname2" column="prvname2"/>
+	 	<result property="commentcontent" column="commentcontent"/>
+	 	<result property="comcodename" column="comcodename"/> -->
+	 </resultMap>
+	<!-- 我的任务模块查询 end  -->
+	<!-- 联结insbcarinfo和insbworkflowmain查询 -->
+	<select id="selectCarListCount" parameterType="Map" resultType="com.zzb.cm.entity.INSBQuotetotalinfo">
+	    select q.* from insbquotetotalinfo q left join insbworkflowmain f on q.taskid=f.instanceid  and f.taskstate !='closed' 
+		<where>
+		<if test="createby != null">
+				and q.agentnum = #{createby}
+		</if>
+		<if test="taskcode != null and taskcode != ''">
+				and f.taskcode = #{taskcode}
+		</if>
+		</where>
+	</select>
+	
+	<!-- 联结insbcarinfo和insbworkflowmain查询 -->
+	<select id="selectPayMentListCountOld" parameterType="Map" resultType="Long">
+		select count(*) from insbquotetotalinfo q left join insbworkflowmain f on q.taskid=f.instanceid and f.taskstate !='closed'
+		<where>
+			<if test="createby != null">
+					and q.agentnum = #{createby}
+			</if>
+			<if test="taskcode != null and taskcode != ''">
+					and f.taskcode = #{taskcode}
+			</if>
+		</where>
+	</select>
+	<select id="selectPayMentListCount" parameterType="Map" resultType="Long">
+		SELECT  COUNT(DISTINCT t.instanceid) from (select f.taskcode,f.instanceid,q.agentnum from insbquotetotalinfo q left join insbworkflowmain f on q.taskid=f.instanceid and f.taskstate !='closed'
+		UNION select f.taskcode, f.maininstanceid instanceid,q.agentnum from insbquotetotalinfo q left join insbworkflowsub f on q.taskid=f.maininstanceid and f.taskstate !='closed') t 
+		<where>
+			t.instanceid !='null'
+			<if test="createby != null">
+					and t.agentnum = #{createby}
+			</if>
+			<if test="taskcode != null and taskcode != ''">
+					and t.taskcode = #{taskcode}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 订单查询接口使用 -->
+	<select id="INSBWorkflowmain_getMyOrderList" parameterType="Map" resultType="Map">
+		select 
+			DATE_FORMAT(w.createtime,'%Y-%m-%d %H:%i:%s') createtime,
+			w.instanceid as processInstanceId,
+			p.name as insuredname,
+			c.carlicenseno,
+			ifnull(c.brandimg,'') as brandimg,
+			w.taskcode,
+			w.taskstate
+		from (select taskid,createtime from  INSBQuotetotalinfo
+		where  agentnum = #{agentnum} 	and deleteflag IS NULL
+				<if test="purchaserid!=null and purchaserid != ''">
+					and purchaserid = #{purchaserid}
+				</if>
+				<if test="purchaserchannel!=null and purchaserchannel != ''">
+					and purchaserchannel = #{purchaserchannel}
+				</if>
+		<if test="shareagentnum!=null and shareagentnum != ''">
+			UNION ALL
+			select taskid,createtime from  INSBQuotetotalinfo
+			where   lzgshareid = #{shareagentnum} and deleteflag IS NULL
+					<if test="purchaserid!=null and purchaserid != ''">
+						and purchaserid = #{purchaserid}
+					</if>
+					<if test="purchaserchannel!=null and purchaserchannel != ''">
+						and purchaserchannel = #{purchaserchannel}
+					</if>
+		</if>
+		) q
+		left join insbworkflowmain w on w.instanceid=q.taskid
+		left join INSBCarinfo c on w.instanceid=c.taskid
+		left join INSBInsured i on w.instanceid=i.taskid
+		/*left join INSBQuotetotalinfo q  AND q.deleteflag IS NULL*/
+		left join INSBPerson p on i.personid=p.id
+		
+		<where>
+			1=1
+			<if test="orderstatus != null and orderstatus != ''">
+				and w.taskcode = #{orderstatus}
+			</if>
+			<if test="carlicenseno != null and carlicenseno !=''">
+				and c.carlicenseno like CONCAT(#{carlicenseno},'%')
+			</if>
+			<if test="insuredname != null and insuredname !=''">
+				and p.name like CONCAT(#{insuredname},'%')
+			</if>
+			<if test="taskcreatetimeup != null and taskcreatetimeup !=''"> 
+				and w.createtime &lt;= #{taskcreatetimeup}
+			 </if>
+			 <if test="taskcreatetimedown != null and taskcreatetimedown !=''">
+			 	and w.createtime &gt;= #{taskcreatetimedown}
+			 </if>
+			<!--and w.taskcode!='33'-->
+			and w.taskcode!='1'
+		</where>
+		order by q.createtime desc
+		<if test="offset!=null and limit!=null"> 
+		limit #{offset},#{limit}
+		</if>
+	</select>
+	<select id="INSBWorkflowmain_getMyOrderListForMinizzb" parameterType="Map" resultType="Map">
+		select
+			DATE_FORMAT(w.createtime,'%Y-%m-%d %H:%i:%s') createtime,
+			w.instanceid as processInstanceId,
+			p.name as insuredname,
+			case when c.carlicenseno='**' then '未上牌'
+			when c.carlicenseno='*' then '未上牌'
+			else c.carlicenseno end as carlicenseno,
+			ifnull(c.brandimg,'') as brandimg,
+			w.taskcode,
+			w.taskstate
+		from insbworkflowmain w
+		left join INSBAgenttask ak on w.instanceid=ak.taskid
+		left join INSBCarinfo c on w.instanceid=c.taskid
+		left join INSBInsured i on w.instanceid=i.taskid
+		left join INSBQuotetotalinfo q on w.instanceid=q.taskid
+		left join INSBPerson p on i.personid=p.id
+
+		<where>
+			(1=1
+			<if test="agentnum != null and agentnum !=''">
+				and q.agentnum = #{agentnum}
+			</if>
+			<if test="agentid != null and agentid !=''">
+				and ak.agentid = #{agentid}
+			</if>
+			<if test="shareagentnum != null and shareagentnum !=''">
+				 q.lzgshareid = #{shareagentnum}
+			</if>
+			)
+			<if test="orderstatus != null and orderstatus != ''">
+				and w.taskcode = #{orderstatus}
+			</if>
+			<if test="carlicenseno != null and carlicenseno !=''">
+				and c.carlicenseno like CONCAT('%', #{carlicenseno},'%')
+			</if>
+			<if test="insuredname != null and insuredname !=''">
+				and p.name like CONCAT('%', #{insuredname},'%')
+			</if>
+			<if test="taskcreatetimeup != null and taskcreatetimeup !=''">
+				and w.createtime &lt;= DATE_FORMAT(#{taskcreatetimeup}, '%Y-%m-%d %H:%i:%S')
+			 </if>
+			 <if test="taskcreatetimedown != null and taskcreatetimedown !=''">
+			 	and w.createtime &gt;= DATE_FORMAT(#{taskcreatetimedown}, '%Y-%m-%d %H:%i:%S')
+			 </if>
+			and w.taskcode!='33'
+			and w.taskcode!='1'
+		</where>
+		order by createtime desc
+		<if test="offset!=null and limit!=null">
+		limit #{offset},#{limit}
+		</if>
+	</select>
+	
+	<select id="INSBWorkflowmain_getMyOrderListForChn" parameterType="Map" resultType="Map">
+		select 
+			DATE_FORMAT(w.createtime,'%Y-%m-%d %H:%i:%s') createtime,
+			w.instanceid as processInstanceId,
+			p.name as insuredname,
+			case when c.carlicenseno='**' then '未上牌'
+			when c.carlicenseno='*' then '未上牌'
+			else c.carlicenseno end as carlicenseno,
+			ifnull(c.brandimg,'') as brandimg,
+			w.taskcode,
+			w.taskstate,
+			p.idcardno,
+			p.idcardtype,
+			p.gender,
+			p.cellphone
+		from insbworkflowmain w
+		left join INSBCarinfo c on w.instanceid=c.taskid
+		left join INSBInsured i on w.instanceid=i.taskid
+		left join INSBQuotetotalinfo q on w.instanceid=q.taskid
+		left join INSBPerson p on i.personid=p.id
+		
+		<where>
+			1 = 1
+			
+			<if test="orderstatus != null and orderstatus != ''">
+				and w.taskcode = #{orderstatus}
+			</if>
+			<if test="carlicenseno != null and carlicenseno !=''">
+				and c.carlicenseno like CONCAT('%', #{carlicenseno},'%') 
+			</if>
+			<if test="insuredname != null and insuredname !=''">
+				and p.name like CONCAT('%', #{insuredname},'%')
+			</if>
+			<if test="taskcreatetimeup != null and taskcreatetimeup !=''"> 
+				and w.createtime &lt;= DATE_FORMAT(#{taskcreatetimeup}, '%Y-%m-%d %H:%i:%S') 
+			 </if>
+			 <if test="taskcreatetimedown != null and taskcreatetimedown !=''">
+			 	and w.createtime &gt;= DATE_FORMAT(#{taskcreatetimedown}, '%Y-%m-%d %H:%i:%S')  
+			 </if>
+			 <if test="chnUserId != null">
+                and q.purchaserid = #{chnUserId}
+             </if>
+             <if test="chnId != null">
+                and q.purchaserchannel = #{chnId}
+             </if>
+             <if test="taskId != null">
+                and q.taskid = #{taskId}
+             </if>
+             
+			and w.taskcode!='1'
+		</where>
+		order by createtime desc
+		<if test="offset!=null and limit!=null"> 
+		limit #{offset},#{limit}
+		</if>
+	</select>
+	
+	<select id="INSBWorkflowmain_getMyOrderListNew" parameterType="Map" resultType="Map">
+		/*slave*/select 
+			DATE_FORMAT(w.createtime,'%Y-%m-%d %H:%i:%s') createtime,
+			w.instanceid as processInstanceId,
+			p.name as insuredname,
+			c.carlicenseno,
+			ifnull(c.brandimg,'') as brandimg,
+			w.taskcode,
+			w.taskstate
+		from (select taskid,createtime from  INSBQuotetotalinfo
+		where  agentnum = #{agentnum} 	and deleteflag IS NULL
+				<if test="purchaserid!=null and purchaserid != ''">
+					and purchaserid = #{purchaserid}
+				</if>
+				<if test="purchaserchannel!=null and purchaserchannel != ''">
+					and purchaserchannel = #{purchaserchannel}
+				</if>
+		<if test="shareagentnum!=null and shareagentnum != ''">
+			UNION ALL
+			select taskid,createtime from  INSBQuotetotalinfo
+			where   lzgshareid = #{shareagentnum} and deleteflag IS NULL
+					<if test="purchaserid!=null and purchaserid != ''">
+						and purchaserid = #{purchaserid}
+					</if>
+					<if test="purchaserchannel!=null and purchaserchannel != ''">
+						and purchaserchannel = #{purchaserchannel}
+					</if>
+		</if>
+		) q
+		left join insbworkflowmain w on w.instanceid=q.taskid
+		left join INSBCarinfo c on w.instanceid=c.taskid
+		left join INSBInsured i on w.instanceid=i.taskid
+		/*left join INSBQuotetotalinfo q on w.instanceid=q.taskid AND q.deleteflag IS NULL*/
+		left join INSBPerson p on i.personid=p.id
+		
+		<where>  1=1
+			<if test="carlicenseno != null and carlicenseno !=''">
+				and c.carlicenseno like CONCAT(#{carlicenseno},'%')
+			</if>
+			<if test="insuredname != null and insuredname !=''">
+				and p.name like CONCAT(#{insuredname},'%')
+			</if>
+			<if test="taskcreatetimeup != null and taskcreatetimeup !=''"> 
+				and w.createtime &lt;= #{taskcreatetimeup}
+			 </if>
+			 <if test="taskcreatetimedown != null and taskcreatetimedown !=''">
+			 	and w.createtime &gt;= #{taskcreatetimedown}
+			 </if>
+			and w.taskcode='2'
+			and w.taskstate!='Closed'
+		</where>
+		order by q.createtime desc
+		<if test="offset!=null and limit!=null"> 
+		limit #{offset},#{limit}
+		</if>
+	</select>
+	<select id="INSBWorkflowmain_getMyOrderListNewForMinizzb" parameterType="Map" resultType="Map">
+		select
+		DATE_FORMAT(w.createtime,'%Y-%m-%d %H:%i:%s') createtime,
+		w.instanceid as processInstanceId,
+		p.name as insuredname,
+		case when c.carlicenseno='**' then '未上牌'
+		when c.carlicenseno='*' then '未上牌'
+		else c.carlicenseno end as carlicenseno,
+		ifnull(c.brandimg,'') as brandimg,
+		w.taskcode,
+		w.taskstate
+		from insbworkflowmain w
+		left join INSBAgenttask ak on w.instanceid=ak.taskid
+		left join INSBCarinfo c on w.instanceid=c.taskid
+		left join INSBInsured i on w.instanceid=i.taskid
+		left join INSBQuotetotalinfo q on w.instanceid=q.taskid AND q.deleteflag IS NULL
+		left join INSBPerson p on i.personid=p.id
+
+		<where>  (1=1
+			<if test="agentid != null and agentid !=''">
+				and ak.agentid = #{agentid}
+			</if>
+			)
+			<if test="carlicenseno != null and carlicenseno !=''">
+				and c.carlicenseno like CONCAT('%', #{carlicenseno},'%')
+			</if>
+			<if test="insuredname != null and insuredname !=''">
+				and p.name like CONCAT('%', #{insuredname},'%')
+			</if>
+			<if test="taskcreatetimeup != null and taskcreatetimeup !=''">
+				and w.createtime &lt;= DATE_FORMAT(#{taskcreatetimeup}, '%Y-%m-%d %H:%i:%S')
+			</if>
+			<if test="taskcreatetimedown != null and taskcreatetimedown !=''">
+				and w.createtime &gt;= DATE_FORMAT(#{taskcreatetimedown}, '%Y-%m-%d %H:%i:%S')
+			</if>
+			and w.taskcode='2'
+			and w.taskstate!='Closed'
+		</where>
+		order by createtime desc
+		<if test="offset!=null and limit!=null">
+			limit #{offset},#{limit}
+		</if>
+	</select>
+	
+	<select id="INSBWorkflowmain_getMyOrderListNewForChn" parameterType="Map" resultType="Map">
+		select 
+			DATE_FORMAT(w.createtime,'%Y-%m-%d %H:%i:%s') createtime,
+			w.instanceid as processInstanceId,
+			p.name as insuredname,
+			case when c.carlicenseno='**' then '未上牌'
+			when c.carlicenseno='*' then '未上牌'
+			else c.carlicenseno end as carlicenseno,
+			ifnull(c.brandimg,'') as brandimg,
+			w.taskcode,
+			w.taskstate,
+			p.idcardno,
+			p.idcardtype,
+			p.gender,
+			p.cellphone
+		from insbworkflowmain w
+		left join INSBCarinfo c on w.instanceid=c.taskid
+		left join INSBInsured i on w.instanceid=i.taskid
+		left join INSBQuotetotalinfo q on w.instanceid=q.taskid
+		left join INSBPerson p on i.personid=p.id
+		
+		<where>  
+			1 = 1
+			
+			<if test="carlicenseno != null and carlicenseno !=''">
+				and c.carlicenseno like CONCAT('%', #{carlicenseno},'%') 
+			</if>
+			<if test="insuredname != null and insuredname !=''">
+				and p.name like CONCAT('%', #{insuredname},'%')
+			</if>
+			<if test="taskcreatetimeup != null and taskcreatetimeup !=''"> 
+				and w.createtime &lt;= DATE_FORMAT(#{taskcreatetimeup}, '%Y-%m-%d %H:%i:%S') 
+			 </if>
+			 <if test="taskcreatetimedown != null and taskcreatetimedown !=''">
+			 	and w.createtime &gt;= DATE_FORMAT(#{taskcreatetimedown}, '%Y-%m-%d %H:%i:%S')  
+			 </if>
+			 <if test="chnUserId != null and chnUserId != ''">
+                and q.purchaserid = #{chnUserId}
+             </if>
+             <if test="chnId != null and chnId != ''">
+                and q.purchaserchannel = #{chnId}
+             </if>
+             <if test="taskId != null and taskId != ''">
+                and q.taskid = #{taskId}
+             </if>
+             
+			and w.taskcode='2'
+			and w.taskstate!='Closed'
+		</where>
+		order by createtime desc
+		<if test="offset!=null and limit!=null"> 
+		limit #{offset},#{limit}
+		</if>
+	</select>
+	
+	<select id="INSBWorkflowmain_getQuoteInfoByTaskId" parameterType="String" resultType="Map">
+		/*slave*/SELECT m.taskcode,p.prvshotname,q.quoteamount,q.inscomcode,q.workflowinstanceid from insbworkflowmain m 
+		LEFT JOIN insbquotetotalinfo qt ON qt.taskid = m.instanceid
+		LEFT JOIN insbquoteinfo q ON qt.id = q.quotetotalinfoid
+		LEFT JOIN insbprovider p ON p.prvcode = LEFT(q.inscomcode,4) where m.instanceid= #{processInstanceId}
+	</select>
+	<!-- 得到流程示意图主流程信息 -->
+	<select id="INSBWorkflowmain_getMainWorkflowViewInfo" parameterType="String" resultType="Map">
+		SELECT cc.codename AS taskName, zw.taskcode AS taskcode, DATE_FORMAT(IFNULL(zw.modifytime,zw.createtime), '%Y-%m-%d %H:%i:%S') AS createtime, 
+		CASE WHEN  zw.taskcode='1' THEN '' ELSE pro.prvshotname END AS comName, 
+		CASE WHEN zw.taskcode='1' OR zw.taskcode='15' THEN CONCAT(za.`name`,'(',za.jobnum,')') 
+		WHEN cu.`name` IS NULL THEN '未知操作员' ELSE CONCAT(cu.`name`,'(',cu.usercode,')') END AS workflowInfo 
+		FROM insbworkflowmaintrack zw 
+		LEFT JOIN insbworkflowsub ws ON ws.maininstanceid=zw.instanceid AND ws.taskstate!='Closed' 
+		LEFT JOIN insbquoteinfo quo ON quo.workflowinstanceid=ws.instanceid 
+		LEFT JOIN insbprovider pro ON pro.prvcode=quo.inscomcode 
+		LEFT JOIN insbquotetotalinfo zq ON zq.taskid = zw.instanceid 
+		LEFT JOIN insbagent za ON za.jobnum = zq.agentnum 
+		LEFT JOIN insccode cc ON cc.codetype='workflowNodelName' AND cc.parentcode='workflowNodelName' AND cc.codevalue=zw.taskcode 
+		LEFT JOIN inscuser cu ON cu.usercode=zw.operator 
+		WHERE zw.instanceid = #{instanceId} AND zw.taskcode IN ('1','15','23','24','25','26','27') 
+		GROUP BY zw.taskcode 
+		ORDER BY zw.createtime ASC
+	</select>
+	
+	<select id="myOrderCount" parameterType="Map" resultType="Long">
+		/*slave*/select count(1) as counts
+		from (select taskid from  INSBQuotetotalinfo
+		where  agentnum = #{agentnum} 	and deleteflag IS NULL
+				<if test="purchaserid!=null and purchaserid != ''">
+					and purchaserid = #{purchaserid}
+				</if>
+				<if test="purchaserchannel!=null and purchaserchannel != ''">
+					and purchaserchannel = #{purchaserchannel}
+				</if>
+		<if test="shareagentnum!=null and shareagentnum != ''">
+			UNION ALL
+			select taskid from  INSBQuotetotalinfo
+			where   lzgshareid = #{shareagentnum} and deleteflag IS NULL
+					<if test="purchaserid!=null and purchaserid != ''">
+						and purchaserid = #{purchaserid}
+					</if>
+					<if test="purchaserchannel!=null and purchaserchannel != ''">
+						and purchaserchannel = #{purchaserchannel}
+					</if>
+		</if>
+		) q
+		left join insbworkflowmain w on w.instanceid=q.taskid
+		left join INSBCarinfo c on w.instanceid=c.taskid
+		left join INSBInsured i on w.instanceid=i.taskid
+		/*left join INSBQuotetotalinfo q  AND q.deleteflag IS NULL*/
+		left join INSBPerson p on i.personid=p.id
+		
+		<where>
+			1=1
+
+			<if test="orderstatus != null and orderstatus != ''">
+				and w.taskcode = #{orderstatus}
+			</if>
+			<if test="carlicenseno != null and carlicenseno !=''">
+				and c.carlicenseno like CONCAT(#{carlicenseno},'%')
+			</if>
+			<if test="insuredname != null and insuredname !=''">
+				and p.name like CONCAT(#{insuredname},'%')
+			</if>
+			<if test="taskcreatetimeup != null and taskcreatetimeup !=''"> 
+				and w.createtime &lt;= #{taskcreatetimeup}
+			 </if>
+			 <if test="taskcreatetimedown != null and taskcreatetimedown !=''">
+			 	and w.createtime &gt;= #{taskcreatetimedown}
+			 </if>
+			<!--and w.taskcode!='33'-->
+			and w.taskcode!='1'
+		</where>
+	</select>
+	<select id="myOrderCountForMinizzb" parameterType="Map" resultType="Long">
+		select
+		count(1) as counts
+		from insbworkflowmain w
+		left join INSBAgenttask ak on w.instanceid=ak.taskid
+		left join INSBCarinfo c on w.instanceid=c.taskid
+		left join INSBInsured i on w.instanceid=i.taskid
+		left join INSBQuotetotalinfo q on w.instanceid=q.taskid
+		left join INSBPerson p on i.personid=p.id
+
+		<where>
+			(1=1
+			<if test="agentnum != null and agentnum !=''">
+				and q.agentnum = #{agentnum}
+			</if>
+			<if test="agentid != null and agentid !=''">
+				and ak.agentid = #{agentid}
+			</if>
+			<if test="shareagentnum != null and shareagentnum !=''">
+				q.lzgshareid = #{shareagentnum}
+			</if>
+			)
+			<if test="orderstatus != null and orderstatus != ''">
+				and w.taskcode = #{orderstatus}
+			</if>
+			<if test="carlicenseno != null and carlicenseno !=''">
+				and c.carlicenseno like CONCAT('%', #{carlicenseno},'%')
+			</if>
+			<if test="insuredname != null and insuredname !=''">
+				and p.name like CONCAT('%', #{insuredname},'%')
+			</if>
+			<if test="taskcreatetimeup != null and taskcreatetimeup !=''">
+				and w.createtime &lt;= DATE_FORMAT(#{taskcreatetimeup}, '%Y-%m-%d %H:%i:%S')
+			</if>
+			<if test="taskcreatetimedown != null and taskcreatetimedown !=''">
+				and w.createtime &gt;= DATE_FORMAT(#{taskcreatetimedown}, '%Y-%m-%d %H:%i:%S')
+			</if>
+			and w.taskcode!='33'
+			and w.taskcode!='1'
+		</where>
+	</select>
+	
+	<select id="myOrderCountForChn" parameterType="Map" resultType="Long">
+		select 
+			count(1) as counts
+		from insbworkflowmain w
+		left join INSBCarinfo c on w.instanceid=c.taskid
+		left join INSBInsured i on w.instanceid=i.taskid
+		left join INSBQuotetotalinfo q on w.instanceid=q.taskid
+		left join INSBPerson p on i.personid=p.id
+		
+		<where>
+			1 = 1
+			
+			<if test="orderstatus != null and orderstatus != ''">
+				and w.taskcode = #{orderstatus}
+			</if>
+			<if test="carlicenseno != null and carlicenseno !=''">
+				and c.carlicenseno like CONCAT('%', #{carlicenseno},'%') 
+			</if>
+			<if test="insuredname != null and insuredname !=''">
+				and p.name like CONCAT('%', #{insuredname},'%')
+			</if>
+			<if test="taskcreatetimeup != null and taskcreatetimeup !=''"> 
+				and w.createtime &lt;= DATE_FORMAT(#{taskcreatetimeup}, '%Y-%m-%d %H:%i:%S')
+			 </if>
+			 <if test="taskcreatetimedown != null and taskcreatetimedown !=''">
+			 	and w.createtime &gt;= DATE_FORMAT(#{taskcreatetimedown}, '%Y-%m-%d %H:%i:%S')  
+			 </if>
+			 <if test="chnUserId != null">
+                and q.purchaserid = #{chnUserId}
+             </if>
+             <if test="chnId != null">
+                and q.purchaserchannel = #{chnId}
+             </if>
+             <if test="taskId != null">
+                and q.taskid = #{taskId}
+             </if>
+             
+			and w.taskcode!='33' 
+			and w.taskcode!='1' 
+		</where>
+	</select>
+	
+	<!-- 订单查询待支付接口使用 -->
+	<select id="INSBWorkflowmain_getMyOrderList2Pay" parameterType="Map" resultType="Map">
+		/*slave*/select
+            DATE_FORMAT(ws.createtime,'%Y-%m-%d %H:%i:%s') createtime,
+            ws.maininstanceid as processInstanceId,
+            IFNULL(ph.`name`,p.`name`) as insuredname,
+            qi.platenumber as carlicenseno,
+            ifnull(c.brandimg,'') as brandimg,
+            ws.taskcode,
+            ws.taskstate
+		from (select taskid,id from  INSBQuotetotalinfo
+		where  agentnum = #{agentnum} 	and deleteflag IS NULL
+				<if test="purchaserid!=null and purchaserid != ''">
+					and purchaserid = #{purchaserid}
+				</if>
+				<if test="purchaserchannel!=null and purchaserchannel != ''">
+					and purchaserchannel = #{purchaserchannel}
+				</if>
+		<if test="shareagentnum!=null and shareagentnum != ''">
+			UNION ALL
+			select taskid,id from  INSBQuotetotalinfo
+			where   lzgshareid = #{shareagentnum} and deleteflag IS NULL
+					<if test="purchaserid!=null and purchaserid != ''">
+						and purchaserid = #{purchaserid}
+					</if>
+					<if test="purchaserchannel!=null and purchaserchannel != ''">
+						and purchaserchannel = #{purchaserchannel}
+					</if>
+		</if>
+		) q
+		left join insbworkflowsub ws on ws.maininstanceid=q.taskid
+		left join INSBWorkflowmain wm on wm.instanceid=ws.maininstanceid
+        /*left join INSBQuotetotalinfo q on ws.maininstanceid=q.taskid and q.deleteflag is NULL*/
+		left join insbquoteinfo qi on qi.workflowinstanceid=ws.instanceid and qi.quotetotalinfoid=q.id
+		left join INSBCarinfo c on ws.maininstanceid=c.taskid
+        left join INSBInsured i on ws.maininstanceid=i.taskid
+        left join INSBPerson p on i.personid=p.id
+        left join insbinsuredhis ih on ws.maininstanceid=ih.taskid and ih.inscomcode=qi.inscomcode
+        left join INSBPerson ph on ih.personid=ph.id
+		
+		where 1=1
+			<if test="taskid != null and taskid != ''">
+				and q.taskid = #{taskid}
+			</if>
+			<if test="orderstatus != null and orderstatus != ''">
+				and ws.taskcode = #{orderstatus}
+			</if>
+			<if test="carlicenseno != null and carlicenseno !=''">
+				and qi.platenumber like CONCAT(#{carlicenseno},'%')
+			</if>
+			<if test="insuredname != null and insuredname !=''">
+				and (ph.name like CONCAT(#{insuredname},'%') or p.name like CONCAT(#{insuredname},'%'))
+			</if>
+			<if test="taskcreatetimeup != null and taskcreatetimeup !=''"> 
+				and ws.createtime &lt;= #{taskcreatetimeup}
+			 </if>
+			 <if test="taskcreatetimedown != null and taskcreatetimedown !=''">
+			 	and ws.createtime &gt;= #{taskcreatetimedown}
+			 </if>
+			and ws.taskstate!='Closed'
+			and (wm.taskcode='2' or wm.taskcode='15')
+			and not EXISTS(select 1 from insbworkflowsub ws1 where wm.instanceid=ws1.maininstanceid and ws1.taskcode='21')
+
+		/*group by ws.maininstanceid*/
+		order by ws.createtime desc
+		<if test="offset!=null and limit!=null"> 
+		limit #{offset},#{limit}
+		</if>
+	</select>
+	<!-- 订单查询待支付接口使用 -->
+	<select id="INSBWorkflowmain_getMyOrderList2PayForMinizzb" parameterType="Map" resultType="Map">
+		/*slave*/select
+			DATE_FORMAT(ws.createtime,'%Y-%m-%d %H:%i:%s') createtime,
+			ws.maininstanceid as processInstanceId,
+			p.name as insuredname,
+			case when c.carlicenseno='**' then '未上牌'
+			when c.carlicenseno='*' then '未上牌'
+			else c.carlicenseno end as carlicenseno,
+			ifnull(c.brandimg,'') as brandimg,
+			ws.taskcode,
+			ws.taskstate,
+			count(DISTINCT ws.maininstanceid) as counts
+		from insbworkflowsub ws
+		left join  INSBWorkflowmain wm on wm.instanceid=ws.maininstanceid
+		left join INSBAgenttask ak on ak.taskid=ws.maininstanceid
+		left join INSBCarinfo c on ws.maininstanceid=c.taskid
+		left join INSBInsured i on ws.maininstanceid=i.taskid
+		left join INSBQuotetotalinfo q on ws.maininstanceid=q.taskid
+		left join INSBPerson p on i.personid=p.id
+
+		<where>
+			(1=1
+			<if test="agentid != null and agentid !=''">
+				and ak.agentid = #{agentid}
+			</if>
+			)
+			<if test="taskid != null and taskid != ''">
+				and i.taskid = #{taskid}
+			</if>
+			<if test="orderstatus != null and orderstatus != ''">
+				and ws.taskcode = #{orderstatus}
+			</if>
+			<if test="carlicenseno != null and carlicenseno !=''">
+				and c.carlicenseno like CONCAT('%', #{carlicenseno},'%')
+			</if>
+			<if test="insuredname != null and insuredname !=''">
+				and p.name like CONCAT('%', #{insuredname},'%')
+			</if>
+			<if test="taskcreatetimeup != null and taskcreatetimeup !=''">
+				and ws.createtime &lt;= DATE_FORMAT(#{taskcreatetimeup}, '%Y-%m-%d %H:%i:%S')
+			 </if>
+			 <if test="taskcreatetimedown != null and taskcreatetimedown !=''">
+			 	and ws.createtime &gt;= DATE_FORMAT(#{taskcreatetimedown}, '%Y-%m-%d %H:%i:%S')
+			 </if>
+			and ws.taskstate!='Closed'
+			and (wm.taskcode='2' or wm.taskcode='15')
+			and not EXISTS(select 1 from insbworkflowsub ws1 where wm.instanceid=ws1.maininstanceid and ws1.taskcode='21')
+		</where>
+		group by ws.maininstanceid
+		order by createtime desc
+		<if test="offset!=null and limit!=null">
+		limit #{offset},#{limit}
+		</if>
+	</select>
+	
+	<select id="INSBWorkflowmain_getMyOrderList2PayForChn" parameterType="Map" resultType="Map">
+		select 
+			DATE_FORMAT(ws.createtime,'%Y-%m-%d %H:%i:%s') createtime,
+			ws.maininstanceid as processInstanceId,
+			p.name as insuredname,
+			case when c.carlicenseno='**' then '未上牌'
+			when c.carlicenseno='*' then '未上牌'
+			else c.carlicenseno end as carlicenseno,
+			ifnull(c.brandimg,'') as brandimg,
+			ws.taskcode,
+			ws.taskstate,
+			p.idcardno,
+			p.idcardtype,
+			p.gender,
+			p.cellphone,
+			count(DISTINCT ws.maininstanceid) as counts
+		from insbworkflowsub ws 
+		left join  INSBWorkflowmain wm on wm.instanceid=ws.maininstanceid
+		left join INSBCarinfo c on ws.maininstanceid=c.taskid
+		left join INSBInsured i on ws.maininstanceid=i.taskid
+		left join INSBQuotetotalinfo q on ws.maininstanceid=q.taskid
+		left join INSBPerson p on i.personid=p.id
+		
+		<where>
+			1 = 1
+			
+			<if test="taskid != null and taskid != ''">
+				and i.taskid = #{taskid}
+			</if>
+			<if test="orderstatus != null and orderstatus != ''">
+				and ws.taskcode = #{orderstatus}
+			</if>
+			<if test="carlicenseno != null and carlicenseno !=''">
+				and c.carlicenseno like CONCAT('%', #{carlicenseno},'%') 
+			</if>
+			<if test="insuredname != null and insuredname !=''">
+				and p.name like CONCAT('%', #{insuredname},'%')
+			</if>
+			<if test="taskcreatetimeup != null and taskcreatetimeup !=''"> 
+				and ws.createtime &lt;= DATE_FORMAT(#{taskcreatetimeup}, '%Y-%m-%d %H:%i:%S')
+			 </if>
+			 <if test="taskcreatetimedown != null and taskcreatetimedown !=''">
+			 	and ws.createtime &gt;= DATE_FORMAT(#{taskcreatetimedown}, '%Y-%m-%d %H:%i:%S')  
+			 </if>
+			 <if test="chnUserId != null">
+                and q.purchaserid = #{chnUserId}
+             </if>
+             <if test="chnId != null">
+                and q.purchaserchannel = #{chnId}
+             </if>
+             <if test="taskId != null">
+                and q.taskid = #{taskId}
+             </if>
+             
+			and ws.taskstate!='Closed'
+			and (wm.taskcode='2' or wm.taskcode='15')
+			and not EXISTS(select 1 from insbworkflowsub ws1 where wm.instanceid=ws1.maininstanceid and ws1.taskcode='21')
+		</where>
+		group by ws.maininstanceid
+		order by createtime desc
+		<if test="offset!=null and limit!=null"> 
+		limit #{offset},#{limit}
+		</if>
+	</select>
+	
+	<select id="myOrderCount2Pay" parameterType="Map" resultType="Long">
+		select 
+			count(DISTINCT ws.maininstanceid) as counts
+		from insbworkflowsub ws 
+		left join  INSBWorkflowmain wm on wm.instanceid=ws.maininstanceid
+        left join INSBQuotetotalinfo q on ws.maininstanceid=q.taskid
+        left join insbquoteinfo qi on qi.workflowinstanceid=ws.instanceid and qi.quotetotalinfoid=q.id
+        left join INSBCarinfo c on ws.maininstanceid=c.taskid
+        left join INSBInsured i on ws.maininstanceid=i.taskid
+        left join INSBPerson p on i.personid=p.id
+        left join insbinsuredhis ih on ws.maininstanceid=ih.taskid and ih.inscomcode=qi.inscomcode
+        left join INSBPerson ph on ih.personid=ph.id
+		<where>
+			(1=1
+			<if test="agentnum != null and agentnum !=''">
+				and q.agentnum = #{agentnum} 
+			</if>
+			<if test="agentnum != null and agentnum !='' and shareagentnum != null and shareagentnum !=''">
+				or 
+			</if>
+			<if test="agentnum == null or agentnum ==''">
+				and 
+			</if>
+			<if test="shareagentnum != null and shareagentnum !=''">
+				 q.lzgshareid = #{shareagentnum}
+			</if>
+			)
+            <if test="taskid != null and taskid != ''">
+                and q.taskid = #{taskid}
+            </if>
+			<if test="orderstatus != null and orderstatus != ''">
+				and ws.taskcode = #{orderstatus}
+			</if>
+			<if test="carlicenseno != null and carlicenseno !=''">
+                and qi.platenumber like CONCAT(#{carlicenseno},'%')
+			</if>
+			<if test="insuredname != null and insuredname !=''">
+                and (ph.name like CONCAT(#{insuredname},'%') or p.name like CONCAT(#{insuredname},'%'))
+			</if>
+			<if test="taskcreatetimeup != null and taskcreatetimeup !=''"> 
+				and ws.createtime &lt;= DATE_FORMAT(#{taskcreatetimeup}, '%Y-%m-%d %H:%i:%S')
+			 </if>
+			 <if test="taskcreatetimedown != null and taskcreatetimedown !=''">
+			 	and ws.createtime &gt;= DATE_FORMAT(#{taskcreatetimedown}, '%Y-%m-%d %H:%i:%S')  
+			 </if>
+			and ws.taskstate!='Closed'
+			and (wm.taskcode='2' or wm.taskcode='15')
+            and not EXISTS(select 1 from insbworkflowsub ws1 where wm.instanceid=ws1.maininstanceid and ws1.taskcode='21')
+		</where>
+	</select>
+	<select id="INSBWorkflowmain_selectaskcode" parameterType="String" resultType="String">
+		SELECT taskcode FROM insbworkflowmain WHERE instanceid=#{value}
+	</select>
+</mapper>

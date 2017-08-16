@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBAgreementprovider --> 
+	<select id="INSBAgreementprovider_insert" parameterType="com.zzb.conf.entity.INSBAgreementprovider" resultType="int">
+		insert into INSBAgreementprovider
+		(id,operator,createtime,modifytime,noti,agreementid,providerid,agreeid) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{agreementid},#{providerid},#{agreeid}) 
+	</select>
+	<select id="INSBAgreementprovider_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgreementprovider">
+		select * from INSBAgreementprovider
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="agreeid != null">
+				and agreeid = #{agreeid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreementprovider_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBAgreementprovider">
+		select * from INSBAgreementprovider where id = #{id}
+	</select>
+	<select id="INSBAgreementprovider_deleteById" parameterType="String">
+		delete from INSBAgreementprovider where id = #{id}
+	</select>
+	<select id="INSBAgreementprovider_updateById" parameterType="com.zzb.conf.entity.INSBAgreementprovider">
+		update INSBAgreementprovider  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},agreementid = #{agreementid},providerid = #{providerid},agreeid = #{agreeid} where id = #{id}
+	</select>
+	<select id="INSBAgreementprovider_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBAgreementprovider
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="agreeid != null">
+				and agreeid = #{agreeid}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgreementprovider_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgreementprovider">
+		select * from INSBAgreementprovider
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="agreeid != null">
+				and agreeid = #{agreeid}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBAgreementprovider_delete" parameterType="com.zzb.conf.entity.INSBAgreementprovider" resultType="int">
+		delete from INSBAgreementprovider 
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="providerid != null">
+				and providerid = #{providerid}
+			</if>
+			<if test="agreeid != null">
+				and agreeid = #{agreeid}
+			</if>
+		</where>
+	</select>
+</mapper>

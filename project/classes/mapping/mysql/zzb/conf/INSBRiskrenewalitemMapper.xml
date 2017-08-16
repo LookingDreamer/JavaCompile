@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBRiskrenewalitem -->
+	<select id="INSBRiskrenewalitem_insert" parameterType="com.zzb.conf.entity.INSBRiskrenewalitem" resultType="int">
+		insert into INSBRiskrenewalitem
+		(id,operator,createtime,modifytime,noti,riskid,reitemname,istraffic,isbusiness,istrafficandbusiness,presentation) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{riskid},#{reitemname},#{istraffic},#{isbusiness},#{istrafficandbusiness},#{presentation}) 
+	</select>
+	<select id="INSBRiskrenewalitem_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBRiskrenewalitem">
+		select * from INSBRiskrenewalitem
+		<where>
+			<if test="riskid != null">
+				and riskid = #{riskid}
+			</if>
+			<if test="reitemname != null">
+				and reitemname = #{reitemname}
+			</if>
+			<if test="istraffic != null">
+				and istraffic = #{istraffic}
+			</if>
+			<if test="isbusiness != null">
+				and isbusiness = #{isbusiness}
+			</if>
+			<if test="istrafficandbusiness != null">
+				and istrafficandbusiness = #{istrafficandbusiness}
+			</if>
+			<if test="presentation != null">
+				and presentation = #{presentation}
+			</if>
+		</where>
+	</select>
+	<select id="INSBRiskrenewalitem_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBRiskrenewalitem">
+		select * from INSBRiskrenewalitem
+		<where>
+			<if test="riskid != null">
+				and riskid = #{riskid}
+			</if>
+			<if test="reitemname != null">
+				and reitemname = #{reitemname}
+			</if>
+			<if test="istraffic != null">
+				and istraffic = #{istraffic}
+			</if>
+			<if test="isbusiness != null">
+				and isbusiness = #{isbusiness}
+			</if>
+			<if test="istrafficandbusiness != null">
+				and istrafficandbusiness = #{istrafficandbusiness}
+			</if>
+			<if test="presentation != null">
+				and presentation = #{presentation}
+			</if>
+		</where>
+		limit 2
+	</select>
+	<select id="INSBRiskrenewalitem_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBRiskrenewalitem">
+		select * from INSBRiskrenewalitem where id = #{id}
+	</select>
+	<select id="INSBRiskrenewalitem_deleteById" parameterType="String">
+		delete from INSBRiskrenewalitem where id = #{id}
+	</select>
+	<select id="INSBRiskrenewalitem_updateById" parameterType="com.zzb.conf.entity.INSBRiskrenewalitem">
+		update INSBRiskrenewalitem  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},riskid = #{riskid},reitemname = #{reitemname},istraffic = #{istraffic},isbusiness = #{isbusiness},istrafficandbusiness = #{istrafficandbusiness},presentation = #{presentation} where id = #{id}
+	</select>
+	<select id="INSBRiskrenewalitem_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBRiskrenewalitem
+		<where>
+			<if test="riskid != null">
+				and riskid = #{riskid}
+			</if>
+			<if test="reitemname != null">
+				and reitemname = #{reitemname}
+			</if>
+			<if test="istraffic != null">
+				and istraffic = #{istraffic}
+			</if>
+			<if test="isbusiness != null">
+				and isbusiness = #{isbusiness}
+			</if>
+			<if test="istrafficandbusiness != null">
+				and istrafficandbusiness = #{istrafficandbusiness}
+			</if>
+			<if test="presentation != null">
+				and presentation = #{presentation}
+			</if>
+		</where>
+	</select>
+	
+	
+	<select id="INSBRiskrenewalitem_selectCountVo" parameterType="Map" resultType="Long">
+		select count(1) from INSBRiskrenewalitem
+		<where>
+			<if test="riskid != null">
+				and riskid = #{riskid}
+			</if>
+			<if test="reitemname != null">
+				and reitemname like CONCAT('%', #{reitemname},'%') 
+			</if>
+			<if test="istraffic != null">
+				and istraffic = #{istraffic}
+			</if>
+			<if test="isbusiness != null">
+				and isbusiness = #{isbusiness}
+			</if>
+			<if test="istrafficandbusiness != null">
+				and istrafficandbusiness = #{istrafficandbusiness}
+			</if>
+			<if test="presentation != null">
+				and presentation = #{presentation}
+			</if>
+		</where>
+	</select>
+	
+	<select id="INSBRiskrenewalitem_selectVo" parameterType="Map" resultType="com.zzb.conf.entity.INSBRiskrenewalitem">
+		SELECT
+		  id,
+		  operator,
+		  createtime,
+		  modifytime,
+		  noti,
+		  riskid,
+		  reitemname,
+		  (CASE  WHEN c.istraffic='1' THEN '是' ELSE '否' END) istraffic,
+		  (CASE WHEN c.isbusiness='1' THEN '是' ELSE '否' END) isbusiness,
+		  (CASE  WHEN c.istrafficandbusiness='1' THEN '是' ELSE '否' END) istrafficandbusiness,
+		  presentation
+		FROM INSBRiskrenewalitem c 
+		<where>
+			<if test="riskid != null">
+				and riskid = #{riskid}
+			</if>
+			<if test="reitemname != null">
+				and reitemname like CONCAT('%', #{reitemname},'%') 
+			</if>
+			<if test="istraffic != null">
+				and istraffic = #{istraffic}
+			</if>
+			<if test="isbusiness != null">
+				and isbusiness = #{isbusiness}
+			</if>
+			<if test="istrafficandbusiness != null">
+				and istrafficandbusiness = #{istrafficandbusiness}
+			</if>
+			<if test="presentation != null">
+				and presentation = #{presentation}
+			</if>
+		</where>
+	</select>
+</mapper>

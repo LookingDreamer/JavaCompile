@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBLegalrightclaimhis -->
+	<select id="INSBLegalrightclaimhis_insert" parameterType="com.zzb.cm.entity.INSBLegalrightclaimhis" resultType="int">
+		insert into INSBLegalrightclaimhis
+		(id,operator,createtime,modifytime,noti,taskid,personid,inscomcode,isLegal,orderNum,ratio,relation) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{personid},#{inscomcode},#{isLegal},#{orderNum},#{ratio},#{relation})
+	</select>
+	<select id="INSBLegalrightclaimhis_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBLegalrightclaimhis">
+		select * from INSBLegalrightclaimhis
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="isLegal != null">
+				and isLegal = #{isLegal}
+			</if>
+			<if test="orderNum != null">
+				and orderNum = #{orderNum}
+			</if>
+			<if test="ratio != null">
+				and ratio = #{ratio}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+		</where>
+	</select>
+	<select id="INSBLegalrightclaimhis_selectOne" parameterType="Map" resultType="com.zzb.cm.entity.INSBLegalrightclaimhis">
+		select * from INSBLegalrightclaimhis
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="isLegal != null">
+				and isLegal = #{isLegal}
+			</if>
+			<if test="orderNum != null">
+				and orderNum = #{orderNum}
+			</if>
+			<if test="ratio != null">
+				and ratio = #{ratio}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+		</where>
+		 ORDER BY createtime DESC LIMIT 1  
+	</select>
+	<select id="INSBLegalrightclaimhis_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBLegalrightclaimhis">
+		select * from INSBLegalrightclaimhis where id = #{id}
+	</select>
+	<select id="INSBLegalrightclaimhis_deleteById" parameterType="String">
+		delete from INSBLegalrightclaimhis where id = #{id}
+	</select>
+	<select id="INSBLegalrightclaimhis_updateById" parameterType="com.zzb.cm.entity.INSBLegalrightclaimhis">
+		update INSBLegalrightclaimhis  set operator = #{operator},modifytime = NOW(),noti = #{noti},taskid = #{taskid},personid = #{personid},inscomcode = #{inscomcode},isLegal = #{isLegal},orderNum = #{orderNum},ratio = #{ratio},relation = #{relation} where id = #{id}
+	</select>
+	<select id="INSBLegalrightclaimhis_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBLegalrightclaimhis
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="isLegal != null">
+				and isLegal = #{isLegal}
+			</if>
+			<if test="orderNum != null">
+				and orderNum = #{orderNum}
+			</if>
+			<if test="ratio != null">
+				and ratio = #{ratio}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+		</where>
+	</select>
+		<select id="INSBLegalrightclaimhis_deleteByObj" parameterType="com.zzb.cm.entity.INSBLegalrightclaimhis" resultType="int">
+		delete from INSBLegalrightclaimhis 
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="personid != null">
+				and personid = #{personid}
+			</if>
+			<if test="inscomcode != null">
+				and inscomcode = #{inscomcode}
+			</if>
+			<if test="isLegal != null">
+				and isLegal = #{isLegal}
+			</if>
+			<if test="orderNum != null">
+				and orderNum = #{orderNum}
+			</if>
+			<if test="ratio != null">
+				and ratio = #{ratio}
+			</if>
+			<if test="relation != null">
+				and relation = #{relation}
+			</if>
+		</where>
+	</select>
+</mapper>

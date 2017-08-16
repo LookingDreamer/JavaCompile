@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBGroupprivileg -->
+	<select id="INSBGroupprivileg_insert" parameterType="com.zzb.conf.entity.INSBGroupprivileg" resultType="int">
+		insert into INSBGroupprivileg
+		(id,operator,createtime,modifytime,noti,groupid,privilegcode,privilegestate) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{groupid},#{privilegcode},#{privilegestate}) 
+	</select>
+	<select id="INSBGroupprivileg_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBGroupprivileg">
+		select * from INSBGroupprivileg
+		<where>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="privilegcode != null">
+				and privilegcode = #{privilegcode}
+			</if>
+			<if test="privilegestate != null">
+				and privilegestate = #{privilegestate}
+			</if>
+		</where>
+	</select>
+	<select id="INSBGroupprivileg_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBGroupprivileg">
+		select * from INSBGroupprivileg
+		<where>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="privilegcode != null">
+				and privilegcode = #{privilegcode}
+			</if>
+			<if test="privilegestate != null">
+				and privilegestate = #{privilegestate}
+			</if>
+		</where>
+		LIMIT 2
+	</select>	
+	<select id="INSBGroupprivileg_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBGroupprivileg">
+		select * from INSBGroupprivileg where id = #{id}
+	</select>
+	<select id="INSBGroupprivileg_selectByGroupId" parameterType="String" resultType="com.zzb.conf.entity.INSBGroupprivileg">
+		select * from INSBGroupprivileg where groupid = #{groupId} and privilegestate=1
+	</select>
+	<select id="INSBGroupprivileg_deleteById" parameterType="String">
+		delete from INSBGroupprivileg where id = #{id}
+	</select>
+	<select id="INSBGroupprivileg_deleteByGroupId" parameterType="String">
+		delete from INSBGroupprivileg where groupid = #{groupId}
+	</select>
+	
+	<select id="INSBGroupprivileg_deleteByPrivilegeCode" parameterType="String">
+		delete from INSBGroupprivileg where privilegcode = #{privilegeCode}
+	</select>
+	<select id="INSBGroupprivileg_updateById" parameterType="com.zzb.conf.entity.INSBGroupprivileg">
+		update INSBGroupprivileg  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},groupid = #{groupid},privilegcode = #{privilegcode},privilegestate = #{privilegestate} where id = #{id}
+	</select>
+	<select id="INSBGroupprivileg_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBGroupprivileg
+		<where>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="privilegcode != null">
+				and privilegcode = #{privilegcode}
+			</if>
+			<if test="privilegestate != null">
+				and privilegestate = #{privilegestate}
+			</if>
+		</where>
+	</select>
+</mapper>

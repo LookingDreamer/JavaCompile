@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBOperatorcomment -->
+	<select id="INSBOperatorcomment_insert" parameterType="com.zzb.conf.entity.INSBOperatorcomment" resultType="int">
+		insert into INSBOperatorcomment
+		(id,operator,createtime,modifytime,noti,trackid,tracktype,commentcontent) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{trackid},#{tracktype},#{commentcontent}) 
+	</select>
+	<select id="INSBOperatorcomment_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBOperatorcomment">
+		select * from INSBOperatorcomment
+		<where>
+			<if test="trackid != null">
+				and trackid = #{trackid}
+			</if>
+			<if test="tracktype != null">
+				and tracktype = #{tracktype}
+			</if>
+			<if test="commentcontent != null">
+				and commentcontent = #{commentcontent}
+			</if>
+		</where>
+		order by createtime desc
+	</select>
+	<select id="INSBOperatorcomment_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBOperatorcomment">
+		select * from INSBOperatorcomment
+		<where>
+			<if test="trackid != null">
+				and trackid = #{trackid}
+			</if>
+			<if test="tracktype != null">
+				and tracktype = #{tracktype}
+			</if>
+			<if test="commentcontent != null">
+				and commentcontent = #{commentcontent}
+			</if>
+		</where>
+		LIMIT 2
+	</select>	
+	<select id="INSBOperatorcomment_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBOperatorcomment">
+		select * from INSBOperatorcomment where id = #{id}
+	</select>
+	<select id="INSBOperatorcomment_deleteById" parameterType="String">
+		delete from INSBOperatorcomment where id = #{id}
+	</select>
+	<select id="INSBOperatorcomment_updateById" parameterType="com.zzb.conf.entity.INSBOperatorcomment">
+		update INSBOperatorcomment  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},trackid = #{trackid},tracktype = #{tracktype},commentcontent = #{commentcontent} where id = #{id}
+	</select>
+	<select id="INSBOperatorcomment_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBOperatorcomment
+		<where>
+			<if test="trackid != null">
+				and trackid = #{trackid}
+			</if>
+			<if test="tracktype != null">
+				and tracktype = #{tracktype}
+			</if>
+			<if test="commentcontent != null">
+				and commentcontent = #{commentcontent}
+			</if>
+		</where>
+	</select>
+	<select id="INSBOperatorcomment_selectOperatorCommentByTrackid" parameterType="Map" resultType="com.zzb.conf.entity.INSBOperatorcomment">
+		select * from INSBOperatorcomment
+		<where>
+			<if test="trackid != null">
+				and trackid = #{trackid}
+			</if>
+			<if test="tracktype != null">
+				and tracktype = #{tracktype}
+			</if>
+		</where>
+		order by createtime desc
+	</select>
+	<!-- liuchao 通过流程实例id和保险公司code查询给操作员的备注列表 -->
+	<select id="INSBOperatorcomment_getOperatorCommentByMaininstanceid" parameterType="Map" resultType="com.zzb.conf.entity.INSBOperatorcomment">
+		/*slave*/select re.* FROM 
+			(select oc.id, oc.commentcontent, oc.createtime, oc.modifytime, oc.noti, oc.trackid, oc.tracktype, 
+			CASE WHEN mu.`name` IS NOT NULL THEN mu.`name` ELSE CONCAT('未知操作员',oc.operator) END AS operator
+			FROM insboperatorcomment oc 
+			LEFT JOIN insbworkflowmaintrack mt ON mt.id=oc.trackid 
+			LEFT JOIN inscuser mu ON mu.usercode=oc.operator 
+			<where>
+				oc.tracktype='1' 
+				<if test="instanceid != null">
+					AND mt.instanceid = #{instanceid}
+				</if>
+			</where>
+			UNION 
+			(select ocs.id, ocs.commentcontent, ocs.createtime, ocs.modifytime, ocs.noti, ocs.trackid, ocs.tracktype, 
+			CASE WHEN su.`name` IS NOT NULL THEN su.`name` ELSE CONCAT('未知操作员',ocs.operator) END AS operator
+			FROM insboperatorcomment ocs 
+			LEFT JOIN insbworkflowsubtrack st ON ocs.trackid=st.id 
+			LEFT JOIN insbquoteinfo qu ON qu.workflowinstanceid=st.instanceid 
+			LEFT JOIN inscuser su ON su.usercode=ocs.operator 
+			<where>
+				ocs.tracktype='2' 
+				<if test="instanceid != null">
+					AND st.maininstanceid = #{instanceid}
+				</if>
+				<if test="inscomcode != null">
+					AND qu.inscomcode = #{inscomcode}
+				</if>
+			</where>)) re
+		ORDER BY re.createtime DESC
+	</select>
+</mapper>

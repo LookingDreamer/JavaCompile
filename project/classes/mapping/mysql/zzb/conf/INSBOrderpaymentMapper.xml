@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBOrderpayment -->
+	<select id="INSBOrderpayment_insert" parameterType="com.zzb.conf.entity.INSBOrderpayment" resultType="int">
+		insert into INSBOrderpayment
+		(id,operator,createtime,modifytime,noti,taskid,subinstanceid,orderid,paychannelid,tradeno,insurecono,payurl,amount,paytime,payresult,currencycode,merchantid,merchantname,allowchangepaystyle,paypoundage,paymentransaction,md5,paywapurl,paypcurl,payflowno,payorderno,refundtype)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{taskid},#{subinstanceid},#{orderid},#{paychannelid},#{tradeno},#{insurecono},#{payurl},#{amount},#{paytime},#{payresult},#{currencycode},#{merchantid},#{merchantname},#{allowchangepaystyle},#{paypoundage},#{paymentransaction},#{md5},#{paywapurl},#{paypcurl},#{payflowno},#{payorderno},#{refundtype})
+	</select>
+	<select id="INSBOrderpayment_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBOrderpayment">
+		select * from INSBOrderpayment
+		<where> 
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="orderid != null">
+				and orderid = #{orderid}
+			</if>
+			<if test="paychannelid != null">
+				and paychannelid = #{paychannelid}
+			</if>
+			<if test="tradeno != null">
+				and tradeno = #{tradeno}
+			</if>
+			<if test="subinstanceid != null">
+				and subinstanceid = #{subinstanceid}
+			</if>
+			
+			<if test="insurecono != null">
+				and insurecono = #{insurecono}
+			</if>
+			<if test="payurl != null">
+				and payurl = #{payurl}
+			</if>
+			<if test="amount != null">
+				and amount = #{amount}
+			</if>
+			<if test="paytime != null">
+				and paytime = #{paytime}
+			</if>
+			<if test="payresult != null">
+				and payresult = #{payresult}
+			</if>
+			<if test="currencycode != null">
+				and currencycode = #{currencycode}
+			</if>
+			<if test="merchantid != null">
+				and merchantid = #{merchantid}
+			</if>
+			<if test="merchantname != null">
+				and merchantname = #{merchantname}
+			</if>
+			<if test="allowchangepaystyle != null">
+				and allowchangepaystyle = #{allowchangepaystyle}
+			</if>
+			<if test="paypoundage != null">
+				and paypoundage = #{paypoundage}
+			</if>
+			<if test="paymentransaction != null">
+				and paymentransaction = #{paymentransaction}
+			</if>
+			<if test="paywapurl != null">
+				and paywapurl = #{paywapurl}
+			</if>
+			<if test="paypcurl != null">
+				and paypcurl = #{paypcurl}
+			</if>
+			<if test="payflowno != null">
+				and payflowno = #{payflowno}
+			</if>
+			<if test="payorderno != null"> 
+				and payorderno = #{payorderno}
+			</if>
+		</where>
+		order by FIELD(payresult,'02','06','05','03','0','false','00A3') , CREATEtime desc
+	</select>
+	<select id="INSBOrderpayment_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBOrderpayment">
+		select * from INSBOrderpayment
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="orderid != null">
+				and orderid = #{orderid}
+			</if>
+			<if test="paychannelid != null">
+				and paychannelid = #{paychannelid}
+			</if>
+			<if test="tradeno != null">
+				and tradeno = #{tradeno}
+			</if>
+			<if test="subinstanceid != null">
+				and subinstanceid = #{subinstanceid}
+			</if>
+			
+			<if test="insurecono != null">
+				and insurecono = #{insurecono}
+			</if>
+			<if test="payurl != null">
+				and payurl = #{payurl}
+			</if>
+			<if test="amount != null">
+				and amount = #{amount}
+			</if>
+			<if test="paytime != null">
+				and paytime = #{paytime}
+			</if>
+			<if test="payresult != null">
+				and payresult = #{payresult}
+			</if>
+			<if test="currencycode != null">
+				and currencycode = #{currencycode}
+			</if>
+			<if test="merchantid != null">
+				and merchantid = #{merchantid}
+			</if>
+			<if test="merchantname != null">
+				and merchantname = #{merchantname}
+			</if>
+			<if test="allowchangepaystyle != null">
+				and allowchangepaystyle = #{allowchangepaystyle}
+			</if>
+			<if test="paypoundage != null">
+				and paypoundage = #{paypoundage}
+			</if>
+			<if test="paymentransaction != null">
+				and paymentransaction = #{paymentransaction}
+			</if>
+			<if test="paywapurl != null">
+				and paywapurl = #{paywapurl}
+			</if>
+			<if test="paypcurl != null">
+				and paypcurl = #{paypcurl}
+			</if>
+			<if test="payflowno != null">
+				and payflowno = #{payflowno}
+			</if>
+			<if test="payorderno != null">
+				and payorderno = #{payorderno}
+			</if>
+		</where>
+		order by FIELD(payresult,'02','06','05','03','0','false','00A3') , CREATEtime desc
+		LIMIT 1
+	</select>
+	<select id="INSBOrderpayment_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBOrderpayment">
+		select * from INSBOrderpayment where id = #{id}
+	</select>
+	<select id="INSBOrderpayment_deleteById" parameterType="String">
+		delete from INSBOrderpayment where id = #{id}
+	</select>
+	<!-- 订单查询 取最新的一条支付信息 -->
+	<select id="INSBOrderpayment_selectNewestPayInfo" parameterType="Map" resultType="com.zzb.conf.entity.INSBOrderpayment">
+		SELECT * from insborderpayment 
+		<where>
+			taskid=#{taskid}
+		</where>
+		ORDER BY modifytime desc LIMIT 1
+	</select>
+	<select id="INSBOrderpayment_updateById" parameterType="com.zzb.conf.entity.INSBOrderpayment">
+		update INSBOrderpayment  set operator = #{operator},modifytime = NOW(),noti = #{noti},taskid = #{taskid},orderid = #{orderid},subinstanceid=#{subinstanceid},paychannelid = #{paychannelid},tradeno = #{tradeno},insurecono = #{insurecono},payurl = #{payurl},amount = #{amount},paytime = #{paytime},payresult = #{payresult},currencycode = #{currencycode},merchantid = #{merchantid},merchantname = #{merchantname},allowchangepaystyle = #{allowchangepaystyle},paypoundage = #{paypoundage},paymentransaction = #{paymentransaction},md5 = #{md5},paywapurl = #{paywapurl},paypcurl = #{paypcurl},payflowno = #{payflowno},payorderno = #{payorderno} where id = #{id}
+	</select>
+	<select id="INSBOrderpayment_updateRefundstatus" parameterType="com.zzb.conf.entity.INSBOrderpayment">
+		update INSBOrderpayment  set operator = #{operator},modifytime = NOW(),noti = #{noti},refundstatus = #{refundstatus}
+		where taskid = #{taskid} and payresult ='03'
+	</select>
+	<select id="INSBOrderpayment_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBOrderpayment
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="orderid != null">
+				and orderid = #{orderid}
+			</if>
+			<if test="paychannelid != null">
+				and paychannelid = #{paychannelid}
+			</if>
+			<if test="tradeno != null">
+				and tradeno = #{tradeno}
+			</if>
+			<if test="insurecono != null">
+				and insurecono = #{insurecono}
+			</if>
+			<if test="payurl != null">
+				and payurl = #{payurl}
+			</if>
+			<if test="subinstanceid != null">
+				and subinstanceid = #{subinstanceid}
+			</if>
+
+			<if test="amount != null">
+				and amount = #{amount}
+			</if>
+			<if test="paytime != null">
+				and paytime = #{paytime}
+			</if>
+			<if test="payresult != null">
+				and payresult = #{payresult}
+			</if>
+			<if test="currencycode != null">
+				and currencycode = #{currencycode}
+			</if>
+			<if test="merchantid != null">
+				and merchantid = #{merchantid}
+			</if>
+			<if test="merchantname != null">
+				and merchantname = #{merchantname}
+			</if>
+			<if test="allowchangepaystyle != null">
+				and allowchangepaystyle = #{allowchangepaystyle}
+			</if>
+			<if test="paypoundage != null">
+				and paypoundage = #{paypoundage}
+			</if>
+			<if test="paymentransaction != null">
+				and paymentransaction = #{paymentransaction}
+			</if>
+			<if test="paywapurl != null">
+				and paywapurl = #{paywapurl}
+			</if>
+			<if test="paypcurl != null">
+				and paypcurl = #{paypcurl}
+			</if>
+			<if test="payflowno != null">
+				and payflowno = #{payflowno}
+			</if>
+			<if test="payorderno != null">
+				and payorderno = #{payorderno}
+			</if>
+		</where>
+	</select>
+	<select id="INSBOrderpayment_selectOneByCode" parameterType="com.zzb.conf.entity.INSBOrderpayment" resultType="com.zzb.conf.entity.INSBOrderpayment">
+		select * from INSBOrderpayment
+		<where>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="orderid != null">
+				and orderid = #{orderid}
+			</if>
+			<if test="paychannelid  != null">
+				and paychannelid = #{paychannelid}
+			</if>
+			<if test="tradeno != null">
+				and tradeno = #{tradeno}
+			</if>
+			<if test="subinstanceid != null">
+				and subinstanceid = #{subinstanceid}
+			</if>
+			<if test="insurecono != null">
+				and insurecono = #{insurecono}
+			</if>
+			<if test="payurl != null">
+				and payurl = #{payurl}
+			</if>
+			<if test="amount != null">
+				and amount = #{amount}
+			</if>
+			<if test="paytime != null">
+				and paytime = #{paytime}
+			</if>
+			<if test="payresult != null">
+				and payresult = #{payresult}
+			</if>
+			<if test="currencycode != null">
+				and currencycode = #{currencycode}
+			</if>
+			<if test="merchantid != null">
+				and merchantid = #{merchantid}
+			</if>
+			<if test="merchantname != null">
+				and merchantname = #{merchantname}
+			</if>
+			<if test="allowchangepaystyle != null">
+				and allowchangepaystyle = #{allowchangepaystyle}
+			</if>
+			<if test="paypoundage != null">
+				and paypoundage = #{paypoundage}
+			</if>
+			<if test="paymentransaction != null">
+				and paymentransaction = #{paymentransaction}
+			</if>
+			<if test="paywapurl != null">
+				and paywapurl = #{paywapurl}
+			</if>
+			<if test="paypcurl != null">
+				and paypcurl = #{paypcurl}
+			</if>
+			<if test="payflowno != null">
+				and payflowno = #{payflowno}
+			</if>
+			<if test="payorderno != null">
+				and payorderno = #{payorderno}
+			</if>
+		</where>
+		order by  createtime desc
+		LIMIT 1
+
+	</select>
+
+	<select id="INSBOrderpayment_refundtask" parameterType="String" resultType="Map">
+		select op.taskid, t.paymentransaction,t.payflowno,t.paychannelid, t.amount payamount ,  op.amount refundamount,pc.paytype,op.refundstatus
+		from INSBOrderpayment op
+		inner join INSBOrderpayment t on t.taskid=op.taskid and t.payresult = '02' and t.refundtype is null
+		left join insbpaychannel pc on pc.id = op.paychannelid
+		where op.payresult ='03' and op.taskid =  #{taskid}
+	</select>
+
+	<select id="INSBOrderpayment_refund" parameterType="Map" resultType="Map">
+		select q.inscomcode,op.taskid, t.paymentransaction, carh.carlicenseno,
+		DATE_FORMAT(t.paytime, '%Y-%m-%d %H:%i:%S') paytime, pc.paychannelname, op.amount refundamount,
+		t.amount payamount, op.refundtype, dept.comname,
+		l.channelname, op.refundstatus, '' operation
+		from INSBOrderpayment op
+		inner join INSBOrderpayment t on t.taskid=op.taskid and t.payresult = '02' and t.refundtype is null
+		LEFT JOIN insbquoteinfo q ON q.workflowinstanceid=op.subinstanceid
+		LEFT JOIN inscdept dept ON dept.comcode=q.deptcode
+		LEFT JOIN insbcarinfohis carh ON carh.taskid = op.taskid AND carh.inscomcode=q.inscomcode
+		INNER JOIN insbquotetotalinfo qt ON qt.taskid = op.taskid
+		LEFT JOIN insbchannel l ON qt.`purchaserchannel` = l.channelinnercode AND l.childflag='1' AND (l.deleteflag IS NULL OR l.deleteflag !='0')
+		left join insbpaychannel pc on pc.id = op.paychannelid
+		where op.payresult ='03'
+		and dept.deptinnercode LIKE CONCAT(#{userorganization},'%')
+		and op.refundstatus=#{refundstatus}
+		and op.refundtype =#{refundtype}
+		<if test="taskid != null and taskid != ''">
+			and op.taskid =  #{taskid}
+		</if>
+		<if test="carlicenseno != null and carlicenseno != ''">
+			and carh.carlicenseno =  #{carlicenseno}
+		</if>
+		<if test="channelinnercode != null and channelinnercode != ''">
+			and qt.`purchaserchannel` =  #{channelinnercode}
+		</if>
+		<if test="deptcode != null and deptcode != ''">
+			and dept.deptinnercode LIKE CONCAT(#{deptcode},'%')
+		</if>
+		<if test="refundamount != null and refundamount != ''">
+			and op.amount=-#{refundamount}
+		</if>
+		<if test="payamount != null and payamount != ''">
+			and t.amount=#{payamount}
+		</if>
+		<if test="paymentransaction != null and paymentransaction != ''">
+			and t.paymentransaction =  #{paymentransaction}
+		</if>
+		<if test="taskcreatetimeup != null and taskcreatetimeup != ''">
+			AND t.paytime &gt;= #{taskcreatetimeup}
+		</if>
+		<if test="taskcreatetimedown != null and taskcreatetimedown != ''">
+			AND t.paytime &lt;= #{taskcreatetimedown}
+		</if>
+		ORDER by op.taskid desc
+		limit #{offset}, #{limit}
+	</select>
+	<select id="INSBOrderpayment_refundCount" parameterType="Map" resultType="Long">
+		select count(op.id)
+		from INSBOrderpayment op
+		inner join INSBOrderpayment t on t.taskid=op.taskid and t.payresult = '02' and t.refundtype is null
+		LEFT JOIN insbquoteinfo q ON q.workflowinstanceid=op.subinstanceid
+		LEFT JOIN inscdept dept ON dept.comcode=q.deptcode
+		LEFT JOIN insbcarinfohis carh ON carh.taskid = op.taskid AND carh.inscomcode=q.inscomcode
+		INNER JOIN insbquotetotalinfo qt ON qt.taskid = op.taskid
+		where op.payresult ='03'
+		and dept.deptinnercode LIKE CONCAT(#{userorganization},'%')
+		and op.refundstatus=#{refundstatus}
+		and op.refundtype =#{refundtype}
+		<if test="taskid != null and taskid != ''">
+			and op.taskid =  #{taskid}
+		</if>
+		<if test="carlicenseno != null and carlicenseno != ''">
+			and carh.carlicenseno =  #{carlicenseno}
+		</if>
+		<if test="channelinnercode != null and channelinnercode != ''">
+			and qt.`purchaserchannel` =  #{channelinnercode}
+		</if>
+		<if test="deptcode != null and deptcode != ''">
+			and dept.deptinnercode LIKE CONCAT(#{deptcode},'%')
+		</if>
+		<if test="refundamount != null and refundamount != ''">
+			and op.amount=-#{refundamount}
+		</if>
+		<if test="payamount != null and payamount != ''">
+			and t.amount=#{payamount}
+		</if>
+		<if test="paymentransaction != null and paymentransaction != ''">
+			and t.paymentransaction =  #{paymentransaction}
+		</if>
+		<if test="taskcreatetimeup != null and taskcreatetimeup != ''">
+			AND t.paytime &gt;= #{taskcreatetimeup}
+		</if>
+		<if test="taskcreatetimedown != null and taskcreatetimedown != ''">
+			AND t.paytime &lt;= #{taskcreatetimedown}
+		</if>
+	</select>
+</mapper>

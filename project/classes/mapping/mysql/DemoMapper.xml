@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.biz.entity">
+	<!-- CarDemo -->
+	<select id="CarDemo_insert" parameterType="com.zzb.cm.entity.CarDemo"
+		resultType="int">
+		insert into CarDemo
+		(id,operator,createtime,modifytime,noti,carno,carowner,cartype)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{carno},#{carowner},#{cartype})
+	</select>
+	<select id="CarDemo_select" parameterType="Map"
+		resultType="com.zzb.cm.entity.CarDemo">
+		select * from CarDemo
+		<where>
+			<if test="carno != null">
+				and carno = #{carno}
+			</if>
+			<if test="carowner != null">
+				and carowner = #{carowner}
+			</if>
+			<if test="cartype != null">
+				and cartype = #{cartype}
+			</if>
+		</where>
+	</select>
+	
+	<select id="CarDemo_selectOne" parameterType="Map"
+		resultType="com.zzb.cm.entity.CarDemo">
+		select * from CarDemo
+		<where>
+			<if test="carno != null">
+				and carno = #{carno}
+			</if>
+			<if test="carowner != null">
+				and carowner = #{carowner}
+			</if>
+			<if test="cartype != null">
+				and cartype = #{cartype}
+			</if>
+		</where>
+		limit 2
+	</select>
+	
+	<select id="CarDemo_selectById" parameterType="String"
+		resultType="com.zzb.cm.entity.CarDemo">
+		select * from CarDemo where id = #{value}
+	</select>
+	<select id="CarDemo_deleteById" parameterType="String">
+		delete from
+		CarDemo where id = #{value}
+	</select>
+	<select id="CarDemo_updateById" parameterType="com.zzb.cm.entity.CarDemo">
+		update
+		CarDemo set
+		modifytime = #{modifytime}, carno =
+		#{carno}, carowner = #{carowner},
+		cartype = #{cartype}, noti = #{noti}, operator = #{operator}
+		where id =
+		#{id}
+	</select>
+	<select id="CarDemo_selectCount" parameterType="Map" resultType="long">
+		select count(1) from CarDemo
+		<where>
+			<if test="carno != null">
+				and carno = #{carno}
+			</if>
+			<if test="carowner != null">
+				and carowner = #{carowner}
+			</if>
+			<if test="cartype != null">
+				and cartype = #{cartype}
+			</if>
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+
+	<!-- INSBWorkflowmaintrackdetail -->
+	<select id="INSBWorkflowmaintrackdetail_insert" parameterType="com.zzb.conf.entity.INSBWorkflowmaintrackdetail" resultType="int">
+		insert into INSBWorkflowmaintrackdetail
+		(id,operator,fromoperator,createtime,modifytime,noti,instanceid,taskid,taskcode,createby,taskstate,groupid,operatorstate,taskfeedback) 
+		values
+		(#{id},#{operator},#{fromoperator},#{createtime},#{modifytime},#{noti},#{instanceid},#{taskid},#{taskcode},#{createby},#{taskstate},#{groupid},#{operatorstate},#{taskfeedback}) 
+	</select>
+	<select id="INSBWorkflowmaintrackdetail_selectData4RunQian" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowmaintrackdetail">
+		select * from INSBWorkflowmaintrackdetail  where instanceid=#{instanceid} 
+		and taskcode=#{taskcode} and (taskstate='Ready' or taskstate='Reserved') ORDER BY createtime DESC limit 1;
+	</select>
+	<select id="INSBWorkflowmaintrackdetail_copyTaskFeed4CompletedState" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowmaintrackdetail">
+		select * from INSBWorkflowmaintrackdetail where instanceid=#{value} ORDER BY createtime DESC limit 1;
+	</select>
+	
+	<select id="INSBWorkflowmaintrackdetail_myInsert" parameterType="com.zzb.conf.entity.INSBWorkflowmain" resultType="int">
+		insert into INSBWorkflowmaintrackdetail
+		(id,operator,fromoperator,createtime,modifytime,noti,instanceid,taskid,taskcode,createby,taskstate,groupid,operatorstate,taskfeedback) 
+		values
+		(#{id},#{operator},#{fromoperator},#{createtime},#{modifytime},#{noti},#{instanceid},#{taskid},#{taskcode},#{createby},#{taskstate},#{groupid},#{operatorstate},#{taskfeedback}) 
+	</select>
+	<select id="INSBWorkflowmaintrackdetail_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowmaintrackdetail">
+		select * from INSBWorkflowmaintrackdetail
+		<where>
+			<if test="instanceid != null">
+				and instanceid = #{instanceid}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="taskcode != null">
+				and taskcode = #{taskcode}
+			</if>
+			<if test="createby != null">
+				and createby = #{createby}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="operatorstate != null">
+				and operatorstate = #{operatorstate}
+			</if>
+			<if test="taskfeedback != null">
+				and taskfeedback = #{taskfeedback}
+			</if>
+		</where>
+        ORDER BY createtime DESC
+	</select>
+	<select id="INSBWorkflowmaintrackdetail_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBWorkflowmaintrackdetail">
+		select * from INSBWorkflowmaintrackdetail where id = #{id}
+	</select>
+	<select id="INSBWorkflowmaintrackdetail_deleteById" parameterType="String">
+		delete from INSBWorkflowmaintrackdetail where id = #{id}
+	</select>
+	<select id="INSBWorkflowmaintrackdetail_updateById" parameterType="com.zzb.conf.entity.INSBWorkflowmaintrackdetail">
+		update INSBWorkflowmaintrackdetail  set fromoperator=#{fromoperator}, operator = #{operator},modifytime = #{modifytime},noti = #{noti},instanceid = #{instanceid},taskid = #{taskid},taskcode = #{taskcode},createby = #{createby},taskstate = #{taskstate},groupid = #{groupid},operatorstate = #{operatorstate},taskfeedback=#{taskfeedback} where id = #{id}
+	</select>
+	<select id="INSBWorkflowmaintrackdetail_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBWorkflowmaintrackdetail
+		<where>
+			<if test="instanceid != null">
+				and instanceid = #{instanceid}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="taskcode != null">
+				and taskcode = #{taskcode}
+			</if>
+			<if test="createby != null">
+				and createby = #{createby}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="operatorstate != null">
+				and operatorstate = #{operatorstate}
+			</if>
+			<if test="taskfeedback != null">
+				and taskfeedback = #{taskfeedback}
+			</if>
+		</where>
+	</select>
+	<select id="INSBWorkflowmaintrackdetail_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBWorkflowmaintrackdetail">
+		select * from INSBWorkflowmaintrackdetail
+		<where>
+			<if test="instanceid != null">
+				and instanceid = #{instanceid}
+			</if>
+			<if test="taskid != null">
+				and taskid = #{taskid}
+			</if>
+			<if test="taskcode != null">
+				and taskcode = #{taskcode}
+			</if>
+			<if test="createby != null">
+				and createby = #{createby}
+			</if>
+			<if test="taskstate != null">
+				and taskstate = #{taskstate}
+			</if>
+			<if test="groupid != null">
+				and groupid = #{groupid}
+			</if>
+			<if test="operatorstate != null">
+				and operatorstate = #{operatorstate}
+			</if>
+			<if test="taskfeedback != null">
+				and taskfeedback = #{taskfeedback}
+			</if>
+		</where>
+        ORDER BY createtime DESC
+		LIMIT 1
+	</select>
+</mapper>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBDevice -->
+	<select id="INSBDevice_insert" parameterType="com.zzb.conf.entity.INSBDevice" resultType="int">
+		insert into INSBDevice
+		(id,operator,createtime,modifytime,noti,agentid,deptid,authcode,authtype,bindingstate,activatetime,agentflag,depttier,devbrand,devtype,imei,serialnum,opersystem,devsource) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{agentid},#{deptid},#{authcode},#{authtype},#{bindingstate},#{activatetime},#{agentflag},#{depttier},#{devbrand},#{devtype},#{imei},#{serialnum},#{opersystem},#{devsource}) 
+	</select>
+	<select id="INSBDevice_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBDevice">
+		select * from INSBDevice
+		<where>
+			<if test="agentid != null">
+				and agentid = #{agentid}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="authcode != null">
+				and authcode = #{authcode}
+			</if>
+			<if test="authtype != null">
+				and authtype = #{authtype}
+			</if>
+			<if test="bindingstate != null">
+				and bindingstate = #{bindingstate}
+			</if>
+			<if test="activatetime != null">
+				and activatetime = #{activatetime}
+			</if>
+			<if test="agentflag != null">
+				and agentflag = #{agentflag}
+			</if>
+			<if test="depttier != null">
+				and depttier = #{depttier}
+			</if>
+			<if test="devbrand != null">
+				and devbrand = #{devbrand}
+			</if>
+			<if test="devtype != null">
+				and devtype = #{devtype}
+			</if>
+			<if test="imei != null">
+				and imei = #{imei}
+			</if>
+			<if test="serialnum != null">
+				and serialnum = #{serialnum}
+			</if>
+			<if test="opersystem != null">
+				and opersystem = #{opersystem}
+			</if>
+			<if test="devsource != null">
+				and devsource = #{devsource}
+			</if>
+		</where>
+		limit #{offset},#{limit}
+	</select>
+	<select id="INSBDevice_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBDevice">
+		select * from INSBDevice
+		<where>
+			<if test="agentid != null">
+				and agentid = #{agentid}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="authcode != null">
+				and authcode = #{authcode}
+			</if>
+			<if test="authtype != null">
+				and authtype = #{authtype}
+			</if>
+			<if test="bindingstate != null">
+				and bindingstate = #{bindingstate}
+			</if>
+			<if test="activatetime != null">
+				and activatetime = #{activatetime}
+			</if>
+			<if test="agentflag != null">
+				and agentflag = #{agentflag}
+			</if>
+			<if test="depttier != null">
+				and depttier = #{depttier}
+			</if>
+			<if test="devbrand != null">
+				and devbrand = #{devbrand}
+			</if>
+			<if test="devtype != null">
+				and devtype = #{devtype}
+			</if>
+			<if test="imei != null">
+				and imei = #{imei}
+			</if>
+			<if test="serialnum != null">
+				and serialnum = #{serialnum}
+			</if>
+			<if test="opersystem != null">
+				and opersystem = #{opersystem}
+			</if>
+			<if test="devsource != null">
+				and devsource = #{devsource}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	<select id="INSBDevice_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBDevice">
+		select * from INSBDevice where id = #{id}
+	</select>
+	<select id="INSBDevice_deleteById" parameterType="String">
+		delete from INSBDevice where id = #{id}
+	</select>
+	<select id="INSBDevice_updateById" parameterType="com.zzb.conf.entity.INSBDevice">
+		update INSBDevice  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},agentid = #{agentid},deptid = #{deptid},authcode = #{authcode},authtype = #{authtype},bindingstate = #{bindingstate},activatetime = #{activatetime},agentflag = #{agentflag},depttier = #{depttier},devbrand = #{devbrand},devtype = #{devtype},imei = #{imei},serialnum = #{serialnum},opersystem = #{opersystem},devsource = #{devsource} where id = #{id}
+	</select>
+	<select id="INSBDevice_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBDevice
+		<where>
+			<if test="agentid != null">
+				and agentid = #{agentid}
+			</if>
+			<if test="deptid != null">
+				and deptid = #{deptid}
+			</if>
+			<if test="authcode != null">
+				and authcode = #{authcode}
+			</if>
+			<if test="authtype != null">
+				and authtype = #{authtype}
+			</if>
+			<if test="bindingstate != null">
+				and bindingstate = #{bindingstate}
+			</if>
+			<if test="activatetime != null">
+				and activatetime = #{activatetime}
+			</if>
+			<if test="agentflag != null">
+				and agentflag = #{agentflag}
+			</if>
+			<if test="depttier != null">
+				and depttier = #{depttier}
+			</if>
+			<if test="devbrand != null">
+				and devbrand = #{devbrand}
+			</if>
+			<if test="devtype != null">
+				and devtype = #{devtype}
+			</if>
+			<if test="imei != null">
+				and imei = #{imei}
+			</if>
+			<if test="serialnum != null">
+				and serialnum = #{serialnum}
+			</if>
+			<if test="opersystem != null">
+				and opersystem = #{opersystem}
+			</if>
+			<if test="devsource != null">
+				and devsource = #{devsource}
+			</if>
+		</where>
+	</select>
+</mapper>

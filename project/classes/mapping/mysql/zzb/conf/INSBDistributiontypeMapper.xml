@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBDistributiontype -->
+	<select id="INSBDistributiontype_insert" parameterType="com.zzb.conf.entity.INSBDistributiontype" resultType="int">
+		insert into INSBDistributiontype
+		(id,operator,createtime,modifytime,noti,agreementid,distritype,distrcompany,distpaytype,chargefee) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{agreementid},#{distritype},#{distrcompany},#{distpaytype},#{chargefee}) 
+	</select>
+	<select id="INSBDistributiontype_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBDistributiontype">
+		select * from INSBDistributiontype
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="distritype != null">
+				and distritype = #{distritype}
+			</if>
+			<if test="distrcompany != null">
+				and distrcompany = #{distrcompany}
+			</if>
+			<if test="distpaytype != null">
+				and distpaytype = #{distpaytype}
+			</if>
+			<if test="chargefee != null">
+				and chargefee = #{chargefee}
+			</if>
+		</where>
+	</select>
+	<select id="INSBDistributiontype_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBDistributiontype">
+		select * from INSBDistributiontype
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="distritype != null">
+				and distritype = #{distritype}
+			</if>
+			<if test="distrcompany != null">
+				and distrcompany = #{distrcompany}
+			</if>
+			<if test="distpaytype != null">
+				and distpaytype = #{distpaytype}
+			</if>
+			<if test="chargefee != null">
+				and chargefee = #{chargefee}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+
+	<select id="INSBDistributiontype_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBDistributiontype">
+		select * from INSBDistributiontype where id = #{id}
+	</select>
+	<select id="INSBDistributiontype_deleteById" parameterType="String">
+		delete from INSBDistributiontype where id = #{id}
+	</select>
+	<select id="INSBDistributiontype_updateById" parameterType="com.zzb.conf.entity.INSBDistributiontype">
+		update INSBDistributiontype  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},agreementid = #{agreementid},distritype = #{distritype},distrcompany = #{distrcompany},distpaytype = #{distpaytype},chargefee = #{chargefee} where id = #{id}
+	</select>
+	<select id="INSBDistributiontype_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBDistributiontype
+		<where>
+			<if test="agreementid != null">
+				and agreementid = #{agreementid}
+			</if>
+			<if test="distritype != null">
+				and distritype = #{distritype}
+			</if>
+			<if test="distrcompany != null">
+				and distrcompany = #{distrcompany}
+			</if>
+			<if test="distpaytype != null">
+				and distpaytype = #{distpaytype}
+			</if>
+			<if test="chargefee != null">
+				and chargefee = #{chargefee}
+			</if>
+		</where>
+	</select>
+	
+	<!--删除未选择的 -->
+	<select id="INSBDistributiontype_deleteByExceptIds" resultType="Long" parameterType="Map" >
+		delete from INSBDistributiontype 
+			where id not in
+			<if test="ids != null and ids.size!=0">
+				<foreach index="index" item="item" collection="ids" open="(" separator="," close=")">
+				#{item}
+				</foreach>
+			</if>
+			and agreementid = #{agreementid}
+	</select>
+
+    <!--删除指定协议的 -->
+    <select id="INSBDistributiontype_deleteByAgreementId" resultType="Long" parameterType="Map" >
+        delete from INSBDistributiontype
+        where agreementid = #{agreementid}
+    </select>
+</mapper>

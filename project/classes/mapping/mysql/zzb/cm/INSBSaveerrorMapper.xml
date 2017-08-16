@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.cm.entity">
+	<!-- INSBSaveerror -->
+	<select id="INSBSaveerror_insert" parameterType="com.zzb.cm.entity.INSBSaveerror" resultType="int">
+		insert into INSBSaveerror
+		(id,operator,createtime,modifytime,noti,message,errordesc) 
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{message},#{errordesc}) 
+	</select>
+	<select id="INSBSaveerror_select" parameterType="Map" resultType="com.zzb.cm.entity.INSBSaveerror">
+		select * from INSBSaveerror
+		<where>
+			<if test="message != null">
+				and message = #{message}
+			</if>
+			<if test="errordesc != null">
+				and errordesc = #{errordesc}
+			</if>
+		</where>
+	</select>
+	<select id="INSBSaveerror_selectById" parameterType="String" resultType="com.zzb.cm.entity.INSBSaveerror">
+		select * from INSBSaveerror where id = #{id}
+	</select>
+	<select id="INSBSaveerror_deleteById" parameterType="String">
+		delete from INSBSaveerror where id = #{id}
+	</select>
+	<select id="INSBSaveerror_updateById" parameterType="com.zzb.cm.entity.INSBSaveerror">
+		update INSBSaveerror  set operator = #{operator},modifytime = #{modifytime},noti = #{noti},message = #{message},errordesc = #{errordesc} where id = #{id}
+	</select>
+	<select id="INSBSaveerror_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBSaveerror
+		<where>
+			<if test="message != null">
+				and message = #{message}
+			</if>
+			<if test="errordesc != null">
+				and errordesc = #{errordesc}
+			</if>
+		</where>
+	</select>
+</mapper>

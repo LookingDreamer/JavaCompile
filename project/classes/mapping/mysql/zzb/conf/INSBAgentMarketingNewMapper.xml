@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.mobile.entity">
+	<select id="INSBAgentMarketingNew_insert" parameterType="com.zzb.mobile.entity.INSBAgentMarketingNew"
+			resultType="int">
+		insert into insbagentmarketingnew
+		(id,insbagentid,openid,name,sex, jobnum,phone,deptid,agentcode,referee, refereeopenid,registertime,idno,idnotype,
+		issentredpacket,  activityname,createtime,modifytime,redpacketStatus,noti)
+		values
+		(#{id},#{insbagentid},#{openid},#{name},#{sex},  #{jobnum},#{phone},#{deptid},#{agentcode},#{referee},
+		#{refereeopenid},#{registertime},#{idno},#{idnotype},#{issentredpacket}, #{activityname},#{createtime},
+		#{modifytime},#{redpacketStatus},#{noti})
+	</select>
+
+	<select id="INSBAgentMarketingNew_getReferrals" parameterType="com.zzb.mobile.entity.INSBAgentMarketingNew"
+			resultType="com.zzb.mobile.entity.INSBAgentMarketingNew">
+        SELECT * FROM insbagentmarketingnew a WHERE referee = #{agentcode} ORDER BY createtime DESC;
+	</select>
+
+	<select id="INSBAgentMarketingNew_update" parameterType="com.zzb.mobile.entity.INSBAgentMarketingNew">
+        UPDATE insbagentmarketingnew SET noti = #{noti},issentredpacket = #{issentredpacket},modifytime = #{modifytime} WHERE id = #{id}
+	</select>
+
+
+	<select id="INSBAgentMarketingNew_getAgentInfo" parameterType="com.zzb.mobile.entity.INSBAgentMarketingNew"
+			resultType="com.zzb.mobile.entity.INSBAgentMarketingNew">
+		SELECT * FROM insbagentmarketingnew a WHERE agentcode = #{agentcode} ORDER BY createtime DESC;
+	</select>
+
+	<select id="INSBAgentMarketingNew_isSendRedPaper" parameterType="String"
+			resultType="int">
+		SELECT count(1) FROM insbagentmarketingnew a WHERE issentredpacket = 'true' AND  agentcode = #{agentCode} ;
+	</select>
+	
+</mapper>

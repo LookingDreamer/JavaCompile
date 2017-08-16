@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.warranty.model">
+
+    <select id="CouponTimes_getCouponTimes" resultType="com.zzb.warranty.model.CouponTimes">
+        SELECT * FROM usercoupontimes  where userCode=#{userCode}
+    </select>
+
+    <update id="CouponTimes_updateCouponTimes">
+        UPDATE usercoupontimes SET couponTimes=#{couponTimes} WHERE id=#{id}
+    </update>
+
+    <insert id="CouponTimes_insertCouponTimes">
+        INSERT INTO usercoupontimes (id, userCode, couponTimes, createTime, updateTime, operatorId, operatorName)
+        VALUE (#{id}, #{userCode}, #{couponTimes}, #{createTime}, #{updateTime}, #{operatorId}, #{operatorName})
+    </insert>
+</mapper>

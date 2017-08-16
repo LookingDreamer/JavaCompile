@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.conf.entity">
+	<!-- INSBAgentpermission -->
+	<select id="INSBAgentpermission_insert" parameterType="com.zzb.conf.entity.INSBAgentpermission" resultType="int">
+		insert into INSBAgentpermission
+		(id,operator,createtime,modifytime,noti,agentid,permissionid,permissionname,frontstate,functionstate,validtimestart,validtimeend,abort,status,num,surplusnum)
+		values 
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{agentid},#{permissionid},#{permissionname},#{frontstate},#{functionstate},#{validtimestart},#{validtimeend},#{abort},#{status},#{num},#{surplusnum})
+	</select>
+	<select id="INSBAgentpermission_insertAll" parameterType="List">
+		insert into INSBAgentpermission
+		(id,operator,createtime,modifytime,noti,agentid,permissionid,permissionname,frontstate,functionstate,validtimestart,validtimeend,abort,status,num,surplusnum)
+		values
+		<foreach collection="list" item="obj" index="index" separator="," >
+		(#{obj.id},#{obj.operator},#{obj.createtime},#{obj.modifytime},#{obj.noti},#{obj.agentid},#{obj.permissionid},#{obj.permissionname},#{obj.frontstate},
+			#{obj.functionstate},#{obj.validtimestart},#{obj.validtimeend},#{obj.abort},#{obj.status},#{obj.num},#{obj.surplusnum})
+		</foreach>
+	</select>
+	<select id="INSBAgentpermission_select" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgentpermission">
+		select * from INSBAgentpermission
+		<where>
+			<if test="agentid != null">
+				and agentid = #{agentid}
+			</if>
+			<if test="num != null">
+				and num = #{num}
+			</if>
+			<if test="permissionid != null">
+				and permissionid = #{permissionid}
+			</if>
+			<if test="permissionname != null">
+				and permissionname = #{permissionname}
+			</if>
+			<if test="frontstate != null">
+				and frontstate = #{frontstate}
+			</if>
+			<if test="functionstate != null">
+				and functionstate = #{functionstate}
+			</if>
+			<if test="validtimestart != null">
+				and validtimestart = #{validtimestart}
+			</if>
+			<if test="validtimeend != null">
+				and validtimeend = #{validtimeend}
+			</if>
+			<if test="abort != null">
+				and abort = #{abort}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+	</select>
+	<select id="INSBAgentpermission_selectOne" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgentpermission">
+		select * from INSBAgentpermission
+		<where>
+			<if test="agentid != null">
+				and agentid = #{agentid}
+			</if>
+			<if test="num != null">
+				and num = #{num}
+			</if>
+			<if test="permissionid != null">
+				and permissionid = #{permissionid}
+			</if>
+			<if test="permissionname != null">
+				and permissionname = #{permissionname}
+			</if>
+			<if test="frontstate != null">
+				and frontstate = #{frontstate}
+			</if>
+			<if test="functionstate != null">
+				and functionstate = #{functionstate}
+			</if>
+			<if test="validtimestart != null">
+				and validtimestart = #{validtimestart}
+			</if>
+			<if test="validtimeend != null">
+				and validtimeend = #{validtimeend}
+			</if>
+			<if test="abort != null">
+				and abort = #{abort}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+		LIMIT 2
+	</select>
+	
+	<select id="INSBAgentpermission_selectById" parameterType="String" resultType="com.zzb.conf.entity.INSBAgentpermission">
+		select * from INSBAgentpermission where id = #{id}
+	</select>
+	<select id="INSBAgentpermission_selectByLogicId" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgentpermission">
+		select * from INSBAgentpermission where permissionid = #{permissionId} and agentid=#{agentId}
+	</select>
+	
+	<select id="INSBAgentpermission_selectByAgentId" parameterType="String" resultType="com.zzb.conf.entity.INSBAgentpermission">
+		select * from INSBAgentpermission where agentid=#{agentId}
+	</select>
+
+	<select id="INSBAgentpermission_selectByAgentIdAndName" parameterType="Map" resultType="com.zzb.conf.entity.INSBAgentpermission">
+		select * FROM insbagentpermission ap where ap.`agentid` = #{agentid} AND ap.`permissionname` = #{permissionname}
+	</select>
+	
+	
+	<select id="INSBAgentpermission_selectCountByAgentId" parameterType="String" resultType="long">
+		select count(1) from INSBAgentpermission where agentid=#{value}
+	</select>
+	<select id="INSBAgentpermission_deleteById" parameterType="String">
+		delete from INSBAgentpermission where id = #{id}
+	</select>
+	
+	<select id="INSBAgentpermission_deleteByAgentId" parameterType="String">
+		delete from INSBAgentpermission where agentid = #{agentId}
+	</select>
+	<select id="INSBAgentpermission_updateById" parameterType="com.zzb.conf.entity.INSBAgentpermission">
+		update INSBAgentpermission 
+		<set>
+			<if test="operator !=null">
+			operator = #{operator},
+			</if>
+			<if test="modifytime !=null">
+				 modifytime = #{modifytime},
+			</if>
+			<if test="noti !=null">
+				noti = #{noti},
+			</if>
+			<if test="agentid !=null">
+				agentid = #{agentid},
+			</if>
+			<if test="permissionid !=null">
+				permissionid = #{permissionid},
+			</if>
+			<if test="permissionname !=null">
+				permissionname = #{permissionname},
+			</if>
+			<if test="frontstate !=null">
+				frontstate = #{frontstate},
+			</if>
+			<if test="functionstate !=null">
+				functionstate = #{functionstate},
+			</if>
+			<if test="validtimestart !=null">
+				validtimestart = #{validtimestart},
+			</if>
+			<if test="validtimeend !=null">
+				validtimeend = #{validtimeend},
+			</if>
+			<if test="abort !=null">
+				abort = #{abort},
+			</if>
+			<if test="status !=null">
+				status = #{status},
+			</if>
+			<if test="num !=null">
+				num=#{num},
+			</if>
+			<if test="surplusnum !=null and surplusnum != ''">
+				surplusnum = #{surplusnum},
+			</if>
+		</set>
+		 where id = #{id}
+	</select>
+	<select id="INSBAgentpermission_selectCount" parameterType="Map" resultType="Long">
+		select count(1) from INSBAgentpermission
+		<where>
+			<if test="agentid != null">
+				and agentid = #{agentid}
+			</if>
+			<if test="num != null">
+				and num = #{num}
+			</if>
+			<if test="permissionid != null">
+				and permissionid = #{permissionid}
+			</if>
+			<if test="permissionname != null">
+				and permissionname = #{permissionname}
+			</if>
+			<if test="frontstate != null">
+				and frontstate = #{frontstate}
+			</if>
+			<if test="functionstate != null">
+				and functionstate = #{functionstate}
+			</if>
+			<if test="validtimestart != null">
+				and validtimestart = #{validtimestart}
+			</if>
+			<if test="validtimeend != null">
+				and validtimeend = #{validtimeend}
+			</if>
+			<if test="abort != null">
+				and abort = #{abort}
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+	</select>
+
+	<!--更新试用用户试用权限使用次数（剩余次数）-->
+	<select id="INSBAgentpermission_updateSurplusnum" parameterType="com.zzb.conf.entity.INSBAgentpermission">
+		update INSBAgentpermission
+		<set>
+				surplusnum = #{surplusnum},modifytime = NOW()
+		</set>
+		where id = #{id}
+	</select>
+
+	<select id="INSBAgentpermission_deleteByDeptinnercode" parameterType="String">
+		DELETE ap FROM  insbagentpermission ap INNER JOIN insbagent a ON ap.`agentid`=a.`id`
+		INNER JOIN inscdept d ON a.`deptid`= d.`id`
+		AND d.`deptinnercode` LIKE CONCAT(#{deptinnercode},'%')
+	</select>
+	
+
+
+	<select id="INSBAgentpermission_insertBatch" parameterType="ArrayList">
+		insert into INSBAgentpermission
+		(id,operator,createtime,modifytime,noti,agentid,permissionid,permissionname,frontstate,functionstate,validtimestart,validtimeend,abort,status,num,surplusnum)
+		values
+		<foreach collection="list" item="obj" index="index" separator="," >
+		(#{obj.id},#{obj.operator},#{obj.createtime},#{obj.modifytime},#{obj.noti},#{obj.agentid},#{obj.permissionid},#{obj.permissionname},#{obj.frontstate},
+			#{obj.functionstate},#{obj.validtimestart},#{obj.validtimeend},#{obj.abort},#{obj.status},#{obj.num},#{obj.surplusnum})
+		</foreach>
+	</select>
+
+</mapper>

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzb.extra.entity">
+    <!-- INSBCommissionRate -->
+    <select id="INSBCommissionRate_insert" parameterType="com.zzb.extra.entity.INSBCommissionRate" resultType="int">
+		insert into INSBCommissionRate
+		(id,operator,createtime,modifytime,noti,agreementid,commissiontype,rate,effectivetime,terminaltime,status,remark,reminder,productcode,channelsource)
+		values
+		(#{id},#{operator},#{createtime},#{modifytime},#{noti},#{agreementid},#{commissiontype},#{rate},#{effectivetime},#{terminaltime},#{status},#{remark},#{reminder},#{productcode},#{channelsource})
+	</select>
+    <select id="queryCommissionRateList" parameterType="Map" resultType="Map">
+        select r.id,r.agreementid,r.rate,r.remark,r.commissiontype,r.status,ft.codename as commissiontypename,r.channelsource,r.reminder,CASE WHEN
+        r.status='1' THEN
+        '已启用' WHEN r.status='2' THEN '已关闭' ELSE '待审核' END AS statusname,
+        CASE WHEN r.productcode = 'minizzb' THEN DATE_FORMAT(r.effectivetime,'%Y-%m-%d')
+        ELSE DATE_FORMAT(r.effectivetime,'%Y-%m-%d %H:%i:%s') END AS effectivetime,
+        IFNULL(DATE_FORMAT(r.terminaltime,'%Y-%m-%d %H:%i:%s'),'') AS terminaltime,
+        DATE_FORMAT(r.effectivetime,'%Y-%m-%d') as channeleffectivetime,
+        IFNULL(DATE_FORMAT(r.terminaltime,'%Y-%m-%d'),NULL) as channelterminaltime,
+        DATE_FORMAT(r.createtime,'%Y-%m-%d %H:%i:%s') AS createtime
+        from INSBCommissionRate r
+        LEFT JOIN INSCcode ft ON ft.parentcode='market' and ft.codetype='commissionType' and
+        ft.codevalue=r.commissiontype
+        <where>
+            <if test="agreementid != null">
+                and r.agreementid = #{agreementid}
+            </if>
+            <if test="commissiontype != null  and commissiontype != ''">
+                and r.commissiontype = #{commissiontype}
+            </if>
+            <if test="effectivetime != null">
+                and r.effectivetime = #{effectivetime}
+            </if>
+            <if test="status != null and status != ''">
+                and r.status = #{status}
+            </if>
+            <if test="productcode != null">
+                and r.productcode = #{productcode}
+            </if>
+            <if test="channelsource != null and channelsource != ''">
+                and channelsource = #{channelsource}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and ( r.remark like CONCAT('%',#{keyword},'%') or r.id = #{keyword} )
+            </if>
+        </where>
+        ORDER BY
+        <if test="sort != null and order != null">
+            ${sort} ${order}
+        </if>
+        <if test="sort == null">
+            r.createtime desc
+        </if>
+        <if test="offset != null and limit != null">
+            LIMIT #{offset},#{limit}
+        </if>
+    </select>
+    <select id="INSBCommissionRate_selectById" parameterType="String"
+            resultType="com.zzb.extra.entity.INSBCommissionRate">
+		select * from INSBCommissionRate where id = #{id}
+	</select>
+    <select id="INSBCommissionRate_deleteById" parameterType="String">
+		delete from INSBCommissionRate where id = #{id}
+	</select>
+    <select id="INSBCommissionRate_updateById" parameterType="Map" resultType="int">
+		update INSBCommissionRate  set commissiontype = #{commissiontype},rate = #{rate},
+		effectivetime = #{effectivetime},terminaltime = #{terminaltime},
+		remark = #{remark},reminder = #{reminder},channelsource = #{channelsource}
+		where id = #{id}
+	</select>
+    <select id="INSBCommissionRate_updateStatusById" parameterType="Map" resultType="int">
+        update INSBCommissionRate  set status = #{status},operator = #{operator},modifytime = #{modifytime},
+        effectivetime = #{effectivetime},noti = #{noti}
+        <if test="terminaltime != null and terminaltime != ''">
+            ,terminaltime = #{terminaltime}
+        </if>
+        where id = #{id}
+    </select>
+    <select id="INSBCommissionRate_cleanCommissionRateStatus" parameterType="Map" resultType="int">
+        update INSBCommissionRate  set status = '2' where agreementid = #{agreementid} AND productcode = #{productcode} AND status = '1' AND DATE_FORMAT(IFNULL(terminaltime,'2100-1-1 23:59:59'),'%Y-%m-%d %H:%i:%s') &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
+    </select>
+    <select id="INSBCommissionRate_updateTerminalTimeByNoti" parameterType="Map" resultType="int">
+        update INSBCommissionRate  set operator = #{operator},modifytime = #{modifytime},
+         terminaltime = #{terminaltime}
+         where status!='2' AND id != #{id}
+        AND agreementid = #{agreementid} AND commissiontype = #{commissiontype}  AND noti = #{noti} AND productcode = #{productcode} AND channelsource = #{channelsource}
+        AND DATE_FORMAT(effectivetime,'%Y-%m-%d') &lt;= DATE_FORMAT(#{effectivetime},'%Y-%m-%d')
+        AND DATE_FORMAT(IFNULL(terminaltime,'2100-1-1 23:59:59'),'%Y-%m-%d %H:%i:%s') &gt;= DATE_FORMAT(#{effectivetime},'%Y-%m-%d  %H:%i:%s')
+    </select>
+    <select id="queryCommissionRateListCount" parameterType="Map" resultType="Long">
+        select count(1) from INSBCommissionRate
+        <where>
+            <if test="agreementid != null">
+                and agreementid = #{agreementid}
+            </if>
+            <if test="commissiontype != null and commissiontype != ''">
+                and commissiontype = #{commissiontype}
+            </if>
+            <if test="effectivetime != null">
+                and effectivetime = #{effectivetime}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="productcode != null">
+                and productcode = #{productcode}
+            </if>
+            <if test="channelsource != null and channelsource != ''">
+                and channelsource = #{channelsource}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and ( remark like CONCAT('%',#{keyword},'%') or id = #{keyword} )
+            </if>
+        </where>
+    </select>
+    <select id="INSBCommissionRate_selectOne" parameterType="Map" resultType="com.zzb.extra.entity.INSBCommissionRate">
+        select * from INSBCommissionRate
+        <where>
+            <if test="agreementid != null">
+                and agreementid = #{agreementid}
+            </if>
+            <if test="commissiontype != null">
+                and commissiontype = #{commissiontype}
+            </if>
+            <if test="rate != null">
+                and rate = #{rate}
+            </if>
+            <if test="effectivetime != null">
+                and effectivetime = #{effectivetime}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="productcode != null">
+                and productcode = #{productcode}
+            </if>
+            <if test="channelsource != null">
+                and channelsource = #{channelsource}
+            </if>
+        </where>
+        LIMIT 2
+    </select>
+    <select id="queryCommissionByAgreement" parameterType="Map" resultType="com.zzb.extra.entity.INSBCommissionRate">
+        select * from INSBCommissionRate
+        WHERE
+        agreementid=#{agreementid} AND productcode = #{productcode}
+        <if test="channelsource != null">
+            AND channelsource = #{channelsource}
+        </if>
+        AND status='1'
+        AND DATE_FORMAT(effectivetime,'%Y-%m-%d') &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d')
+        AND DATE_FORMAT(IFNULL(terminaltime,'2100-1-1 23:59:59'),'%Y-%m-%d %H:%i:%s') &gt; DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
+        ORDER BY effectivetime DESC,createtime DESC
+    </select>
+    <select id="queryCommissionByAgreementTest" parameterType="Map" resultType="com.zzb.extra.entity.INSBCommissionRate">
+        select * from INSBCommissionRate
+        WHERE
+        agreementid=#{agreementid} AND productcode = #{productcode}
+        <if test="channelsource != null">
+            AND channelsource = #{channelsource}
+        </if>
+        <if test="statuslist != null and statuslist != ''">
+            and status in
+            <foreach item="item" index="index" collection="statuslist" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        AND DATE_FORMAT(effectivetime,'%Y-%m-%d') &lt;= DATE_FORMAT(NOW(),'%Y-%m-%d')
+        AND DATE_FORMAT(IFNULL(terminaltime,'2100-1-1 23:59:59'),'%Y-%m-%d %H:%i:%s') &gt; DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
+        ORDER BY effectivetime DESC,createtime DESC
+    </select>
+    <select id="initAgreementList" resultType="Map">
+        SELECT DISTINCT p.prvcode AS id,'' AS pId,p.prvshotname AS name,'' AS agreementid,'' AS agreementcode,p.prvcode AS providerid,'true' AS isParent,'false' AS open
+        FROM insbagreement a LEFT JOIN insbprovider p ON p.prvcode=SUBSTR(a.providerid,1,4)
+        UNION ALL
+        SELECT a.id AS id, SUBSTR(a.providerid,1,4) AS pId,a.agreementname AS name,a.id AS agreementid, agreementcode, a.providerid,'false'AS isParent,'false' AS open
+        FROM insbagreement a
+        LEFT JOIN insbprovider p ON p.prvcode=a.providerid
+        ORDER BY CONVERT (name USING GBK)
+    </select>
+    <select id="queryCommissionProvider" parameterType="String" resultType="Map">
+        SELECT DISTINCT p.prvshotname as providerName,LEFT(a.providerid,4) as providerCode,a.agreementName,m.agreementId FROM insbcommissionrate m
+        LEFT JOIN insbagreement a ON m.agreementid=a.id
+        LEFT JOIN insbprovider p ON p.prvcode=LEFT(a.providerid,4)
+        WHERE m.productcode = #{productcode}
+        ORDER BY CONVERT(p.prvshotname USING GBK),CONVERT(a.agreementname USING GBK)
+    </select>
+
+    <select id="queryCommissionRateRule" parameterType="Map" resultType="Map">
+        SELECT DISTINCT cd.shortname
+        , topPrv.prvshotname as topPrvName
+        , b.providerid
+        , ifnull(b.agreementname,'') as agreementname
+        , ifnull(rate.commissiontype,'') as commissiontype
+        , case when rate.commissiontype='01' then '商业险' else '交强险' end as commissiontypecname
+        , rate.id as ruleid
+        , ifnull(rate.remark,'') as remark
+        , ifnull(rate.reminder,'') as reminder
+        , e.deptid5  as deptid
+        , rate.rate
+        , rate.agreementid
+        , date_format(rate.effectivetime,'%Y-%m-%d') as effectivetime
+        , rate.id
+        , ifnull(rate.noti,'') as noti
+        , date_format(rate.terminaltime,'%Y-%m-%d') as terminaltime
+        ,chn.channelinnercode as channelid
+        FROM insbagreement b
+        LEFT JOIN insbagreementprovider a ON a.providerid=b.providerid AND a.agreeid=b.id
+        LEFT JOIN insbchannelagreement d ON a.agreementid=d.id
+        LEFT JOIN insbagreementdept e on e.agreementid = d.id AND e.providerid = a.providerid
+        LEFT JOIN insbprovider p ON p.prvcode = a.providerid
+        LEFT JOIN inscdept cd ON cd.comcode = b.deptid
+        LEFT JOIN inscdept cd2 ON cd2.comcode = e.deptid5
+        LEFT JOIN insbprovider topPrv ON topPrv.prvcode = SUBSTR(p.prvcode, 1, 4)
+        LEFT JOIN insbagreementarea aar ON aar.agreementid = d.id
+        LEFT JOIN insbchannel chn ON chn.id = d.channelid
+        INNER JOIN insbcommissionrate rate on b.id = rate.agreementid
+        AND rate.`status`='1' and rate.effectivetime &lt;= NOW()
+        AND IFNULL(rate.terminaltime,NOW()) &gt;= NOW()
+        <where>
+            <if test="channelid != null  and channelid != ''">
+                AND chn.channelinnercode = #{channelid}
+                AND (chn.deleteflag != 0 OR chn.deleteflag IS NULL)
+                AND b.agreementstatus = '1'
+                AND d.agreementstatus = '1'
+            </if>
+            <if test="commissiontype != null  and commissiontype != ''">
+                and rate.commissiontype = #{commissiontype}
+            </if>
+            <if test="providerid != null  and providerid != ''">
+                and b.providerid = #{providerid}
+            </if>
+            <if test="shortname != null  and shortname != ''">
+                and cd.shortname = #{shortname}
+            </if>
+            <if test="deptid5 != null  and deptid5 != ''">
+                and cd.comcode = #{deptid5}
+            </if>
+            <if test="deptid != null  and deptid != ''">
+                and cd2.comcode = #{deptid}
+            </if>
+        </where>
+        ORDER BY
+        <if test="sort != null and order != null">
+            ${sort} ${order}
+        </if>
+        <if test="sort == null">
+            rate.createtime desc
+        </if>
+        <if test="offset != null and limit != null">
+            LIMIT #{offset},#{limit}
+        </if>
+    </select>
+
+    <select id="queryCommissionRateRuleCount" parameterType="Map" resultType="Long">
+        SELECT COUNT(1) FROM (
+        SELECT DISTINCT cd.shortname
+        , topPrv.prvshotname as topPrvName
+        , b.providerid
+        , ifnull(b.agreementname,'') as agreementname
+        , ifnull(rate.commissiontype,'') as commissiontype
+        , case when rate.commissiontype='01' then '商业险' else '交强险' end as commissiontypecname
+        , rate.id as ruleid
+        , ifnull(rate.remark,'') as remark
+        , ifnull(rate.reminder,'') as reminder
+        , e.deptid5  as deptid
+        , rate.rate
+        , rate.agreementid
+        , date_format(rate.effectivetime,'%Y-%m-%d') as effectivetime
+        , rate.id
+        , ifnull(rate.noti,'') as noti
+        , date_format(rate.terminaltime,'%Y-%m-%d') as terminaltime
+        ,chn.channelinnercode as channelid
+        FROM insbagreement b
+        LEFT JOIN insbagreementprovider a ON a.providerid=b.providerid AND a.agreeid=b.id
+        LEFT JOIN insbchannelagreement d ON a.agreementid=d.id
+        LEFT JOIN insbagreementdept e on e.agreementid = d.id AND e.providerid = a.providerid
+        LEFT JOIN insbprovider p ON p.prvcode = a.providerid
+        LEFT JOIN inscdept cd ON cd.comcode = b.deptid
+        LEFT JOIN inscdept cd2 ON cd2.comcode = e.deptid5
+        LEFT JOIN insbprovider topPrv ON topPrv.prvcode = SUBSTR(p.prvcode, 1, 4)
+        LEFT JOIN insbagreementarea aar ON aar.agreementid = d.id
+        LEFT JOIN insbchannel chn ON chn.id = d.channelid
+        INNER JOIN insbcommissionrate rate on b.id = rate.agreementid
+        AND rate.`status`='1' and rate.effectivetime &lt;= NOW()
+        AND IFNULL(rate.terminaltime,NOW()) &gt;= NOW()
+        <where>
+            <if test="channelid != null  and channelid != ''">
+                AND chn.channelinnercode = #{channelid}
+                AND (chn.deleteflag != 0 OR chn.deleteflag IS NULL)
+                AND b.agreementstatus = '1'
+                AND d.agreementstatus = '1'
+            </if>
+            <if test="commissiontype != null  and commissiontype != ''">
+                and rate.commissiontype = #{commissiontype}
+            </if>
+            <if test="providerid != null  and providerid != ''">
+                and b.providerid = #{providerid}
+            </if>
+            <if test="shortname != null  and shortname != ''">
+                and cd.shortname = #{shortname}
+            </if>
+            <if test="deptid5 != null  and deptid5 != ''">
+                and cd.comcode = #{deptid5}
+            </if>
+            <if test="deptid != null  and deptid != ''">
+                and cd2.comcode = #{deptid}
+            </if>
+        </where>
+        ) as temp
+    </select>
+
+</mapper>
