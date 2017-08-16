@@ -98,15 +98,21 @@ public class PackController {
     @ResponseBody
     public String JavaCompiler(HttpServletRequest request, PackBean packBean) {
         ObjectMapper mapper = new ObjectMapper();
-
         HashMap<String,String> map = new HashMap<String,String>();
-        map.put("status","0");
-        map.put("msg","编译成功");
+        List res = new ArrayList();
+        try {
+            res = this.packService.javaComplier(packBean);
+            map.put("status","0");
+            map.put("msg","编译成功");
+            map.put("data",res.toString());
+        } catch (Exception e) {
+            map.put("status","1");
+            map.put("msg","编译失败");
+            map.put("error",e.getMessage());
+            logger.error(e.getMessage(), e);
+        }
 
         String json = "";
-
-        map.put("status","1");
-        map.put("msg","编译成功11111");
 
         try
         {

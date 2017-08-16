@@ -96,6 +96,7 @@ public class PackService {
 
         try {
             System.out.println("开始获取更新文件....");
+            System.out.println(packBean.getGetTomcatLib());
             Date packTime = sdf.parse(packBean.getPacktime());
             System.out.println("更新日期:"+packBean.getPacktime()+"   getPropath:"+packBean.getPropath() + "    getSrcPath:"+packBean.getSrcPath()+"");
             //获取src文件

@@ -26,6 +26,9 @@ public class PackBean implements java.io.Serializable{
 
     private List<String> packFiles;
 
+    //时间:yyyy-MM-dd HH:mm:ss
+    private String getTomcatLib;
+
     public List<String> getPackFiles() {
         return packFiles;
     }
@@ -97,4 +100,13 @@ public class PackBean implements java.io.Serializable{
     public void setPacktime(String packtime) {
         this.packtime = packtime;
     }
+
+    public String getGetTomcatLib() {
+        return getTomcatLib;
+    }
+
+    public void setGetTomcatLib(String getTomcatLib) {
+        this.getTomcatLib = getTomcatLib;
+    }
+
 }
