@@ -94,30 +94,37 @@ public class PackController {
         return msg;
     }
 
-    @RequestMapping(value = "/JavaCompiler", produces = "application/json;text/html;charset=UTF-8")
+    @RequestMapping(value="/map", method=RequestMethod.POST,produces = "application/json;text/html;charset=UTF-8")
+    @ResponseBody
+    public String requestList(@RequestParam Map<String, Object> param) {
+        return "Request successful. Post param : Map - " + param;
+    }
+
+    @RequestMapping(value = "/JavaCompiler",method = RequestMethod.POST, produces = "application/json;text/html;charset=UTF-8")
     @ResponseBody
     public String JavaCompiler(HttpServletRequest request, PackBean packBean) {
         ObjectMapper mapper = new ObjectMapper();
         HashMap<String,String> map = new HashMap<String,String>();
         List res = new ArrayList();
+        map.put("res","");
+        logger.info("------------compile start-------------------");
         try {
             res = this.packService.javaComplier(packBean);
             map.put("status","0");
             map.put("msg","编译成功");
-            map.put("data",res.toString());
         } catch (Exception e) {
             map.put("status","1");
             map.put("msg","编译失败");
             map.put("error",e.getMessage());
             logger.error(e.getMessage(), e);
         }
-
+        logger.info("------------compile end-------------------");
         String json = "";
 
         try
         {
             json = mapper.writeValueAsString(map);
-            logger.info("返回JSON数据: "+json);
+            logger.info("转换JSON数据: "+json);
         }
         catch(Exception e)
         {
