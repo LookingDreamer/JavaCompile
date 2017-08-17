@@ -1,5 +1,7 @@
 package com.pack;
-
+import org.apache.commons.io.filefilter.FalseFileFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -16,6 +18,7 @@ import java.util.List;
  */
 @Service("packService")
 public class PackService {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public boolean packFiles(PackBean packBean) throws Exception{
         String propath = packBean.getPropath();
@@ -92,11 +95,19 @@ public class PackService {
 
     public List<String> javaComplier(PackBean packBean) throws Exception{
         List<String> fileList = new ArrayList<String>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        List<String> res = new ArrayList<String>();
+        logger.info("开始参数判断....");
+        String tomcatLib = packBean.getTomcatlib();
+        if (tomcatLib == ""){
+            logger.error("tomcat lib路径不能为空");
+            res.add("tomcat lib路径不能为空");
+            return  res;
+        }
+        logger.info("结束参数判断....");
 
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            System.out.println("开始获取更新文件....");
-            System.out.println(packBean.getGetTomcatLib());
             Date packTime = sdf.parse(packBean.getPacktime());
             System.out.println("更新日期:"+packBean.getPacktime()+"   getPropath:"+packBean.getPropath() + "    getSrcPath:"+packBean.getSrcPath()+"");
             //获取src文件
