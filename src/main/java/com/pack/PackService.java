@@ -1,6 +1,7 @@
 package com.pack;
 
 import org.apache.commons.io.filefilter.FalseFileFilter;
+import org.apache.commons.lang.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -305,6 +306,14 @@ public class PackService {
             result.put("javaClassFileCount",""+javaClassFileCount);
             String javaClassFile = StringUtils.join(javaClassFileList, ",");
             result.put("javaClassFile",javaClassFile);
+            String javaClassFileChangeJavaFile = javaClassFile.replace(".class", ".java");
+            String[] javaToClassFileList = new String[]{};
+            javaToClassFileList = javaClassFileChangeJavaFile.split(",");
+            logger.info("javaFileList:"+javaFileList);
+            System.out.println(javaFileList.toString());
+            logger.info("javaToClassFileList:"+javaToClassFileList);
+            System.out.println(javaToClassFileList.toString());
+
         }else{
             result.put("status", "90");
             result.put("msg", "编译失败");
