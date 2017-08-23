@@ -104,26 +104,32 @@ public class PackController {
     @ResponseBody
     public String JavaCompiler(HttpServletRequest request, PackBean packBean) {
         ObjectMapper mapper = new ObjectMapper();
-        HashMap<String,String> map = new HashMap<String,String>();
-        List res = new ArrayList();
-        map.put("res","");
+        HashMap<String,String> result = new HashMap<String,String>();
+        HashMap<String,List<Map<String, String>>> result2 = new HashMap<String,List<Map<String, String>>>();
+        Map<String, Object> all = new HashMap<String, Object>();
         logger.info("------------compile start-------------------");
         try {
-            res = this.packService.javaComplier(packBean);
-            map.put("status","0");
-            map.put("msg","编译成功");
+            result = this.packService.javaComplier(packBean);
+            logger.info("返回数据:"+result.toString());
         } catch (Exception e) {
-            map.put("status","1");
-            map.put("msg","编译失败");
-            map.put("error",e.getMessage());
+            result.put("status","2");
+            result.put("msg","编译异常");
+            result.put("error",e.getMessage());
             logger.error(e.getMessage(), e);
+            List<Map<String, String>> stackList = new ArrayList();
+            PackUtils.printCallStatck(e,stackList);
+            result2.put("stackList",stackList);
+            String errorString = PackUtils.getStackTrace(e);
+            result.put("stack",errorString);
         }
         logger.info("------------compile end-------------------");
+        all.put("result",result);
+        all.put("stack",result2);
         String json = "";
 
         try
         {
-            json = mapper.writeValueAsString(map);
+            json = mapper.writeValueAsString(all);
             logger.info("转换JSON数据: "+json);
         }
         catch(Exception e)

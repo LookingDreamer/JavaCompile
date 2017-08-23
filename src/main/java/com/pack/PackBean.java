@@ -25,9 +25,58 @@ public class PackBean implements java.io.Serializable{
     private String destPackPath ;
 
     private List<String> packFiles;
+    //tomcat lib路径
+    private String tomcatLib;
+    //第三方 lib路径
+    private String otherLib;
+    //source Path路径
+    private String sourcePath;
+    //outpath路径
+    private String outPath;
+    //pomFile路径
+    private String pomFile;
+    //javaFiles路径
+    private String javaFiles;
 
-    //时间:yyyy-MM-dd HH:mm:ss
-    private String getTomcatLib;
+    public String getJavaFiles() {
+        return javaFiles;
+    }
+
+    public void setJavaFiles(String javaFiles) {
+        this.javaFiles = javaFiles;
+    }
+
+    public String getTomcatLib() {
+        return tomcatLib;
+    }
+
+    public void setTomcatLib(String tomcatLib) {
+        this.tomcatLib = tomcatLib;
+    }
+
+    public String getOtherLib() {
+        return otherLib;
+    }
+
+    public void setOtherLib(String otherLib) {
+        this.otherLib = otherLib;
+    }
+
+    public String getSourcePath() {
+        return sourcePath;
+    }
+
+    public void setSourcePath(String sourcePath) {
+        this.sourcePath = sourcePath;
+    }
+
+    public String getOutPath() {
+        return outPath;
+    }
+
+    public void setOutPath(String outPath) {
+        this.outPath = outPath;
+    }
 
     public List<String> getPackFiles() {
         return packFiles;
@@ -99,14 +148,6 @@ public class PackBean implements java.io.Serializable{
 
     public void setPacktime(String packtime) {
         this.packtime = packtime;
-    }
-
-    public String getGetTomcatLib() {
-        return getTomcatLib;
-    }
-
-    public void setGetTomcatLib(String getTomcatLib) {
-        this.getTomcatLib = getTomcatLib;
     }
 
 }
