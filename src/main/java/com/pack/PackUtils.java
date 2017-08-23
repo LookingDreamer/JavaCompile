@@ -323,4 +323,18 @@ public class PackUtils {
     }
 
 
+    /**
+     * 判断是否是windows
+     * @author huanggaoming
+     * 2017-08-23
+     */
+    public static boolean  isWindowsTrue(){
+        String OS = System.getProperty("os.name").toLowerCase();
+        if (OS.indexOf("windows")>=0){
+            return  true;
+        }else{
+            return  false;
+        }
+    }
+
 }

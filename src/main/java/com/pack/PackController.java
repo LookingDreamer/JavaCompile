@@ -109,8 +109,11 @@ public class PackController {
         Map<String, Object> all = new HashMap<String, Object>();
         logger.info("------------compile start-------------------");
         try {
-            result = this.packService.javaComplier(packBean);
+            List<Map<String, String>> newstackList = new ArrayList();
+            result = this.packService.javaComplier(packBean,newstackList);
             logger.info("返回数据:"+result.toString());
+            logger.info("返回stack:"+newstackList);
+            result2.put("runstackList",newstackList);
         } catch (Exception e) {
             result.put("status","2");
             result.put("msg","编译异常");
