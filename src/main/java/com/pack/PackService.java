@@ -150,9 +150,9 @@ public class PackService {
             result.put("msg", "outPath路径不能为空");
             return result;
         }
-        if (!PackUtils.getDirectoryTrue(outPath)) {
+        File dir = new File(outPath);
+        if (!dir .exists()  && !dir .isDirectory() ) {
             logger.info("outPath:" + outPath + " 不存在,开始创建.");
-            File dir = new File(outPath);
             if (dir.mkdirs()) {
                 logger.info("创建目录" + outPath + "成功！");
             } else {
@@ -234,10 +234,10 @@ public class PackService {
                 logger.info(ofile.getPath()+"目录不为空,开始清空文件,包含文件个数："+files.length);
                 boolean success = PackUtils.deleteDir(ofile);
                 if (success) {
-                    logger.info("成功删除目录: " + outPath);
+                    logger.info("成功清空目录下文件: " + outPath);
                     ofile.mkdirs();
                 } else {
-                    logger.error("失败删除目录: " + outPath);
+                    logger.error("失败清空目录下文件: " + outPath);
                     result.put("status", "49");
                     result.put("msg", "失败删除目录: " + outPath);
                     return result;
@@ -310,9 +310,31 @@ public class PackService {
             String[] javaToClassFileList = new String[]{};
             javaToClassFileList = javaClassFileChangeJavaFile.split(",");
             logger.info("javaFileList:"+javaFileList);
-            System.out.println(javaFileList.toString());
             logger.info("javaToClassFileList:"+javaToClassFileList);
-            System.out.println(javaToClassFileList.toString());
+            String srcJavaToClassFile = javaFiles.replace(".java", ".class");
+            String[] srcJavaToClassFileList = new String[]{};
+            srcJavaToClassFileList = srcJavaToClassFile.split(",");
+            List<String> javaClassFileList1 = new ArrayList<String>();
+            javaClassFileList1  = javaClassFileList;
+            for ( String v :srcJavaToClassFileList){
+                File tempFile =new File( v.trim());
+                String fileName = tempFile.getName();
+                logger.info(fileName);
+                Iterator<String> sListIterator = javaClassFileList1.iterator();
+                while(sListIterator.hasNext()){
+                    String e = sListIterator.next();
+                    if(e.endsWith(fileName)){
+                        logger.info("删除相同的元素:"+e);
+                        sListIterator.remove();
+                    }
+                }
+
+            }
+            String dependClassCount = ""+javaClassFileList1.size();
+            String dependClass = StringUtils.join(javaClassFileList1, ",");
+            result.put("dependClassCount",dependClassCount);
+            result.put("dependClass",dependClass);
+            logger.info("依赖class数量:"+dependClassCount+"依赖class文件:"+dependClass);
 
         }else{
             result.put("status", "90");
