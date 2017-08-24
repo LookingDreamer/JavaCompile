@@ -57,7 +57,6 @@
           <element id="library" level="project" name="Maven: com.jcraft:jsch.agentproxy.pageant:0.0.7" />
           <element id="library" level="project" name="Maven: de.regnis.q.sequence:sequence-library:1.0.2" />
           <element id="library" level="project" name="Maven: com.trilead:trilead-ssh2:1.0.0-build217" />
-          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-configuration-processor:${spring-boot.version}" />
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.5" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.21" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-simple:1.7.21" />

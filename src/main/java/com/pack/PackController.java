@@ -81,15 +81,16 @@ import org.springframework.beans.factory.annotation.*;
 @Controller
 @RequestMapping("/packController")
 @Component
-//@Configuration
-//@ComponentScan(basePackages = { "com.pack" })
-//@PropertySource("classpath:application.properties")
-//@ConfigurationProperties(prefix="connection")
 public class PackController {
-    @Value("${svnUrl}") private String svnUrl;
 
-//    @Value("${svnUrl}")
-//    public String svnUrl;
+    @Value("${svn.url}")
+    public String svnUrl;
+    @Value("${svn.username}")
+    public String svnUsername;
+    @Value("${svn.password}")
+    public String svnPassword;
+    @Value("${svn.project_suffix}")
+    public String svnProjectSuffix;
 
     public String getSvnUrl() {
         return svnUrl;
@@ -316,6 +317,13 @@ public class PackController {
         return "compile finish! \r\nstatus: " + suc + " \n\rerror desc:\r\n" + desList;
     }
 
+    @RequestMapping(value = "/getconfig")
+    @ResponseBody
+    public String getconfig(HttpServletRequest request, PackBean packBean) throws IOException {
+        System.out.println("svn url config: " + svnUrl);
+        return  svnUrl;
+    }
+
 
     @RequestMapping(value = "/svnManage")
     @ResponseBody
@@ -367,6 +375,51 @@ public class PackController {
 
 
         return  "end";
+    }
+
+
+    @RequestMapping(value = "/getCommitInfo",method = RequestMethod.POST, produces = "application/json;text/html;charset=UTF-8")
+    @ResponseBody
+    public String getCommitInfo(HttpServletRequest request, PackBean packBean) {
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap<String,String> result = new HashMap<String,String>();
+        HashMap<String,List<Map<String, String>>> result2 = new HashMap<String,List<Map<String, String>>>();
+        Map<String, Object> all = new HashMap<String, Object>();
+        logger.info("------------getCommitInfo start-------------------");
+        List<Map<String, String>> newstackList = new ArrayList();
+        try {
+
+            result = this.packService.javaComplier(packBean,newstackList);
+            logger.info("返回数据:"+result.toString());
+            logger.info("返回stack:"+newstackList);
+            result2.put("runstackList",newstackList);
+        } catch (Exception e) {
+            result.put("status","2");
+            result.put("msg","编译异常");
+            result.put("error",e.getMessage());
+            logger.error(e.getMessage(), e);
+            List<Map<String, String>> stackList = new ArrayList();
+            PackUtils.printCallStatck(e,stackList);
+            result2.put("stackList",stackList);
+            String errorString = PackUtils.getStackTrace(e);
+            result.put("stack",errorString);
+        }
+        logger.info("------------getCommitInfo end-------------------");
+        all.put("result",result);
+        all.put("stack",result2);
+        String json = "";
+
+        try
+        {
+            json = mapper.writeValueAsString(all);
+            logger.info("转换JSON数据: "+json);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return json;
     }
 
 
