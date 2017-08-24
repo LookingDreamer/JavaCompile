@@ -43,6 +43,21 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.4.2" />
           <element id="library" level="project" name="Maven: org.codehaus.woodstox:stax2-api:3.1.4" />
           <element id="library" level="project" name="Maven: org.apache.directory.studio:org.apache.commons.lang:2.6" />
+          <element id="library" level="project" name="Maven: org.tmatesoft.svnkit:svnkit:1.8.5" />
+          <element id="library" level="project" name="Maven: com.jcraft:jsch.agentproxy.svnkit-trilead-ssh2:0.0.7" />
+          <element id="library" level="project" name="Maven: com.jcraft:jsch.agentproxy.core:0.0.7" />
+          <element id="library" level="project" name="Maven: net.java.dev.jna:jna:3.5.2" />
+          <element id="library" level="project" name="Maven: org.tmatesoft.sqljet:sqljet:1.1.10" />
+          <element id="library" level="project" name="Maven: org.antlr:antlr-runtime:3.4" />
+          <element id="library" level="project" name="Maven: net.java.dev.jna:platform:3.5.2" />
+          <element id="library" level="project" name="Maven: com.jcraft:jsch.agentproxy.connector-factory:0.0.7" />
+          <element id="library" level="project" name="Maven: com.jcraft:jsch.agentproxy.usocket-jna:0.0.7" />
+          <element id="library" level="project" name="Maven: com.jcraft:jsch.agentproxy.usocket-nc:0.0.7" />
+          <element id="library" level="project" name="Maven: com.jcraft:jsch.agentproxy.sshagent:0.0.7" />
+          <element id="library" level="project" name="Maven: com.jcraft:jsch.agentproxy.pageant:0.0.7" />
+          <element id="library" level="project" name="Maven: de.regnis.q.sequence:sequence-library:1.0.2" />
+          <element id="library" level="project" name="Maven: com.trilead:trilead-ssh2:1.0.0-build217" />
+          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-configuration-processor:${spring-boot.version}" />
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.5" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.21" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-simple:1.7.21" />

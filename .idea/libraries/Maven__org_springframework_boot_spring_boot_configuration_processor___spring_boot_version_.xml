@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.springframework.boot:spring-boot-configuration-processor:${spring-boot.version}">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/${spring-boot.version}/spring-boot-configuration-processor-${spring-boot.version}.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/${spring-boot.version}/spring-boot-configuration-processor-${spring-boot.version}-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/${spring-boot.version}/spring-boot-configuration-processor-${spring-boot.version}-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

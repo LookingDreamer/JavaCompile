@@ -43,13 +43,61 @@ import javax.servlet.http.*;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 
+import java.io.File;
+import org.tmatesoft.svn.core.SVNCommitInfo;
+import org.tmatesoft.svn.core.SVNDepth;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNNodeKind;
+import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
+import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
+import org.tmatesoft.svn.core.internal.io.fs.FSRepositoryFactory;
+import org.tmatesoft.svn.core.internal.io.svn.SVNRepositoryFactoryImpl;
+import org.tmatesoft.svn.core.internal.wc.DefaultSVNOptions;
+import org.tmatesoft.svn.core.io.SVNRepository;
+import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
+import org.tmatesoft.svn.core.wc.SVNClientManager;
+import org.tmatesoft.svn.core.wc.SVNRevision;
+import org.tmatesoft.svn.core.wc.SVNStatus;
+import org.tmatesoft.svn.core.wc.SVNUpdateClient;
+import org.tmatesoft.svn.core.wc.SVNWCUtil;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+
+import org.springframework.stereotype.*;
+import org.springframework.beans.factory.annotation.*;
+
 /**
  * author: cjianquan
  * date: 2016/9/2
  */
 @Controller
 @RequestMapping("/packController")
+@Component
+//@Configuration
+//@ComponentScan(basePackages = { "com.pack" })
+//@PropertySource("classpath:application.properties")
+//@ConfigurationProperties(prefix="connection")
 public class PackController {
+    @Value("${svnUrl}") private String svnUrl;
+
+//    @Value("${svnUrl}")
+//    public String svnUrl;
+
+    public String getSvnUrl() {
+        return svnUrl;
+    }
+
+    public void setSvnUrl(String svnUrl) {
+        this.svnUrl = svnUrl;
+    }
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -269,12 +317,61 @@ public class PackController {
     }
 
 
-
-    @RequestMapping(value = "/Compiler1")
+    @RequestMapping(value = "/svnManage")
     @ResponseBody
-    public String Compiler1(HttpServletRequest request, PackBean packBean) throws IOException {
+    public String svnManage(HttpServletRequest request, PackBean packBean) throws IOException {
+        System.out.println("svn url config: "+svnUrl);
+        String svnUrl = "http://10.68.3.85/svn/zhangzhongbao/branches/cm/requirement/cm";
+        String  username = "huanggaoming";
+        String  password = "baowang2015";
+        SVNClientManager clientManager = SVNUtil.authSvn(svnUrl, username, password);
+        if (null == clientManager) {
+            System.out.println("SVN login error! >>> url:" + svnUrl
+                    + " username:" + username + " password:" + password);
+            return "faild";
+        }
+
+        System.out.println("登陆成功");
+
+        // 注册一个更新事件处理器
+//        clientManager.getCommitClient().setEventHandler(new UpdateEventHandler());
+
+        SVNURL repositoryURL = null;
+        try {
+            // eg: http://svn.ambow.com/wlpt/bsp
+            repositoryURL = SVNURL.parseURIEncoded(svnUrl).appendPath("src", false);
+        } catch (SVNException e) {
+            System.out.println(""+e);
+            return "异常了";
+        }
+
+        String workspace ="C:\\Users\\Administrator\\Desktop\\svn";
+//        File ws = new File(workspace);
+//        if(!SVNWCUtil.isVersionedDirectory(ws)){
+//            SVNUtil.checkout(clientManager, repositoryURL, SVNRevision.HEAD, new File(workspace), SVNDepth.INFINITY);
+//        }else{
+//            SVNUtil.update(clientManager, ws, SVNRevision.HEAD, SVNDepth.INFINITY);
+//        }
+        //获取log信息
+
+        try
+        {
+            List<String> history = new ArrayList<String>();
+            history = SVNUtil.filterCommitHistoryTest();
+            logger.info(history.toString());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
         return  "end";
     }
+
+
+
+
 
 }
 

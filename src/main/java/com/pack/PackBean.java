@@ -1,11 +1,14 @@
 package com.pack;
 
+import org.springframework.context.annotation.Configuration;
+
 import java.util.List;
 
 /**
  * author: cjianquan
  * date: 2016/11/11
  */
+//@ConfigurationProperties(prefix = "svn")
 public class PackBean implements java.io.Serializable{
     //项目类型
     private String protype;

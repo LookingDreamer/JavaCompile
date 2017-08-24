@@ -14,6 +14,8 @@
     <mvc:annotation-driven />
     <context:annotation-config/>
     <context:component-scan base-package="com.pack"/>
+  <!--  <context:annotation-config/>
+    <context:component-scan base-package="com.pack"/>-->
 
     <mvc:resources mapping="/page/**" location="/page/" />
     <mvc:resources mapping="/css/**" location="/css/" />
@@ -90,5 +92,14 @@
     </bean>
 
     <bean id="packService" class="com.pack.PackService"></bean>
+
+    <bean id="prop" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+        <array>
+            <value>classpath:application.properties</value>
+        </array>
+        </property>
+    </bean>
+
 	
 </beans>
