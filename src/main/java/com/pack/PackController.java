@@ -80,7 +80,6 @@ import org.springframework.beans.factory.annotation.*;
  */
 @Controller
 @RequestMapping("/packController")
-@Component
 public class PackController {
 
     @Value("${svn.url}")
@@ -92,13 +91,6 @@ public class PackController {
     @Value("${svn.project_suffix}")
     public String svnProjectSuffix;
 
-    public String getSvnUrl() {
-        return svnUrl;
-    }
-
-    public void setSvnUrl(String svnUrl) {
-        this.svnUrl = svnUrl;
-    }
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -365,7 +357,8 @@ public class PackController {
         try
         {
             List<String> history = new ArrayList<String>();
-            history = SVNUtil.filterCommitHistoryTest();
+            List<Map<String, String>> commitList = new ArrayList();
+            history = SVNUtil.filterCommitHistory(packBean,commitList,"7");
             logger.info(history.toString());
         }
         catch(Exception e)
@@ -386,15 +379,18 @@ public class PackController {
         HashMap<String,List<Map<String, String>>> result2 = new HashMap<String,List<Map<String, String>>>();
         Map<String, Object> all = new HashMap<String, Object>();
         logger.info("------------getCommitInfo start-------------------");
-        List<Map<String, String>> newstackList = new ArrayList();
-        try {
+        List<Map<String, String>> commitList = new ArrayList();
+        //伪代码
+        long startTime=System.currentTimeMillis();   //获取开始时间
 
-            result = this.packService.javaComplier(packBean,newstackList);
+        try {
+            result = this.packService.getCommitInfo(packBean,commitList);
             logger.info("返回数据:"+result.toString());
-            logger.info("返回stack:"+newstackList);
-            result2.put("runstackList",newstackList);
+            logger.info("返回stack:"+commitList);
+            result2.put("commitList",commitList);
+            result.put("Count",commitList.size()+"");
         } catch (Exception e) {
-            result.put("status","2");
+            result.put("status","99");
             result.put("msg","编译异常");
             result.put("error",e.getMessage());
             logger.error(e.getMessage(), e);
@@ -405,6 +401,8 @@ public class PackController {
             result.put("stack",errorString);
         }
         logger.info("------------getCommitInfo end-------------------");
+        long endTime=System.currentTimeMillis(); //获取结束时间
+        result.put("takes",(endTime-startTime)+"ms");
         all.put("result",result);
         all.put("stack",result2);
         String json = "";

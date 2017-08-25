@@ -95,13 +95,5 @@
 
     <bean id="packService" class="com.pack.PackService"></bean>
 
-    <bean id="prop" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-        <property name="locations">
-        <array>
-            <value>classpath:application.properties</value>
-        </array>
-        </property>
-    </bean>
-
 	
 </beans>

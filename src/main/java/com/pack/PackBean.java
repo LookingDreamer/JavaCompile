@@ -39,6 +39,86 @@ public class PackBean implements java.io.Serializable{
     private String pomFile;
     //javaFiles路径
     private String javaFiles;
+    //svn url
+    private String svnUrl;
+    //svn 用户名
+    private String svnUsername;
+    //svn 密码
+    private String svnPassword;
+    //svn 项目相对路径
+    private String svnProjectSuffix;
+    //svn开始日期
+    private String startDate;
+     //svn结束日期
+    private String endDate;
+     //svn开始版本号
+    private String startRevision;
+     //svn结束版本号
+    private String endRevision;
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getStartRevision() {
+        return startRevision;
+    }
+
+    public void setStartRevision(String startRevision) {
+        this.startRevision = startRevision;
+    }
+
+    public String getEndRevision() {
+        return endRevision;
+    }
+
+    public void setEndRevision(String endRevision) {
+        this.endRevision = endRevision;
+    }
+
+    public String getSvnProjectSuffix() {
+        return svnProjectSuffix;
+    }
+
+    public void setSvnProjectSuffix(String svnProjectSuffix) {
+        this.svnProjectSuffix = svnProjectSuffix;
+    }
+
+    public String getSvnPassword() {
+        return svnPassword;
+    }
+
+    public void setSvnPassword(String svnPassword) {
+        this.svnPassword = svnPassword;
+    }
+
+    public String getSvnUsername() {
+        return svnUsername;
+    }
+
+    public void setSvnUsername(String svnUsername) {
+        this.svnUsername = svnUsername;
+    }
+
+    public String getSvnUrl() {
+        return svnUrl;
+    }
+
+    public void setSvnUrl(String svnUrl) {
+        this.svnUrl = svnUrl;
+    }
 
     public String getJavaFiles() {
         return javaFiles;

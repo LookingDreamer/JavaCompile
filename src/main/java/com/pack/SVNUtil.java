@@ -3,14 +3,11 @@ package com.pack;
 import java.io.File;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNDepth;
 import org.tmatesoft.svn.core.SVNException;
@@ -32,6 +29,7 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import org.tmatesoft.svn.core.ISVNLogEntryHandler;
 import org.tmatesoft.svn.core.SVNLogEntry;
+
 
 
 public class SVNUtil {
@@ -278,16 +276,57 @@ public class SVNUtil {
     }
 
 
-    public static  List<String> filterCommitHistoryTest() throws Exception {
+    public static  List<String> filterCommitHistory(PackBean packBean, final List<Map<String, String>> commitList,String svnIntervalDays) throws Exception {
 
         // 过滤条件
+        final List<String> res = new ArrayList<String>();
         final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        final Date begin = format.parse("2017-08-21");
-        final Date end = format.parse("2017-08-23");
+        String nowDate = format.format(new Date());
+        String startDate = packBean.getStartDate() ;
+        String endDate = packBean.getEndDate() ;
+        String svnstartRevision = packBean.getStartRevision() ;
+        String svnendRevision = packBean.getEndRevision() ;
+        logger.info("获取配置间隔天数: "+ svnIntervalDays);
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, - Integer.parseInt(svnIntervalDays) );
+        Date monday = c.getTime();
+        String preMonday = format.format(monday);
+        logger.info("获取当前日期:" + nowDate +" "+svnIntervalDays+ "天前的日期:"+preMonday);
+        final Date begin;
+        final Date end;
+        if (startDate == null || startDate.equals("")){
+            logger.info("开始日期:"+preMonday);
+            begin = format.parse(preMonday);
+        }else {
+            logger.info("从请求参数获取开始日期:"+startDate);
+            try {
+                begin = format.parse(startDate);
+            }catch (Exception e) {
+                logger.error("开始日期格式不正确");
+                res.add("2");
+                return  res;
+            }
+
+        }
+        if (endDate == null || endDate.equals("")){
+            logger.info("结束日期:"+nowDate);
+            end = format.parse(nowDate);
+        }else{
+            logger.info("从请求参数获取结束日期:"+endDate);
+            try {
+                end = format.parse(endDate);
+            }catch (Exception e) {
+                logger.error("结束日期格式不正确");
+                res.add("3");
+                return  res;
+            }
+
+        }
+
         final String author = "";
         long startRevision = 0;
         long endRevision = -1;//表示最后一个版本
-        final List<String> history = new ArrayList<String>();
+        int num = 0 ;
         //String[] 为过滤的文件路径前缀，为空表示不进行过滤
         repository.log(new String[]{""},
                 startRevision,
@@ -314,20 +353,35 @@ public class SVNUtil {
 
                     public void fillResult(SVNLogEntry svnlogentry) {
                         //getChangedPaths为提交的历史记录MAP key为文件名，value为文件详情
-                        System.out.println("getDate "+svnlogentry.getDate().toString());
-                        System.out.println("getAuthor "+svnlogentry.getAuthor().toString());
-                        System.out.println("getRevision "+svnlogentry.getRevision());
-                        System.out.println("getRevisionProperties "+svnlogentry.getRevisionProperties().toString());
-                        System.out.println("getMessage "+svnlogentry.getMessage().toString());
-                        System.out.println("getChangedPaths "+svnlogentry.getChangedPaths().toString());
-                        System.out.println("");
-                        history.addAll(svnlogentry.getChangedPaths().keySet());
+                        HashMap<String,String> commit = new HashMap<String,String>();
+                        logger.info("getDate "+svnlogentry.getDate().toString());
+                        logger.info("getAuthor "+svnlogentry.getAuthor().toString());
+                        logger.info("getRevision "+svnlogentry.getRevision());
+                        logger.info("getRevisionProperties "+svnlogentry.getRevisionProperties().toString());
+                        logger.info("getMessage "+svnlogentry.getMessage().toString());
+                        logger.info("getChangedPaths "+svnlogentry.getChangedPaths().toString());
+                        logger.info("");
+                        logger.info("");
+                        commit.put("Date",svnlogentry.getDate().toString());
+                        commit.put("Author ",svnlogentry.getAuthor().toString());
+                        commit.put("Revision ",svnlogentry.getRevision()+"");
+                        commit.put("Message ",svnlogentry.getMessage().toString());
+
+                        // 将Map Key 转化为Path List
+                        List<String> pathKeyList = new ArrayList<String>(svnlogentry.getChangedPaths().keySet());
+                        String pathsString = StringUtils.join(pathKeyList, ",");
+                        commit.put("Paths ",pathsString);
+                        commit.put("FileCount ",pathKeyList.size()+"");
+                        List<Object> pathValueList = new ArrayList<Object>(svnlogentry.getChangedPaths().values());
+                        String pathsValueString = StringUtils.join(pathValueList, ",");
+                        commit.put("PathsProperties ",pathsValueString);
+                        commitList.add(commit);
+                        logger.info("");
+
                     }
                 });
-        for (String path : history) {
-            System.out.println(path);
-        }
-        return  history;
+        res.add("1");
+        return  res;
     }
 
 }

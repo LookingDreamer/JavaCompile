@@ -4,6 +4,7 @@ import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.apache.commons.lang.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.rmi.CORBA.Util;
@@ -17,6 +18,9 @@ import java.util.*;
 import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.wc.SVNClientManager;
 
 /**
  * author: cjianquan
@@ -24,6 +28,18 @@ import org.apache.commons.lang.StringUtils;
  */
 @Service("packService")
 public class PackService {
+
+    @Value("${svn.url}")
+    public String svnUrl;
+    @Value("${svn.username}")
+    public String svnUsername;
+    @Value("${svn.password}")
+    public String svnPassword;
+    @Value("${svn.project_suffix}")
+    public String svnProjectSuffix;
+    @Value("${svn.interval_days}")
+    public  String svnIntervalDays;
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public boolean packFiles(PackBean packBean) throws Exception {
@@ -343,6 +359,75 @@ public class PackService {
         }
 
         return result;
+    }
+
+
+    public HashMap<String, String> getCommitInfo(PackBean packBean,List<Map<String, String>> commitList) throws Exception {
+        HashMap<String, String> result = new HashMap<String, String>();
+        List<String> fileList = new ArrayList<String>();
+        //如果没有传参则从配置文件获取缺省配置
+        logger.info("开始参数判断....");
+        String resvnUrl = packBean.getSvnUrl();
+        String resvnUsername = packBean.getSvnUsername();
+        String resvnPassword = packBean.getSvnPassword();
+        String resvnProjectSuffix = packBean.getSvnProjectSuffix();
+        if (resvnUrl == null || resvnUrl.equals("")) {
+            resvnUrl = svnUrl + svnProjectSuffix;
+        }
+        if (resvnUsername == null || resvnUsername.equals("")) {
+            resvnUsername = svnUsername;
+        }
+
+        if (resvnPassword == null || resvnPassword.equals("")) {
+            resvnPassword = svnPassword;
+        }
+
+        if (resvnProjectSuffix == null || resvnProjectSuffix.equals("")) {
+            resvnProjectSuffix = svnProjectSuffix;
+        }
+        logger.info("结束参数判断....");
+        logger.info("打印参数 resvnUrl:" + resvnUrl + " resvnUsername:" + resvnUsername + " resvnPassword:" + resvnPassword + " resvnProjectSuffix:" + resvnProjectSuffix );
+
+        SVNClientManager clientManager = SVNUtil.authSvn(resvnUrl, resvnUsername, resvnPassword);
+        if (clientManager == null || clientManager.equals("")) {
+            logger.error("登陆svn失败");
+            result.put("status", "6");
+            result.put("msg", "登陆svn失败");
+            return result;
+        }
+        logger.info("登陆svn成功");
+
+        try
+        {
+            logger.info("开始获取svn历史记录");
+            List<String> res = new ArrayList<String>();
+//            List<Map<String, String>> commitList = new ArrayList();
+            res = SVNUtil.filterCommitHistory(packBean,commitList,svnIntervalDays);
+            if (res.get(0) == "2"){
+                result.put("status","6");
+                result.put("msg","svn开始日期格式不正确");
+                return  result;
+            }
+            if (res.get(0) == "3"){
+                result.put("status","7");
+                result.put("msg","svn结束日期格式不正确");
+                return  result;
+            }
+            logger.info("结束获取svn历史记录");
+            result.put("status","1");
+            result.put("msg","获取成功");
+        }
+        catch(Exception e)
+        {
+            String errorString = PackUtils.getStackTrace(e);
+            result.put("stack",errorString);
+            logger.error("获取svn提交历史异常");
+            result.put("status", "8");
+            result.put("msg", "获取svn提交历史异常");
+            return result;
+        }
+        return result;
+
     }
 
 
