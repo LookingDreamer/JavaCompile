@@ -8,6 +8,7 @@ import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.support.incrementer.SybaseAnywhereMaxValueIncrementer;
 import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNDepth;
 import org.tmatesoft.svn.core.SVNException;
@@ -29,6 +30,7 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import org.tmatesoft.svn.core.ISVNLogEntryHandler;
 import org.tmatesoft.svn.core.SVNLogEntry;
+import java.lang.*;
 
 
 
@@ -281,9 +283,10 @@ public class SVNUtil {
         // 过滤条件
         final List<String> res = new ArrayList<String>();
         final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        final SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String nowDate = format.format(new Date());
-        String startDate = packBean.getStartDate() ;
-        String endDate = packBean.getEndDate() ;
+        final String startDate = packBean.getStartDate() ;
+        final String endDate = packBean.getEndDate() ;
         String svnstartRevision = packBean.getStartRevision() ;
         String svnendRevision = packBean.getEndRevision() ;
         logger.info("获取配置间隔天数: "+ svnIntervalDays);
@@ -294,39 +297,56 @@ public class SVNUtil {
         logger.info("获取当前日期:" + nowDate +" "+svnIntervalDays+ "天前的日期:"+preMonday);
         final Date begin;
         final Date end;
+        final String startDateString ;
+        final String endDateString ;
         if (startDate == null || startDate.equals("")){
             logger.info("开始日期:"+preMonday);
             begin = format.parse(preMonday);
+            startDateString = preMonday;
         }else {
             logger.info("从请求参数获取开始日期:"+startDate);
-            try {
-                begin = format.parse(startDate);
-            }catch (Exception e) {
+            startDateString = startDate;
+            if ( ! PackUtils.isValidDate(startDate)){
                 logger.error("开始日期格式不正确");
                 res.add("2");
                 return  res;
+            }else{
+                begin = format.parse(startDate);
+
             }
 
         }
         if (endDate == null || endDate.equals("")){
+            endDateString = nowDate;
             logger.info("结束日期:"+nowDate);
             end = format.parse(nowDate);
         }else{
             logger.info("从请求参数获取结束日期:"+endDate);
-            try {
-                end = format.parse(endDate);
-            }catch (Exception e) {
+            endDateString = endDate ;
+            if (!PackUtils.isValidDate(endDate)){
                 logger.error("结束日期格式不正确");
                 res.add("3");
                 return  res;
+            }else{
+                end = format.parse(endDate);
+
             }
 
         }
 
         final String author = "";
-        long startRevision = 0;
-        long endRevision = -1;//表示最后一个版本
-        int num = 0 ;
+        long startRevision ;
+        long endRevision ;//表示最后一个版本
+        if (svnstartRevision == null || svnstartRevision.equals("")){
+            startRevision = 0;
+        }else{
+            startRevision = Long.parseLong(svnstartRevision);
+        }
+        if (svnendRevision == null || svnendRevision.equals("")){
+            endRevision = -1;//表示最后一个版本
+        }else{
+            endRevision = Long.parseLong(svnstartRevision);
+        }
         //String[] 为过滤的文件路径前缀，为空表示不进行过滤
         repository.log(new String[]{""},
                 startRevision,
@@ -354,7 +374,6 @@ public class SVNUtil {
                     public void fillResult(SVNLogEntry svnlogentry) {
                         //getChangedPaths为提交的历史记录MAP key为文件名，value为文件详情
                         HashMap<String,String> commit = new HashMap<String,String>();
-                        logger.info("getDate "+svnlogentry.getDate().toString());
                         logger.info("getAuthor "+svnlogentry.getAuthor().toString());
                         logger.info("getRevision "+svnlogentry.getRevision());
                         logger.info("getRevisionProperties "+svnlogentry.getRevisionProperties().toString());
@@ -362,19 +381,22 @@ public class SVNUtil {
                         logger.info("getChangedPaths "+svnlogentry.getChangedPaths().toString());
                         logger.info("");
                         logger.info("");
-                        commit.put("Date",svnlogentry.getDate().toString());
-                        commit.put("Author ",svnlogentry.getAuthor().toString());
-                        commit.put("Revision ",svnlogentry.getRevision()+"");
-                        commit.put("Message ",svnlogentry.getMessage().toString());
+//                        commit.put("Date",svnlogentry.getDate().toString());
+                        commit.put("Date",formatDate.format(svnlogentry.getDate()));
+                        commit.put("Author",svnlogentry.getAuthor().toString());
+                        commit.put("Revision",svnlogentry.getRevision()+"");
+                        commit.put("Message",svnlogentry.getMessage().toString());
 
                         // 将Map Key 转化为Path List
                         List<String> pathKeyList = new ArrayList<String>(svnlogentry.getChangedPaths().keySet());
                         String pathsString = StringUtils.join(pathKeyList, ",");
-                        commit.put("Paths ",pathsString);
-                        commit.put("FileCount ",pathKeyList.size()+"");
+                        commit.put("Paths",pathsString);
+                        commit.put("FileCount",pathKeyList.size()+"");
                         List<Object> pathValueList = new ArrayList<Object>(svnlogentry.getChangedPaths().values());
                         String pathsValueString = StringUtils.join(pathValueList, ",");
-                        commit.put("PathsProperties ",pathsValueString);
+                        commit.put("PathsProperties",pathsValueString);
+                        commit.put("startDate",startDateString);
+                        commit.put("endDate",endDateString);
                         commitList.add(commit);
                         logger.info("");
 
