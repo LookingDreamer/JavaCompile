@@ -599,6 +599,7 @@ public class PackService {
         List<String> javaFileLists = new ArrayList<String>();
         List<String> resourcesFileLists = new ArrayList<String>();
         List<String> webappFileLists = new ArrayList<String>();
+        List<String> otherFileLists = new ArrayList<String>();
         Integer totalFileCount = 0;
         for( Map<String, String> commit : commitList){
             String Paths = commit.get("Paths");
@@ -611,9 +612,9 @@ public class PackService {
                     String arrayPath[] = path.split(svnProjectSuffix);
                     String realPath = propath + arrayPath[1];
                     File sfile = new File(realPath);
-                    logger.info("组合路径:" + realPath);
+                    logger.info("java组合路径:" + realPath);
                     if (sfile.isFile() == false){
-                        logger.info("组合路径:" + realPath + "文件不存在.");
+                        logger.info("java组合路径:" + realPath + "文件不存在.");
                         result.put("status", "88");
                         result.put("msg", "文件路径:"+realPath+"不存在");
                         return result;
@@ -621,11 +622,72 @@ public class PackService {
                     }
                     javaFileLists.add(realPath);
                 }
+                //处理/src/main/resources/
+                String resourcesPattern = ".*"+resourcesPath+".*";
+                if (Pattern.matches(resourcesPattern, path)){
+                    String arrayPath[] = path.split(svnProjectSuffix);
+                    String realPath = propath + arrayPath[1];
+                    File sfile = new File(realPath);
+                    logger.info("resources组合路径:" + realPath);
+                    if (sfile.isFile() == false){
+                        logger.info("resources组合路径:" + realPath + "文件不存在.");
+                        result.put("status", "87");
+                        result.put("msg", "文件路径:"+realPath+"不存在");
+                        return result;
+
+                    }
+                    resourcesFileLists.add(realPath);
+                }
+                //处理/src/main/webapp/
+                String webappPattern = ".*"+wrPath+".*";
+                if (Pattern.matches(webappPattern, path)){
+                    String arrayPath[] = path.split(svnProjectSuffix);
+                    String realPath = propath + arrayPath[1];
+                    File sfile = new File(realPath);
+                    logger.info("webapp组合路径:" + realPath);
+                    if (sfile.isFile() == false){
+                        logger.info("webapp组合路径:" + realPath + "文件不存在.");
+                        result.put("status", "86");
+                        result.put("msg", "文件路径:"+realPath+"不存在");
+                        return result;
+
+                    }
+                    webappFileLists.add(realPath);
+                }
+                //处理非标准目录
+                if (Pattern.matches(webappPattern, path) == false &&  Pattern.matches(resourcesPattern, path)  == false && Pattern.matches(pattern, path) == false ){
+                    String arrayPath[] = path.split(svnProjectSuffix);
+                    String realPath = propath + arrayPath[1];
+                    File sfile = new File(realPath);
+                    logger.info("other组合路径:" + realPath);
+                    if (sfile.isFile() == false){
+                        logger.info("other组合路径:" + realPath + "文件不存在.");
+                        result.put("status", "85");
+                        result.put("msg", "文件路径:"+realPath+"不存在");
+                        return result;
+
+                    }
+                    otherFileLists.add(realPath);
+                }
             }
-            totalFileCount = totalFileCount + 1 ;
+            int nextCount=Integer.parseInt(FileCount);
+            totalFileCount = totalFileCount + nextCount ;
 
 
         }
+
+        int totaljavaFilesCount = javaFileLists.size() ;
+        int totalresourcesFilesCount = resourcesFileLists.size();
+        int totalwebappFilesCount = webappFileLists.size() ;
+        int totalotherFilesCount = otherFileLists.size() ;
+        result.put("FileCount",totalFileCount+"");
+        result.put("javaFilesCount",totaljavaFilesCount+"");
+        result.put("resourcesFilesCount",totalresourcesFilesCount+"");
+        result.put("webappFilesCount",totalwebappFilesCount+"");
+        result.put("otherFilesCount",totalotherFilesCount+"");
+        String revisionsList[] = revisions.split(",");
+        result.put("requestRevisionsCount",revisionsList.length+"");
+        logger.info("totalFileCount: "+totalFileCount +" javaFilesCount:"+totaljavaFilesCount+" resourcesFilesCount:" +totalresourcesFilesCount+" webappFilesCount:" + totalwebappFilesCount +" otherFilesCount:"+totalotherFilesCount);
 
 
         return result;
