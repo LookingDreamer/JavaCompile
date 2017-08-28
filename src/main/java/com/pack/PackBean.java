@@ -13,15 +13,15 @@ public class PackBean implements java.io.Serializable{
     private String protype;
     //项目路径
     private String propath;
-    //WebRoot路径(相对于项目路径)
+    //WebRoot路径(相对于项目路径) webapp eg: /src/main/webapp
     private String wrPath;
-    //class编译路径(相对于项目路径)
+    //class编译路径(相对于项目路径) class路径
     private String compilePath;
     //时间:yyyy-MM-dd HH:mm:ss
     private String packtime;
-    //源码路径(相对于项目路径)
+    //源码路径(相对于项目路径) java路径 eg: /src/main/java
     private String srcPath;
-    //配置资料文件路径(相对于项目路径)
+    //配置资料文件路径(相对于项目路径) resource路径 eg: /src/main/resources
     private String resourcesPath;
     //打包后目的目录
     private String destPackPath ;
@@ -55,6 +55,24 @@ public class PackBean implements java.io.Serializable{
     private String startRevision;
      //svn结束版本号
     private String endRevision;
+    //版本号列表,以,作为分隔符号
+    private String Revisions;
+
+    public String getRevisions() {
+        return Revisions;
+    }
+
+    public void setRevisions(String revisions) {
+        Revisions = revisions;
+    }
+
+    public String getPomFile() {
+        return pomFile;
+    }
+
+    public void setPomFile(String pomFile) {
+        this.pomFile = pomFile;
+    }
 
     public String getStartDate() {
         return startDate;

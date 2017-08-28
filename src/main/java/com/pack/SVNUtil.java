@@ -289,6 +289,7 @@ public class SVNUtil {
         final String endDate = packBean.getEndDate() ;
         String svnstartRevision = packBean.getStartRevision() ;
         String svnendRevision = packBean.getEndRevision() ;
+        String Revisions = packBean.getRevisions() ;
         logger.info("获取配置间隔天数: "+ svnIntervalDays);
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DATE, - Integer.parseInt(svnIntervalDays) );
@@ -347,61 +348,164 @@ public class SVNUtil {
         }else{
             endRevision = Long.parseLong(svnstartRevision);
         }
-        //String[] 为过滤的文件路径前缀，为空表示不进行过滤
-        repository.log(new String[]{""},
-                startRevision,
-                endRevision,
-                true,
-                true,
-                new ISVNLogEntryHandler() {
-                    @Override
-                    public void handleLogEntry(SVNLogEntry svnlogentry)
-                            throws SVNException {
-                        //依据提交时间进行过滤
-                        if (svnlogentry.getDate().after(begin)
-                                && svnlogentry.getDate().before(end)) {
-                            // 依据提交人过滤
-                            if (!"".equals(author)) {
-                                if (author.equals(svnlogentry.getAuthor())) {
+
+
+        if (Revisions == null || Revisions.equals("")) {
+            //String[] 为过滤的文件路径前缀，为空表示不进行过滤
+            repository.log(new String[]{""},
+                    startRevision,
+                    endRevision,
+                    true,
+                    true,
+                    new ISVNLogEntryHandler() {
+                        @Override
+                        public void handleLogEntry(SVNLogEntry svnlogentry)
+                                throws SVNException {
+                            //依据提交时间进行过滤
+                            if (svnlogentry.getDate().after(begin)
+                                    && svnlogentry.getDate().before(end)) {
+                                // 依据提交人过滤
+                                if (!"".equals(author)) {
+                                    if (author.equals(svnlogentry.getAuthor())) {
+                                        fillResult(svnlogentry);
+                                    }
+                                } else {
                                     fillResult(svnlogentry);
                                 }
-                            } else {
-                                fillResult(svnlogentry);
                             }
                         }
-                    }
 
-                    public void fillResult(SVNLogEntry svnlogentry) {
-                        //getChangedPaths为提交的历史记录MAP key为文件名，value为文件详情
-                        HashMap<String,String> commit = new HashMap<String,String>();
-                        logger.info("getAuthor "+svnlogentry.getAuthor().toString());
-                        logger.info("getRevision "+svnlogentry.getRevision());
-                        logger.info("getRevisionProperties "+svnlogentry.getRevisionProperties().toString());
-                        logger.info("getMessage "+svnlogentry.getMessage().toString());
-                        logger.info("getChangedPaths "+svnlogentry.getChangedPaths().toString());
-                        logger.info("");
-                        logger.info("");
+                        public void fillResult(SVNLogEntry svnlogentry) {
+                            //getChangedPaths为提交的历史记录MAP key为文件名，value为文件详情
+                            HashMap<String, String> commit = new HashMap<String, String>();
+                            logger.info("getAuthor " + svnlogentry.getAuthor().toString());
+                            logger.info("getRevision " + svnlogentry.getRevision());
+                            logger.info("getRevisionProperties " + svnlogentry.getRevisionProperties().toString());
+                            logger.info("getMessage " + svnlogentry.getMessage().toString());
+                            logger.info("getChangedPaths " + svnlogentry.getChangedPaths().toString());
+                            logger.info("");
+                            logger.info("");
 //                        commit.put("Date",svnlogentry.getDate().toString());
-                        commit.put("Date",formatDate.format(svnlogentry.getDate()));
-                        commit.put("Author",svnlogentry.getAuthor().toString());
-                        commit.put("Revision",svnlogentry.getRevision()+"");
-                        commit.put("Message",svnlogentry.getMessage().toString());
+                            commit.put("Date", formatDate.format(svnlogentry.getDate()));
+                            commit.put("Author", svnlogentry.getAuthor().toString());
+                            commit.put("Revision", svnlogentry.getRevision() + "");
+                            commit.put("Message", svnlogentry.getMessage().toString());
 
-                        // 将Map Key 转化为Path List
-                        List<String> pathKeyList = new ArrayList<String>(svnlogentry.getChangedPaths().keySet());
-                        String pathsString = StringUtils.join(pathKeyList, ",");
-                        commit.put("Paths",pathsString);
-                        commit.put("FileCount",pathKeyList.size()+"");
-                        List<Object> pathValueList = new ArrayList<Object>(svnlogentry.getChangedPaths().values());
-                        String pathsValueString = StringUtils.join(pathValueList, ",");
-                        commit.put("PathsProperties",pathsValueString);
-                        commit.put("startDate",startDateString);
-                        commit.put("endDate",endDateString);
-                        commitList.add(commit);
-                        logger.info("");
+                            // 将Map Key 转化为Path List
+                            List<String> pathKeyList = new ArrayList<String>(svnlogentry.getChangedPaths().keySet());
+                            String pathsString = StringUtils.join(pathKeyList, ",");
+                            List<String> javaList = new ArrayList<String>();
+                            List<String> noJavaList = new ArrayList<String>();
+                            for ( String path : pathKeyList ){
+                                if ( path.endsWith(".java")){
+                                    javaList.add(path);
+                                }else{
+                                    noJavaList.add(path);
+                                }
+                            }
+                            String javapathsString = StringUtils.join(javaList, ",");
+                            String nojavapathsString = StringUtils.join(noJavaList, ",");
+                            commit.put("javaPaths", javapathsString);
+                            commit.put("noJavaPaths", nojavapathsString);
+                            commit.put("Paths", pathsString);
+                            commit.put("javaFileCount", javaList.size() + "");
+                            commit.put("noJavaFileCount", noJavaList.size() + "");
+                            commit.put("FileCount", pathKeyList.size() + "");
+                            List<Object> pathValueList = new ArrayList<Object>(svnlogentry.getChangedPaths().values());
+                            String pathsValueString = StringUtils.join(pathValueList, ",");
+                            commit.put("PathsProperties", pathsValueString);
+                            commit.put("startDate", startDateString);
+                            commit.put("endDate", endDateString);
+                            commitList.add(commit);
+                            logger.info("");
 
-                    }
-                });
+                        }
+                    });
+        }else{
+            //根据版本号进行过滤
+            //转换Revisions为list
+            String[] revisionsList = new String[]{};
+            revisionsList = Revisions.split(",");
+            for ( String revision : revisionsList){
+                int revi=Integer.parseInt(revision);
+                logger.info("版本号: "+revi);
+                startRevision = revi;
+                endRevision = revi;
+                //String[] 为过滤的文件路径前缀，为空表示不进行过滤
+                repository.log(new String[]{""},
+                        startRevision,
+                        endRevision,
+                        true,
+                        true,
+                        new ISVNLogEntryHandler() {
+                            @Override
+                            public void handleLogEntry(SVNLogEntry svnlogentry)
+                                    throws SVNException {
+                                //依据提交时间进行过滤
+                                if (svnlogentry.getDate().after(begin)
+                                        && svnlogentry.getDate().before(end)) {
+                                    // 依据提交人过滤
+                                    if (!"".equals(author)) {
+                                        if (author.equals(svnlogentry.getAuthor())) {
+                                            fillResult(svnlogentry);
+                                        }
+                                    } else {
+                                        fillResult(svnlogentry);
+                                    }
+                                }
+                            }
+
+                            public void fillResult(SVNLogEntry svnlogentry) {
+                                //getChangedPaths为提交的历史记录MAP key为文件名，value为文件详情
+                                HashMap<String, String> commit = new HashMap<String, String>();
+                                logger.info("getAuthor " + svnlogentry.getAuthor().toString());
+                                logger.info("getRevision " + svnlogentry.getRevision());
+                                logger.info("getRevisionProperties " + svnlogentry.getRevisionProperties().toString());
+                                logger.info("getMessage " + svnlogentry.getMessage().toString());
+                                logger.info("getChangedPaths " + svnlogentry.getChangedPaths().toString());
+                                logger.info("");
+                                logger.info("");
+//                        commit.put("Date",svnlogentry.getDate().toString());
+                                commit.put("Date", formatDate.format(svnlogentry.getDate()));
+                                commit.put("Author", svnlogentry.getAuthor().toString());
+                                commit.put("Revision", svnlogentry.getRevision() + "");
+                                commit.put("Message", svnlogentry.getMessage().toString());
+
+                                // 将Map Key 转化为Path List
+                                List<String> pathKeyList = new ArrayList<String>(svnlogentry.getChangedPaths().keySet());
+                                String pathsString = StringUtils.join(pathKeyList, ",");
+                                List<String> javaList = new ArrayList<String>();
+                                List<String> noJavaList = new ArrayList<String>();
+                                for ( String path : pathKeyList ){
+                                    if ( path.endsWith(".java")){
+                                        javaList.add(path);
+                                    }else{
+                                        noJavaList.add(path);
+                                    }
+                                }
+                                String javapathsString = StringUtils.join(javaList, ",");
+                                String nojavapathsString = StringUtils.join(noJavaList, ",");
+                                commit.put("javaPaths", javapathsString);
+                                commit.put("noJavaPaths", nojavapathsString);
+                                commit.put("Paths", pathsString);
+                                commit.put("javaFileCount", javaList.size() + "");
+                                commit.put("noJavaFileCount", noJavaList.size() + "");
+                                commit.put("FileCount", pathKeyList.size() + "");
+                                List<Object> pathValueList = new ArrayList<Object>(svnlogentry.getChangedPaths().values());
+                                String pathsValueString = StringUtils.join(pathValueList, ",");
+                                commit.put("PathsProperties", pathsValueString);
+                                commit.put("startDate", startDateString);
+                                commit.put("endDate", endDateString);
+                                commitList.add(commit);
+                                logger.info("");
+
+                            }
+                        });
+
+            }
+
+
+        }
         res.add("1");
         return  res;
     }

@@ -380,7 +380,6 @@ public class PackController {
         Map<String, Object> all = new HashMap<String, Object>();
         logger.info("------------getCommitInfo start-------------------");
         List<Map<String, String>> commitList = new ArrayList();
-        //伪代码
         long startTime=System.currentTimeMillis();   //获取开始时间
 
         try {
@@ -391,7 +390,7 @@ public class PackController {
             result.put("Count",commitList.size()+"");
         } catch (Exception e) {
             result.put("status","99");
-            result.put("msg","编译异常");
+            result.put("msg","获取提交历史异常");
             result.put("error",e.getMessage());
             logger.error(e.getMessage(), e);
             List<Map<String, String>> stackList = new ArrayList();
@@ -420,6 +419,53 @@ public class PackController {
         return json;
     }
 
+
+
+    @RequestMapping(value = "/runCompiler",method = RequestMethod.POST, produces = "application/json;text/html;charset=UTF-8")
+    @ResponseBody
+    public String runCompiler(HttpServletRequest request, PackBean packBean) {
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap<String,String> result = new HashMap<String,String>();
+        HashMap<String,List<Map<String, String>>> result2 = new HashMap<String,List<Map<String, String>>>();
+        Map<String, Object> all = new HashMap<String, Object>();
+        long startTime=System.currentTimeMillis();   //获取开始时间
+        logger.info("------------run compile start-------------------");
+        try {
+            List<Map<String, String>> commitList = new ArrayList();
+            result = this.packService.runComplier(packBean,commitList);
+            logger.info("返回数据:"+result.toString());
+            logger.info("返回stack:"+commitList);
+            result2.put("commitList",commitList);
+        } catch (Exception e) {
+            result.put("status","22");
+            result.put("msg","编译异常");
+            result.put("error",e.getMessage());
+            logger.error(e.getMessage(), e);
+            List<Map<String, String>> stackList = new ArrayList();
+            PackUtils.printCallStatck(e,stackList);
+            result2.put("stackList",stackList);
+            String errorString = PackUtils.getStackTrace(e);
+            result.put("stack",errorString);
+        }
+        logger.info("------------run compile end-------------------");
+        long endTime=System.currentTimeMillis(); //获取结束时间
+        result.put("takes",(endTime-startTime)+"ms");
+        all.put("result",result);
+        all.put("stack",result2);
+        String json = "";
+
+        try
+        {
+            json = mapper.writeValueAsString(all);
+            logger.info("转换JSON数据: "+json);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return json;
+    }
 
 
 

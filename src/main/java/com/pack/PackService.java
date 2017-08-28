@@ -18,9 +18,13 @@ import java.util.*;
 import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
+import org.tmatesoft.svn.core.SVNDepth;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.wc.SVNClientManager;
+import org.tmatesoft.svn.core.wc.SVNRevision;
+import org.tmatesoft.svn.core.wc.SVNWCUtil;
+import java.util.regex.*;
 
 /**
  * author: cjianquan
@@ -39,7 +43,12 @@ public class PackService {
     public String svnProjectSuffix;
     @Value("${svn.interval_days}")
     public  String svnIntervalDays;
-
+    @Value("${src.java}")
+    public String srcJava;
+    @Value("${src.resources}")
+    public String srcResources;
+    @Value("${src.webapp}")
+    public String srcWebapp;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public boolean packFiles(PackBean packBean) throws Exception {
@@ -428,6 +437,198 @@ public class PackService {
         }
         return result;
 
+    }
+
+
+
+    public HashMap<String, String> updateSvnDirectory(PackBean packBean,List<Map<String, String>> commitList) throws Exception {
+        HashMap<String, String> result = new HashMap<String, String>();
+        List<String> fileList = new ArrayList<String>();
+        //如果没有传参则从配置文件获取缺省配置
+        logger.info("开始参数判断....");
+        String resvnUrl = packBean.getSvnUrl();
+        String resvnUsername = packBean.getSvnUsername();
+        String resvnPassword = packBean.getSvnPassword();
+        String resvnProjectSuffix = packBean.getSvnProjectSuffix();
+        String propath = packBean.getPropath();
+        String revisions = packBean.getRevisions();
+        String wrPath = packBean.getWrPath();
+        String srcPath = packBean.getSrcPath();
+        String resourcesPath = packBean.getResourcesPath();
+        if (propath == null || propath.equals("")) {
+            logger.error("propath路径不能为空");
+            result.put("status", "10");
+            result.put("msg", "propath路径不能为空");
+            return result;
+        }
+        if (revisions == null || revisions.equals("")) {
+            logger.error("revisions不能为空");
+            result.put("status", "11");
+            result.put("msg", "revisions不能为空");
+            return result;
+        }
+
+        File rfile = new File(propath);
+        if (!rfile.exists()  && !rfile.isDirectory() ) {
+            logger.info("propath:" + propath + " 不存在,开始创建.");
+            if (rfile.mkdirs()) {
+                logger.info("创建目录" + propath + "成功！");
+            } else {
+                logger.error("创建目录" + propath + "失败！");
+                result.put("status", "29");
+                result.put("msg", "创建目录" + propath + "失败！");
+                return result;
+            }
+
+        }else{
+            logger.info("本地项目路径:"+propath+"已经存在");
+        }
+        if (resvnUrl == null || resvnUrl.equals("")) {
+            resvnUrl = svnUrl ;
+        }
+        if (resvnUsername == null || resvnUsername.equals("")) {
+            resvnUsername = svnUsername;
+        }
+
+        if (resvnPassword == null || resvnPassword.equals("")) {
+            resvnPassword = svnPassword;
+        }
+
+        if (resvnProjectSuffix == null || resvnProjectSuffix.equals("")) {
+            resvnProjectSuffix = svnProjectSuffix;
+        }
+        logger.info("结束参数判断....");
+        logger.info("打印参数 resvnUrl:" + resvnUrl + " resvnUsername:" + resvnUsername + " resvnPassword:" + resvnPassword + " resvnProjectSuffix:" + resvnProjectSuffix );
+
+        SVNClientManager clientManager = SVNUtil.authSvn(resvnUrl, resvnUsername, resvnPassword);
+        if (clientManager == null || clientManager.equals("")) {
+            logger.error("登陆svn失败");
+            result.put("status", "16");
+            result.put("msg", "登陆svn失败");
+            return result;
+        }
+        logger.info("登陆svn成功");
+
+        try
+        {
+            logger.info("开始更新svn");
+            List<String> res = new ArrayList<String>();
+            SVNURL repositoryURL = null;
+            try {
+                repositoryURL = SVNURL.parseURIEncoded(resvnUrl).appendPath(svnProjectSuffix, false);
+            } catch (SVNException e) {
+                System.out.println(""+e);
+                logger.error("设置svn项目路径异常");
+                result.put("status", "7");
+                result.put("msg", "设置svn项目路径异常");
+                return result;
+            }
+
+            File ws = new File(propath);
+            if(!SVNWCUtil.isVersionedDirectory(ws)){
+                logger.info("svn版本不存在,开始checkout");
+                SVNUtil.checkout(clientManager, repositoryURL, SVNRevision.HEAD, new File(propath), SVNDepth.INFINITY);
+            }else{
+                logger.info("svn版本存在,开始update");
+                SVNUtil.update(clientManager, ws, SVNRevision.HEAD, SVNDepth.INFINITY);
+            }
+
+            logger.info("结束更新svn");
+            result.put("status","1");
+            result.put("msg","更新成功");
+        }
+        catch(Exception e)
+        {
+            String errorString = PackUtils.getStackTrace(e);
+            result.put("stack",errorString);
+            logger.error("更新svn异常");
+            result.put("status", "8");
+            result.put("msg", "更新svn异常");
+            return result;
+        }
+        return result;
+
+    }
+
+
+    public HashMap<String, String> runComplier(PackBean packBean,List<Map<String, String>> commitList) throws Exception {
+        HashMap<String, String> result = new HashMap<String, String>();
+        List<String> fileList = new ArrayList<String>();
+        List<Map<String, String>> stackList = new ArrayList();
+        String propath = packBean.getPropath();
+        String revisions = packBean.getRevisions();
+        String wrPath = packBean.getWrPath();
+        String srcPath = packBean.getSrcPath();
+        String resourcesPath = packBean.getResourcesPath();
+        String resvnProjectSuffix = packBean.getSvnProjectSuffix();
+        if (wrPath == null || wrPath.equals("")) {
+            wrPath = srcWebapp;
+        }
+        if (srcPath == null || srcPath.equals("")) {
+            srcPath = srcJava ;
+        }
+        if (resourcesPath == null || resourcesPath.equals("")) {
+            resourcesPath = srcResources;
+        }
+        if (resvnProjectSuffix == null || resvnProjectSuffix.equals("")) {
+            resvnProjectSuffix = svnProjectSuffix;
+        }
+        //更新svn
+        result = this.updateSvnDirectory(packBean,commitList);
+        if (result.get("status") != "1" ){
+            logger.info("更新svn失败!");
+            return  result;
+        }
+        //根据版本号获取更新文件
+        try {
+            result = this.getCommitInfo(packBean,commitList);
+            logger.info("返回数据:"+result.toString());
+            logger.info("返回stack:"+commitList);
+            result.put("Count",commitList.size()+"");
+        } catch (Exception e) {
+            result.put("status","99");
+            result.put("msg","获取提交历史异常");
+            result.put("error",e.getMessage());
+            logger.error(e.getMessage(), e);
+            PackUtils.printCallStatck(e,stackList);
+            String errorString = PackUtils.getStackTrace(e);
+            result.put("stack",errorString);
+            return  result;
+        }
+        //拆分文件类型
+        List<String> javaFileLists = new ArrayList<String>();
+        List<String> resourcesFileLists = new ArrayList<String>();
+        List<String> webappFileLists = new ArrayList<String>();
+        Integer totalFileCount = 0;
+        for( Map<String, String> commit : commitList){
+            String Paths = commit.get("Paths");
+            String FileCount = commit.get("FileCount");
+            String PathsList[] = Paths.split(",");
+            for ( String path : PathsList){
+                //处理/src/main/java/
+                String pattern = ".*"+srcPath+".*";
+                if (Pattern.matches(pattern, path)){
+                    String arrayPath[] = path.split(svnProjectSuffix);
+                    String realPath = propath + arrayPath[1];
+                    File sfile = new File(realPath);
+                    logger.info("组合路径:" + realPath);
+                    if (sfile.isFile() == false){
+                        logger.info("组合路径:" + realPath + "文件不存在.");
+                        result.put("status", "88");
+                        result.put("msg", "文件路径:"+realPath+"不存在");
+                        return result;
+
+                    }
+                    javaFileLists.add(realPath);
+                }
+            }
+            totalFileCount = totalFileCount + 1 ;
+
+
+        }
+
+
+        return result;
     }
 
 
