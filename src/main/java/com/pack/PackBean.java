@@ -61,6 +61,36 @@ public class PackBean implements java.io.Serializable{
     private String addFilesPath;
     //全量后打包路径
     private String targetPath;
+    //mvn命令路径
+    private String mvnPath;
+    //mvn setting文件
+    private String mvnSettingFile;
+    //cmd命令
+    private String cmd;
+
+    public String getCmd() {
+        return cmd;
+    }
+
+    public void setCmd(String cmd) {
+        this.cmd = cmd;
+    }
+
+    public String getMvnPath() {
+        return mvnPath;
+    }
+
+    public void setMvnPath(String mvnPath) {
+        this.mvnPath = mvnPath;
+    }
+
+    public String getMvnSettingFile() {
+        return mvnSettingFile;
+    }
+
+    public void setMvnSettingFile(String mvnSettingFile) {
+        this.mvnSettingFile = mvnSettingFile;
+    }
 
     public String getAddFilesPath() {
         return addFilesPath;

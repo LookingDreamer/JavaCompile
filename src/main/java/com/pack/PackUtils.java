@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 /**
  * 打包工具类
@@ -455,5 +458,39 @@ public class PackUtils {
         } else {
             return false;
         }
+    }
+
+
+    public static HashMap<String, String> runcmd(PackBean packBean)
+    {
+        String cmd = packBean.getCmd();
+        HashMap<String, String> result = new HashMap<String, String>();
+        logger.info("执行cmd:"+cmd);
+        try
+        {
+            Runtime rt = Runtime.getRuntime();
+            Process proc = rt.exec(cmd);
+            InputStream stderr = proc.getErrorStream();
+            InputStreamReader isr = new InputStreamReader(stderr);
+            BufferedReader br = new BufferedReader(isr);
+            String line = null;
+            List<String> out = new ArrayList<String>();
+            while ((line = br.readLine()) != null)
+                out.add(line);
+//                System.out.println(line);
+            System.out.println("");
+            int exitVal = proc.waitFor();
+            System.out.println("Process exitValue: " + exitVal);
+            String outString = StringUtils.join(out, "\r\n");
+
+            result.put("exitcode",""+exitVal);
+            result.put("resStr",""+outString);
+            logger.info("执行返回值:"+exitVal);
+            logger.info("执行返回信息"+outString);
+        } catch (Throwable  e)
+        {
+            e.printStackTrace();
+        }
+        return  result;
     }
 }

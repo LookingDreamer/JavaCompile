@@ -1022,4 +1022,42 @@ public class PackService {
         return value;
     }
 
+
+
+    public HashMap<String, String> runCmd(PackBean packBean ) throws Exception {
+        HashMap<String,String> result = new HashMap<String,String>();
+        String mvn = packBean.getMvnPath();
+        String settingFile = packBean.getMvnSettingFile();
+        if ( mvn == null || mvn.equals("")){
+        }else{
+            File mvnFile = new File(mvn);
+            if (!mvnFile.exists() || ! mvnFile.isFile()){
+                logger.error("mvn命令文件不存在:"+mvn);
+                result.put("status","8");
+                result.put("msg","mvn命令文件不存在:"+mvn);
+                return  result;
+            }
+        }
+        if ( settingFile == null || settingFile.equals("")){
+        }else{
+            File setFile = new File(settingFile);
+            if (!setFile.exists() || ! setFile.isFile()){
+                logger.error("setting.xml文件不存在:"+settingFile);
+                result.put("status","8");
+                result.put("msg","setting.xml文件不存在:"+settingFile);
+                return  result;
+            }
+        }
+        String cmd = packBean.getCmd();
+        if (cmd == null || cmd.equals("")){
+            logger.error("cmd命令不能为空:");
+            result.put("status","18");
+            result.put("msg","cmd命令不能为空:"+cmd);
+            return  result;
+        }
+        result = PackUtils.runcmd(packBean);
+//        result.put("status","1");
+//        result.put("msg","执行成功");
+        return  result;
+    }
 }
