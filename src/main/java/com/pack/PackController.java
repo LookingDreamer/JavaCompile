@@ -432,10 +432,12 @@ public class PackController {
         logger.info("------------run compile start-------------------");
         try {
             List<Map<String, String>> commitList = new ArrayList();
-            result = this.packService.runComplier(packBean,commitList);
+            List<Map<String, String>> newstackList = new ArrayList();
+            result = this.packService.runComplier(packBean,commitList,newstackList);
             logger.info("返回数据:"+result.toString());
-            logger.info("返回stack:"+commitList);
+            logger.info("返回文件列表:"+commitList);
             result2.put("commitList",commitList);
+            result2.put("stackList",newstackList);
         } catch (Exception e) {
             result.put("status","22");
             result.put("msg","编译异常");

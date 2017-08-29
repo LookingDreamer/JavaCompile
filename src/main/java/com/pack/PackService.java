@@ -25,6 +25,7 @@ import org.tmatesoft.svn.core.wc.SVNClientManager;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 import java.util.regex.*;
+import  java.nio.file.StandardCopyOption.*;
 
 /**
  * author: cjianquan
@@ -314,10 +315,13 @@ public class PackService {
 
         } catch (Exception e) {
             suc = false;
+            result.put("status", "66");
+            result.put("msg", "执行编译异常");
             logger.error("执行编译异常");
             logger.error(e.getMessage(), e);
             String errorString = PackUtils.getStackTrace(e);
             result.put("stack",errorString);
+            return  result;
         }
 
         if (suc){
@@ -455,6 +459,7 @@ public class PackService {
         String wrPath = packBean.getWrPath();
         String srcPath = packBean.getSrcPath();
         String resourcesPath = packBean.getResourcesPath();
+        String addFilesPath = packBean.getAddFilesPath();
         if (propath == null || propath.equals("")) {
             logger.error("propath路径不能为空");
             result.put("status", "10");
@@ -465,6 +470,12 @@ public class PackService {
             logger.error("revisions不能为空");
             result.put("status", "11");
             result.put("msg", "revisions不能为空");
+            return result;
+        }
+        if (addFilesPath == null || addFilesPath.equals("")) {
+            logger.error("addFilesPath不能为空");
+            result.put("status", "12");
+            result.put("msg", "addFilesPath不能为空");
             return result;
         }
 
@@ -482,6 +493,35 @@ public class PackService {
 
         }else{
             logger.info("本地项目路径:"+propath+"已经存在");
+        }
+        File afile = new File(addFilesPath);
+        if (!afile.exists()  && !afile.isDirectory() ) {
+            logger.info("addFilesPath:" + addFilesPath + " 不存在,开始创建.");
+            if (afile.mkdirs()) {
+                logger.info("创建目录" + addFilesPath + "成功！");
+            } else {
+                logger.error("创建目录" + addFilesPath + "失败！");
+                result.put("status", "39");
+                result.put("msg", "创建目录" + addFilesPath + "失败！");
+                return result;
+            }
+
+        }else{
+            logger.info("增量打包路径:"+addFilesPath+"已经存在");
+            String[] afiles = afile.list();
+            if (afiles.length > 0) {
+                logger.info(afile.getPath()+"目录不为空,开始清空文件,包含文件个数："+afiles.length);
+                boolean success = PackUtils.deleteDir(afile);
+                if (success) {
+                    logger.info("成功清空目录下文件: " + addFilesPath);
+                    afile.mkdirs();
+                } else {
+                    logger.error("失败清空目录下文件: " + addFilesPath);
+                    result.put("status", "59");
+                    result.put("msg", "失败删除目录: " + addFilesPath);
+                    return result;
+                }
+            }
         }
         if (resvnUrl == null || resvnUrl.equals("")) {
             resvnUrl = svnUrl ;
@@ -551,7 +591,7 @@ public class PackService {
     }
 
 
-    public HashMap<String, String> runComplier(PackBean packBean,List<Map<String, String>> commitList) throws Exception {
+    public HashMap<String, String> runComplier(PackBean packBean,List<Map<String, String>> commitList,List<Map<String, String>> newstackList ) throws Exception {
         HashMap<String, String> result = new HashMap<String, String>();
         List<String> fileList = new ArrayList<String>();
         List<Map<String, String>> stackList = new ArrayList();
@@ -561,6 +601,7 @@ public class PackService {
         String srcPath = packBean.getSrcPath();
         String resourcesPath = packBean.getResourcesPath();
         String resvnProjectSuffix = packBean.getSvnProjectSuffix();
+        String addFilesPath = packBean.getAddFilesPath();
         if (wrPath == null || wrPath.equals("")) {
             wrPath = srcWebapp;
         }
@@ -595,6 +636,22 @@ public class PackService {
             result.put("stack",errorString);
             return  result;
         }
+        //创建打包后class路径
+        String addClassPath = addFilesPath+"/WEB-INF/classes/";
+        File addfile = new File(addClassPath);
+        if (!addfile.exists()  && !addfile.isDirectory() ) {
+            logger.info("addFiles classPath:" + addClassPath + " 不存在,开始创建.");
+            if (addfile.mkdirs()) {
+                logger.info("创建目录" + addClassPath + "成功！");
+            } else {
+                logger.error("创建目录" + addClassPath + "失败！");
+                result.put("status", "49");
+                result.put("msg", "创建目录addFiles classPath" + addClassPath + "失败！");
+                return result;
+            }
+
+        }
+
         //拆分文件类型
         List<String> javaFileLists = new ArrayList<String>();
         List<String> resourcesFileLists = new ArrayList<String>();
@@ -636,6 +693,35 @@ public class PackService {
                         return result;
 
                     }
+                    //copy resources文件到增量文件夹
+                    File directory = new File(realPath);
+                    String courseFile = directory.getParent();
+                    String courseFile1 = courseFile.replace(File.separator,"/");
+                    String courseFileList[] = courseFile1.split(resourcesPath);
+                    if (courseFileList.length != 2 ){
+                        logger.info("获取resources子路径:"+realPath+"失败");
+                        result.put("status", "77");
+                        result.put("msg", "获取resources子路径:"+realPath+"失败");
+                        return result;
+                    }
+                    String lastFileName = courseFileList[1];
+
+                    String addResourcesPath = addClassPath +"/"+ lastFileName ;
+                    File addResourcesfile = new File(addResourcesPath);
+                    if (!addResourcesfile.exists()  && !addResourcesfile.isDirectory() ) {
+                        logger.info("addFiles resourcesPath:" + addResourcesPath + " 不存在,开始创建.");
+                        if (addResourcesfile.mkdirs()) {
+                            logger.info("创建目录resources" + addResourcesPath + "成功！");
+                        } else {
+                            logger.error("创建目录resources" + addResourcesPath + "失败！");
+                            result.put("status", "49");
+                            result.put("msg", "创建目录addResourcesPath" + addResourcesPath + "失败！");
+                            return result;
+                        }
+
+                    }
+                    logger.info("resources复制路径: "+addResourcesPath);
+                    org.apache.commons.io.FileUtils.copyFileToDirectory(sfile, new File(addResourcesPath));
                     resourcesFileLists.add(realPath);
                 }
                 //处理/src/main/webapp/
@@ -652,6 +738,35 @@ public class PackService {
                         return result;
 
                     }
+                    //copy webapp文件到增量文件夹
+                    File directory = new File(realPath);
+                    String courseFile = directory.getParent();
+                    String courseFile1 = courseFile.replace(File.separator,"/");
+                    String courseFileList[] = courseFile1.split(wrPath);
+                    if (courseFileList.length != 2 ){
+                        logger.info("获取webapp子路径:"+realPath+"失败");
+                        result.put("status", "77");
+                        result.put("msg", "获取webapp子路径:"+realPath+"失败");
+                        return result;
+                    }
+                    String lastFileName = courseFileList[1];
+
+                    String addWebappPath = addFilesPath +"/"+ lastFileName ;
+                    File addResourcesfile = new File(addWebappPath);
+                    if (!addResourcesfile.exists()  && !addResourcesfile.isDirectory() ) {
+                        logger.info("addFiles webappPath:" + addWebappPath + " 不存在,开始创建.");
+                        if (addResourcesfile.mkdirs()) {
+                            logger.info("创建目录webapp" + addWebappPath + "成功！");
+                        } else {
+                            logger.error("创建目录webapp" + addWebappPath + "失败！");
+                            result.put("status", "49");
+                            result.put("msg", "创建目录webappPath" + addWebappPath + "失败！");
+                            return result;
+                        }
+
+                    }
+                    logger.info("webapp复制路径: "+addWebappPath);
+                    org.apache.commons.io.FileUtils.copyFileToDirectory(sfile, new File(addWebappPath));
                     webappFileLists.add(realPath);
                 }
                 //处理非标准目录
@@ -687,8 +802,51 @@ public class PackService {
         result.put("otherFilesCount",totalotherFilesCount+"");
         String revisionsList[] = revisions.split(",");
         result.put("requestRevisionsCount",revisionsList.length+"");
-        logger.info("totalFileCount: "+totalFileCount +" javaFilesCount:"+totaljavaFilesCount+" resourcesFilesCount:" +totalresourcesFilesCount+" webappFilesCount:" + totalwebappFilesCount +" otherFilesCount:"+totalotherFilesCount);
 
+        String javaFileListsString = StringUtils.join(javaFileLists, ",");
+        String resourcesFileListsString = StringUtils.join(resourcesFileLists, ",");
+        String webappFileListsString = StringUtils.join(webappFileLists, ",");
+        String otherFileListsString = StringUtils.join(otherFileLists, ",");
+        result.put("javaFiles",javaFileListsString);
+        result.put("resourcesFiles",resourcesFileListsString);
+        result.put("webappFiles",webappFileListsString);
+        result.put("otherFiles",otherFileListsString);
+
+        logger.info("totalFileCount: "+totalFileCount +" javaFilesCount:"+totaljavaFilesCount+" resourcesFilesCount:" +totalresourcesFilesCount+" webappFilesCount:" + totalwebappFilesCount +" otherFilesCount:"+totalotherFilesCount);
+        //开始编译java文件
+       String sourcePath = propath + "/"+srcPath;
+//        List<Map<String, String>> newstackList = new ArrayList();
+        HashMap<String,String> javaResult = new HashMap<String,String>();
+//        PackBean packBean = new PackBean();
+        packBean.setJavaFiles(javaFileListsString);
+        packBean.setOutPath(addFilesPath+"/classes");
+        packBean.setSourcePath(sourcePath);
+        try {
+            javaResult = this.javaComplier(packBean,newstackList);
+            logger.info("返回数据:"+javaResult.toString());
+            logger.info("返回编译异常stack:"+newstackList);
+            HashMap<String,String> map3 = new HashMap<String,String>();
+            map3.putAll(result);
+            map3.putAll(javaResult);
+            if (javaResult.get("status") != "1" ){
+                return  map3;
+            }
+            result.put("status","1");
+            result.put("msg","编译成功");
+            org.apache.commons.io.FileUtils.copyDirectory(new File(addFilesPath+"/classes"), new File(addClassPath));
+            org.apache.commons.io.FileUtils.deleteDirectory(new File(addFilesPath+"/classes"));
+        } catch (Exception e) {
+            result.put("status","2");
+            result.put("msg","编译异常");
+            result.put("error",e.getMessage());
+            logger.error(e.getMessage(), e);
+            List<Map<String, String>> stackList1 = new ArrayList();
+            PackUtils.printCallStatck(e,stackList1);
+            String errorString = PackUtils.getStackTrace(e);
+            result.put("stack",errorString);
+            return  result;
+        }
+        result.put("addFilesPath",addFilesPath);
 
         return result;
     }

@@ -57,6 +57,26 @@ public class PackBean implements java.io.Serializable{
     private String endRevision;
     //版本号列表,以,作为分隔符号
     private String Revisions;
+    //增量后打包路径
+    private String addFilesPath;
+    //全量后打包路径
+    private String targetPath;
+
+    public String getAddFilesPath() {
+        return addFilesPath;
+    }
+
+    public void setAddFilesPath(String addFilesPath) {
+        this.addFilesPath = addFilesPath;
+    }
+
+    public String getTargetPath() {
+        return targetPath;
+    }
+
+    public void setTargetPath(String targetPath) {
+        this.targetPath = targetPath;
+    }
 
     public String getRevisions() {
         return Revisions;

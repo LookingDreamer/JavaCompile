@@ -1,5 +1,9 @@
 import java.text.SimpleDateFormat;
 import java.util.regex.*;
+import java.io.File;
+import java.io.IOException;
+//import org.apache.commons.io.FileUtils;
+
 
 public class test {
     public static void main(String []args) {
@@ -14,6 +18,17 @@ public class test {
         String a[] = content.split("/branches/cm/requirement/cm");
         System.out.println(a[0]);
         System.out.println(a[1]);
+
+        String tmpFile = "C:/Users/Administrator/Desktop/output/cm/src/main/java/com/zzb/cm/Interface/service/impl/CoreInterFaceServiceImpl.java";
+
+        File directory = new File(tmpFile);
+        String courseFile = directory.getParent();
+        String courseFile1 = courseFile.replace(File.separator,"/");
+        String courseFileList[] = courseFile1.split("/src/main/java/");
+        System.out.println("courseFile: "+courseFile);
+        System.out.println("courseFile11111: "+courseFileList[1]);
+
+        System.out.println("File path : " + courseFile);
 
         boolean isMatch = Pattern.matches(pattern, content);
         System.out.println("is include " + isMatch);
