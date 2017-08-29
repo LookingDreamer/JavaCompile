@@ -605,6 +605,98 @@ public class PackService {
     }
 
 
+    public HashMap<String, String> updateSvnFile(PackBean packBean,List<Map<String, String>> commitList) throws Exception {
+        HashMap<String, String> result = new HashMap<String, String>();
+        List<String> fileList = new ArrayList<String>();
+        //如果没有传参则从配置文件获取缺省配置
+        logger.info("开始参数判断....");
+        String resvnUrl = packBean.getSvnUrl();
+        String resvnUsername = packBean.getSvnUsername();
+        String resvnPassword = packBean.getSvnPassword();
+        String resvnProjectSuffix = packBean.getSvnProjectSuffix();
+        String propath = packBean.getPropath();
+        String revisions = packBean.getRevisions();
+        String wrPath = packBean.getWrPath();
+        String srcPath = packBean.getSrcPath();
+        String resourcesPath = packBean.getResourcesPath();
+        String addFilesPath = packBean.getAddFilesPath();
+        String pomFile = packBean.getPomFile();
+        if (propath == null || propath.equals("")) {
+            logger.error("propath路径不能为空");
+            result.put("status", "11");
+            result.put("msg", "propath路径不能为空");
+            return result;
+        }
+
+        if (resvnUrl == null || resvnUrl.equals("")) {
+            resvnUrl = svnUrl ;
+        }
+        if (resvnUsername == null || resvnUsername.equals("")) {
+            resvnUsername = svnUsername;
+        }
+
+        if (resvnPassword == null || resvnPassword.equals("")) {
+            resvnPassword = svnPassword;
+        }
+
+        if (resvnProjectSuffix == null || resvnProjectSuffix.equals("")) {
+            resvnProjectSuffix = svnProjectSuffix;
+        }
+        logger.info("结束参数判断....");
+        logger.info("打印参数 resvnUrl:" + resvnUrl + " resvnUsername:" + resvnUsername + " resvnPassword:" + resvnPassword + " resvnProjectSuffix:" + resvnProjectSuffix );
+
+        SVNClientManager clientManager = SVNUtil.authSvn(resvnUrl, resvnUsername, resvnPassword);
+        if (clientManager == null || clientManager.equals("")) {
+            logger.error("登陆svn失败");
+            result.put("status", "16");
+            result.put("msg", "登陆svn失败");
+            return result;
+        }
+        logger.info("登陆svn成功");
+
+        try
+        {
+            logger.info("开始更新svn");
+            List<String> res = new ArrayList<String>();
+            SVNURL repositoryURL = null;
+            try {
+                repositoryURL = SVNURL.parseURIEncoded(resvnUrl).appendPath(svnProjectSuffix, false);
+            } catch (SVNException e) {
+                System.out.println(""+e);
+                logger.error("设置svn项目路径异常");
+                result.put("status", "7");
+                result.put("msg", "设置svn项目路径异常");
+                return result;
+            }
+
+            File ws = new File(propath);
+            if(!SVNWCUtil.isVersionedDirectory(ws)){
+                logger.info("svn版本不存在,开始checkout");
+                SVNUtil.checkout(clientManager, repositoryURL, SVNRevision.HEAD, new File(propath), SVNDepth.INFINITY);
+            }else{
+                logger.info("svn版本存在,开始update file:" +propath + "/"+pomFile);
+                File ws1 = new File(propath + "/"+pomFile);
+                SVNUtil.update(clientManager, ws1, SVNRevision.HEAD, SVNDepth.INFINITY);
+            }
+
+            logger.info("结束更新svn");
+            result.put("status","1");
+            result.put("msg","更新成功");
+        }
+        catch(Exception e)
+        {
+            String errorString = PackUtils.getStackTrace(e);
+            result.put("stack",errorString);
+            logger.error("更新svn异常");
+            result.put("status", "8");
+            result.put("msg", "更新svn异常");
+            return result;
+        }
+        return result;
+
+    }
+
+
     public HashMap<String, String> runComplier(PackBean packBean,List<Map<String, String>> commitList,List<Map<String, String>> newstackList ) throws Exception {
         HashMap<String, String> result = new HashMap<String, String>();
         List<String> fileList = new ArrayList<String>();
@@ -885,6 +977,14 @@ public class PackService {
         if (!file.exists() || !file.isFile()){
             result.put("status","8");
             result.put("msg","pomFile文件不存在:"+newFile);
+            return  result;
+        }
+
+        //更新pom文件
+        List<Map<String, String>> commitList = new ArrayList();
+        result = this.updateSvnFile(packBean,commitList);
+        if (result.get("status") != "1" ){
+            logger.info("更新pom失败!");
             return  result;
         }
 
