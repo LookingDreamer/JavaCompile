@@ -1,7 +1,0 @@
-delete from insccode where codetype='flowcode' and parentcode='flowcode' ;
-INSERT INTO insccode(id,operator,createtime,codetype,parentcode,codevalue,codename,codeorder,noti)
-select CONCAT('flowcode-',@rownum:=@rownum+1) as id,'1',now(),'flowcode','flowcode',a.flowcode,a.flowname,@rownum,a.flowname from 
-(select  DISTINCT(flowcode),flowname from INSBFlowerror 
-where flowcode is not null and flowcode <> ''  
-and flowname is not null and flowname <>'')a ,(SELECT @rownum:=0) c;
-select * from insccode where codetype='flowcode' and parentcode='flowcode' order by codeorder;

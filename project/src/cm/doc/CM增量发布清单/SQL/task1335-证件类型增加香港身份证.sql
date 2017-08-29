@@ -1,2 +1,0 @@
-INSERT INTO `insccode` (`id`, `operator`, `createtime`, `modifytime`, `noti`, `codetype`, `parentcode`, `codevalue`, `codename`, `codeorder`, `prop1`, `prop2`, `prop3`, `prop4`)
- VALUES ('990e8dai999b11e55d44746e9a37c00c', '1', '2017-03-15 11:11:11', NULL, '证件种类', 'CertKinds', 'CertKinds', '11', '香港身份证', 5, NULL, NULL, NULL, NULL);

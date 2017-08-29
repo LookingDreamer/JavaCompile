@@ -1,1 +1,0 @@
-ALTER TABLE `insbsupplement`  ADD  INDEX `insbsupplement_taskid` (`taskid`);

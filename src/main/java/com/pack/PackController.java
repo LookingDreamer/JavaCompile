@@ -471,6 +471,37 @@ public class PackController {
 
 
 
+    @RequestMapping(value = "/getFileMd5",method = RequestMethod.POST, produces = "application/json;text/html;charset=UTF-8")
+    @ResponseBody
+    public String getFileMd5(HttpServletRequest request, PackBean packBean) {
+        String json = "";
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap<String,String> result = new HashMap<String,String>();
+        long startTime=System.currentTimeMillis();   //获取开始时间
+        try {
+
+            result = this.packService.getMD5(packBean);
+        } catch (Exception e) {
+            result.put("status","22");
+            result.put("msg","执行异常");
+            result.put("error",e.getMessage());
+        }
+
+        long endTime=System.currentTimeMillis(); //获取结束时间
+        result.put("takes",(endTime-startTime)+"ms");
+        try
+        {
+            json = mapper.writeValueAsString(result);
+            logger.info("转换JSON数据: "+json);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return json;
+    }
+
 
 }
 

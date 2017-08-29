@@ -1,9 +1,0 @@
-task365-渠道配置后台，去掉 平台查询 的权限配置
-  伍尚森
-DELETE FROM zzb_uat.insbinterface WHERE id=13
-
-
-task380-渠道配置后台，接口权限模块优化
-  伍尚森
-ALTER TABLE `insbagreementinterface`
-ADD COLUMN `extendspattern`  varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '免费次数用完后能否继续使用 0-收费模式 1-禁止使用' AFTER `noti`;

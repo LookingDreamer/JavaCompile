@@ -26,6 +26,20 @@ import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 import java.util.regex.*;
 import  java.nio.file.StandardCopyOption.*;
+import org.apache.commons.codec.digest.*;
+import org.apache.commons.io.IOUtils;
+import java.io.File;
+import java.io.FileInputStream;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.security.MessageDigest;
+
 
 /**
  * author: cjianquan
@@ -851,5 +865,61 @@ public class PackService {
         return result;
     }
 
+
+    public HashMap<String, String> getMD5(PackBean packBean ) throws Exception {
+        HashMap<String,String> result = new HashMap<String,String>();
+        String propath = packBean.getPropath();
+        String pomFile = packBean.getPomFile();
+        if ( propath == null || propath.equals("")){
+            result.put("status","6");
+            result.put("msg","propath路径不能为空.");
+            return  result;
+        }
+        if ( pomFile == null || pomFile.equals("")){
+            result.put("status","7");
+            result.put("msg","pomFile路径不能为空.");
+            return  result;
+        }
+        String newFile = propath +"/" +pomFile ;
+        File file = new File(newFile);
+        if (!file.exists() || !file.isFile()){
+            result.put("status","8");
+            result.put("msg","pomFile文件不存在:"+newFile);
+            return  result;
+        }
+
+        String md5 = this.getMd5ByFile(new File(newFile));
+//        System.out.println("MD5:"+v.toUpperCase());
+        logger.info("file"+newFile + " MD5:"+md5);
+        result.put("file",newFile);
+        result.put("md5",md5);
+        result.put("status","1");
+        result.put("msg","执行成功");
+        return  result;
+    }
+
+
+    public static String getMd5ByFile(File file) throws FileNotFoundException {
+        String value = null;
+        FileInputStream in = new FileInputStream(file);
+        try {
+            MappedByteBuffer byteBuffer = in.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, file.length());
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            md5.update(byteBuffer);
+            BigInteger bi = new BigInteger(1, md5.digest());
+            value = bi.toString(16);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(null != in) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return value;
+    }
 
 }

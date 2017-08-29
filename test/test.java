@@ -3,6 +3,8 @@ import java.util.regex.*;
 import java.io.File;
 import java.io.IOException;
 //import org.apache.commons.io.FileUtils;
+import org.apache.commons.codec.digest.*;
+import org.apache.commons.io.IOUtils;
 
 
 public class test {

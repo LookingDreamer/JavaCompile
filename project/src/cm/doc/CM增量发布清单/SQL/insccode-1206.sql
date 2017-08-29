@@ -1,2 +1,0 @@
-UPDATE insccode SET codename = 'EDI核保暂存', prop2 = 'EDI核保暂存' WHERE  codetype  = 'workflowNodelName' AND codename = 'EDI核保' AND codetype  = 'workflowNodelName';
-UPDATE insccode SET codename = '精灵核保暂存', prop2 = '精灵核保暂存' WHERE  codetype  = 'workflowNodelName' AND codename = '精灵核保' AND codetype  = 'workflowNodelName';

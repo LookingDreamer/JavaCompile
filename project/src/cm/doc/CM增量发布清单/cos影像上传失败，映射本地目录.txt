@@ -1,7 +1,0 @@
-// 上传到cos失败时，在nginx配置影射服务器硬盘目录,
-目录：/usr/local/nginx/conf/nginx.conf 
-
-在nginx配置http、https节点下加入：
-        location /data/staticfiles/upload {
-                alias /data/staticfiles/upload;
-        }
