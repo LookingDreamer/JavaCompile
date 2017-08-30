@@ -1,5 +1,6 @@
 package com.pack;
 
+import com.sun.jna.platform.win32.WinDef;
 import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.apache.commons.lang.SystemUtils;
 import org.slf4j.Logger;
@@ -1060,4 +1061,118 @@ public class PackService {
 //        result.put("msg","执行成功");
         return  result;
     }
+
+
+    public HashMap<String, String> mvnCompile(PackBean packBean ) throws Exception {
+        HashMap<String,String> result = new HashMap<String,String>();
+        String mvn = packBean.getMvnPath();
+        String settingFile = packBean.getMvnSettingFile();
+        String pomFile = packBean.getPomFile();
+        String propath = packBean.getPropath();
+        List<String> command = new ArrayList();
+        if ( mvn == null || mvn.equals("")){
+            command.add("mvn");
+        }else{
+            File mvnFile = new File(mvn);
+            if (!mvnFile.exists() || ! mvnFile.isFile()){
+                logger.error("mvn命令文件不存在:"+mvn);
+                result.put("status","18");
+                result.put("msg","mvn命令文件不存在:"+mvn);
+                return  result;
+            }
+            command.add(mvn);
+        }
+        if ( settingFile == null || settingFile.equals("")){
+        }else{
+            File setFile = new File(settingFile);
+            if (!setFile.exists() || ! setFile.isFile()){
+                logger.error("setting.xml文件不存在:"+settingFile);
+                result.put("status","19");
+                result.put("msg","setting.xml文件不存在:"+settingFile);
+                return  result;
+            }
+            command.add("--settings "+settingFile);
+        }
+        if ( pomFile == null || pomFile.equals("")){
+        }else{
+            File poFile = new File(pomFile);
+            if (!poFile.exists() || ! poFile.isFile()){
+                logger.error("pom.xml文件不存在:"+pomFile);
+                result.put("status","28");
+                result.put("msg","pom.xml文件不存在:"+pomFile);
+                return  result;
+            }
+            command.add("--file "+pomFile);
+        }
+        if ( propath == null || propath.equals("")){
+            result.put("status","38");
+            result.put("msg","propath路径不存在:"+propath);
+            return  result;
+        }else{
+            File proFile = new File(propath);
+            if (!proFile.exists() || ! proFile.isDirectory()){
+                logger.error("propath路径不存在:"+propath);
+                result.put("status","29");
+                result.put("msg","propath路径不存在:"+propath);
+                return  result;
+            }
+        }
+        //mvn clean
+        command.add("clean");
+        String mvnCleanCmd = StringUtils.join(command, " ");
+        packBean.setCmd(mvnCleanCmd);
+        result = PackUtils.runcmd(packBean);
+        logger.info("exitcode="+result.get("exitcode"));
+        if (Integer.parseInt(result.get("exitcode")) != 0){
+            logger.error("执行mvn clean失败.");
+            result.put("status","59");
+            result.put("msg","执行mvn clean失败.");
+            return  result;
+        }
+        //mvn complie
+        for(int i = 0, len = command.size(); i < len; i++){
+            if(command.get(i) == "clean"){
+                command.remove(i);
+                len--;
+                i--;
+            }
+        }
+        command.add("compile");
+        String mvnCompileCmd = StringUtils.join(command, " ");
+        packBean.setCmd(mvnCompileCmd);
+        result = PackUtils.runcmd(packBean);
+        if (Integer.parseInt(result.get("exitcode")) != 0){
+            logger.error("执行mvn compile失败.");
+            result.put("status","69");
+            result.put("msg","执行mvn compile失败.");
+            return  result;
+        }
+        //mvn package
+        for(int i = 0, len = command.size(); i < len; i++){
+            if(command.get(i) == "compile"){
+                command.remove(i);
+                len--;
+                i--;
+            }
+        }
+        command.add("clean package -Dmaven.test.skip=true -Dmaven.compile.fork=true -T 1C");
+        String mvnPackageCmd = StringUtils.join(command, " ");
+
+        packBean.setCmd(mvnPackageCmd);
+        result = PackUtils.runcmd(packBean);
+        if (Integer.parseInt(result.get("exitcode")) != 0){
+            logger.error("执行mvn package失败.");
+            result.put("status","79");
+            result.put("msg","执行mvn package失败.");
+            return  result;
+        }
+        result.put("propath",propath);
+        result.put("msg","打整包成功");
+        result.put("mvnCleanCmd",mvnCleanCmd);
+        result.put("mvnCompileCmd",mvnCompileCmd);
+        result.put("mvnPackageCmd",mvnPackageCmd);
+
+        return  result;
+    }
+
 }

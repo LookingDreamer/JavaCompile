@@ -465,30 +465,51 @@ public class PackUtils {
     {
         String cmd = packBean.getCmd();
         HashMap<String, String> result = new HashMap<String, String>();
+        String propath = packBean.getPropath();
+        if (PackUtils.isWindowsTrue()){
+            cmd ="cmd.exe /c "+cmd;
+        }
         logger.info("执行cmd:"+cmd);
+        File dir = null;
+        if ( propath == null || propath.equals("")){
+            dir = null;
+        }else{
+            dir = new File(propath);
+        }
+
         try
         {
             Runtime rt = Runtime.getRuntime();
-            Process proc = rt.exec(cmd);
-            InputStream stderr = proc.getErrorStream();
-            InputStreamReader isr = new InputStreamReader(stderr);
+            Process proc = rt.exec(cmd, null, dir);
+            StringBuffer inputStr = new StringBuffer();
+            InputStream input = proc.getInputStream();
+            InputStreamReader isr = new InputStreamReader(input);
             BufferedReader br = new BufferedReader(isr);
             String line = null;
-            List<String> out = new ArrayList<String>();
             while ((line = br.readLine()) != null)
-                out.add(line);
-//                System.out.println(line);
-            System.out.println("");
-            int exitVal = proc.waitFor();
-            System.out.println("Process exitValue: " + exitVal);
-            String outString = StringUtils.join(out, "\r\n");
+                inputStr.append(line + "\n");
 
+            StringBuffer errorStr = new StringBuffer();
+            InputStream errorinput = proc.getErrorStream();
+            InputStreamReader errorisr = new InputStreamReader(errorinput);
+            BufferedReader errorbr = new BufferedReader(errorisr);
+            String errotline = null;
+            while ((errotline = errorbr.readLine()) != null)
+                errorStr.append(errotline + "\n");
+
+            int exitVal = proc.waitFor();
             result.put("exitcode",""+exitVal);
-            result.put("resStr",""+outString);
-            logger.info("执行返回值:"+exitVal);
-            logger.info("执行返回信息"+outString);
+            result.put("inputStr",inputStr.toString());
+            result.put("errorStr",errorStr.toString());
+            logger.info("执行返回值exitVal:"+exitVal);
+            logger.info("执行返回信息inputStr:\n\r"+inputStr.toString());
+            logger.info("执行返回信息errorStr:\n\r"+errorStr.toString());
         } catch (Throwable  e)
         {
+            result.put("exitcode","999");
+            result.put("msg","执行异常");
+            String errorString = PackUtils.getStackTrace(e);
+            result.put("stack",errorString);
             e.printStackTrace();
         }
         return  result;
