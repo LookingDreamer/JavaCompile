@@ -488,6 +488,8 @@ public class PackUtils {
             String line = null;
             while ((line = br.readLine()) != null)
                 inputStr.append(line + "\n");
+                System.out.println(line);
+                System.out.flush();
 
             StringBuffer errorStr = new StringBuffer();
             InputStream errorinput = proc.getErrorStream();
@@ -496,6 +498,8 @@ public class PackUtils {
             String errotline = null;
             while ((errotline = errorbr.readLine()) != null)
                 errorStr.append(errotline + "\n");
+                System.out.println(errotline);
+                System.out.flush();
 
             int exitVal = proc.waitFor();
             result.put("exitcode",""+exitVal);
