@@ -22,7 +22,7 @@ public class LogWebSocketHandle {
 	public void onOpen(Session session) {
 		try {
 			// 执行tail -f命令
-			process = Runtime.getRuntime().exec("mvn clean");
+			process = Runtime.getRuntime().exec("cmd.exe /c mvn clean");
 			System.out.print("run this");
 			inputStream = process.getInputStream();
 			

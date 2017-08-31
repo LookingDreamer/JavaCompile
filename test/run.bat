@@ -1,1 +1,1 @@
-mvn compile
+mvn clean
