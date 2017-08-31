@@ -622,6 +622,7 @@ public class PackService {
         String resourcesPath = packBean.getResourcesPath();
         String addFilesPath = packBean.getAddFilesPath();
         String pomFile = packBean.getPomFile();
+        String isupdate = packBean.getIsUpdate();
         if (propath == null || propath.equals("")) {
             logger.error("propath路径不能为空");
             result.put("status", "11");
@@ -963,22 +964,27 @@ public class PackService {
         HashMap<String,String> result = new HashMap<String,String>();
         String propath = packBean.getPropath();
         String pomFile = packBean.getPomFile();
+        String isUpdate = packBean.getIsUpdate();
         if ( propath == null || propath.equals("")){
             result.put("status","6");
             result.put("msg","propath路径不能为空.");
             return  result;
         }
-        if ( pomFile == null || pomFile.equals("")){
-            result.put("status","7");
-            result.put("msg","pomFile路径不能为空.");
-            return  result;
-        }
-        String newFile = propath +"/" +pomFile ;
-        File file = new File(newFile);
-        if (!file.exists() || !file.isFile()){
-            result.put("status","8");
-            result.put("msg","pomFile文件不存在:"+newFile);
-            return  result;
+        String newFile = propath + "/" + pomFile;
+        if (isUpdate == null || propath.equals("")) {
+            if (pomFile == null || pomFile.equals("")) {
+                result.put("status", "7");
+                result.put("msg", "pomFile路径不能为空.");
+                return result;
+            }
+            File file = new File(newFile);
+            if (!file.exists() || !file.isFile()) {
+                result.put("status", "8");
+                result.put("msg", "pomFile文件不存在:" + newFile);
+                return result;
+            }
+        }else{
+
         }
 
         //更新pom文件
