@@ -43,8 +43,8 @@ import java.security.MessageDigest;
 
 
 /**
- * author: cjianquan
- * date: 2016/11/11
+ * author: huanggaoming
+ * date: 2017/09/17
  */
 @Service("packService")
 public class PackService {

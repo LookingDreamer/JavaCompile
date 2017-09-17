@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 /**
- * author: cjianquan
- * date: 2016/11/11
+ * author: huanggaoming
+ * date: 2017/09/17
  */
 public class PackBean implements java.io.Serializable{
     //项目类型

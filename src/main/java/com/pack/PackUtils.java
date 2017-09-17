@@ -17,9 +17,8 @@ import java.util.regex.Pattern;
 
 
 /**
- * 打包工具类
- * author: cjianquan
- * date: 2016/9/2
+ * author: huanggaoming
+ * date: 2017/09/17
  */
 public class PackUtils {
     private static Logger logger = LoggerFactory.getLogger("PackUtils");

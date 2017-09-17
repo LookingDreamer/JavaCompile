@@ -75,8 +75,8 @@ import org.springframework.stereotype.*;
 import org.springframework.beans.factory.annotation.*;
 
 /**
- * author: cjianquan
- * date: 2016/9/2
+ * author: huanggaoming
+ * date: 2017/09/17
  */
 @Controller
 @RequestMapping("/packController")
