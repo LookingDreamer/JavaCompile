@@ -67,6 +67,16 @@ public class PackBean implements java.io.Serializable{
     private String mvnSettingFile;
     //cmd命令
     private String cmd;
+    //是否更新svn工作目录
+    private String isUpdate;
+
+    public String getIsUpdate() {
+        return isUpdate;
+    }
+
+    public void setIsUpdate(String isUpdate) {
+        this.isUpdate = isUpdate;
+    }
 
     public String getCmd() {
         return cmd;
