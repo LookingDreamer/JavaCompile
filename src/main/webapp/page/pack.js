@@ -29,27 +29,20 @@ $(function(){
         getUpdatefiles();
     });
     $('#b_pack').click(function(){
-        var rows = grid1.mmGrid("rows");
-        var len = rows.length;
         var packList = [];
-        for(var i=0;i<rows.length;i++){
-            packList[i]=(rows[i].filepath);
-        }
         var postData = {};
-        postData.protype = $("#protype").val();
-        postData.propath = $("#propath").val();
-        postData.srcPath = $("#srcPath").val();
-        postData.resourcesPath = $("#resourcesPath").val();
-        postData.wrPath = $("#wrPath").val();
-        postData.compilePath = $("#compilePath").val();
-        postData.packtime = $("#packtime").val();
-        postData.packFiles = packList;
+        postData.otherLib = $("#otherLib").val();
+        postData.sourcePath = $("#sourcePath").val();
+        postData.outPath = $("#outPath").val();
+        postData.javaFiles = $("#javaFiles").val();
+        postData.tomcatLib = $("#tomcatLib").val();
         $.ajax({
-            url:'packController/packFiles.do',
+            url:'packController/JavaCompiler.do',
             type:'post',
             data:postData,
             traditional:true,
             success:function(data){
+                console.log(data);
                 if(data=='success'){
                     layer.alert("打包成功");
                 }else{
