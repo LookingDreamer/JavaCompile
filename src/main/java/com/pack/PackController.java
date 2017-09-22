@@ -485,6 +485,8 @@ public class PackController {
             result.put("status","22");
             result.put("msg","执行异常");
             result.put("error",e.getMessage());
+            e.printStackTrace();
+
         }
 
         long endTime=System.currentTimeMillis(); //获取结束时间

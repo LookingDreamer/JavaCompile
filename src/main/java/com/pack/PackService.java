@@ -570,7 +570,7 @@ public class PackService {
             List<String> res = new ArrayList<String>();
             SVNURL repositoryURL = null;
             try {
-                repositoryURL = SVNURL.parseURIEncoded(resvnUrl).appendPath(svnProjectSuffix, false);
+                repositoryURL = SVNURL.parseURIEncoded(resvnUrl).appendPath(resvnProjectSuffix, false);
             } catch (SVNException e) {
                 System.out.println(""+e);
                 logger.error("设置svn项目路径异常");
@@ -662,7 +662,7 @@ public class PackService {
             List<String> res = new ArrayList<String>();
             SVNURL repositoryURL = null;
             try {
-                repositoryURL = SVNURL.parseURIEncoded(resvnUrl).appendPath(svnProjectSuffix, false);
+                repositoryURL = SVNURL.parseURIEncoded(resvnUrl).appendPath(resvnProjectSuffix, false);
             } catch (SVNException e) {
                 System.out.println(""+e);
                 logger.error("设置svn项目路径异常");
@@ -676,8 +676,14 @@ public class PackService {
                 logger.info("svn版本不存在,开始checkout");
                 SVNUtil.checkout(clientManager, repositoryURL, SVNRevision.HEAD, new File(propath), SVNDepth.INFINITY);
             }else{
-                logger.info("svn版本存在,开始update file:" +propath + "/"+pomFile);
-                File ws1 = new File(propath + "/"+pomFile);
+                File ws1 ;
+                if ( isupdate !=null && isupdate.toLowerCase().equals("true")){
+                    logger.info("svn版本存在,开始update dir:" +propath );
+                     ws1 = new File(propath);
+                }else{
+                    logger.info("svn版本存在,开始update file:" +propath + "/"+pomFile);
+                     ws1 = new File(propath + "/"+pomFile);
+                }
                 SVNUtil.update(clientManager, ws1, SVNRevision.HEAD, SVNDepth.INFINITY);
             }
 
@@ -774,7 +780,7 @@ public class PackService {
                 //处理/src/main/java/
                 String pattern = ".*"+srcPath+".*";
                 if (Pattern.matches(pattern, path)){
-                    String arrayPath[] = path.split(svnProjectSuffix);
+                    String arrayPath[] = path.split(resvnProjectSuffix);
                     String realPath = propath + arrayPath[1];
                     File sfile = new File(realPath);
                     logger.info("java组合路径:" + realPath);
@@ -790,7 +796,7 @@ public class PackService {
                 //处理/src/main/resources/
                 String resourcesPattern = ".*"+resourcesPath+".*";
                 if (Pattern.matches(resourcesPattern, path)){
-                    String arrayPath[] = path.split(svnProjectSuffix);
+                    String arrayPath[] = path.split(resvnProjectSuffix);
                     String realPath = propath + arrayPath[1];
                     File sfile = new File(realPath);
                     logger.info("resources组合路径:" + realPath);
@@ -806,15 +812,22 @@ public class PackService {
                     String courseFile = directory.getParent();
                     String courseFile1 = courseFile.replace(File.separator,"/");
                     String courseFileList[] = courseFile1.split(resourcesPath);
-                    if (courseFileList.length != 2 ){
+                    if (courseFileList.length != 2 && courseFileList.length != 1 ){
                         logger.info("获取resources子路径:"+realPath+"失败");
                         result.put("status", "77");
                         result.put("msg", "获取resources子路径:"+realPath+"失败");
                         return result;
                     }
-                    String lastFileName = courseFileList[1];
 
-                    String addResourcesPath = addClassPath +"/"+ lastFileName ;
+                    String lastFileName;
+                    String addResourcesPath;
+                    if (courseFileList.length == 1){
+                        addResourcesPath = addClassPath ;
+                    }else {
+                        lastFileName = courseFileList[1];
+                        addResourcesPath = addClassPath +"/"+ lastFileName ;
+                    }
+
                     File addResourcesfile = new File(addResourcesPath);
                     if (!addResourcesfile.exists()  && !addResourcesfile.isDirectory() ) {
                         logger.info("addFiles resourcesPath:" + addResourcesPath + " 不存在,开始创建.");
@@ -835,7 +848,7 @@ public class PackService {
                 //处理/src/main/webapp/
                 String webappPattern = ".*"+wrPath+".*";
                 if (Pattern.matches(webappPattern, path)){
-                    String arrayPath[] = path.split(svnProjectSuffix);
+                    String arrayPath[] = path.split(resvnProjectSuffix);
                     String realPath = propath + arrayPath[1];
                     File sfile = new File(realPath);
                     logger.info("webapp组合路径:" + realPath);
@@ -851,15 +864,25 @@ public class PackService {
                     String courseFile = directory.getParent();
                     String courseFile1 = courseFile.replace(File.separator,"/");
                     String courseFileList[] = courseFile1.split(wrPath);
-                    if (courseFileList.length != 2 ){
+                    if (courseFileList.length != 2 && courseFileList.length != 1 ){
+                        for ( String test   : courseFileList){
+                            logger.info(test);
+                        }
+                        logger.info("分割符号:"+wrPath +" length:"+courseFileList.length);
                         logger.info("获取webapp子路径:"+realPath+"失败");
                         result.put("status", "77");
                         result.put("msg", "获取webapp子路径:"+realPath+"失败");
                         return result;
                     }
-                    String lastFileName = courseFileList[1];
+                    String addWebappPath ;
+                    String lastFileName ;
+                    if (courseFileList.length == 1){
+                        addWebappPath = addFilesPath  ;
+                    }else{
+                        lastFileName = courseFileList[1];
+                        addWebappPath = addFilesPath +"/"+ lastFileName ;
+                    }
 
-                    String addWebappPath = addFilesPath +"/"+ lastFileName ;
                     File addResourcesfile = new File(addWebappPath);
                     if (!addResourcesfile.exists()  && !addResourcesfile.isDirectory() ) {
                         logger.info("addFiles webappPath:" + addWebappPath + " 不存在,开始创建.");
@@ -879,7 +902,7 @@ public class PackService {
                 }
                 //处理非标准目录
                 if (Pattern.matches(webappPattern, path) == false &&  Pattern.matches(resourcesPattern, path)  == false && Pattern.matches(pattern, path) == false ){
-                    String arrayPath[] = path.split(svnProjectSuffix);
+                    String arrayPath[] = path.split(resvnProjectSuffix);
                     String realPath = propath + arrayPath[1];
                     File sfile = new File(realPath);
                     logger.info("other组合路径:" + realPath);
