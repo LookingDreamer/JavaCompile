@@ -7,18 +7,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b7dcc47-35fe-4d2a-91ba-c9e68844f6c2" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/pack/PackService.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/pack/PackController.class" afterPath="$PROJECT_DIR$/target/classes/com/pack/PackController.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pack.war" afterPath="$PROJECT_DIR$/target/pack.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pack/WEB-INF/classes/com/pack/PackService.class" afterPath="$PROJECT_DIR$/target/pack/WEB-INF/classes/com/pack/PackService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pack/WEB-INF/classes/com/pack/PackController.class" afterPath="$PROJECT_DIR$/target/pack/WEB-INF/classes/com/pack/PackController.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/pack/PackController.java" afterPath="$PROJECT_DIR$/src/main/java/com/pack/PackController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/pack/PackBean.java" afterPath="$PROJECT_DIR$/src/main/java/com/pack/PackBean.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/pack/PackService.java" afterPath="$PROJECT_DIR$/src/main/java/com/pack/PackService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/config.properties" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/config.properties" afterPath="$PROJECT_DIR$/target/classes/config.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pack/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/target/pack/META-INF/MANIFEST.MF" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pack/WEB-INF/classes/config.properties" afterPath="$PROJECT_DIR$/target/pack/WEB-INF/classes/config.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pack/page/pack.ftl" afterPath="$PROJECT_DIR$/target/pack/page/pack.ftl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/pack/page/pack.js" afterPath="$PROJECT_DIR$/target/pack/page/pack.js" />
     </list>
     <ignored path="pack.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,9 +41,11 @@
       <file leaf-file-name="PackController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/pack/PackController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="435" column="0" lean-forward="false" selection-start-line="435" selection-start-column="0" selection-end-line="435" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="305">
+              <caret line="435" column="41" lean-forward="true" selection-start-line="435" selection-start-column="41" selection-end-line="435" selection-end-column="41" />
+              <folding>
+                <element signature="e#36772#36787#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -54,10 +53,34 @@
       <file leaf-file-name="PackService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/pack/PackService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-56">
-              <caret line="822" column="44" lean-forward="false" selection-start-line="822" selection-start-column="44" selection-end-line="822" selection-end-column="44" />
+            <state relative-caret-position="400">
+              <caret line="978" column="85" lean-forward="false" selection-start-line="978" selection-start-column="85" selection-end-line="978" selection-end-column="85" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#6389#6405#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PackBean.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/pack/PackBean.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="209">
+              <caret line="76" column="40" lean-forward="false" selection-start-line="76" selection-start-column="21" selection-end-line="76" selection-end-column="40" />
+              <folding>
+                <element signature="e#1950#1951#0" expanded="true" />
+                <element signature="e#1989#1990#0" expanded="true" />
+                <element signature="e#2054#2055#0" expanded="true" />
+                <element signature="e#2110#2111#0" expanded="true" />
+                <element signature="e#2152#2153#0" expanded="true" />
+                <element signature="e#2189#2190#0" expanded="true" />
+                <element signature="e#2250#2251#0" expanded="true" />
+                <element signature="e#2302#2303#0" expanded="true" />
+                <element signature="e#2349#2350#0" expanded="true" />
+                <element signature="e#2391#2392#0" expanded="true" />
+                <element signature="e#2462#2463#0" expanded="true" />
+                <element signature="e#2524#2525#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -67,21 +90,8 @@
         <entry file="file://$PROJECT_DIR$/src/main/resources/config.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="133">
-              <caret line="7" column="18" lean-forward="false" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="18" />
+              <caret line="7" column="63" lean-forward="false" selection-start-line="7" selection-start-column="63" selection-end-line="7" selection-end-column="63" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PackBean.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/pack/PackBean.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="173" column="13" lean-forward="false" selection-start-line="173" selection-start-column="13" selection-end-line="173" selection-end-column="13" />
-              <folding>
-                <element signature="e#3791#3792#0" expanded="true" />
-                <element signature="e#3847#3848#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -89,7 +99,7 @@
       <file leaf-file-name="SVNUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/pack/SVNUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
+            <state relative-caret-position="4218">
               <caret line="252" column="0" lean-forward="false" selection-start-line="252" selection-start-column="0" selection-end-line="252" selection-end-column="0" />
               <folding />
             </state>
@@ -100,9 +110,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>runCmd</find>
-      <find>project_suffix</find>
-      <find>svnProjectSuffix</find>
       <find>结束更新svn</find>
       <find>22</find>
       <find>svn版本不存在,开始checkout</find>
@@ -116,7 +123,23 @@
       <find>获取webapp子路径</find>
       <find>for</find>
       <find>webapp复制路径</find>
+      <find>resourcesPath</find>
+      <find>resvnPassword</find>
+      <find>javaFiles路径不能为空</find>
+      <find>webappFiles</find>
+      <find>totalFileCount</find>
+      <find>totalFileCount:</find>
+      <find>打印参数1111111</find>
+      <find>javaFiles: 不存在</find>
+      <find>编译成功</find>
+      <find>返回文件列表</find>
       <find>runCompiler</find>
+      <find>webappFilesCount</find>
+      <find>javaClassFile</find>
+      <find>返回编译异常stack</find>
+      <find>依赖</find>
+      <find>返回编译异常stack:</find>
+      <find>dependClassCount</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\Administrator\Desktop\myProject\pack\src\main\java\com\pack</dir>
@@ -144,15 +167,15 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/pack/TailLogThread.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/pack/LogWebSocketHandle.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pack/PackBean.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/pack/PackUtils.java" />
         <option value="$PROJECT_DIR$/target/pack/page/pack.ftl" />
         <option value="$PROJECT_DIR$/src/main/webapp/page/pack.js" />
         <option value="$PROJECT_DIR$/target/pack/page/pack.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/page/pack.ftl" />
-        <option value="$PROJECT_DIR$/src/main/resources/config.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/pack/SVNUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/pack/PackController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/config.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pack/PackBean.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/pack/PackService.java" />
       </list>
     </option>
@@ -189,10 +212,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
-      <pane id="ProjectPane" />
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
+      <pane id="ProjectPane" />
+      <pane id="AndroidView" />
       <pane id="Scope">
         <subPane subId="Project Files">
           <expand>
@@ -228,12 +250,14 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../jodconverter-master/jodconverter-sample-webapp/pom.xml" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -823,7 +847,10 @@
       <workItem from="1504107224133" duration="1244000" />
       <workItem from="1505662611532" duration="7076000" />
       <workItem from="1506042072689" duration="78000" />
-      <workItem from="1506042244746" duration="16749000" />
+      <workItem from="1506042244746" duration="18830000" />
+      <workItem from="1506583551028" duration="152000" />
+      <workItem from="1512011546808" duration="461000" />
+      <workItem from="1512012680866" duration="10154000" />
     </task>
     <task id="LOCAL-00001" summary="add hash type">
       <created>1502963988192</created>
@@ -853,18 +880,25 @@
       <option name="project" value="LOCAL" />
       <updated>1505988449319</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="修复resouce和webapp下上传的不含目录复制异常的bug">
+      <created>1506072995605</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1506072995605</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="219301000" />
+    <option name="totallyTimeSpent" value="232149000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4171181" sideWeight="0.5074627" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41386783" sideWeight="0.50959486" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.4968254" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -881,10 +915,10 @@
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41386783" sideWeight="0.49253732" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41386783" sideWeight="0.4904051" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.4978678" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17110874" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15724947" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298969" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -907,7 +941,8 @@
     <MESSAGE value="add hash type" />
     <MESSAGE value="output目录创建" />
     <MESSAGE value="优化idea设置和config编码" />
-    <option name="LAST_COMMIT_MESSAGE" value="优化idea设置和config编码" />
+    <MESSAGE value="修复resouce和webapp下上传的不含目录复制异常的bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复resouce和webapp下上传的不含目录复制异常的bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -931,7 +966,6 @@
       </provider>
     </entry>
     <entry file="jar://F:/java/Java/jdk1.8.0_144/src.zip!/java/util/Calendar.java" />
-    <entry file="jar://F:/java/Java/jdk1.8.0_144/src.zip!/java/util/HashMap.java" />
     <entry file="jar://F:/java/Java/jdk1.8.0_144/src.zip!/java/lang/String.java" />
     <entry file="file://$PROJECT_DIR$/test/test.class" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_65.jdk/Contents/Home/src.zip!/java/util/regex/Pattern.java" />
@@ -1043,7 +1077,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="372">
           <caret line="55" column="6" lean-forward="false" selection-start-line="55" selection-start-column="6" selection-end-line="55" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1091,41 +1124,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/pack/PackUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="462" column="42" lean-forward="false" selection-start-line="462" selection-start-column="42" selection-end-line="462" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/pack/PackBean.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="173" column="13" lean-forward="false" selection-start-line="173" selection-start-column="13" selection-end-line="173" selection-end-column="13" />
-          <folding>
-            <element signature="e#3791#3792#0" expanded="true" />
-            <element signature="e#3847#3848#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/pack/SVNUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
+        <state relative-caret-position="4218">
           <caret line="252" column="0" lean-forward="false" selection-start-line="252" selection-start-column="0" selection-end-line="252" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/config.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="7" column="18" lean-forward="false" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="18" />
           <folding />
         </state>
       </provider>
@@ -1134,24 +1139,71 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="471" column="18" lean-forward="false" selection-start-line="471" selection-start-column="18" selection-end-line="471" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/config.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="7" column="63" lean-forward="false" selection-start-line="7" selection-start-column="63" selection-end-line="7" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://F:/java/Java/jdk1.8.0_144/src.zip!/java/util/HashMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="553" column="13" lean-forward="false" selection-start-line="553" selection-start-column="13" selection-end-line="553" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pack/PackUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="199" column="27" lean-forward="false" selection-start-line="199" selection-start-column="27" selection-end-line="199" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/pack/PackController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="435" column="0" lean-forward="false" selection-start-line="435" selection-start-column="0" selection-end-line="435" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="305">
+          <caret line="435" column="41" lean-forward="true" selection-start-line="435" selection-start-column="41" selection-end-line="435" selection-end-column="41" />
+          <folding>
+            <element signature="e#36772#36787#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pack/PackBean.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="76" column="40" lean-forward="false" selection-start-line="76" selection-start-column="21" selection-end-line="76" selection-end-column="40" />
+          <folding>
+            <element signature="e#1950#1951#0" expanded="true" />
+            <element signature="e#1989#1990#0" expanded="true" />
+            <element signature="e#2054#2055#0" expanded="true" />
+            <element signature="e#2110#2111#0" expanded="true" />
+            <element signature="e#2152#2153#0" expanded="true" />
+            <element signature="e#2189#2190#0" expanded="true" />
+            <element signature="e#2250#2251#0" expanded="true" />
+            <element signature="e#2302#2303#0" expanded="true" />
+            <element signature="e#2349#2350#0" expanded="true" />
+            <element signature="e#2391#2392#0" expanded="true" />
+            <element signature="e#2462#2463#0" expanded="true" />
+            <element signature="e#2524#2525#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/pack/PackService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-56">
-          <caret line="822" column="44" lean-forward="false" selection-start-line="822" selection-start-column="44" selection-end-line="822" selection-end-column="44" />
+        <state relative-caret-position="400">
+          <caret line="978" column="85" lean-forward="false" selection-start-line="978" selection-start-column="85" selection-end-line="978" selection-end-column="85" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#6389#6405#0" expanded="true" />
           </folding>
         </state>
       </provider>

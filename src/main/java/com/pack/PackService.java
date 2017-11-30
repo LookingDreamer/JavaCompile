@@ -149,6 +149,9 @@ public class PackService {
         String sourcePath = packBean.getSourcePath();
         String outPath = packBean.getOutPath();
         String javaFiles = packBean.getJavaFiles();
+        Integer webappFilesCount = packBean.getWebappFilesCount();
+        Integer javaFilesCount = packBean.getJavaFilesCount();
+        Integer resourcesFilesCount = packBean.getResourcesFilesCount();
         if (tomcatLib == null || tomcatLib.equals("")) {
             logger.error("tomcat lib路径不能为空");
             result.put("status", "6");
@@ -204,18 +207,22 @@ public class PackService {
             }
 
         }
-        if (javaFiles == null || javaFiles.equals("")) {
-            logger.error("javaFile路径不能为空");
+
+        if (javaFilesCount == 0 && resourcesFilesCount == 0 && webappFilesCount == 0) {
+            logger.error("javaFile或resources或webapp不能同时为空");
             result.put("status", "10");
-            result.put("msg", "javaFiles路径不能为空");
+            result.put("msg", "javaFile或resources或webapp不能同时为空");
             return result;
         }
-        if (!PackUtils.getFileTrue(javaFiles)) {
-            logger.error("javaFiles:" + javaFiles + " 不存在");
-            result.put("status", "19");
-            result.put("msg", "javaFiles:" + javaFiles + " 不存在");
-            return result;
+        if ( javaFilesCount != 0 ){
+            if (!PackUtils.getFileTrue(javaFiles)) {
+                logger.error("javaFiles:" + javaFiles + " 不存在");
+                result.put("status", "19");
+                result.put("msg", "javaFiles:" + javaFiles + " 不存在");
+                return result;
+            }
         }
+
         logger.info("结束参数判断....");
         logger.info("打印参数 tomcatLib:" + tomcatLib + " otherLib:" + otherLib + " sourcePath:" + sourcePath + " outPath:" + outPath + " javaFiles:" + javaFiles);
         result.put("tomcatLib", tomcatLib);
@@ -285,48 +292,52 @@ public class PackService {
                 }
             }
         }
-        Boolean suc;
+        Boolean suc = Boolean.TRUE;
         try {
 
             String[] getCompilePath = javaFileList;
             logger.info("获取编译文件:" + javaFiles);
+            if (javaFiles == null || javaFiles.equals("")){
+                logger.warn("java文件为空,跳过编译");
+            }else {
 
-            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler(); // 返回java 编译器
-            if (compiler == null) {
-                logger.error("JDK required (running inside of JRE)");
-                result.put("status", "50");
-                result.put("msg", "JDK required (running inside of JRE)");
-                return result;
-            }
-            DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
-            StandardJavaFileManager manager = compiler.getStandardFileManager(diagnostics, Locale.CHINA, Charset.forName("UTF-8"));
-            Iterable<? extends JavaFileObject> compilationUnits = manager.getJavaFileObjects(getCompilePath);
-            List<String> optionList = new ArrayList<String>();
-            String newClassPath = libPath;
-            optionList.addAll(Arrays.asList("-sourcepath", sourcePath));
-            optionList.addAll(Arrays.asList("-d", outPath));
-            optionList.add("-cp");
-            optionList.add(newClassPath);
-
-            JavaCompiler.CompilationTask task = compiler.getTask(null, manager, diagnostics, optionList, null, compilationUnits);
-            // 如果没有编译警告和错误,这个call() 方法会编译所有的 compilationUnits 变量指定的文件,以及有依赖关系的可编译的文件.
-            suc = task.call();
-
-            if (!suc) {
-                for (Diagnostic diagnostic : diagnostics.getDiagnostics()) {
-                    HashMap<String,String> stack = new HashMap<String,String>();
-                    stack.put("Code",""+diagnostic.getCode());
-                    stack.put("Kind",""+diagnostic.getKind());
-                    stack.put("Position",""+diagnostic.getPosition());
-                    stack.put("Start",""+diagnostic.getStartPosition());
-                    stack.put("End",""+diagnostic.getEndPosition());
-                    stack.put("Source",""+diagnostic.getSource());
-                    stack.put("Message",""+diagnostic.getMessage(null));
-                    stackList.add(stack);
-
+                JavaCompiler compiler = ToolProvider.getSystemJavaCompiler(); // 返回java 编译器
+                if (compiler == null) {
+                    logger.error("JDK required (running inside of JRE)");
+                    result.put("status", "50");
+                    result.put("msg", "JDK required (running inside of JRE)");
+                    return result;
                 }
+                DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
+                StandardJavaFileManager manager = compiler.getStandardFileManager(diagnostics, Locale.CHINA, Charset.forName("UTF-8"));
+                Iterable<? extends JavaFileObject> compilationUnits = manager.getJavaFileObjects(getCompilePath);
+                List<String> optionList = new ArrayList<String>();
+                String newClassPath = libPath;
+                optionList.addAll(Arrays.asList("-sourcepath", sourcePath));
+                optionList.addAll(Arrays.asList("-d", outPath));
+                optionList.add("-cp");
+                optionList.add(newClassPath);
+
+                JavaCompiler.CompilationTask task = compiler.getTask(null, manager, diagnostics, optionList, null, compilationUnits);
+                // 如果没有编译警告和错误,这个call() 方法会编译所有的 compilationUnits 变量指定的文件,以及有依赖关系的可编译的文件.
+                suc = task.call();
+
+                if (!suc) {
+                    for (Diagnostic diagnostic : diagnostics.getDiagnostics()) {
+                        HashMap<String, String> stack = new HashMap<String, String>();
+                        stack.put("Code", "" + diagnostic.getCode());
+                        stack.put("Kind", "" + diagnostic.getKind());
+                        stack.put("Position", "" + diagnostic.getPosition());
+                        stack.put("Start", "" + diagnostic.getStartPosition());
+                        stack.put("End", "" + diagnostic.getEndPosition());
+                        stack.put("Source", "" + diagnostic.getSource());
+                        stack.put("Message", "" + diagnostic.getMessage(null));
+                        stackList.add(stack);
+
+                    }
+                }
+                manager.close();
             }
-            manager.close();
 
         } catch (Exception e) {
             suc = false;
@@ -414,7 +425,7 @@ public class PackService {
             resvnProjectSuffix = svnProjectSuffix;
         }
         logger.info("结束参数判断....");
-        logger.info("打印参数 resvnUrl:" + resvnUrl + " resvnUsername:" + resvnUsername + " resvnPassword:" + resvnPassword + " resvnProjectSuffix:" + resvnProjectSuffix );
+        logger.info("打印参数 resvnUrl:" + resvnUrl + " resvnUsername:" + resvnUsername + " resvnPassword:" + "******" + " resvnProjectSuffix:" + resvnProjectSuffix );
 
         SVNClientManager clientManager = SVNUtil.authSvn(resvnUrl, resvnUsername, resvnPassword);
         if (clientManager == null || clientManager.equals("")) {
@@ -553,7 +564,7 @@ public class PackService {
             resvnProjectSuffix = svnProjectSuffix;
         }
         logger.info("结束参数判断....");
-        logger.info("打印参数 resvnUrl:" + resvnUrl + " resvnUsername:" + resvnUsername + " resvnPassword:" + resvnPassword + " resvnProjectSuffix:" + resvnProjectSuffix );
+        logger.info("打印参数 resvnUrl:" + resvnUrl + " resvnUsername:" + resvnUsername + " resvnPassword:" + "******" + " resvnProjectSuffix:" + resvnProjectSuffix );
 
         SVNClientManager clientManager = SVNUtil.authSvn(resvnUrl, resvnUsername, resvnPassword);
         if (clientManager == null || clientManager.equals("")) {
@@ -645,7 +656,7 @@ public class PackService {
             resvnProjectSuffix = svnProjectSuffix;
         }
         logger.info("结束参数判断....");
-        logger.info("打印参数 resvnUrl:" + resvnUrl + " resvnUsername:" + resvnUsername + " resvnPassword:" + resvnPassword + " resvnProjectSuffix:" + resvnProjectSuffix );
+        logger.info("打印参数 resvnUrl:" + resvnUrl + " resvnUsername:" + resvnUsername + " resvnPassword:" + "******" + " resvnProjectSuffix:" + resvnProjectSuffix );
 
         SVNClientManager clientManager = SVNUtil.authSvn(resvnUrl, resvnUsername, resvnPassword);
         if (clientManager == null || clientManager.equals("")) {
@@ -952,6 +963,9 @@ public class PackService {
         packBean.setJavaFiles(javaFileListsString);
         packBean.setOutPath(addFilesPath+"/classes");
         packBean.setSourcePath(sourcePath);
+        packBean.setJavaFilesCount(totaljavaFilesCount);
+        packBean.setResourcesFilesCount(totalresourcesFilesCount);
+        packBean.setWebappFilesCount(totalwebappFilesCount);
         try {
             javaResult = this.javaComplier(packBean,newstackList);
             logger.info("返回数据:"+javaResult.toString());
@@ -962,6 +976,9 @@ public class PackService {
             if (javaResult.get("status") != "1" ){
                 return  map3;
             }
+            result.put("javaClassFileCount",""+javaResult.get("javaClassFileCount"));
+            result.put("dependClass",""+javaResult.get("dependClass"));
+            result.put("dependClassCount",""+javaResult.get("dependClassCount"));
             result.put("status","1");
             result.put("msg","编译成功");
             org.apache.commons.io.FileUtils.copyDirectory(new File(addFilesPath+"/classes"), new File(addClassPath));

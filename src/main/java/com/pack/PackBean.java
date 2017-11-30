@@ -69,6 +69,36 @@ public class PackBean implements java.io.Serializable{
     private String cmd;
     //是否更新svn工作目录
     private String isUpdate;
+    //webappFilesCount
+    private  Integer webappFilesCount;
+    //javaFilesCount
+    private  Integer javaFilesCount;
+    //resourcesFilesCount
+    private  Integer resourcesFilesCount;
+
+    public Integer getWebappFilesCount() {
+        return webappFilesCount;
+    }
+
+    public void setWebappFilesCount(Integer webappFilesCount) {
+        this.webappFilesCount = webappFilesCount;
+    }
+
+    public Integer getJavaFilesCount() {
+        return javaFilesCount;
+    }
+
+    public void setJavaFilesCount(Integer javaFilesCount) {
+        this.javaFilesCount = javaFilesCount;
+    }
+
+    public Integer getResourcesFilesCount() {
+        return resourcesFilesCount;
+    }
+
+    public void setResourcesFilesCount(Integer resourcesFilesCount) {
+        this.resourcesFilesCount = resourcesFilesCount;
+    }
 
     public String getIsUpdate() {
         return isUpdate;
