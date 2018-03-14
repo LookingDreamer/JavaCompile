@@ -19,7 +19,10 @@
     <!-- 表单↓↓↓ -->
     <form class="form-horizontal" id="mFrom" name="mFrom" method="post" action="" role="form">
         <div class="panel panel-default">
-            <div class="panel-heading">根据本地java文件增量编译</h4></div>
+            <div class="panel-heading">根据本地java文件增量编译</h4>
+                <a href="${base}/page/doc.html" target="_blank" style="margin-left:100px">接口帮助文档</a>
+
+            </div>
             <div class="panel-body">
 
 
